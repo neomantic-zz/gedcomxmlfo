@@ -13,7 +13,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <!-- TODO add param to set the Type attribute in the ExternalID -->
 <!--For Debugging -->
 <xsl:template match="/">
-	<xsl:apply-templates select="//INDI"/>
+ 	<xsl:apply-templates select="//INDI"/>
+	<xsl:call-template name="Events"/>
 </xsl:template>
 <!-- Start at Root-->
 <xsl:template name="full">
@@ -169,30 +170,30 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  
  <xsl:template name="Events">
  	<!-- INDIVIDUAL_EVENT_STRUCTURE -->
-	<xsl:apply-templates select="//INDI/BIRT"/>
-	<xsl:apply-templates select="//INDI/DEAT"/>
-	<xsl:apply-templates select="//INDI/CHR"/>
-	<xsl:apply-templates select="//INDI/BURI"/>
-	<xsl:apply-templates select="//INDI/CREM"/>
-	<xsl:apply-templates select="//INDI/ADOP"/>
-	<xsl:apply-templates select="//INDI/BAPM"/>
-	<xsl:apply-templates select="//INDI/BARM"/>
-	<xsl:apply-templates select="//INDI/BASM"/>
-	<xsl:apply-templates select="//INDI/BLES"/>
-	<xsl:apply-templates select="//INDI/CHRA"/>
-	<xsl:apply-templates select="//INDI/CONF"/>
-	<xsl:apply-templates select="//INDI/FCOM"/>
-	<xsl:apply-templates select="//INDI/ORDN"/>
-	<xsl:apply-templates select="//INDI/NATU"/>
-	<xsl:apply-templates select="//INDI/EMIG"/>
-	<xsl:apply-templates select="//INDI/IMMI"/>
-	<xsl:apply-templates select="//INDI/CENS"/>
-	<xsl:apply-templates select="//INDI/PROB"/>
-	<xsl:apply-templates select="//INDI/WILL"/>
-	<xsl:apply-templates select="//INDI/GRAD"/>
-	<xsl:apply-templates select="//INDI/RETI"/>
+	<xsl:apply-templates select="//INDI/BIRT|
+//INDI/DEAT|
+//INDI/CHR|
+//INDI/BURI|
+//INDI/CREM|
+//INDI/ADOP|
+//INDI/BAPM|
+//INDI/BARM|
+//INDI/BASM|
+//INDI/BLES|
+//INDI/CHRA|
+//INDI/CONF|
+//INDI/FCOM|
+//INDI/ORDN|
+//INDI/NATU|
+//INDI/EMIG|
+//INDI/IMMI|
+//INDI/CENS|
+//INDI/PROB|
+//INDI/WILL|
+//INDI/GRAD|
+//INDI/RETI"/>
 	
-	<!-- FAMILY_EVENT_STRUCTURE -->
+	<!-- FAMILY_EVENT_STRUCTURE 
 	<xsl:apply-templates select="//FAM/ANUL"/>
 	<xsl:apply-templates select="//FAM/CENS"/>
 	<xsl:apply-templates select="//FAM/DIV"/>
@@ -203,19 +204,131 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	<xsl:apply-templates select="//FAM/MARC"/>
 	<xsl:apply-templates select="//FAM/MARL"/>
 	<xsl:apply-templates select="//FAM/MARS"/>
-
+-->
 	<!-- TODO Handle all other events -->
 	
  </xsl:template>
-
+<!-- Handles all individual events besides BIRT-->
+ <xsl:template match="DEAT|CHR|BURI|CREM|ADOP|BAPM|BARM|BASM|BLES|CHRA|CONF|FCOM|ORDN|NATU|EMIG|IMMI|CENS|PROB|WILL|GRAD|RETI">
+ 	<EventRec>
+ 		<xsl:attribute name="Id">
+ 			<xsl:value-of select="generate-id()"/>
+ 		</xsl:attribute>
+ 		<xsl:attribute name="Type">
+ 			<xsl:choose>
+ 				 <xsl:when test="contains( name(), 'DEAT')">
+ 					<xsl:value-of select="'death'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'CHR')">
+ 					<xsl:value-of select="'death'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'BURI')">
+ 					<xsl:value-of select="'burial'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'CREM')">
+ 					<xsl:value-of select="'cremation'"/>
+ 				</xsl:when>
+ 				<!-- FIX -->
+  				<xsl:when test="contains( name(), 'ADOP')">
+ 					<xsl:value-of select="'death'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'BAPM')">
+ 					<xsl:value-of select="'baptism'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'BARM')">
+ 					<xsl:value-of select="'bar mitzvah'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'BASM')">
+ 					<xsl:value-of select="'bas mitzvah'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'BLES')">
+ 					<xsl:value-of select="'blessing'"/>
+ 				</xsl:when>
+ 				<!-- FIX -->
+  				<xsl:when test="contains( name(), 'CHRA')">
+ 					<xsl:value-of select="'death'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'CONF')">
+ 					<xsl:value-of select="'confirmation'"/>
+ 				</xsl:when>
+ 				<!-- FIX -->
+  				<xsl:when test="contains( name(), 'FCOM')">
+ 					<xsl:value-of select="'death'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'ORDN')">
+ 					<xsl:value-of select="'ordination'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'NATU')">
+ 					<xsl:value-of select="'naturalization'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'EMIG')">
+ 					<xsl:value-of select="'emigration'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'IMMI')">
+ 					<xsl:value-of select="'immigration'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'CENS')">
+ 					<xsl:value-of select="'census'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'PROB')">
+ 					<xsl:value-of select="'probate'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'WILL')">
+ 					<xsl:value-of select="'will'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'GRAD')">
+ 					<xsl:value-of select="'graduation'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'RETI')">
+ 					<xsl:value-of select="'retirement'"/>
+ 				</xsl:when>
+ 			</xsl:choose>
+ 		</xsl:attribute>
+ 		<xsl:attribute name="VitalType">
+ 			<xsl:choose>
+ 				<xsl:when test="contains( name(), 'BIRT')">
+ 					<xsl:value-of select="'birth'"/>
+ 				</xsl:when>
+ 				 <xsl:when test="contains( name(), 'DEAT')">
+ 					<xsl:value-of select="'death'"/>
+ 				</xsl:when>
+ 				 <xsl:when test="contains( name(), 'BURI')">
+ 					<xsl:value-of select="'death'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'CREM')">
+ 					<xsl:value-of select="'death'"/>
+ 				</xsl:when>
+ 			</xsl:choose>
+ 		</xsl:attribute>
+ 		<Participant>
+ 			<Link>
+ 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+ 				<xsl:attribute name="Ref">
+ 					<xsl:value-of select="generate-id(..)"/>
+ 				</xsl:attribute>
+ 			</Link>
+ 			<!-- DOC pointless element in translation at least -->
+ 			<Role>principal</Role>
+ 			<!-- DOC I refuse to implement the Living element because it is pointless for the most part
+ 				and the spec only implies that it is valid only for ordination -->
+ 			<xsl:if test="AGE">
+ 				<Age>
+ 					<xsl:value-of select="AGE"/>
+ 				</Age>
+ 			</xsl:if>
+ 		</Participant>
+ 		<xsl:apply-templates select="DATE"/>
+ 		<xsl:apply-templates select="PLAC"/>
+ 		<xsl:apply-templates select="SOUR"/>
+ 		
+ 		<!-- Since this event is created from the INDI record we assign this the same
+				Change element as it has -->
+		<xsl:apply-templates select="../CHAN"/>
+ 	</EventRec>
+ </xsl:template>
  
  <!-- Strictly speaking GEDCOM 6.0 XML makes no distinction between events associated individuals and
  	other events.  But we begin parsing these 2 events within the INDI structure-->
- <xsl:template name="vitalevents">
- 	<xsl:apply-templates select="BIRT"/>
- 	<xsl:apply-templates select="DEAT"/>
- </xsl:template>
- 
  
  <!-- Handles BIRT Tag-->
  <xsl:template match="BIRT">
@@ -400,34 +513,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 </xsl:template>
 
  <xsl:template name="persinfo">
-<!-- 
-	<xsl:apply-templates select="CAST"/>
-	<xsl:apply-templates select="DSCR"/>
-	<xsl:apply-templates select="EDUC"/>
-	<xsl:apply-templates select="IDNO"/>
-	<xsl:apply-templates select="NATI"/>
-	<xsl:apply-templates select="NCHI"/>
-	<xsl:apply-templates select="NMR"/>
-	<xsl:apply-templates select="OCCU"/>
-	<xsl:apply-templates select="PROP"/>
-	<xsl:if test="RELI">
-		<PersInfo Type="religion">
-			<Information>
-				<xsl:value-of select="RELI"/>
-			</Information>
-		</PersInfo>
-	</xsl:if>
-	<xsl:apply-templates select="RESI"/>
-	
-	<xsl:if test="SSN">
-		<PersInfo Type="SSN">
-			<Information>
-				<xsl:value-of select="SSN"/>
-			</Information>
-		</PersInfo>
-	</xsl:if>
-	<xsl:apply-templates select="TITL"/>
--->
 	<xsl:apply-templates select="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL"/>
 </xsl:template>
 
@@ -481,20 +566,11 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			<xsl:value-of select="$Attribute"/>
 		</xsl:attribute>
 		<Information>
-			<xsl:value-of select="."/>
+			<xsl:value-of select="text()"/>
 		</Information>
+		<xsl:apply-templates select="DATE"/>
+		<xsl:apply-templates select="PLAC"/>
 	</PersInfo>
-</xsl:template>
-
- 
-
-<!-- FIX this is wrong -->
-<xsl:template match="AGE">
-	<Particpant>
-		<Age>
-			<xsl:value-of select="."/>
-		</Age>
-	</Particpant>
 </xsl:template>
 
 
@@ -571,25 +647,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  </xsl:template>
  
  
-<!-- this does not work when call like this:
-
-  	<xsl:call-template name="events">
- 		<xsl:with-param name="eventType"  select="BAPM|CONF"/>
- 	</xsl:call-template>
-  -->
-<xsl:template name="events">
-	<xsl:param name="eventType"/>
-	<EventRec>
-	<xsl:choose>
-		<xsl:when test="contains( $eventType, 'BAPM')">
-			<xsl:attribute name="Type"><xsl:text>baptism</xsl:text></xsl:attribute>
-		</xsl:when>
-		<xsl:when test="contains( $eventType, 'CONF')">
-			<xsl:attribute name="Type"><xsl:text>confirmation</xsl:text></xsl:attribute>
-		</xsl:when>
-	</xsl:choose>
-	</EventRec>
-</xsl:template>
 
 <!-- Handles simple GEDCOM SOUR_CITATION (no link)  -->
 <!-- DOC should note where that the SOURCE_DESCRIPTION has been mapped to Caption Element -->
@@ -1014,6 +1071,9 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</CallNbr>
 </xsl:template>
 
+<!-- DOC at one place in the draft specification it says there are only 2 values for attribute 
+	Type - AFN and User, but at another it say REFN, RIN, and RFN are also permissible 
+	the DTD does not specify either way -->
 <xsl:template name="ExternalIDs">
 		<xsl:apply-templates select="REFN"/>
 		<xsl:if test="RIN">
