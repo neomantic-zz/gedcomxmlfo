@@ -15,11 +15,19 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:template match="/">
 	<GEDCOM>
  	<xsl:apply-templates select="//HEAD"/>
- 	<xsl:apply-templates select="//SUBM"/>
  	<xsl:apply-templates select="//FAM"/>
  	<xsl:apply-templates select="//INDI"/>
-<!--  	<xsl:apply-templates select="//SOUR"/>
- 	<xsl:apply-templates select="//NOTE"/> -->
+ <!-- EventRecs -->
+ <!-- LDSOrdRecs -->
+ <!-- ContactRec -->		
+ 	<xsl:apply-templates select="//SUBM"/>
+<!-- SourceRec  -->
+  	<xsl:apply-templates select="//SOUR[@ID]"/>
+  	<xsl:apply-templates select="//OBJE[@ID]"/>
+<!-- RepositoryRec -->
+<!-- GroupRec -->
+<!-- What do I do with GEDCOM 5.5 "0 @N1@ NOTE" -->
+
  	
  	</GEDCOM>
 </xsl:template>
@@ -77,27 +85,35 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<xsl:apply-templates select="NAME"/>
 		<xsl:apply-templates select="ADDR"/>
 		<xsl:apply-templates select="PHON"/>
+		<!-- Handle OBJE hits as either a <Evidence> Element or as a SourceRec link -->
+		<xsl:apply-templates select="OBJE"/>
+		
 		<xsl:apply-templates select="NOTE"/>
 		<xsl:apply-templates select="CHAN"/>
-		<xsl:choose>
-			<xsl:when test="RFN">
-				<ExternalID>
-					<!-- This implementation assumes that if there is a RFN Tag there will be a RIN tag -->
-					<xsl:attribute name="Type">RFN</xsl:attribute>					
-					<xsl:attribute name="Id">
-						<xsl:value-of select="RIN"/>
-					</xsl:attribute>
-				</ExternalID>
-			</xsl:when>
-			<xsl:otherwise>
-				<ExternalID>
- 					<xsl:attribute name="Type">User</xsl:attribute>
- 					<xsl:attribute name="Id">
- 						<xsl:value-of select="@ID"/>
- 					</xsl:attribute>
- 				</ExternalID>
-			</xsl:otherwise>
-		</xsl:choose>
+
+		<xsl:if test="RFN">
+			<ExternalID>
+				<xsl:attribute name="Type">RFN</xsl:attribute>					
+				<xsl:attribute name="Id">
+					<xsl:value-of select="RFN"/>
+				</xsl:attribute>
+			</ExternalID>
+		</xsl:if>
+		<xsl:if test="RIN">
+			<ExternalID>
+				<xsl:attribute name="Type">RIN</xsl:attribute>					
+				<xsl:attribute name="Id">
+					<xsl:value-of select="RIN"/>
+				</xsl:attribute>
+			</ExternalID>
+		</xsl:if>
+
+		<ExternalID>
+ 			<xsl:attribute name="Type">User</xsl:attribute>
+ 			<xsl:attribute name="Id">
+ 				<xsl:value-of select="@ID"/>
+ 			</xsl:attribute>
+ 		</ExternalID>
 	</ContactRec>
 </xsl:template>
 <!-- Template for INDI to IndividualRec -->
@@ -589,9 +605,92 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</Evidence>
  </xsl:template>
  
-<xsl:template match="OBJE[@ID]"> 	
- </xsl:template>
  
+<!-- MULTIMEDIA_RECORD -->
+<xsl:template match="OBJE[@ID]">
+	<SourceRec>
+		<xsl:attribute name="Id">
+			<xsl:value-of select="generate-id()"/>
+		</xsl:attribute>
+		<!-- In GEDCOM 5.5 there are only 7 permissable forms: bmp, gif, jpeg, ole, pcx, tiff, wav -->
+		<xsl:if test="FORM">
+			<xsl:attribute name="Type">
+				<xsl:value-of select="FORM"/>
+			</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="TITL">
+			<Title>
+				<xsl:value-of select="TITL"/>
+			</Title>
+		</xsl:if>
+		<xsl:if test="BLOB">
+			<URI>
+				<xsl:value-of select="BLOB"/>
+			</URI>
+		</xsl:if>
+		
+		<xsl:apply-templates select="NOTE"/>
+		
+		<xsl:apply-templates select="CHAN"/>
+		<!-- ExternalIDs -->
+		<xsl:if test="REFN">
+			<ExternalID>
+				<xsl:attribute name="Type">REFN</xsl:attribute>
+				<xsl:attribute name="Id">
+					<xsl:value-of select="REFN"/>
+				</xsl:attribute>
+			</ExternalID>
+		</xsl:if>
+		<xsl:if test="RIN">
+			<ExternalID>
+				<xsl:attribute name="Type">RIN</xsl:attribute>
+				<xsl:attribute name="Id">
+					<xsl:value-of select="RIN"/>
+				</xsl:attribute>
+			</ExternalID>
+		</xsl:if>
+		<ExternalID>
+			<xsl:attribute name="Type">User</xsl:attribute>
+			<xsl:attribute name="Id"><xsl:value-of select="@ID"/></xsl:attribute>
+		</ExternalID>
+	</SourceRec>
+ </xsl:template>
+
+<xsl:template match="OBJE[@REF]">
+	<Evidence>
+		<Citation>
+			<Link>
+				<xsl:attribute name="Target">SourceRec</xsl:attribute>
+				<xsl:variable name="ObjeID" select="@REF"/>
+				<xsl:attribute name="Ref">
+					<xsl:value-of select="generate-id(//OBJE[@ID=$ObjeID])"/>
+				</xsl:attribute>
+			</Link>
+		</Citation>
+	</Evidence>
+</xsl:template>
+
+<!-- Handle internal OBJE tags, ie. those that aren't links -->
+<xsl:template match="OBJE">
+	<Evidence>
+		<Citation>	
+			<Link>
+				<xsl:attribute name="Target">SourceRec</xsl:attribute>
+				<xsl:attribute name="Ref">
+					<xsl:value-of select="generate-id()"/>
+				</xsl:attribute>
+			</Link>
+			<xsl:if test="TITL">
+				<Caption>
+					<xsl:value-of select="TITL"/>
+				</Caption>
+			</xsl:if>
+			<xsl:apply-templates select="NOTE"/>
+		</Citation>
+	</Evidence>
+</xsl:template>
+
+
  <!-- GEDCOM's 5.5 DATA has been dropped in GEDCOM XML 6.0 but I don't think we should lose
  	this information, hence it is wrapped in a Note element -->
  <xsl:template match="DATA">
@@ -620,29 +719,26 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  			</URI>
  		</xsl:if>
  		<xsl:apply-templates select="PUBL"/>
- 		<xsl:if test="TEXT">
- 			<Evidence>
- 				<Citation>
- 					<xsl:if test="OBJE[@REF]">
- 						<Link>
- 							<xsl:attribute name="Target">SourceRec</xsl:attribute>
- 							<xsl:attribute name="Ref">
- 								<xsl:variable name="ObjectID" select="OBJE[@REF]"/>
- 								<xsl:value-of select="generate-id(//SOUR[@ID=$ObjectID])"/>
- 							</xsl:attribute>
- 						</Link>
- 					</xsl:if>
- 					<xsl:if test="DATA/EVEN/DATE">
- 						<WhenRecorded>
- 							<xsl:value-of select="DATA/EVEN/DATE"/>
- 						</WhenRecorded>
- 					</xsl:if>
- 					<xsl:apply-templates select="TEXT"/>
- 				</Citation>
- 			</Evidence>
- 		</xsl:if>
  		<xsl:apply-templates select="NOTE"/>
  		<xsl:apply-templates select="CHAN"/>
+ 		
+ 		<!-- ExternalIDs -->
+		<xsl:if test="REFN">
+			<ExternalID>
+				<xsl:attribute name="Type">REFN</xsl:attribute>
+				<xsl:attribute name="Id">
+					<xsl:value-of select="REFN"/>
+				</xsl:attribute>
+			</ExternalID>
+		</xsl:if>
+		<xsl:if test="RIN">
+			<ExternalID>
+				<xsl:attribute name="Type">RIN</xsl:attribute>
+				<xsl:attribute name="Id">
+					<xsl:value-of select="RIN"/>
+				</xsl:attribute>
+			</ExternalID>
+		</xsl:if>
  		<ExternalID>
  			<xsl:attribute name="Type">User</xsl:attribute>
  			<xsl:attribute name="Id">
@@ -655,26 +751,35 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:template match="TITL">
 	<Title>
 		<xsl:value-of select="text()"/>
-		<xsl:for-each select="CONT">
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="CONT"/>
-		</xsl:for-each>
-		<xsl:for-each select="CONC">
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="CONC"/>
+		<xsl:for-each select="node()">
+			<xsl:choose>
+				<xsl:when test="self::CONT">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="self::CONT"/>
+				</xsl:when>
+				<xsl:when test="self::CONC">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="self::CONC"/>
+				</xsl:when>
+			</xsl:choose>
 		</xsl:for-each>
 	</Title>
 </xsl:template>
+
 <xsl:template match="AUTH">
 	<Author>
 		<xsl:value-of select="text()"/>
-		<xsl:for-each select="CONT">
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="CONT"/>
-		</xsl:for-each>
-		<xsl:for-each select="CONC">
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="CONC"/>
+		<xsl:for-each select="node()">
+			<xsl:choose>
+				<xsl:when test="self::CONT">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="self::CONT"/>
+				</xsl:when>
+				<xsl:when test="self::CONC">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="self::CONC"/>
+				</xsl:when>
+			</xsl:choose>
 		</xsl:for-each>
 	</Author>
 </xsl:template>
