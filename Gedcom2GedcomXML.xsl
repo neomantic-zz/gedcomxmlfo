@@ -13,7 +13,7 @@
        	* Handle ALIA ?
  -->
 <!-- For Debugging -->
-<xsl:template match="/">
+<xsl:template match="debug">
 <!-- <xsl:call-template name="EventRecs"/> -->
 	<xsl:apply-templates select="//FAM"/>
 	<xsl:call-template name="EventRecs"/>
@@ -26,7 +26,7 @@
 
 ***************************************************************************
 ************************************************************************ -->
-<xsl:template match="what">
+<xsl:template match="/">
 	<GEDCOM>
  	<xsl:apply-templates select="//HEAD"/>
  	<xsl:apply-templates select="//FAM"/>
@@ -93,11 +93,18 @@
 		</xsl:if>
 		<xsl:if test="SUBM">
 			<Submitter>
+				<xsl:variable name="SubmitterID" select="SUBM/@REF"/>
 				<Link>
 					<xsl:attribute name="Target">ContactRec</xsl:attribute>
 					<xsl:attribute name="Ref">
-						<xsl:variable name="SubmitterID" select="SUBM/@REF"/>
-						<xsl:value-of select="generate-id(//SUBM[@ID=$SubmitterID])"/>
+						<xsl:choose>
+							<xsl:when test="//SUBM[@ID=$SubmitterID]">
+								<xsl:value-of select="generate-id(//SUBM[@ID=$SubmitterID])"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="'0'"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:attribute>
 				</Link>
 			</Submitter>
@@ -215,6 +222,9 @@
 
 		<xsl:call-template name="ExternalIDs"/>
 		
+		 <xsl:call-template name="Submitter"/>
+ 		
+ 		<xsl:apply-templates select="NOTE"/>
 		<xsl:apply-templates select="SOUR">
 			<xsl:with-param name="evidenceKind" select="'the individual'"/>
 		</xsl:apply-templates>
@@ -378,8 +388,13 @@
 		<Information>
 			<xsl:value-of select="text()"/>
 		</Information>
-		<xsl:apply-templates select="DATE"/>
-		<xsl:apply-templates select="PLAC"/>
+		<Date Calendar="Gregorian">
+			<xsl:apply-templates select="DATE"/>
+		</Date>
+		<Place>
+			<xsl:apply-templates select="PLAC"/>		
+		</Place>
+
 		<xsl:apply-templates select="ADDR" mode="Place"/>
 	</PersInfo>
 </xsl:template>
@@ -480,11 +495,9 @@
 <!-- TODO? it may be possible to breakdown the above info into PlaceName 
 	elements given the HEAD's FORM PLACE_HIERARCHY value -->
 <xsl:template match="PLAC">
- 	<Place>
- 		<PlaceName>
- 			<xsl:call-template name="handleCONCT"/>	
- 		</PlaceName>
- 	</Place>
+ 	<PlaceName>
+ 		<xsl:call-template name="handleCONCT"/>	
+ 	</PlaceName>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -521,7 +534,7 @@
  
 -->
 <xsl:template match="ADDR" mode="Place">
- 	<Place>
+	<Place>
  		<PlaceName>
 			<xsl:value-of select="text()"/>
 			<xsl:apply-templates select="CONT" mode="Place"/>
@@ -534,7 +547,7 @@
  						</PlacePart>					
  					</xsl:when>
  					<xsl:when test="self::ADR2">
- 						<PlacePart level="6" Type="street name">
+ 						<PlacePart Level="6" Type="street name">
  							<xsl:value-of select="self::ADR2"/>
  						</PlacePart>
  					</xsl:when>
@@ -700,12 +713,22 @@
 				LDS events which can occur after death -->
  			<xsl:apply-templates select="AGE"/>
  		</Participant>
- 		<xsl:apply-templates select="DATE"/>
-		
- 		<xsl:apply-templates select="PLAC"/>
+ 		
+ 		<Date Calendar="Gregorian">
+ 			 <xsl:apply-templates select="DATE"/>
+ 		</Date>
+
+		<Place>
+			<xsl:apply-templates select="PLAC"/>
+		</Place>
 		
 		<!-- Call templates that creates a MailAddress element in the form of <Place> element -->
  		<xsl:apply-templates select="ADDR" mode="Place"/>
+ 		
+ 		 <!-- Required, but always empty because there is no GEDCOM 5.5 equivalent-->
+ 		<Religion/>
+ 		
+ 		<xsl:call-template name="Submitter"/>
  		
  		<xsl:apply-templates select="NOTE"/>
  		
@@ -741,10 +764,16 @@
 		</Participant>
 	
 		<xsl:apply-templates select="../FAMC" mode="BirthEvent"/>
-
-		<xsl:apply-templates select="DATE"/>
-		<xsl:apply-templates select="PLAC"/>
+		<Date Calendar="Gregorian">
+			<xsl:apply-templates select="DATE"/>
+		</Date>
+		<Place>
+			<xsl:apply-templates select="PLAC"/>
+		</Place>
 		<xsl:apply-templates select="ADDR" mode="Place"/>
+		 <!-- Required, but always empty because there is no GEDCOM 5.5 equivalent-->
+ 		<Religion/>
+ 		<xsl:call-template name="Submitter"/>
 		<xsl:apply-templates select="NOTE"/>
 		<xsl:call-template name="addEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
@@ -779,7 +808,14 @@
 			<Link>
 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
+					<xsl:choose>
+						<xsl:when test="//INDI[@ID=$MotherID]">
+							<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'0'"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:attribute>
 			</Link>
 			<Role>mother</Role>
@@ -818,9 +854,16 @@
 		 -->
 		<xsl:apply-templates select="FAMC" mode="AdoptionEvent"/>
 
-		<xsl:apply-templates select="DATE"/>
-		<xsl:apply-templates select="PLAC"/>
+		<Date Calendar="Gregorian">
+			<xsl:apply-templates select="DATE"/>
+		</Date>
+		<Place>
+			<xsl:apply-templates select="PLAC"/>
+		</Place>
 		<xsl:apply-templates select="ADDR" mode="Place"/>
+		  <!-- Required, but always empty because there is no GEDCOM 5.5 equivalent-->
+ 		<Religion/>
+ 		<xsl:call-template name="Submitter"/>
 		<xsl:apply-templates select="NOTE"/>
 		<xsl:call-template name="addEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
@@ -849,7 +892,14 @@
 			<Link>
 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
+					<xsl:choose>
+						<xsl:when test="//INDI[@ID=$FatherID]">
+							<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'0'"/>
+						</xsl:otherwise>
+					</xsl:choose>				
 				</xsl:attribute>
 			</Link>
 			<Role>father</Role>
@@ -861,7 +911,14 @@
 			<Link>
 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
+					<xsl:choose>
+						<xsl:when test="//INDI[@ID=$MotherID]">
+							<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'0'"/>
+						</xsl:otherwise>
+					</xsl:choose>				
 				</xsl:attribute>
 			</Link>
 			<Role>mother</Role>
@@ -874,7 +931,14 @@
 			<Link>
 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
+					<xsl:choose>
+						<xsl:when test="//INDI[@ID=$FatherID]">
+							<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'0'"/>
+						</xsl:otherwise>
+					</xsl:choose>				
 				</xsl:attribute>
 			</Link>
 			<Role>father</Role>
@@ -884,7 +948,14 @@
 			<Link>
 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
+					<xsl:choose>
+						<xsl:when test="//INDI[@ID=$MotherID]">
+							<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'0'"/>
+						</xsl:otherwise>
+					</xsl:choose>				
 				</xsl:attribute>
 			</Link>
 			<Role>mother</Role>
@@ -975,12 +1046,19 @@
  		
  	 	
 	 	<xsl:if test="../HUSB">
+	 		<xsl:variable name="HusbID" select="../HUSB/@REF"/>
  	 		<Participant>
 				<Link>
 					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					<xsl:attribute name="Ref">
-						<xsl:variable name="HusbID" select="../HUSB/@REF"/>
-						<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
+						<xsl:choose>
+							<xsl:when test="//INDI[@ID=$HusbID]">
+								<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="'0'"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:attribute>
 				</Link>
 				<Role>husband</Role>
@@ -988,12 +1066,19 @@
 			</Participant>
 		</xsl:if>
 		 <xsl:if test="../WIFE">
+		 	<xsl:variable name="WifeID" select="../WIFE/@REF"/>
  	 		<Participant>
 				<Link>
 					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					<xsl:attribute name="Ref">
-						<xsl:variable name="WifeID" select="../WIFE/@REF"/>
-						<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
+						<xsl:choose>
+							<xsl:when test="//INDI[@ID=$WifeID]">
+								<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="'0'"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:attribute>
 				</Link>
 				<Role>wife</Role>
@@ -1010,8 +1095,15 @@
 				contains( $NodeName, 'CENS')">
 			<xsl:apply-templates select="../CHIL" mode="Events"/>
 		</xsl:if>
-		<xsl:apply-templates select="DATE"/>
-		<xsl:apply-templates select="PLAC"/>
+		<Date Calendar="Gregorian>
+			<xsl:apply-templates select="DATE"/>
+		</Date>
+		<Place>
+			<xsl:apply-templates select="PLAC"/>	
+		</Place>
+		 <!-- Required, but always empty because there is no GEDCOM 5.5 equivalent-->
+ 		<Religion/>
+ 		<xsl:call-template name="Submitter"/>
 		<xsl:apply-templates select="ADDR" mode="Place"/>
 		<xsl:apply-templates select="NOTE"/>
 		<xsl:call-template name="addEvidence"/>
@@ -1031,12 +1123,20 @@
 *********************************************************************** -->
 
 <xsl:template match="CHIL" mode="Events">
-	<Participant>
+	<xsl:variable name="ChildID" select="CHIL/@REF"/>
+	
+	<Participant>			
 		<Link>
 			<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 			<xsl:attribute name="Ref">
-				<xsl:variable name="ChildID" select="CHIL/@REF"/>
-				<xsl:value-of select="generate-id(//INDI[@ID=$ChildID])"/>
+				<xsl:choose>
+					<xsl:when test="//INDI[@ID=$ChildID]">
+						<xsl:value-of select="generate-id(//INDI[@ID=$CHilID])"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="'0'"/>			
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:attribute>
 		</Link>
 		<Role>child</Role>
@@ -1223,6 +1323,9 @@
 			<!-- Creates Extract element -->
 			<xsl:apply-templates select="TEXT"/>
 			<xsl:apply-templates select="NOTE"/>
+			<!-- These must be included, but there is nothing to map them to-->
+			<WhereInSource/>
+			<WhenRecorded/>
 			<Note>
  				<xsl:text>Evidence regarding </xsl:text>
 				<xsl:value-of select="$evidenceKind"/>
@@ -1263,23 +1366,34 @@
 			<Link>
 				<xsl:attribute name="Target">SourceRec</xsl:attribute>
  				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(//SOUR[@ID=$SourceID])"/>
+ 					<xsl:choose>
+ 						<xsl:when test="//SOUR[@ID=$SourceID]">
+ 							<xsl:value-of select="generate-id(//SOUR[@ID=$SourceID])"/>
+ 						</xsl:when>
+ 						<xsl:otherwise>
+ 							<xsl:value-of select="'0'"/>
+ 						</xsl:otherwise>
+ 					</xsl:choose>
  				</xsl:attribute>
  			</Link>
- 			<xsl:if test="PAGE">
- 				<WhereInSource>
- 					<xsl:text>Page: </xsl:text>
- 					<xsl:value-of select="PAGE"/>
- 				</WhereInSource>
- 			</xsl:if>
+
+ 			<Caption>
+ 				<xsl:value-of select="//SOUR[@ID=$SourceID]/TITL"/>
+ 			</Caption>
+ 
+ 			<WhereInSource>
+ 				<xsl:text>Page: </xsl:text>
+ 				<xsl:value-of select="PAGE"/>
+ 			</WhereInSource>
+ 			
  			<!-- DOC no caption element because not clear what to map it to -->
- 			<!-- //SOUR[@ID]/DATA//DATE indicates a DATE_PERIOD - FROM date TO date, so this
+ 			<!-- //SOUR[@ID]/DATA/DATE indicates a DATE_PERIOD - FROM date TO date, so this
  				won't be used for a WhenRecorded element -->
- 			<xsl:if test="DATA/DATE">
- 				<WhenRecorded>
- 					<xsl:value-of select="DATA/DATE"/>
- 				</WhenRecorded>
- 			</xsl:if>			
+
+ 			<WhenRecorded>
+ 				<xsl:value-of select="DATA/DATE"/>
+ 			</WhenRecorded>
+ 			
  			<!-- Specific extract from the DATA of the SOUR record -->
  			<xsl:if test="DATA/TEXT">
  				<xsl:apply-templates select="DATA/TEXT"/>
@@ -1419,15 +1533,33 @@
 *********************************************************************** -->
 <xsl:template match="OBJE[@REF]">
 	<xsl:param name="evidenceKind"/>
+	<xsl:variable name="ObjeID" select="@REF"/>	
 	<Evidence>
 		<Citation>
 			<Link>
 				<xsl:attribute name="Target">SourceRec</xsl:attribute>
-				<xsl:variable name="ObjeID" select="@REF"/>
 				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(//OBJE[@ID=$ObjeID])"/>
+					<xsl:choose>
+						<xsl:when test="//OBJE[@ID=$ObjeID]">
+							<xsl:value-of select="generate-id(//OBJE[@ID=$ObjeID])"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'0'"/>	
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:attribute>
 			</Link>
+
+			<Caption>
+				<xsl:value-of select="//OBJE[@ID=$ObjeID]/TITL"/>
+			</Caption>
+			
+			<!-- Must be Include but nothing to map it to-->
+			<WhereInSource/>
+			
+			<WhenRecorded>
+				<xsl:value-of select="//OBJE[@ID=$ObjeID]/SOUR[@REF]/DATA/DATE"/>
+			</WhenRecorded>
 			<xsl:apply-templates select="NOTE"/>
 			<Note>
  				<xsl:text>Evidence regarding </xsl:text>
@@ -1456,11 +1588,11 @@
 	<xsl:param name="evidenceKind"/>
 	<Evidence>
 		<Citation>	
-			<xsl:if test="TITL">
-				<Caption>
-					<xsl:value-of select="TITL"/>
-				</Caption>
-			</xsl:if>
+			<Caption>
+				<xsl:value-of select="TITL"/>
+			</Caption>
+			<WhereInSource/>
+			<WhenRecorded/>
 			<xsl:apply-templates select="NOTE"/>
 			<Note>
  				<xsl:text>Evidence regarding </xsl:text>
@@ -1721,23 +1853,37 @@
 		</xsl:attribute>
 			<xsl:if test="HUSB">
 				<HusbFath>
+				<xsl:variable name="husbID" select="HUSB/@REF"/>
 					<Link>
 						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					 	<xsl:attribute name="Ref">
- 							<xsl:variable name="husbID" select="HUSB/@REF"/>
-							<xsl:value-of select="generate-id(//INDI[@ID=$husbID])"/>
- 						</xsl:attribute>
+ 							<xsl:choose>
+ 								<xsl:when test="//INDI[@ID=$husbID]">
+ 									<xsl:value-of select="generate-id(//INDI[@ID=$husbID])"/>
+ 								</xsl:when>
+ 								<xsl:otherwise>
+ 									<xsl:value-of select="'0'"/>
+ 								</xsl:otherwise>
+ 							</xsl:choose>
+						</xsl:attribute>
  					</Link>
 				</HusbFath>
 			</xsl:if>
 			<xsl:if test="WIFE">
 				<WifeMoth>
+					<xsl:variable name="wifeID" select="WIFE/@REF"/>
 					<Link>
 						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
- 						<xsl:attribute name="Ref">
-							<xsl:variable name="wifeID" select="WIFE/@REF"/>
-							<xsl:value-of select="generate-id(//INDI[@ID=$wifeID])"/>
-  						</xsl:attribute>
+						<xsl:attribute name="Ref">
+ 							<xsl:choose>
+ 								<xsl:when test="//INDI[@ID=$husbID]">
+ 									<xsl:value-of select="generate-id(//INDI[@ID=$wifeID])"/>
+ 								</xsl:when>
+ 								<xsl:otherwise>
+ 									<xsl:value-of select="'0'"/>
+ 								</xsl:otherwise>
+ 							</xsl:choose>
+ 						</xsl:attribute>
   					</Link>
 				</WifeMoth>
 			</xsl:if>
@@ -1756,6 +1902,10 @@
 		</xsl:if>
 		<xsl:call-template name="ExternalIDs"/>
 
+		<xsl:call-template name="Submitter"/>
+
+		<xsl:apply-templates name="NOTE"/>
+		
 		<xsl:apply-templates select="SOUR">
 			<xsl:with-param name="evidenceKind" select="'the family'"/>
 		</xsl:apply-templates>
@@ -1781,21 +1931,27 @@
 		<Link>
 			<xsl:attribute name="Target">IndividualRec</xsl:attribute>
  			<xsl:attribute name="Ref">
-				<xsl:value-of select="generate-id(//INDI[@ID=$childID])"/>
+ 				<xsl:choose>
+ 					<xsl:when test="//INDI[@ID=$childID]">
+ 						<xsl:value-of select="generate-id(//INDI[@ID=$childID])"/>
+ 					</xsl:when>
+ 					<xsl:otherwise>
+ 						<xsl:value-of select="'0'"/>
+ 					</xsl:otherwise>
+ 				</xsl:choose>
 			</xsl:attribute>
 		</Link>
-			<xsl:choose>
- <!-- FIX this doesn't work -->
- 				<xsl:when test="//INDI[@ID=$childID]/ADOP">
- 					<xsl:element name="RelToMoth">adopted</xsl:element>
-					<xsl:element name="RelToFath">adopted</xsl:element>	
- 				</xsl:when>
-				<xsl:otherwise>
-					<xsl:element name="RelToMoth">biological</xsl:element>
-					<xsl:element name="RelToFath">biological</xsl:element>
-				</xsl:otherwise>
-			</xsl:choose>
 		<ChildNbr><xsl:number/></ChildNbr>
+		<xsl:choose>
+ 			<xsl:when test="//INDI[@ID=$childID]/ADOP">
+				<xsl:element name="RelToFath">adopted</xsl:element>
+				<xsl:element name="RelToMoth">adopted</xsl:element>
+ 			</xsl:when>
+			<xsl:otherwise>
+				<xsl:element name="RelToFath">biological</xsl:element>
+				<xsl:element name="RelToMoth">biological</xsl:element>
+			</xsl:otherwise>
+		</xsl:choose>
 	</Child>
 </xsl:template>
 
@@ -1820,10 +1976,17 @@
 <xsl:template match="REPO[@REF]">
 	<Repository>
 		<Link>
+			<xsl:variable name="RepoID" select="@REF"/>
 			<xsl:attribute name="Target">RepositoryRec</xsl:attribute>
 			<xsl:attribute name="Id">
-				<xsl:variable name="RepoID" select="@REF"/>
-				<xsl:value-of select="generate-id(//REPO[@ID=$RepoID])"/>
+				<xsl:choose>
+					<xsl:when test="//REPO[@ID=$RepoID]">
+						<xsl:value-of select="generate-id(//REPO[@ID=$RepoID])"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="'0'"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:attribute>
 		</Link>
 		<xsl:apply-templates select="CALN"/>
@@ -1869,15 +2032,17 @@
 
 <!-- **********************************************************************
 ***************************************************************************
-**																		 **
-**	Templates Applicable for multiple records or different elements		 **
-**		* NOTE[@REF] -> <Note>											 **
-**		* NOTE[@ID] -> <Note>											 **
-**		* CONT, CONC													 **
-**		* DATE -> <Date>												 **
-**		* RIN, RFN, AFN, REFN -> <ExternalID>							 **
-**		* CHAN -> <Changed>												 **
-**																		 **
+**							   		           **
+**	Templates Applicable for multiple records or different elements	**
+**		* NOTE[@REF] -> <Note>					**
+**		* NOTE[@ID] -> <Note>					**
+**		* CONT, CONC							**
+**		* DATE -> <Date>						**
+**		* RIN, RFN, AFN, REFN -> <ExternalID>			**
+**		* CHAN -> <Changed>				 	**
+**		* NOTE mode Changed 					**
+**		* NOTE[@REF] mode Changed					**
+**										**
 ***************************************************************************
 *********************************************************************** -->
 
@@ -1959,10 +2124,7 @@
 ************************************************************************ -->
 <!-- TODO enable it to handle non-Gregorian calendars -->
 <xsl:template match="DATE">
- 	
- 	<Date Calendar="Gregorian">
-		<xsl:value-of select="."/>
- 	</Date>
+	<xsl:value-of select="."/>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -2009,7 +2171,8 @@
 
 <!-- **********************************************************************
 
-	REFN template - adds ExternalID element contains REFN's USER_REFERENCE_NUMBER 
+	REFN template - adds ExternalID element contains 
+		REFN's USER_REFERENCE_NUMBER 
 
 *********************************************************************** -->
 <xsl:template match="REFN">
@@ -2043,8 +2206,62 @@
 		<xsl:attribute name="Time">
 				<xsl:value-of select="DATE/TIME"/>
 		</xsl:attribute>
-		<xsl:apply-templates select="NOTE"/>
+		<!-- FIX? Technically this should probably be the Submitter, but since there can me
+			more than one SUBM in HEAD it is difficult to determine which SUBM to use-->
+		<Contact>
+			<Link Target="ContactRec" Ref="0"/>
+		</Contact>
+		<Note>
+			<xsl:apply-templates select="NOTE" mode="Changed"/>
+		</Note>
+		
 	</Changed>
+</xsl:template>
+
+<!-- **********************************************************************
+
+	NOTE and NOTE[@REF] templates mode Changed- help templates
+	for the Changed element which only allows for one and only one Note
+	Element.  These templates collapses all NOTE tags under a CHAN
+	tag into one Note element
+
+*********************************************************************** -->
+<xsl:template match="NOTE" mode="Changed">
+	<xsl:call-template name="handleCONCT"/>
+	<!-- Adds a single space pad-->
+	<xsl:text> </xsl:text>
+</xsl:template>
+<xsl:template match="NOTE[@REF]" mode="Changed">
+	<xsl:call-template name="handlCONCT"/>
+	<!-- Adds a single space pad-->
+	<xsl:text> </xsl:text>
+</xsl:template>
+
+<!-- **********************************************************************
+
+	Submitter Template creates the Submitter elements and links it
+		to the **first** SUBM it finds.  This is in contrast to 
+		GEDCOM 5.5 which allows for multiple SUBM.  Gedcom 6.0XML
+		only allows for one.  Hence, this implementation is lossy.
+
+*********************************************************************** -->
+<xsl:template name="Submitter">
+ 	<Submitter>
+ 		<Link>
+			<xsl:attribute name="Target">ContactRec</xsl:attribute>
+			<xsl:attribute name="Ref">
+				<xsl:choose>
+ 					<xsl:when test="../SUBM[@REF]">
+ 						<xsl:variable name="SubmID" select="../SUBM/@REF"/>
+ 						<xsl:value-of select="generate-id(//SUBM[@ID=$SubmID])"/>
+ 					</xsl:when>
+ 					<xsl:otherwise>
+ 						<xsl:value-of select="'0'"/>
+ 					</xsl:otherwise>
+ 				</xsl:choose>
+			</xsl:attribute>
+		</Link>
+ 	</Submitter>
 </xsl:template>
 
 </xsl:stylesheet>
