@@ -569,8 +569,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	<Evidence>
 		<Citation>
 			<Caption>
-				<!-- FIX -->
-				<xsl:value-of select="text()"/>
+				<xsl:call-template name="handleCONCT"/>
 			</Caption>
 			<xsl:apply-templates select="TEXT"/>
 			<xsl:apply-templates select="NOTE"/>
@@ -898,7 +897,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 </xsl:template>
 
 <xsl:template match="DIV">
-
 		<EventRec>
 			<xsl:attribute name="Id">
 				<xsl:value-of select="generate-id()"/>
