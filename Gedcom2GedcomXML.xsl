@@ -287,9 +287,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  		</xsl:attribute>
  		<xsl:attribute name="VitalType">
  			<xsl:choose>
- 				<xsl:when test="contains( name(), 'BIRT')">
- 					<xsl:value-of select="'birth'"/>
- 				</xsl:when>
  				 <xsl:when test="contains( name(), 'DEAT')">
  					<xsl:value-of select="'death'"/>
  				</xsl:when>
@@ -342,8 +339,10 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 					<xsl:value-of select="generate-id(..)"/>
 				</xsl:attribute>
 			</Link>
-			<Role>principal</Role>
+			<Role>child</Role>
 		</Participant>
+		<!-- Add Mother and father Participants if they exist -->
+		<xsl:apply-templates select="../FAMC" mode="BirthEvent"/>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
 		<xsl:apply-templates select="SOUR"/>
@@ -352,6 +351,27 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<xsl:apply-templates select="../CHAN"/>
  	</EventRec>
  </xsl:template><!-- End BIRT template -->
+
+<!-- DOC? Althougth the FAMC has been eliminated from GEDCOM XML 6.0, it will be helpful to locate
+ 	other participants of a birth event.  The only guaranteed participant at this event would be the mother.  Although
+ 	the husband made the birth (he or his sperm was/were definitely participant(s) at conception), the  father may be 
+ 	absent from the event of the birth.  One drawback with this approach is that a birth of a father's child does not show
+ 	up in the record of there life events -->		
+<xsl:template match="FAMC" mode="BirthEvent">
+	<xsl:variable name="FamilyID" select="@REF"/>
+	<xsl:if test="//FAM[@ID=$FamilyID]/WIFE">
+		<xsl:variable name="MotherID" select="//FAM[@ID=$FamilyID]/WIFE/@REF"/>
+		<Participant>
+			<Link>
+				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+				<xsl:attribute name="Ref">
+					<xsl:value-of select="generate-id(//INDI[@ID=$MotherID)"/>
+				</xsl:attribute>
+			</Link>
+			<Role>mother</Role>
+		</Participant>
+	</xsl:if>
+</xsl:template>
 
 
  <!-- Handles the FAMILY_EVENT_STRUCTURE  -->
