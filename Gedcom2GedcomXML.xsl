@@ -14,8 +14,9 @@
  -->
 <!-- For Debugging -->
 <xsl:template match="/">
-	<xsl:call-template name="EventRecs"/>
+<!-- <xsl:call-template name="EventRecs"/> -->
 	<xsl:apply-templates select="//FAM"/>
+	<xsl:call-template name="EventRecs"/>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -84,6 +85,7 @@
 				</xsl:if>
 				<xsl:if test="SOUR/DATA/COPR">
 					<Note>
+						<xsl:text>Copyright:  </xsl:text>
 						<xsl:value-of select="SOUR/DATA/COPR"/>
 					</Note>
 				</xsl:if>
@@ -153,9 +155,9 @@
 				</xsl:if>
 				
 				<!-- Creates Copyright element-->
-				<xsl:if test="DATA/COPR">
+				<xsl:if test="../COPR">
 					<Copyright>
-						<xsl:value-of select="DATA/COPR"/>
+						<xsl:value-of select="../COPR"/>
 					</Copyright>
 				</xsl:if>
 			</Product>
@@ -213,7 +215,13 @@
 
 		<xsl:call-template name="ExternalIDs"/>
 		
-		<xsl:call-template name="addEvidence"/>
+		<xsl:apply-templates select="SOUR">
+			<xsl:with-param name="evidenceKind" select="'the individual'"/>
+		</xsl:apply-templates>
+		
+		<xsl:apply-templates select="OBJE">
+			<xsl:with-param name="evidenceKind" select="'the individual'"/>
+		</xsl:apply-templates>
 		
 		<xsl:apply-templates select="CHAN"/>
 	</IndividualRec>
@@ -698,6 +706,9 @@
 		
 		<!-- Call templates that creates a MailAddress element in the form of <Place> element -->
  		<xsl:apply-templates select="ADDR" mode="Place"/>
+ 		
+ 		<xsl:apply-templates select="NOTE"/>
+ 		
  		<xsl:call-template name="addEvidence"/>
  		
  		<!-- Since this event is created from the INDI record we assign this the same
@@ -728,13 +739,13 @@
 			</Link>
 			<Role>child</Role>
 		</Participant>
-		<!-- Add Mother, iff she is biological, i.e. child not adopted -->
-		<xsl:if test="not(../ADOP)">
-			<xsl:apply-templates select="../FAMC" mode="BirthEvent"/>
-		</xsl:if>
+	
+		<xsl:apply-templates select="../FAMC" mode="BirthEvent"/>
+
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
-		 <xsl:apply-templates select="ADDR" mode="Place"/>
+		<xsl:apply-templates select="ADDR" mode="Place"/>
+		<xsl:apply-templates select="NOTE"/>
 		<xsl:call-template name="addEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
@@ -759,6 +770,9 @@
 	and several mothers by adoption -->
 <xsl:template match="FAMC" mode="BirthEvent">
 	<xsl:variable name="FamilyID" select="@REF"/>
+	
+	<xsl:variable name="pedigree" select="PEDI"/>
+	<xsl:if test="not( contains( $pedigree, 'adopted'))">
 	<xsl:if test="//FAM[@ID=$FamilyID]/WIFE">
 		<xsl:variable name="MotherID" select="//FAM[@ID=$FamilyID]/WIFE/@REF"/>
 		<Participant>
@@ -770,6 +784,7 @@
 			</Link>
 			<Role>mother</Role>
 		</Participant>
+	</xsl:if>
 	</xsl:if>
 </xsl:template>
 
@@ -806,6 +821,7 @@
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
 		<xsl:apply-templates select="ADDR" mode="Place"/>
+		<xsl:apply-templates select="NOTE"/>
 		<xsl:call-template name="addEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
@@ -968,9 +984,7 @@
 					</xsl:attribute>
 				</Link>
 				<Role>husband</Role>
-				<!-- The <Age> element is not added because GEDCOM 5.5 EVENT_DETAILS have an AGE
-					tag, it is unclear to whom the age refers when Family events are by definition more than
-					one individual at possibly different ages -->
+				<xsl:apply-templates select="HUSB/AGE"/>
 			</Participant>
 		</xsl:if>
 		 <xsl:if test="../WIFE">
@@ -983,6 +997,7 @@
 					</xsl:attribute>
 				</Link>
 				<Role>wife</Role>
+				<xsl:apply-templates select="WIFE/AGE"/>
 			</Participant>
 		</xsl:if>
 		<!-- Handle All FAM events that one would need to mention the involvment of children. Of course,
@@ -998,6 +1013,7 @@
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
 		<xsl:apply-templates select="ADDR" mode="Place"/>
+		<xsl:apply-templates select="NOTE"/>
 		<xsl:call-template name="addEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
@@ -1060,15 +1076,124 @@
 
 <!-- **********************************************************************
 
-	addEvidence Template - called to add Evidence elements that can only 
-		occur in IndividualRecs and EventRecs
+	addEvidence Template - called to add Evidence elements to
+		IndividualRecs for Persinfo Sources and EventRecs
 
 ************************************************************************ -->
 <xsl:template name="addEvidence">
-	<xsl:for-each select="descendant-or-self::*">
-		<xsl:apply-templates select="SOUR"/>
-		<xsl:apply-templates select="OBJE"/>
-	</xsl:for-each>
+
+	<!-- PLAC appears in the context of an EVENT_DETAIL-->
+	<xsl:apply-templates select="PLAC/SOUR">
+		<xsl:with-param name="evidenceKind" select="'place'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="PLAC/SOUR/OBJE">
+		<xsl:with-param name="evidenceKind" select="'place'"/>
+	</xsl:apply-templates>
+	
+	<!-- Adds Evidence to IndividualRec regarding CAST -->	
+	<xsl:apply-templates select="CAST/SOUR">
+			<xsl:with-param name="evidenceKind" select="'caste'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="CAST/OBJE">
+		<xsl:with-param name="evidenceKind" select="'caste'"/>
+	</xsl:apply-templates>
+	
+	<!-- Adds Evidence to IndividualRec regarding DSCR -->	
+	<xsl:apply-templates select="DSCR/SOUR">
+		<xsl:with-param name="evidenceKind" select="'physical description'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="DSCR/OBJE">
+		<xsl:with-param name="evidenceKind" select="'physical description'"/>
+	</xsl:apply-templates>
+
+	<!-- Adds Evidence to IndividualRec regarding EDUC -->
+	<xsl:apply-templates select="EDUC/SOUR">
+		<xsl:with-param name="evidenceKind" select="'education'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="EDUC/OBJE">
+		<xsl:with-param name="evidenceKind" select="'education'"/>
+	</xsl:apply-templates>
+
+	<!-- Adds Evidence to IndividualRec regarding IDNO -->	
+	<xsl:apply-templates select="IDNO/SOUR">
+		<xsl:with-param name="evidenceKind" select="'national id number'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="IDNO/OBJE">
+		<xsl:with-param name="evidenceKind" select="'national id number'"/>
+	</xsl:apply-templates>
+
+	<!-- Adds Evidence to IndividualRec regarding NATI -->
+	<xsl:apply-templates select="NATI/SOUR">
+		<xsl:with-param name="evidenceKind" select="'national or tribal origin'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="NATI/OBJE">
+		<xsl:with-param name="evidenceKind" select="'national or tribal origin'"/>
+	</xsl:apply-templates>
+	
+	<!-- Adds Evidence to IndividualRec regarding NCHI -->
+	<xsl:apply-templates select="NCHI/SOUR">
+		<xsl:with-param name="evidenceKind" select="'number of children'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="NCHI/OBJE">
+		<xsl:with-param name="evidenceKind" select="'number of children'"/>
+	</xsl:apply-templates>
+
+	<!-- Adds Evidence to IndividualRec regarding NMR -->
+	<xsl:apply-templates select="NMR/SOUR">
+		<xsl:with-param name="evidenceKind" select="'number of marriages'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="NMR/OBJE">
+		<xsl:with-param name="evidenceKind" select="'number of marriages'"/>
+	</xsl:apply-templates>
+
+	<!-- Adds Evidence to IndividualRec regarding OCCU -->
+	<xsl:apply-templates select="OCCU/SOUR">
+		<xsl:with-param name="evidenceKind" select="'occupation'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="OCCU/OBJE">
+		<xsl:with-param name="evidenceKind" select="'occupation'"/>
+	</xsl:apply-templates>
+
+	<!-- Adds Evidence to IndividualRec regarding PROP -->	
+	<xsl:apply-templates select="PROP/SOUR">
+		<xsl:with-param name="evidenceKind" select="'property'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="PROP/OBJE">
+		<xsl:with-param name="evidenceKind" select="'property'"/>
+	</xsl:apply-templates>
+
+	<!-- Adds Evidence to IndividualRec regarding RELI -->	
+	<xsl:apply-templates select="RELI/SOUR">
+		<xsl:with-param name="evidenceKind" select="'religion'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="RELI/OBJE">
+		<xsl:with-param name="evidenceKind" select="'religion'"/>
+	</xsl:apply-templates>
+	
+	<!-- Adds Evidence to IndividualRec regarding RESI -->
+	<xsl:apply-templates select="RESI/SOUR">
+		<xsl:with-param name="evidenceKind" select="'residence'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="RESI/OBJE">
+		<xsl:with-param name="evidenceKind" select="'residence'"/>
+	</xsl:apply-templates>
+	
+	<!-- Adds Evidence to IndividualRec regarding SSN -->
+	<xsl:apply-templates select="SSN/SOUR">
+		<xsl:with-param name="evidenceKind" select="'social security number'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="SSN/OBJE">
+		<xsl:with-param name="evidenceKind" select="'social security number'"/>
+	</xsl:apply-templates>
+	
+	<!-- Adds Evidence to IndividualRec regarding TITL -->
+	<xsl:apply-templates select="TITL/SOUR">
+		<xsl:with-param name="evidenceKind" select="'nobility title'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="TITL/OBJE">
+		<xsl:with-param name="evidenceKind" select="'nobility title'"/>
+	</xsl:apply-templates>
+	
 </xsl:template>
 
 <!-- **********************************************************************
@@ -1089,6 +1214,7 @@
 ************************************************************************ -->
 <!-- DOC should note where that the SOURCE_DESCRIPTION has been mapped to Caption Element -->
 <xsl:template match="SOUR">
+	<xsl:param name="evidenceKind"/>
 	<Evidence>
 		<Citation>
 			<Caption>
@@ -1096,12 +1222,11 @@
 			</Caption>
 			<!-- Creates Extract element -->
 			<xsl:apply-templates select="TEXT"/>
-			<Note>
-				<xsl:text>Evidence regarding </xsl:text>
-				<!-- FIX will this work -->
-				<xsl:value-of select="name(..)"/>
-			</Note>
 			<xsl:apply-templates select="NOTE"/>
+			<Note>
+ 				<xsl:text>Evidence regarding </xsl:text>
+				<xsl:value-of select="$evidenceKind"/>
+			</Note>
 		</Citation>
  	</Evidence>
 </xsl:template>
@@ -1131,6 +1256,7 @@
 <!-- DOC Current implementationation discards the valid OBJE or OBJE @O1@ tag inside the SOUR. -->
 <!-- DOC should note that QUAY's CERTAINTY_ASSESMENT has been mapped to Note element -->
 <xsl:template match="SOUR[@REF]">
+	<xsl:param name="evidenceKind"/>
  	<xsl:variable name="SourceID" select="@REF"/>
  	<Evidence>
  		<Citation>
@@ -1172,10 +1298,12 @@
  			</xsl:if>
 			<!-- There can be more than one Note element-->
  			<xsl:apply-templates select="NOTE"/>
- 			
+	
  			<Note>
- 				<xsl:call-template name="EvidenceNote"/>
+ 				<xsl:text>Evidence regarding </xsl:text>
+				<xsl:value-of select="$evidenceKind"/>
 			</Note>
+			
  		</Citation>
 	</Evidence>
 </xsl:template>
@@ -1244,17 +1372,6 @@
 	</Publishing>
 </xsl:template>
 
-<!-- **********************************************************************
-
-	EvidenceNote Template - call by the SOUR templates that create Evidence
-		elements
-
-*********************************************************************** --> 
-<xsl:template name="EvidenceNote">
- 	<xsl:text>Evidence regarding </xsl:text>
-		<!-- FIX will this work? -->
-	<xsl:value-of select="name(..)"/>
-</xsl:template>
   
 <!-- **********************************************************************
 ***************************************************************************
@@ -1301,6 +1418,7 @@
 ***************************************************************************
 *********************************************************************** -->
 <xsl:template match="OBJE[@REF]">
+	<xsl:param name="evidenceKind"/>
 	<Evidence>
 		<Citation>
 			<Link>
@@ -1310,6 +1428,11 @@
 					<xsl:value-of select="generate-id(//OBJE[@ID=$ObjeID])"/>
 				</xsl:attribute>
 			</Link>
+			<xsl:apply-templates select="NOTE"/>
+			<Note>
+ 				<xsl:text>Evidence regarding </xsl:text>
+				<xsl:value-of select="$evidenceKind"/>
+			</Note>
 		</Citation>
 	</Evidence>
 </xsl:template>
@@ -1330,20 +1453,19 @@
 ***************************************************************************
 *********************************************************************** -->
 <xsl:template match="OBJE">
+	<xsl:param name="evidenceKind"/>
 	<Evidence>
 		<Citation>	
-			<Link>
-				<xsl:attribute name="Target">SourceRec</xsl:attribute>
-				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id()"/>
-				</xsl:attribute>
-			</Link>
 			<xsl:if test="TITL">
 				<Caption>
 					<xsl:value-of select="TITL"/>
 				</Caption>
 			</xsl:if>
 			<xsl:apply-templates select="NOTE"/>
+			<Note>
+ 				<xsl:text>Evidence regarding </xsl:text>
+				<xsl:value-of select="$evidenceKind"/>
+			</Note>
 		</Citation>
 	</Evidence>
 </xsl:template>
@@ -1634,7 +1756,13 @@
 		</xsl:if>
 		<xsl:call-template name="ExternalIDs"/>
 
-		<xsl:apply-templates select="SOUR"/>
+		<xsl:apply-templates select="SOUR">
+			<xsl:with-param name="evidenceKind" select="'the family'"/>
+		</xsl:apply-templates>
+		
+		<xsl:apply-templates select="OBJE">
+			<xsl:with-param name="evidenceKind" select="'the family'"/>
+		</xsl:apply-templates>
 		
 		<xsl:apply-templates select="CHAN"/>
 	</FamilyRec>
