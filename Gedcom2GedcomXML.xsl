@@ -710,7 +710,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  		<xsl:attribute name="Id">
 			<xsl:value-of select="generate-id()"/>
  		</xsl:attribute>
- 		<!-- TODO implement Repository -->
+ 		<xsl:apply-templates select="REPO[@REF]"/>
  		<xsl:apply-templates select="TITL"/>
  		<xsl:apply-templates select="AUTH"/>
  		<xsl:if test="OBJE/FILE">
@@ -723,14 +723,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  		<xsl:apply-templates select="CHAN"/>
  		
  		<!-- ExternalIDs -->
-		<xsl:if test="REFN">
-			<ExternalID>
-				<xsl:attribute name="Type">REFN</xsl:attribute>
-				<xsl:attribute name="Id">
-					<xsl:value-of select="REFN"/>
-				</xsl:attribute>
-			</ExternalID>
-		</xsl:if>
+ 		<xsl:apply-templates match="REFN"/>
+
 		<xsl:if test="RIN">
 			<ExternalID>
 				<xsl:attribute name="Type">RIN</xsl:attribute>
@@ -1022,4 +1016,38 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<xsl:apply-templates select="NOTE"/>
 	</Changed>
 </xsl:template>
+
+<!-- Handles REPO @R2@ -->
+<xsl:template match="REPO[@REF]">
+	<Repository>
+		<Link>
+			<xsl:attribute name="Target">RepositoryRec</xsl:attribute>
+			<xsl:attribute name="Id">
+				<xsl:variable name="RepoID" select="@REF"/>
+				<xsl:value-of select="generate-id(//REPO[@ID=$RepoID])"/>
+			</xsl:attribute>
+		</Link>
+		<xsl:apply-templates select="CALN"/>
+	</Repository>
+</xsl:template>
+
+<!-- Handles 0 @R2@ REPO -->
+<xsl:template match="REPO[@ID]">
+</xsl:template>
+
+<xsl:template match="CALN">
+	<CallNbr>
+		<xsl:value-of select="text()"/>
+	</CallNbr>
+</xsl:template>
+
+<xsl:template match="REFN">
+	<ExternalID>
+		<xsl:attribute name="Type">REFN</xsl:attribute>
+		<xsl:attribute name="Id">
+			<xsl:value-of select="text()"/>
+		</xsl:attribute>
+	</ExternalID>
+</xsl:template>
+
 </xsl:stylesheet>
