@@ -34,14 +34,13 @@
 				font-family="sans-serif" 
 				font-size="16pt"
 				text-align="center">
-				Family Group Record
+				<xsl:text>Family Group Record</xsl:text>
 			</fo:block>
 			<fo:block	
 				font-family="sans-serif" 
 				font-size="6pt"
-				text-align="right">
-				Page of
-				<xsl:text> </xsl:text>
+				text-align="right">			
+				<xsl:text>Page of </xsl:text>
 				<xsl:if test="( $numberOfChildren div 6  ) &lt;= 1">
 					<xsl:if test="$numberOfChildren &lt;= 4">
 						<xsl:text>1</xsl:text>
@@ -61,16 +60,18 @@
 				font-family="sans-serif" 
 				font-size="10pt"
 				text-align="left">
-				Printed: xx/xx/xxxx
+				<xsl:text>Printed: xx/xx/xxxx</xsl:text>
 			</fo:block>
 		</fo:static-content>
 	
 		<fo:flow flow-name="xsl-region-body">
 			<xsl:call-template name="spouse">
-				<xsl:with-param name="role" select="'HusbFath'"/>
+				<xsl:with-param name="role" select="'Husband'"/>
+				<xsl:with-param name="spouseID" select="HusbFath/Link/@Ref"/>
 			</xsl:call-template>
 			<xsl:call-template name="spouse">
-				<xsl:with-param name="role" select="'WifeMoth'"/>
+				<xsl:with-param name="role" select="'Wife'"/>
+				<xsl:with-param name="spouseID" select="WifeMoth/Link/@Ref"/>
 			</xsl:call-template>
 			
 			<!-- Start of Chlldren -->
@@ -93,7 +94,7 @@
 							<fo:block		
 								font-family="sans-serif" 
 								font-size="10pt">
-								Children - List each child in order of birth
+								<xsl:text>Children - List each child in order of birth</xsl:text>
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
@@ -172,10 +173,10 @@
 			<!-- The flow will start new page. Add parents to the first two rows -->
 			<xsl:if test="$count &gt; 6">
 				<xsl:call-template name="spouseName">
-					<xsl:with-param name="role" select="'HusbFath'"/>
+					<xsl:with-param name="role" select="'Husband'"/>
 				</xsl:call-template>
 				<xsl:call-template name="spouseName">
-					<xsl:with-param name="role" select="'WifeMoth'"/>
+					<xsl:with-param name="role" select="'Wife'"/>
 				</xsl:call-template>			
 			</xsl:if>
 						
@@ -194,9 +195,8 @@
 
 <xsl:template name="spouse">
 	<xsl:param name="role"/>
-
-	<xsl:variable name="spouseID" select="$role/Link/@Ref"/>
-	
+	<xsl:param name="spouseID"/>
+		
 	<xsl:call-template name="spouseName">
 		<xsl:with-param name="role" select="$role"/>
 		<xsl:with-param name="spouseID" select="$spouseID"/>
@@ -220,7 +220,7 @@
 			</xsl:call-template>
 			
 			<!-- only include Marriage date and place under husband-->
-			<xsl:if test="$role = 'HusbFath'">
+			<xsl:if test="$role = 'Husband'">
 				<xsl:call-template name="married">
 					<xsl:with-param name="IndividualRef" select="$spouseID"/>
 				</xsl:call-template>			
@@ -229,20 +229,10 @@
 		</fo:table-body>
 	</fo:table>
 		
-			
-		<xsl:if test="$role = 'HusbFath'">
-			<xsl:call-template name="parents">
-				<xsl:with-param name="IndividualRef" select="$spouseID"/>
-				<xsl:with-param name="role" select="'Husband'"/>
-			</xsl:call-template>
-		</xsl:if>
-		
-		<xsl:if test="$role = 'WifeMoth'">
-			<xsl:call-template name="parents">
-				<xsl:with-param name="IndividualRef" select="$spouseID"/>
-				<xsl:with-param name="role" select="'Wife'"/>
-			</xsl:call-template>
-		</xsl:if>
+	<xsl:call-template name="parents">
+		<xsl:with-param name="IndividualRef" select="$spouseID"/>
+		<xsl:with-param name="role" select="$role"/>
+	</xsl:call-template>
 </xsl:template>
 
 <xsl:template  name="spouseName">
@@ -269,12 +259,7 @@
 					<fo:block 
 						font-family="sans-serif"
 						font-size="8pt">
-						<xsl:if test="$role = 'HusbFath'">
-							<xsl:text>Husband</xsl:text>
-						</xsl:if>
-						<xsl:if test="$role = 'WifeMoth'">
-							<xsl:text>Wife</xsl:text>
-						</xsl:if>
+						<xsl:value-of select="$role"/>
 					</fo:block>
 					<fo:block 
 						font-family="sans-serif"
@@ -306,10 +291,10 @@
 					<fo:block 
 						font-family="sans-serif"
 						font-size="8pt">
-						<xsl:if test="$role = 'HusbFath'">
+						<xsl:if test="$role = 'Husband'">
 							<xsl:text>Last</xsl:text>
 						</xsl:if>
-						<xsl:if test="$role = 'WifeMoth'">
+						<xsl:if test="$role = 'Wife'">
 							<xsl:text>Maiden</xsl:text>
 						</xsl:if>
 					</fo:block>
@@ -330,10 +315,10 @@
 					<fo:block 
 						font-family="sans-serif" 
 						font-size="10pt">
-						<xsl:if test="$role = 'HusbFath'">
+						<xsl:if test="$role = 'Husband'">
 							<xsl:value-of select="//IndividualRec[@Id=$spouseID]/IndivName/NamePart[@Level = '1']"/>
 						</xsl:if>
-						<xsl:if test="$role = 'WifeMoth'">
+						<xsl:if test="$role = 'Wife'">
 							<xsl:value-of select="//IndividualRec[@Id=$spouseID]/IndivName/NamePart[@Level = '2']"/>
 						</xsl:if>
 					</fo:block>
@@ -369,7 +354,7 @@
 					<fo:block 
 						font-family="sans-serif" 
 						font-size="6pt">
-						Sex
+						<xsl:text>Sex</xsl:text>
 					</fo:block>
 					<fo:block 
 						font-family="sans-serif"
@@ -389,12 +374,12 @@
 					<fo:block 
 						font-family="sans-serif"
 						font-size="6pt">
-						Given
+						<xsl:text>Given</xsl:text>
 					</fo:block>
 					<fo:block 
 						font-family="sans-serif"
 						font-size="6pt">
-						name(s)
+						<xsl:text>name(s)</xsl:text>
 					</fo:block>
 				</fo:table-cell>
 				<fo:table-cell  
@@ -507,12 +492,12 @@
 					<fo:block 
 						font-family="sans-serif"
 						font-size="6pt">
-						Spouse
+						<xsl:text>Spouse</xsl:text>
 					</fo:block>
 					<fo:block 
 						font-family="sans-serif"
 						font-size="6pt">
-						Given name(s)
+						<xsl:text>Given name(s)</xsl:text>
 					</fo:block>
 				</fo:table-cell>
 				<fo:table-cell  
@@ -540,17 +525,17 @@
 						font-size="6pt">
 						<xsl:choose>
 							<xsl:when test="$role = 'wife'">
-								Maiden
+								<xsl:text>Maiden</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
-								Last
+								<xsl:text>Last</xsl:text>
 							</xsl:otherwise>
 						</xsl:choose>
 					</fo:block>
 					<fo:block 
 						font-family="sans-serif"
 						font-size="6pt">
-						name
+						<xsl:text>name</xsl:text>
 					</fo:block>
 				</fo:table-cell>
 				<fo:table-cell  
@@ -608,7 +593,7 @@
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="6pt">
-				Born
+				<xsl:text>Born</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 			
@@ -640,7 +625,7 @@
 						<fo:block 
 							font-family="sans-serif" 
 							font-size="6pt">
-							Place
+							<xsl:text>Place</xsl:text>
 						</fo:block>
 				</fo:table-cell>					
 				<fo:table-cell 
@@ -692,7 +677,7 @@
 		<fo:block 
 			font-family="sans-serif" 
 			font-size="6pt">
-			Place
+			<xsl:text>Place</xsl:text>
 		</fo:block>
 		</fo:table-cell>					
 		<fo:table-cell 
@@ -718,20 +703,11 @@
 
 <xsl:template match="PlaceName">
 	<xsl:value-of select="text()"/>
-	<xsl:text>, </xsl:text>
-	<xsl:value-of select="PlacePart[@Level = '1']"/>
-	<xsl:text>, </xsl:text>
-	<xsl:value-of select="PlacePart[@Level = '2']"/>
-	<xsl:text>, </xsl:text>
-	<xsl:value-of select="PlacePart[@Level = '3']"/>
-	<xsl:text>, </xsl:text>
-	<xsl:value-of select="PlacePart[@Level = '4']"/>
-	<xsl:text>, </xsl:text>
-	<xsl:value-of select="PlacePart[@Level = '5']"/>
-	<xsl:text>, </xsl:text>
-	<xsl:value-of select="PlacePart[@Level = '6']"/>
-	<xsl:text>, </xsl:text>
-	<xsl:value-of select="PlacePart[@Level = '7']"/>
+	
+	<xsl:for-each select="PlacePart">
+		<xsl:text>, </xsl:text>
+		<xsl:value-of select="current()"/>
+	</xsl:for-each>
 </xsl:template>
 
 <xsl:template name="died">
@@ -762,14 +738,14 @@
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="6pt">
-				Died
+				<xsl:text>Died</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 			
 		<xsl:choose>
 			<xsl:when test="//EventRec[@Type = 'death' ]/Participant/Link[@Ref = $IndividualRef]">
 				<xsl:apply-templates select="//EventRec[@Type = 'death' ]/Participant/Link[@Ref = $IndividualRef]">
-					<xsl:with-param name="role" select="'principle'"/>
+					<xsl:with-param name="role" select="'principal'"/>
 				</xsl:apply-templates>					
 			</xsl:when>
 			<xsl:otherwise>
@@ -794,7 +770,7 @@
 						<fo:block 
 							font-family="sans-serif" 
 							font-size="6pt">
-							Place
+							<xsl:text>Place</xsl:text>
 						</fo:block>
 				</fo:table-cell>					
 				<fo:table-cell 
@@ -850,14 +826,14 @@
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="6pt">
-				Buried
+				<xsl:text>Buried</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 			
 		<xsl:choose>
 			<xsl:when test="//EventRec[@Type = 'burial' ]/Participant/Link[@Ref = $IndividualRef]">
 				<xsl:apply-templates select="//EventRec[@Type = 'burial' ]/Participant/Link[@Ref = $IndividualRef]">
-					<xsl:with-param name="role" select="'principle'"/>
+					<xsl:with-param name="role" select="'principal'"/>
 				</xsl:apply-templates>					
 			</xsl:when>
 			<xsl:otherwise>
@@ -882,7 +858,7 @@
 						<fo:block 
 							font-family="sans-serif" 
 							font-size="6pt">
-							Place
+							<xsl:text>Place</xsl:text>
 						</fo:block>
 				</fo:table-cell>					
 				<fo:table-cell 
@@ -934,7 +910,7 @@
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="6pt">
-				Married
+				<xsl:text>Married</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 			
@@ -966,7 +942,7 @@
 						<fo:block 
 							font-family="sans-serif" 
 							font-size="6pt">
-							Place
+							<xsl:text>Place</xsl:text>
 						</fo:block>
 				</fo:table-cell>					
 				<fo:table-cell 
@@ -1049,12 +1025,12 @@
 			<fo:block
 				font-family="sans-serif"
 				font-size="6pt">
-				<xsl:value-of select="$role"/>&#8217;s father
+				<xsl:text><xsl:value-of select="$role"/>&#8217;s father</xsl:text>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
-				Given name(s)
+				<xsl:text>Given name(s)</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 		
@@ -1081,12 +1057,12 @@
 			<fo:block 
 				font-family="sans-serif"
 				font-size="8pt">
-				Last
+				<xsl:text>Last</xsl:text>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="8pt">
-				name
+				<xsl:text>name</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 		<fo:table-cell  
@@ -1130,12 +1106,12 @@
 			<fo:block
 				font-family="sans-serif"
 				font-size="6pt">
-				<xsl:value-of select="$role"/>&#8217;s mother
+				<xsl:text><xsl:value-of select="$role"/>&#8217;s mother</xsl:text>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
-				Given name(s)
+				<xsl:text>Given name(s)</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 		<fo:table-cell 
@@ -1164,12 +1140,12 @@
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
-				Maiden
+				<xsl:text>Maiden</xsl:text>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
-				name
+				<xsl:text>name</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 		<fo:table-cell  
@@ -1218,12 +1194,12 @@
 			<fo:block
 				font-family="sans-serif"
 				font-size="6pt">
-				<xsl:value-of select="$role"/>&#8217;s father
+				<xsl:text><xsl:value-of select="$role"/>&#8217;s father</xsl:text>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
-				Given name(s)
+				<xsl:text>Given name(s)</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 		
@@ -1250,12 +1226,12 @@
 			<fo:block 
 				font-family="sans-serif"
 				font-size="8pt">
-				Last
+				<xsl:text>Last</xsl:text>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="8pt">
-				name
+				<xsl:text>name</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 		<fo:table-cell  
@@ -1298,12 +1274,12 @@
 			<fo:block
 				font-family="sans-serif"
 				font-size="6pt">
-				<xsl:value-of select="$role"/>&#8217;s mother
+				<xsl:text><xsl:value-of select="$role"/>&#8217;s mother</xsl:text>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
-				Given name(s)
+				<xsl:text>Given name(s)</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 		<fo:table-cell 
@@ -1331,12 +1307,12 @@
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
-				Maiden
+				<xsl:text>Maiden</xsl:text>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
-				name
+				<xsl:text>name</xsl:text>
 			</fo:block>
 		</fo:table-cell>
 		<fo:table-cell  
@@ -1390,12 +1366,12 @@
 					<fo:block 
 						font-family="sans-serif"
 						font-size="6pt">
-						Spouse
+						<xsl:text>Spouse</xsl:text>
 					</fo:block>
 					<fo:block 
 						font-family="sans-serif"
 						font-size="6pt">
-						Given name(s)
+						<xsl:text>Given name(s)</xsl:text>
 					</fo:block>
 				</fo:table-cell>
 				<fo:table-cell  
@@ -1421,12 +1397,12 @@
 					<fo:block 
 						font-family="sans-serif"
 						font-size="6pt">
-						Last
+						<xsl:text>Last</xsl:text>
 					</fo:block>
 					<fo:block 
 						font-family="sans-serif"
 						font-size="6pt">
-						name
+						<xsl:text>name</xsl:text>
 					</fo:block>
 				</fo:table-cell>
 				<fo:table-cell  
