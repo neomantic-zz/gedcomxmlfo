@@ -18,6 +18,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	<xsl:apply-templates select="//FAM"/>
  	<xsl:apply-templates select="//INDI"/>
  <!-- EventRecs -->
+ 	<xsl:call-template name="Events"/>
  <!-- LDSOrdRecs -->
  <!-- ContactRec -->		
  	<xsl:apply-templates select="//SUBM"/>
@@ -160,12 +161,21 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	</Gender>
  </xsl:template><!-- end NICK template -->
  
+ <xsl:template name="Events">
+ 
+	<xsl:apply-templates select="//INDI/BIRT"/>
+	<xsl:apply-templates select="//INDI/DEAT"/>
+ 
+ </xsl:template>
+
+ 
  <!-- Strictly speaking GEDCOM 6.0 XML makes no distinction between events associated individuals and
  	other events.  But we begin parsing these 2 events within the INDI structure-->
  <xsl:template name="vitalevents">
  	<xsl:apply-templates select="BIRT"/>
  	<xsl:apply-templates select="DEAT"/>
  </xsl:template>
+ 
  
  <!-- Handles BIRT Tag-->
  <xsl:template match="BIRT">
