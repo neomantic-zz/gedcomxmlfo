@@ -7,11 +7,11 @@
 	however, correct it is in implementation -->
 <xsl:param name="FileCreationDate"/>
 <!--For Debugging -->
-<xsl:template match="debug">
-	<xsl:apply-templates select="//HEAD"/>
+<xsl:template match="/">
+	<xsl:apply-templates select="//INDI"/>
 </xsl:template>
 <!-- Start at Root-->
-<xsl:template match="/">
+<xsl:template match="what">
 	<GEDCOM>
  	<xsl:apply-templates select="//HEAD"/>
  	<xsl:apply-templates select="//FAM"/>
@@ -36,13 +36,11 @@
  	</GEDCOM>
 </xsl:template>
 
-<!-- ------------------------------------------------------------------
------------------------------------------------------------------------
+<!-- 
  
  Template from HEAD to create HeaderRec
 
------------------------------------------------------------------------ 
--------------------------------------------------------------------- -->
+ -->
 <!-- Some of the mapping here are suspect because the SOUR tag purpose is ambiguous -->
 <xsl:template match="HEAD">
 	<HeaderRec>
@@ -50,11 +48,6 @@
 		<xsl:apply-templates select="SOUR" mode="HeaderRec"/>
 		<xsl:if test="SOUR/DATA">
 			<Citation>
-				<!--DOC a LInk tag must occur in a Citation element, but the SOUR tag
-					occuring in the HEAD tag is not like any other SOUR tag and yet
-					it has info, so it is handles as so
-				 -->
-				<Link Target=""/>
 				<!-- To generate Caption element-->
 				<xsl:apply-templates select="SOUR/DATA" mode="HeaderRec"/>
 				<xsl:if test="SOUR/DATA/DATE">
@@ -91,14 +84,11 @@
 	</Caption>
 </xsl:template>
 
-<!-- ------------------------------------------------------------------
------------------------------------------------------------------------
+<!-- 
 
 Template for INDI to IndividualRec
 
------------------------------------------------------------------------
--------------------------------------------------------------------- -->
-	-->
+ -->
  <xsl:template match="INDI">
 	<IndividualRec>
 		<xsl:attribute name="Id">
@@ -111,17 +101,17 @@ Template for INDI to IndividualRec
 
 		<xsl:call-template name="ExternalIDs"/>
 		
-		<xsl:apply-templates select="SOUR"/>
-
+		<xsl:call-template name="addEvidence"/>
+		
 		<xsl:apply-templates select="CHAN"/>
 	</IndividualRec>
  </xsl:template><!-- end Template for INDI to IndividualRec -->
 
-<!-- ------------------------------------------------------------------
+<!-- 
 
  NAME Template for IndivName element
 
--------------------------------------------------------------------- -->
+ -->
  <xsl:template match="NAME">
 	<IndivName>
 	    	<xsl:choose>
@@ -186,9 +176,9 @@ Template for INDI to IndividualRec
 	</IndivName>
 </xsl:template><!-- end NAME template -->
  
-<!-- ------------------------------------------------------------------
+<!-- 
 Handles SEX tag to create Gender element
--------------------------------------------------------------------- -->
+ -->
  
 <xsl:template match="SEX">
  	<Gender>
@@ -196,14 +186,12 @@ Handles SEX tag to create Gender element
  	</Gender>
 </xsl:template>
  
-<!-- ------------------------------------------------------------------
------------------------------------------------------------------------
+<!-- 
 
 A call to this template creates all the EventRects (individual, family
 	and LDS events)
 
------------------------------------------------------------------------
--------------------------------------------------------------------- -->
+ -->
  
 <xsl:template name="EventRecs">
  	<!-- INDIVIDUAL_EVENT_STRUCTURE -->
@@ -250,6 +238,9 @@ A call to this template creates all the EventRects (individual, family
  </xsl:template>
 <!-- Handles all individual events besides BIRT-->
  <xsl:template match="DEAT|CHR|BURI|CREM|BAPM|BARM|BASM|BLES|CHRA|CONF|FCOM|ORDN|NATU|EMIG|IMMI|CENS|PROB|WILL|GRAD|RETI">
+ 	
+ 	<xsl:variable name="tag" select="name()"/>
+ 	
  	<EventRec>
  		<xsl:attribute name="Id">
  			<xsl:value-of select="generate-id()"/>
@@ -257,76 +248,76 @@ A call to this template creates all the EventRects (individual, family
 		
 		<!-- Set #REQUIRED Attribute Type -->
  		<xsl:attribute name="Type">
-			<xsl:if test="contains( name(), 'DEAT')">
+			<xsl:if test="$tag = 'DEAT'">
 				<xsl:value-of select="'death'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'CHR')">
+			<xsl:if test="$tag = 'CHR'">
 				<xsl:value-of select="'christening'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'BURI')">
+			<xsl:if test="$tag = 'BURI'">
 				<xsl:value-of select="'burial'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'CREM')">
+			<xsl:if test="$tag = 'CREM'">
 				<xsl:value-of select="'cremation'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'BAPM')">
+			<xsl:if test="$tag = 'BAPM'">
 				<xsl:value-of select="'baptism'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'BARM')">
+			<xsl:if test="$tag = 'BARM'">
 				<xsl:value-of select="'bar mitzvah'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'BASM')">
+			<xsl:if test="$tag = 'BASM'">
 				<xsl:value-of select="'bas mitzvah'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'BLES')">
+			<xsl:if test="$tag = 'BLES'">
 				<xsl:value-of select="'blessing'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'CHRA')">
+			<xsl:if test="$tag = 'CHRA'">
 				<xsl:value-of select="'adult christening'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'CONF')">
+			<xsl:if test="$tag = 'CONF'">
 				<xsl:value-of select="'confirmation'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'FCOM')">
+			<xsl:if test="$tag = 'FCOM'">
 				<xsl:value-of select="'first communion'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'ORDN')">
+			<xsl:if test="$tag = 'ORDN'">
 				<xsl:value-of select="'ordination'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'NATU')">
+			<xsl:if test="$tag = 'NATU'">
 				<xsl:value-of select="'naturalization'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'EMIG')">
+			<xsl:if test="$tag = 'EMIG'">
 				<xsl:value-of select="'emigration'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'IMMI')">
+			<xsl:if test="$tag = 'IMMI'">
 				<xsl:value-of select="'immigration'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'CENS')">
+			<xsl:if test="$tag = 'CENS'">
 				<xsl:value-of select="'census'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'PROB')">
+			<xsl:if test="$tag = 'PROB'">
 				<xsl:value-of select="'probate'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'WILL')">
+			<xsl:if test="$tag = 'WILL'">
 				<xsl:value-of select="'will'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'GRAD')">
+			<xsl:if test="$tag = 'GRAD'">
 				<xsl:value-of select="'graduation'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'RETI')">
+			<xsl:if test="$tag = 'RETI'">
 				<xsl:value-of select="'retirement'"/>
 			</xsl:if>
  		</xsl:attribute>
  	
 		<!-- Set #IMPLIED VitalType Attribute if it is necessary -->
-		<xsl:if test="contains( name(), 'DEAT')">
+		<xsl:if test="$tag = 'DEAT'">
 			<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'BURI')">
+		<xsl:if test="$tag = 'BURI'">
 			<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'CREM')">
+		<xsl:if test="$tag = 'CREM'">
 			<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
 		</xsl:if>
  
@@ -346,7 +337,7 @@ A call to this template creates all the EventRects (individual, family
  		<xsl:apply-templates select="DATE"/>
  		<xsl:apply-templates select="PLAC"/>
  		<xsl:apply-templates select="ADDR" mode="Place"/>
- 		<xsl:apply-templates select="SOUR"/>
+ 		<xsl:call-template name="addEvidence"/>
  		
  		<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
@@ -382,7 +373,7 @@ A call to this template creates all the EventRects (individual, family
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
 		 <xsl:apply-templates select="ADDR" mode="Place"/>
-		<xsl:apply-templates select="SOUR"/>
+		<xsl:call-template name="addEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -434,7 +425,7 @@ A call to this template creates all the EventRects (individual, family
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
 		<xsl:apply-templates select="ADDR" mode="Place"/>
-		<xsl:apply-templates select="SOUR"/>
+		<xsl:call-template name="addEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -498,64 +489,65 @@ A call to this template creates all the EventRects (individual, family
 
  <!-- Handles the FAMILY_EVENT_STRUCTURE  -->
  <xsl:template match="ANUL|CENS|DIV|DIVF|ENGA|MARR|MARB|MARC|MARL|MARS">
+ 	<xsl:variable name="tag" select="name()"/>
    	<EventRec>
  		<xsl:attribute name="Id">
  			<xsl:value-of select="generate-id()"/>
  		</xsl:attribute>
  		<xsl:attribute name="Type">
-			<xsl:if test="contains( name(), 'ANUL')">
+			<xsl:if test="$tag = 'ANUL'">
 				<xsl:value-of select="'annulment'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'CENS')">
+			<xsl:if test="$tag = 'CENS'">
 				<xsl:value-of select="'census'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'DIV')">
+			<xsl:if test="$tag = 'DIV'">
 				<xsl:value-of select="'divorce'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'DIVF')">
+			<xsl:if test="$tag = 'DIVF'">
 				<xsl:value-of select="'divorce filed'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'ENGA')">
+			<xsl:if test="$tag = 'ENGA'">
 				<xsl:value-of select="'engagement'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'MARR')">
+			<xsl:if test="$tag = 'MARR'">
 				<xsl:value-of select="'marriage'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'MARB')">
+			<xsl:if test="$tag = 'MARB'">
 				<xsl:value-of select="'marriage banns'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'MARC')">
+			<xsl:if test="$tag = 'MARC'">
 				<xsl:value-of select="'marriage contract'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'MARL')">
+			<xsl:if test="$tag = 'MARL'">
 				<xsl:value-of select="'marriage license'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'MARS')">
+			<xsl:if test="$tag = 'MARS'">
 				<xsl:value-of select="'marriage settlement'"/>
 			</xsl:if>
  		</xsl:attribute>
 		
 		<!-- Sets VitalType attribute if it is possible -->
  		<xsl:attribute name="VitalType">
-  			<xsl:if test="contains( name(), 'ANUL')">
+  			<xsl:if test="$tag = 'ANUL'">
 				<xsl:value-of select="'marriage'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'DIV')">
+			<xsl:if test="$tag = 'DIV'">
 				<xsl:value-of select="'divorce'"/>
 			</xsl:if>
-				<xsl:if test="contains( name(), 'MARR')">
+				<xsl:if test="$tag = 'MARR'">
 				<xsl:value-of select="'marriage'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'MARB')">
+			<xsl:if test="$tag = 'MARB'">
 				<xsl:value-of select="'marriage'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'MARC')">
+			<xsl:if test="$tag = 'MARC'">
 				<xsl:value-of select="'marriage'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'MARL')">
+			<xsl:if test="$tag = 'MARL'">
 				<xsl:value-of select="'marriage'"/>
 			</xsl:if>
-			<xsl:if test="contains( name(), 'MARS')">
+			<xsl:if test="$tag = 'MARS'">
 				<xsl:value-of select="'marriage'"/>
 			</xsl:if>
  		</xsl:attribute>
@@ -600,7 +592,7 @@ A call to this template creates all the EventRects (individual, family
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
 		<xsl:apply-templates select="ADDR" mode="Place"/>
-		<xsl:apply-templates select="SOUR"/>
+		<xsl:call-template name="addEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -644,45 +636,47 @@ A call to this template creates all the EventRects (individual, family
 </xsl:template>
 
 <xsl:template match="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL">
+	<xsl:variable name="tag" select="name()"/>
+	
 	<xsl:variable name="Attribute">
-		<xsl:if test="contains( name(), 'CAST')">
+		<xsl:if test="$tag = 'CAST'">
 			<xsl:value-of select="'caste'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'DSCR')">
+		<xsl:if test="$tag = 'DSCR'">
 			<xsl:value-of select="'description'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'EDUC')">
+		<xsl:if test="$tag = 'EDUC'">
 			<xsl:value-of select="'education'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'IDNO')">
+		<xsl:if test="$tag = 'IDNO'">
 			<xsl:value-of select="'identification number'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'NATI')">
+		<xsl:if test="$tag = 'NATI'">
 			<xsl:value-of select="'nationality'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'NCHI')">
+		<xsl:if test="$tag = 'NCHI'">
 			<xsl:value-of select="'children'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'NMR')">
+		<xsl:if test="$tag = 'NMR'">
 			<xsl:value-of select="'marriage'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'OCCU')">
+		<xsl:if test="$tag = 'OCCU'">
 			<xsl:value-of select="'occupation'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'PROP')">
+		<xsl:if test="$tag = 'PROP'">
 			<xsl:value-of select="'property'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'RELI')">
+		<xsl:if test="$tag = 'RELI'">
 			<xsl:value-of select="'religion'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'RESI')">
+		<xsl:if test="$tag = 'RESI'">
 			<xsl:value-of select="'residence'"/>
 		</xsl:if>
-		<xsl:if test="contains( name(), 'SSN')">
+		<xsl:if test="$tag = 'SSN'">
 			<xsl:value-of select="'social security number'"/>
 		</xsl:if>
 		<!-- FIX? This Probably belongs in the name structure-->
-		<xsl:if test="contains( name(), 'TITL')">
+		<xsl:if test="$tag = 'TITL'">
 			<xsl:value-of select="'title'"/>
 		</xsl:if>
 	</xsl:variable>
@@ -699,6 +693,14 @@ A call to this template creates all the EventRects (individual, family
 	</PersInfo>
 </xsl:template>
 
+
+<xsl:template name="addEvidence">
+	<xsl:for-each select="descendant-or-self::*">
+		<xsl:apply-templates select="SOUR"/>
+		<xsl:apply-templates select="OBJE"/>
+	</xsl:for-each>
+</xsl:template>
+
 <xsl:template name="SourceRecs">
 	<!-- If I decide to loop through all 5.5 Records searching for SOUR tag and create in their
 		place Link elements, skip the SOUR tag in the HEAD Record-->
@@ -713,40 +715,55 @@ A call to this template creates all the EventRects (individual, family
 			<Caption>
 				<xsl:call-template name="handleCONCT"/>
 			</Caption>
+			<!-- Creates Extract element -->
 			<xsl:apply-templates select="TEXT"/>
+			<Note>
+				<xsl:text>This provides evidence for:  </xsl:text>
+				<!-- FIX will this work -->
+				<xsl:value-of select="name(..)"/>
+			</Note>
 			<xsl:apply-templates select="NOTE"/>
 		</Citation>
  	</Evidence>
 </xsl:template>
 
 <!-- Handles GEDCOM 5.5 SOUR_CITATION (linked), i.e., SOUR @S2@ or GEDML <SOUR REF="S2"/> -->
-<!-- Current implementationation discards the valid OBJE or OBJE @O1@ tag inside the SOUR. -->
+<!-- DOC Current implementationation discards the valid OBJE or OBJE @O1@ tag inside the SOUR. -->
 <!-- DOC should note that QUAY's CERTAINTY_ASSESMENT has been mapped to Note element -->
  <xsl:template match="SOUR[@REF]">
+ 	<xsl:variable name="SourceID" select="@REF"/>
  	<Evidence>
  		<Citation>
 			<Link>
 				<xsl:attribute name="Target">SourceRec</xsl:attribute>
  				<xsl:attribute name="Ref">
- 					<xsl:variable name="SourceID" select="@REF"/>
 					<xsl:value-of select="generate-id(//SOUR[@ID=$SourceID])"/>
  				</xsl:attribute>
  			</Link>
  			<xsl:if test="PAGE">
  				<WhereInSource>
+ 					<xsl:text>Page: </xsl:text>
  					<xsl:value-of select="PAGE"/>
  				</WhereInSource>
  			</xsl:if>
- 			
+ 			<!-- DOC no caption element because not clear what to map it to -->
+ 			<!-- //SOUR[@ID]/DATA//DATE indicates a DATE_PERIOD - FROM date TO date, so this
+ 				won't be used for a WhenRecorded element -->
  			<xsl:if test="DATA/DATE">
  				<WhenRecorded>
  					<xsl:value-of select="DATA/DATE"/>
  				</WhenRecorded>
  			</xsl:if>			
- 			
+ 			<!-- Specific extract from the DATA of the SOUR record -->
  			<xsl:if test="DATA/TEXT">
  				<xsl:apply-templates select="DATA/TEXT"/>
  			</xsl:if>
+ 			<!-- Since we do not want to loose the TEXT from the 0 @S*@ SOUR, because it
+ 				is inexplicably not contained in the SourceRec element anymore, the TEXT
+ 				is now import into the Evidence element -->
+ 			<xsl:if test="//SOUR[@ID=$SourceID]/TEXT">
+ 				<xsl:apply-templates select="//SOUR[@ID=$SourceID]/TEXT"/>
+ 			</xsl:if>		
 			<xsl:if test="QUAY">
  				<Note>
  					<xsl:text>The GEDCOM 5.5 quality of this source is:  </xsl:text>
@@ -755,6 +772,10 @@ A call to this template creates all the EventRects (individual, family
  			</xsl:if>
 			<!-- There can be more than one Note element-->
  			<xsl:apply-templates select="NOTE"/>
+ 			
+ 			<Note>
+ 				<xsl:call-template name="EvidenceNote"/>
+			</Note>
  		</Citation>
 	</Evidence>
  </xsl:template>
@@ -847,7 +868,13 @@ A call to this template creates all the EventRects (individual, family
 		</xsl:if>
  	</FileCreation>
  </xsl:template>
- 		
+ 
+ <xsl:template name="EvidenceNote">
+ 	<xsl:text>Evidence regarding </xsl:text>
+		<!-- FIX will this work -->
+	<xsl:value-of select="name(..)"/>
+ </xsl:template>
+  		
 <!-- MULTIMEDIA_RECORD -->
 <xsl:template match="OBJE[@ID]">
 	<SourceRec>
