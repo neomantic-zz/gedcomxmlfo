@@ -30,7 +30,9 @@
 	<GEDCOM>
  	<xsl:apply-templates select="//HEAD"/>
  	<xsl:apply-templates select="//FAM"/>
+ 	
  	<xsl:apply-templates select="//INDI"/>
+ 	<xsl:call-template name="makeDummyIndividualRec"/>
 	
 	<!-- EventRecs -->
  	<xsl:call-template name="EventRecs"/>
@@ -38,16 +40,18 @@
 	<!-- TODO LDSOrdRecs -->
 	
 	<!-- ContactRec -->
- 	<xsl:call-template name="ContactRecs"/>	
-	
+ 	<xsl:call-template name="ContactRecs"/>
+ 	
 	<!-- SourceRec  -->
 	<xsl:call-template name="SourceRecs"/>
+
 	
 	<!-- RepositoryRec -->
 	<xsl:apply-templates select="//REPO"/>
+	<xsl:call-template name="makeDummyRepositoryRec"/>
 	
 	<!-- Not creating any GroupRec because there is no equivalent in GEDCOM 5.5 -->
- 	
+
  	</GEDCOM>
 </xsl:template>
 
@@ -91,25 +95,8 @@
 				</xsl:if>
 			</Citation>
 		</xsl:if>
-		<xsl:if test="SUBM">
-			<Submitter>
-				<xsl:variable name="SubmitterID" select="SUBM/@REF"/>
-				<Link>
-					<xsl:attribute name="Target">ContactRec</xsl:attribute>
-					<xsl:attribute name="Ref">
-						<xsl:choose>
-							<xsl:when test="//SUBM[@ID=$SubmitterID]">
-								<xsl:value-of select="generate-id(//SUBM[@ID=$SubmitterID])"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="'0'"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
-				</Link>
-			</Submitter>
-		</xsl:if>
-
+		
+		<xsl:call-template name="Submitter"/>
 	</HeaderRec>
 </xsl:template> <!-- end Template for HEAD to HeaderRec -->
 
@@ -140,16 +127,15 @@
 						<xsl:value-of select="$ProductId"/>
 					</ProductId>
 				</xsl:if>
-				<xsl:if test="VERS">
-					<Version>
-						<xsl:value-of select="VERS"/>
-					</Version>
-				</xsl:if>
-				<xsl:if test="NAME">
-					<Name>
-						<xsl:value-of select="NAME"/>
-					</Name>
-				</xsl:if>
+				
+				<Version>
+					<xsl:value-of select="VERS"/>
+				</Version>
+								
+				<Name>
+					<xsl:value-of select="NAME"/>
+				</Name>
+				
 				<xsl:if test="CORP">
 					<Supplier>
 						<Link>
@@ -225,13 +211,8 @@
 		 <xsl:call-template name="Submitter"/>
  		
  		<xsl:apply-templates select="NOTE"/>
-		<xsl:apply-templates select="SOUR">
-			<xsl:with-param name="evidenceKind" select="'the individual'"/>
-		</xsl:apply-templates>
-		
-		<xsl:apply-templates select="OBJE">
-			<xsl:with-param name="evidenceKind" select="'the individual'"/>
-		</xsl:apply-templates>
+ 				
+		<xsl:call-template name="addIndividualEvidence"/>
 		
 		<xsl:apply-templates select="CHAN"/>
 	</IndividualRec>
@@ -388,14 +369,12 @@
 		<Information>
 			<xsl:value-of select="text()"/>
 		</Information>
-		<Date Calendar="Gregorian">
-			<xsl:apply-templates select="DATE"/>
-		</Date>
-		<Place>
-			<xsl:apply-templates select="PLAC"/>		
-		</Place>
+		
+		<xsl:apply-templates select="DATE"/>
 
-		<xsl:apply-templates select="ADDR" mode="Place"/>
+		<xsl:call-template name="addEventPlace"/>
+		
+		<xsl:call-template name="addEventEvidence"/>
 	</PersInfo>
 </xsl:template>
 
@@ -404,9 +383,10 @@
 **																		 **
 **	Templates applicable to Individual, Family, and LDS Events	 		 **													 										
 **		* AGE -> <Age>													 **
-**		* CAUS -> <NOTE>												 **
-**	 	* PLAC -> <Place>												 **
-**		* ADDR -> <Place><PlaceName><PlacePart>							 **
+**		* CAUS -> <Note>
+**		* addEventPlace -> PLAC+ADDR=<Place>					 **
+**	 	* PLAC -> 												 **
+**		* ADDR -> <PlacePart>							 **
 **																		 **
 ***************************************************************************
 *********************************************************************** -->
@@ -487,6 +467,67 @@
 
 <!-- **********************************************************************
 
+	addEventPlace Template - GEDCOM 5.5 can have 2 place elements
+		in an EVENT_DETAIL:  PLAC and ADDR.  GEDCOM 6.0 XML
+		can only have one Place element.  This template attempts
+		to combine PLAC and ADDR in one Place Element
+
+************************************************************************ -->
+
+<xsl:template name="addEventPlace">
+	<xsl:choose>
+		<!-- 
+		 This is not the most ideal solution.  The following GEDCOM 5.5
+		 data:
+		 2 PLAC Placename, City, Township, County, State, Country
+		 2 ADDR AddrPlacename
+		    3 ADR1 Street
+		    3 CITY City
+		    3 STAE State
+		 2 PHON 555-555-555
+		 
+		 will look like this
+		 <Place>
+		 	<PlaceName>Placename, City, Township, County, State, Country AddrPlacename
+		 		<PlacePart>Street
+		 		</PlacePart>
+		 		<PlacePart>City
+		 		</PlacePart>
+		 		<PlacePart>State
+		 		</PlacePart>
+		 	</PlaceName>
+		 </Place>
+		The reason I choose this implementation is because I wanted to preserve the Township and County
+		data.  Perhaps another implemantion would utilize the FORM tag
+		-->
+		<xsl:when test="PLAC and ADDR">
+			<Place>
+				<PlaceName>
+					<xsl:apply-templates select="PLAC"/>
+					<xsl:text> </xsl:text>
+					<xsl:apply-templates select="ADDR" mode="Place"/>
+				</PlaceName>
+			</Place>
+		</xsl:when>
+		<xsl:when test="PLAC">
+			<Place>
+				<PlaceName>
+					<xsl:apply-templates select="PLAC"/>
+				</PlaceName>
+			</Place>
+		</xsl:when>
+		<xsl:when test="ADDR">
+			<Place>
+				<PlaceName>
+					<xsl:apply-templates select="ADDR" mode="Place"/>
+				</PlaceName>
+			</Place>
+		</xsl:when>
+	</xsl:choose>
+</xsl:template>
+
+<!-- **********************************************************************
+
 	PLAC Template - handles a simple PLACE_VALUE of the comma delimited
 		form City, Township, County, State, USA - without breaking it 
 		down into PlaceParts
@@ -495,9 +536,8 @@
 <!-- TODO? it may be possible to breakdown the above info into PlaceName 
 	elements given the HEAD's FORM PLACE_HIERARCHY value -->
 <xsl:template match="PLAC">
- 	<PlaceName>
- 		<xsl:call-template name="handleCONCT"/>	
- 	</PlaceName>
+	<xsl:call-template name="handleCONCT"/>	
+
 </xsl:template>
 
 <!-- **********************************************************************
@@ -534,47 +574,45 @@
  
 -->
 <xsl:template match="ADDR" mode="Place">
-	<Place>
- 		<PlaceName>
-			<xsl:value-of select="text()"/>
-			<xsl:apply-templates select="CONT" mode="Place"/>
- 			<xsl:for-each select="node()">
- 				<xsl:choose>
- 					<xsl:when test="self::ADR1">
-  						<!-- DOC street name is not localized -->
- 						<PlacePart Level="6" Type="street name">
- 							<xsl:value-of select="self::ADR1"/>
- 						</PlacePart>					
- 					</xsl:when>
- 					<xsl:when test="self::ADR2">
- 						<PlacePart Level="6" Type="street name">
- 							<xsl:value-of select="self::ADR2"/>
- 						</PlacePart>
- 					</xsl:when>
- 					<xsl:when test="self::CITY">
- 						<PlacePart Level="4" Type="city">
- 							<xsl:value-of select="self::CITY"/>
- 						</PlacePart>					
- 					</xsl:when>
-					<xsl:when test="self::STAE">
- 						<PlacePart Level="2" Type="state">
- 							<xsl:value-of select="self::STAE"/>
- 						</PlacePart>
-					</xsl:when>
- 					<xsl:when test="self::POST">
- 						<PlacePart Level="5" Type="postal code">
- 							<xsl:value-of select="self::POST"/>
- 						</PlacePart> 					
- 					</xsl:when>
- 					<xsl:when test="self::CTRY">
- 						<PlacePart Level="1" Type="country">
- 							<xsl:value-of select="self::CTRY"/>
- 						</PlacePart>
- 					</xsl:when>
- 				</xsl:choose>
- 			</xsl:for-each>
- 		</PlaceName>
- 	</Place>
+
+	<xsl:value-of select="text()"/>
+	<xsl:apply-templates select="CONT" mode="Place"/>
+	
+	 <xsl:for-each select="node()">
+		<xsl:choose>
+	 		<xsl:when test="self::ADR1">
+	 				<!-- DOC street name is not localized -->
+	 			<PlacePart Level="6" Type="street name">
+	 				<xsl:value-of select="self::ADR1"/>
+	 			</PlacePart>					
+	 		</xsl:when>
+	 		<xsl:when test="self::ADR2">
+	 			<PlacePart Level="6" Type="street name">
+	 				<xsl:value-of select="self::ADR2"/>
+				</PlacePart>
+	 		</xsl:when>
+			<xsl:when test="self::CITY">
+	 			<PlacePart Level="4" Type="city">
+					<xsl:value-of select="self::CITY"/>
+	 			</PlacePart>					
+	 		</xsl:when>
+			<xsl:when test="self::STAE">
+	 			<PlacePart Level="2" Type="state">
+	 				<xsl:value-of select="self::STAE"/>
+	 			</PlacePart>
+			</xsl:when>
+ 			<xsl:when test="self::POST">
+ 				<PlacePart Level="5" Type="postal code">
+ 					<xsl:value-of select="self::POST"/>
+ 				</PlacePart> 					
+ 			</xsl:when>
+			<xsl:when test="self::CTRY">
+ 				<PlacePart Level="1" Type="country">
+ 					<xsl:value-of select="self::CTRY"/>
+ 				</PlacePart>
+ 			</xsl:when>
+ 		</xsl:choose>
+ 	</xsl:for-each>
 </xsl:template>
  
  <!-- **********************************************************************
@@ -714,25 +752,16 @@
  			<xsl:apply-templates select="AGE"/>
  		</Participant>
  		
- 		<Date Calendar="Gregorian">
- 			 <xsl:apply-templates select="DATE"/>
- 		</Date>
-
-		<Place>
-			<xsl:apply-templates select="PLAC"/>
-		</Place>
-		
-		<!-- Call templates that creates a MailAddress element in the form of <Place> element -->
- 		<xsl:apply-templates select="ADDR" mode="Place"/>
  		
- 		 <!-- Required, but always empty because there is no GEDCOM 5.5 equivalent-->
- 		<Religion/>
+ 		<xsl:apply-templates select="DATE"/>
+ 		
+ 		<xsl:call-template name="addEventPlace"/>
  		
  		<xsl:call-template name="Submitter"/>
  		
  		<xsl:apply-templates select="NOTE"/>
  		
- 		<xsl:call-template name="addEvidence"/>
+ 		<xsl:call-template name="addEventEvidence"/>
  		
  		<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
@@ -764,18 +793,14 @@
 		</Participant>
 	
 		<xsl:apply-templates select="../FAMC" mode="BirthEvent"/>
-		<Date Calendar="Gregorian">
-			<xsl:apply-templates select="DATE"/>
-		</Date>
-		<Place>
-			<xsl:apply-templates select="PLAC"/>
-		</Place>
-		<xsl:apply-templates select="ADDR" mode="Place"/>
-		 <!-- Required, but always empty because there is no GEDCOM 5.5 equivalent-->
- 		<Religion/>
+
+		<xsl:apply-templates select="DATE"/>
+
+		<xsl:call-template name="addEventPlace"/>
+
  		<xsl:call-template name="Submitter"/>
 		<xsl:apply-templates select="NOTE"/>
-		<xsl:call-template name="addEvidence"/>
+		<xsl:call-template name="addEventEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -802,25 +827,25 @@
 	
 	<xsl:variable name="pedigree" select="PEDI"/>
 	<xsl:if test="not( contains( $pedigree, 'adopted'))">
-	<xsl:if test="//FAM[@ID=$FamilyID]/WIFE">
-		<xsl:variable name="MotherID" select="//FAM[@ID=$FamilyID]/WIFE/@REF"/>
-		<Participant>
-			<Link>
-				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-				<xsl:attribute name="Ref">
-					<xsl:choose>
-						<xsl:when test="//INDI[@ID=$MotherID]">
-							<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="'0'"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
-			</Link>
-			<Role>mother</Role>
-		</Participant>
-	</xsl:if>
+		<xsl:if test="//FAM[@ID=$FamilyID]/WIFE">
+			<xsl:variable name="MotherID" select="//FAM[@ID=$FamilyID]/WIFE/@REF"/>
+			<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:choose>
+							<xsl:when test="//INDI[@ID=$MotherID]">
+								<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="'IndividualUnknown'"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+				</Link>
+				<Role>mother</Role>
+			</Participant>
+		</xsl:if>
 	</xsl:if>
 </xsl:template>
 
@@ -854,18 +879,14 @@
 		 -->
 		<xsl:apply-templates select="FAMC" mode="AdoptionEvent"/>
 
-		<Date Calendar="Gregorian">
-			<xsl:apply-templates select="DATE"/>
-		</Date>
-		<Place>
-			<xsl:apply-templates select="PLAC"/>
-		</Place>
-		<xsl:apply-templates select="ADDR" mode="Place"/>
-		  <!-- Required, but always empty because there is no GEDCOM 5.5 equivalent-->
- 		<Religion/>
+
+		<xsl:apply-templates select="DATE"/>
+
+		<xsl:call-template name="addEventPlace"/>
+		 
  		<xsl:call-template name="Submitter"/>
 		<xsl:apply-templates select="NOTE"/>
-		<xsl:call-template name="addEvidence"/>
+		<xsl:call-template name="addEventEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -897,7 +918,7 @@
 							<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="'0'"/>
+							<xsl:value-of select="'IndividualUnknown'"/>
 						</xsl:otherwise>
 					</xsl:choose>				
 				</xsl:attribute>
@@ -916,7 +937,7 @@
 							<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="'0'"/>
+							<xsl:value-of select="'IndividualUnknown'"/>
 						</xsl:otherwise>
 					</xsl:choose>				
 				</xsl:attribute>
@@ -936,7 +957,7 @@
 							<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="'0'"/>
+							<xsl:value-of select="'IndividualUnknown'"/>
 						</xsl:otherwise>
 					</xsl:choose>				
 				</xsl:attribute>
@@ -953,7 +974,7 @@
 							<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="'0'"/>
+							<xsl:value-of select="'IndividualUnknown'"/>
 						</xsl:otherwise>
 					</xsl:choose>				
 				</xsl:attribute>
@@ -1056,7 +1077,7 @@
 								<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="'0'"/>
+								<xsl:value-of select="IndividualUnknown"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
@@ -1076,7 +1097,7 @@
 								<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="'0'"/>
+								<xsl:value-of select="'IndividualUnknown'"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
@@ -1095,18 +1116,14 @@
 				contains( $NodeName, 'CENS')">
 			<xsl:apply-templates select="../CHIL" mode="Events"/>
 		</xsl:if>
-		<Date Calendar="Gregorian">
-			<xsl:apply-templates select="DATE"/>
-		</Date>
-		<Place>
-			<xsl:apply-templates select="PLAC"/>	
-		</Place>
-		 <!-- Required, but always empty because there is no GEDCOM 5.5 equivalent-->
- 		<Religion/>
+
+		<xsl:apply-templates select="DATE"/>
+		
+		<xsl:call-template name="addEventPlace"/>
+		
  		<xsl:call-template name="Submitter"/>
-		<xsl:apply-templates select="ADDR" mode="Place"/>
 		<xsl:apply-templates select="NOTE"/>
-		<xsl:call-template name="addEvidence"/>
+		<xsl:call-template name="addEventEvidence"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -1134,7 +1151,7 @@
 						<xsl:value-of select="generate-id(//INDI[@ID=$ChildID])"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="'0'"/>			
+						<xsl:value-of select="'IndividualUnknown'"/>			
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
@@ -1156,9 +1173,12 @@
 **		* PUBL -> <Publishing>											 **
 **		* OBJE[@REF] -> <Evidence>										 **
 **		* OBJE[@ID] -> <SourceRec>										 **
-**		* OBJE -> <Evidence>											 **
-**		* TEXT -> <Extract>												 **
-**																		 **
+**		* OBJE -> <Evidence>					**
+**		* TEXT -> <Extract>						**
+**		* addEventEvidence						**
+**		* addIndividualEvidence					**
+**		* addPersInfoEvidence						**
+**										**								 **
 ***************************************************************************
 *********************************************************************** -->
 
@@ -1172,16 +1192,20 @@
 <xsl:template name="SourceRecs">
   	<xsl:apply-templates select="//SOUR[@ID]"/>
   	<xsl:apply-templates select="//OBJE[@ID]"/>
+  	<xsl:call-template name="makeDummySourceRec"/>
 </xsl:template>
 
 <!-- **********************************************************************
 
-	addEvidence Template - called to add Evidence elements to
-		IndividualRecs for Persinfo Sources and EventRecs
+	addEventEvidence Template - adds the PLAC sources as Evindence
+		to the EventRec
 
 ************************************************************************ -->
-<xsl:template name="addEvidence">
-
+<xsl:template name="addEventEvidence">
+	
+	<xsl:apply-templates select="SOUR"/>
+	<xsl:apply-templates select="OBJE"/>
+	
 	<!-- PLAC appears in the context of an EVENT_DETAIL-->
 	<xsl:apply-templates select="PLAC/SOUR">
 		<xsl:with-param name="evidenceKind" select="'place'"/>
@@ -1189,111 +1213,29 @@
 	<xsl:apply-templates select="PLAC/SOUR/OBJE">
 		<xsl:with-param name="evidenceKind" select="'place'"/>
 	</xsl:apply-templates>
-	
-	<!-- Adds Evidence to IndividualRec regarding CAST -->	
-	<xsl:apply-templates select="CAST/SOUR">
-			<xsl:with-param name="evidenceKind" select="'caste'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="CAST/OBJE">
-		<xsl:with-param name="evidenceKind" select="'caste'"/>
-	</xsl:apply-templates>
-	
-	<!-- Adds Evidence to IndividualRec regarding DSCR -->	
-	<xsl:apply-templates select="DSCR/SOUR">
-		<xsl:with-param name="evidenceKind" select="'physical description'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="DSCR/OBJE">
-		<xsl:with-param name="evidenceKind" select="'physical description'"/>
-	</xsl:apply-templates>
+</xsl:template>
 
-	<!-- Adds Evidence to IndividualRec regarding EDUC -->
-	<xsl:apply-templates select="EDUC/SOUR">
-		<xsl:with-param name="evidenceKind" select="'education'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="EDUC/OBJE">
-		<xsl:with-param name="evidenceKind" select="'education'"/>
-	</xsl:apply-templates>
 
-	<!-- Adds Evidence to IndividualRec regarding IDNO -->	
-	<xsl:apply-templates select="IDNO/SOUR">
-		<xsl:with-param name="evidenceKind" select="'national id number'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="IDNO/OBJE">
-		<xsl:with-param name="evidenceKind" select="'national id number'"/>
-	</xsl:apply-templates>
 
-	<!-- Adds Evidence to IndividualRec regarding NATI -->
-	<xsl:apply-templates select="NATI/SOUR">
-		<xsl:with-param name="evidenceKind" select="'national or tribal origin'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="NATI/OBJE">
-		<xsl:with-param name="evidenceKind" select="'national or tribal origin'"/>
-	</xsl:apply-templates>
-	
-	<!-- Adds Evidence to IndividualRec regarding NCHI -->
-	<xsl:apply-templates select="NCHI/SOUR">
-		<xsl:with-param name="evidenceKind" select="'number of children'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="NCHI/OBJE">
-		<xsl:with-param name="evidenceKind" select="'number of children'"/>
-	</xsl:apply-templates>
+<!-- **********************************************************************
 
-	<!-- Adds Evidence to IndividualRec regarding NMR -->
-	<xsl:apply-templates select="NMR/SOUR">
-		<xsl:with-param name="evidenceKind" select="'number of marriages'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="NMR/OBJE">
-		<xsl:with-param name="evidenceKind" select="'number of marriages'"/>
-	</xsl:apply-templates>
+	addIndividualEvidence Template - adds the first level SOUR and OBJE
+		and evidence regarding the NAME to the IndividualRec
 
-	<!-- Adds Evidence to IndividualRec regarding OCCU -->
-	<xsl:apply-templates select="OCCU/SOUR">
-		<xsl:with-param name="evidenceKind" select="'occupation'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="OCCU/OBJE">
-		<xsl:with-param name="evidenceKind" select="'occupation'"/>
-	</xsl:apply-templates>
+************************************************************************ -->
+<xsl:template name="addIndividualEvidence">
 
-	<!-- Adds Evidence to IndividualRec regarding PROP -->	
-	<xsl:apply-templates select="PROP/SOUR">
-		<xsl:with-param name="evidenceKind" select="'property'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="PROP/OBJE">
-		<xsl:with-param name="evidenceKind" select="'property'"/>
-	</xsl:apply-templates>
+	<xsl:apply-templates select="SOUR"/>
+	<xsl:apply-templates select="OBJE"/>
 
-	<!-- Adds Evidence to IndividualRec regarding RELI -->	
-	<xsl:apply-templates select="RELI/SOUR">
-		<xsl:with-param name="evidenceKind" select="'religion'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="RELI/OBJE">
-		<xsl:with-param name="evidenceKind" select="'religion'"/>
-	</xsl:apply-templates>
-	
-	<!-- Adds Evidence to IndividualRec regarding RESI -->
-	<xsl:apply-templates select="RESI/SOUR">
-		<xsl:with-param name="evidenceKind" select="'residence'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="RESI/OBJE">
-		<xsl:with-param name="evidenceKind" select="'residence'"/>
-	</xsl:apply-templates>
-	
-	<!-- Adds Evidence to IndividualRec regarding SSN -->
-	<xsl:apply-templates select="SSN/SOUR">
-		<xsl:with-param name="evidenceKind" select="'social security number'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="SSN/OBJE">
-		<xsl:with-param name="evidenceKind" select="'social security number'"/>
-	</xsl:apply-templates>
-	
-	<!-- Adds Evidence to IndividualRec regarding TITL -->
-	<xsl:apply-templates select="TITL/SOUR">
-		<xsl:with-param name="evidenceKind" select="'nobility title'"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="TITL/OBJE">
-		<xsl:with-param name="evidenceKind" select="'nobility title'"/>
-	</xsl:apply-templates>
-	
+	<!-- Adds Evidence regarding the IndivName -->
+	<xsl:apply-templates select="NAME/SOUR">
+ 		<xsl:with-param name="evidenceKind" select="'the name'"/>
+ 	</xsl:apply-templates>
+ 		
+ 	<xsl:apply-templates select="NAME/SOUR/OBJE">
+ 		<xsl:with-param name="evidenceKind" select="'the name'"/>
+ 	</xsl:apply-templates>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -1317,19 +1259,26 @@
 	<xsl:param name="evidenceKind"/>
 	<Evidence>
 		<Citation>
+			<!-- There must be at least a Link element, but nothing to match it to-->
+			<Link Ref="SourceUnknown" Target="SourceRec"/>
+			
 			<Caption>
 				<xsl:call-template name="handleCONCT"/>
 			</Caption>
-			<!-- Creates Extract element -->
-			<xsl:apply-templates select="TEXT"/>
-			<xsl:apply-templates select="NOTE"/>
 			<!-- These must be included, but there is nothing to map them to-->
 			<WhereInSource/>
 			<WhenRecorded/>
-			<Note>
- 				<xsl:text>Evidence regarding </xsl:text>
-				<xsl:value-of select="$evidenceKind"/>
-			</Note>
+			
+			<!-- Creates Extract element -->
+			<xsl:apply-templates select="TEXT"/>
+			<xsl:apply-templates select="NOTE"/>
+			<xsl:if test="$evidenceKind != ''">
+				<Note>
+ 					<xsl:text>Evidence regarding </xsl:text>
+					<xsl:value-of select="$evidenceKind"/>
+				</Note>
+			</xsl:if>
+			
 		</Citation>
  	</Evidence>
 </xsl:template>
@@ -1371,16 +1320,18 @@
  							<xsl:value-of select="generate-id(//SOUR[@ID=$SourceID])"/>
  						</xsl:when>
  						<xsl:otherwise>
- 							<xsl:value-of select="'0'"/>
+ 							<xsl:value-of select="'SourceUnknown'"/>
  						</xsl:otherwise>
  					</xsl:choose>
  				</xsl:attribute>
  			</Link>
 
- 			<Caption>
- 				<xsl:value-of select="//SOUR[@ID=$SourceID]/TITL"/>
- 			</Caption>
- 
+ 			<xsl:if test="//SOUR[@ID=$SourceID]/TITL">
+				<Caption>
+					<xsl:value-of select="//SOUR[@ID=$SourceID]/TITL"/>
+				</Caption>
+ 			</xsl:if>
+ 			 
  			<WhereInSource>
  				<xsl:text>Page: </xsl:text>
  				<xsl:value-of select="PAGE"/>
@@ -1413,10 +1364,12 @@
 			<!-- There can be more than one Note element-->
  			<xsl:apply-templates select="NOTE"/>
 	
- 			<Note>
- 				<xsl:text>Evidence regarding </xsl:text>
-				<xsl:value-of select="$evidenceKind"/>
-			</Note>
+			<xsl:if test="$evidenceKind != ''">
+				<Note>
+ 					<xsl:text>Evidence regarding </xsl:text>
+					<xsl:value-of select="$evidenceKind"/>
+				</Note>
+			</xsl:if>
 			
  		</Citation>
 	</Evidence>
@@ -1436,7 +1389,9 @@
 			<xsl:value-of select="generate-id()"/>
  		</xsl:attribute>
  		<xsl:apply-templates select="REPO[@REF]"/>
- 		<xsl:apply-templates select="TITL"/>
+ 		<Title>
+ 		 	<xsl:apply-templates select="TITL"/>
+ 		</Title>
  		<xsl:apply-templates select="AUTH"/>
  		<xsl:if test="OBJE/FILE">
  			<URI>
@@ -1459,9 +1414,7 @@
 
 ************************************************************************ -->  
 <xsl:template match="TITL">
-	<Title>
-		<xsl:call-template name="handleCONCT"/>
-	</Title>
+	<xsl:call-template name="handleCONCT"/>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -1506,11 +1459,11 @@
 				<xsl:value-of select="FORM"/>
 			</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="TITL">
-			<Title>
-				<xsl:value-of select="TITL"/>
-			</Title>
-		</xsl:if>
+
+		<Title>
+			<xsl:value-of select="TITL"/>
+		</Title>
+
 		<xsl:if test="BLOB">
 			<URI>
 				<xsl:value-of select="BLOB"/>
@@ -1544,15 +1497,18 @@
 							<xsl:value-of select="generate-id(//OBJE[@ID=$ObjeID])"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="'0'"/>	
+							<xsl:value-of select="'SourceUnknown'"/>	
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
 			</Link>
 
-			<Caption>
-				<xsl:value-of select="//OBJE[@ID=$ObjeID]/TITL"/>
-			</Caption>
+			<xsl:if test="//OBJE[@ID=$ObjeID]/TITL">
+				<Caption>
+					<xsl:value-of select="//OBJE[@ID=$ObjeID]/TITL"/>
+				</Caption>
+			</xsl:if>
+			
 			
 			<!-- Must be Include but nothing to map it to-->
 			<WhereInSource/>
@@ -1561,10 +1517,13 @@
 				<xsl:value-of select="//OBJE[@ID=$ObjeID]/SOUR[@REF]/DATA/DATE"/>
 			</WhenRecorded>
 			<xsl:apply-templates select="NOTE"/>
-			<Note>
- 				<xsl:text>Evidence regarding </xsl:text>
-				<xsl:value-of select="$evidenceKind"/>
-			</Note>
+			
+			<xsl:if test="$evidenceKind != ''">
+				<Note>
+ 					<xsl:text>Evidence regarding </xsl:text>
+					<xsl:value-of select="$evidenceKind"/>
+				</Note>
+			</xsl:if>
 		</Citation>
 	</Evidence>
 </xsl:template>
@@ -1587,17 +1546,22 @@
 <xsl:template match="OBJE">
 	<xsl:param name="evidenceKind"/>
 	<Evidence>
-		<Citation>	
-			<Caption>
-				<xsl:value-of select="TITL"/>
-			</Caption>
+		<Citation>
+			<Link Ref="SourceUnknown" Target="SourceRec"/>
+			<xsl:if test="TITL">
+				<Caption>
+					<xsl:value-of select="TITL"/>
+				</Caption>			
+			</xsl:if>
 			<WhereInSource/>
 			<WhenRecorded/>
 			<xsl:apply-templates select="NOTE"/>
-			<Note>
- 				<xsl:text>Evidence regarding </xsl:text>
-				<xsl:value-of select="$evidenceKind"/>
-			</Note>
+			<xsl:if test="$evidenceKind != ''">
+				<Note>
+ 					<xsl:text>Evidence regarding </xsl:text>
+					<xsl:value-of select="$evidenceKind"/>
+				</Note>
+			</xsl:if>
 		</Citation>
 	</Evidence>
 </xsl:template>
@@ -1650,6 +1614,7 @@
 <xsl:template name="ContactRecs">
 	<xsl:apply-templates select="//HEAD/SOUR/CORP"/>
   	<xsl:apply-templates select="//SUBM"/>
+  	<xsl:call-template name="makeDummyContactRec"/>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -1677,6 +1642,8 @@
 		</xsl:apply-templates>
 		<xsl:apply-templates select="PHON"/>
 		<!-- Cannot map any more items of the CORP tag to the ContactRec elements-->
+		<!-- DOC -->
+		<Public/>
 	</ContactRec>
 </xsl:template>
 
@@ -1705,7 +1672,6 @@
 		
 		<xsl:apply-templates select="NOTE"/>
 		
-		<xsl:call-template name="ExternalIDs"/>
  		
  		<xsl:apply-templates select="CHAN"/>
 	</ContactRec>
@@ -1862,7 +1828,7 @@
  									<xsl:value-of select="generate-id(//INDI[@ID=$husbID])"/>
  								</xsl:when>
  								<xsl:otherwise>
- 									<xsl:value-of select="'0'"/>
+ 									<xsl:value-of select="'IndividualUnknown'"/>
  								</xsl:otherwise>
  							</xsl:choose>
 						</xsl:attribute>
@@ -1880,7 +1846,7 @@
  									<xsl:value-of select="generate-id(//INDI[@ID=$wifeID])"/>
  								</xsl:when>
  								<xsl:otherwise>
- 									<xsl:value-of select="'0'"/>
+ 									<xsl:value-of select="'IndividualUnknown'"/>
  								</xsl:otherwise>
  							</xsl:choose>
  						</xsl:attribute>
@@ -1906,13 +1872,8 @@
 
 		<xsl:apply-templates select="NOTE"/>
 		
-		<xsl:apply-templates select="SOUR">
-			<xsl:with-param name="evidenceKind" select="'the family'"/>
-		</xsl:apply-templates>
-		
-		<xsl:apply-templates select="OBJE">
-			<xsl:with-param name="evidenceKind" select="'the family'"/>
-		</xsl:apply-templates>
+		<xsl:apply-templates select="SOUR"/>
+		<xsl:apply-templates select="OBJE"/>
 		
 		<xsl:apply-templates select="CHAN"/>
 	</FamilyRec>
@@ -1936,7 +1897,7 @@
  						<xsl:value-of select="generate-id(//INDI[@ID=$childID])"/>
  					</xsl:when>
  					<xsl:otherwise>
- 						<xsl:value-of select="'0'"/>
+ 						<xsl:value-of select="'IndividualUnknown'"/>
  					</xsl:otherwise>
  				</xsl:choose>
 			</xsl:attribute>
@@ -1984,7 +1945,7 @@
 						<xsl:value-of select="generate-id(//REPO[@ID=$RepoID])"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="'0'"/>
+						<xsl:value-of select="'RepositoryUnknown'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
@@ -2124,7 +2085,9 @@
 ************************************************************************ -->
 <!-- TODO enable it to handle non-Gregorian calendars -->
 <xsl:template match="DATE">
-	<xsl:value-of select="."/>
+	<Date Calendar="Gregorian">
+		<xsl:value-of select="."/>
+	</Date>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -2206,14 +2169,8 @@
 		<xsl:attribute name="Time">
 				<xsl:value-of select="DATE/TIME"/>
 		</xsl:attribute>
-		<!-- FIX? Technically this should probably be the Submitter, but since there can me
-			more than one SUBM in HEAD it is difficult to determine which SUBM to use-->
-		<Contact>
-			<Link Target="ContactRec" Ref="0"/>
-		</Contact>
-		<Note>
-			<xsl:apply-templates select="NOTE" mode="Changed"/>
-		</Note>
+
+		<xsl:apply-templates select="NOTE" mode="Changed"/>
 		
 	</Changed>
 </xsl:template>
@@ -2227,9 +2184,11 @@
 
 *********************************************************************** -->
 <xsl:template match="NOTE" mode="Changed">
-	<xsl:call-template name="handleCONCT"/>
-	<!-- Adds a single space pad-->
-	<xsl:text> </xsl:text>
+	<Note>
+		<xsl:call-template name="handleCONCT"/>
+		<!-- Adds a single space pad-->
+		<xsl:text> </xsl:text>
+	</Note>
 </xsl:template>
 <xsl:template match="NOTE[@REF]" mode="Changed">
 	<xsl:call-template name="handleCONCT"/>
@@ -2246,22 +2205,52 @@
 
 *********************************************************************** -->
 <xsl:template name="Submitter">
- 	<Submitter>
- 		<Link>
-			<xsl:attribute name="Target">ContactRec</xsl:attribute>
-			<xsl:attribute name="Ref">
-				<xsl:choose>
- 					<xsl:when test="../SUBM[@REF]">
- 						<xsl:variable name="SubmID" select="../SUBM/@REF"/>
- 						<xsl:value-of select="generate-id(//SUBM[@ID=$SubmID])"/>
- 					</xsl:when>
- 					<xsl:otherwise>
- 						<xsl:value-of select="'0'"/>
- 					</xsl:otherwise>
- 				</xsl:choose>
-			</xsl:attribute>
-		</Link>
- 	</Submitter>
+ 	<xsl:if test="SUBM">
+	 	<Submitter>
+	 		<Link>
+				<xsl:attribute name="Target">ContactRec</xsl:attribute>
+				<xsl:attribute name="Ref">
+					<xsl:variable name="SubmID" select="../SUBM/@REF"/>
+					<xsl:choose>
+						<xsl:when test="//SUBM[@ID=$SubmID]">
+	 						<xsl:value-of select="generate-id(//SUBM[@ID=$SubmID])"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'ContactUnknown'"/>
+						</xsl:otherwise>
+					</xsl:choose>
+	
+				</xsl:attribute>
+			</Link>
+	 	</Submitter>
+ 	</xsl:if>
 </xsl:template>
 
+
+<!-- **********************************************************************
+
+	makeDummySourceRec template - need for validity purposes because
+		there can be SOUR and OBJE tags translated to Evidence.Citations
+		which need Link elements but there is nothing to link them to
+
+*********************************************************************** -->
+
+<xsl:template name="makeDummySourceRec">
+	<SourceRec Id="SourceUnknown">
+		<Title>Source Unknown</Title>
+	</SourceRec>
+</xsl:template>
+<xsl:template name="makeDummyIndividualRec">
+	<IndividualRec Id="IndividualUnknown"/>
+</xsl:template>
+<xsl:template name="makeDummyContactRec">
+	<ContactRec Id="ContactUnknown">
+		<Name>Contact Unknown</Name>
+	</ContactRec>
+</xsl:template>
+<xsl:template name="makeDummyRepositoryRec">
+	<RepositoryRec Id="RepositoryUnknown">
+		<Name>Repository Unknown</Name>
+	</RepositoryRec>
+</xsl:template>
 </xsl:stylesheet>
