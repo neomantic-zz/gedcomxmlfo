@@ -1095,7 +1095,7 @@
 				contains( $NodeName, 'CENS')">
 			<xsl:apply-templates select="../CHIL" mode="Events"/>
 		</xsl:if>
-		<Date Calendar="Gregorian>
+		<Date Calendar="Gregorian">
 			<xsl:apply-templates select="DATE"/>
 		</Date>
 		<Place>
@@ -1131,7 +1131,7 @@
 			<xsl:attribute name="Ref">
 				<xsl:choose>
 					<xsl:when test="//INDI[@ID=$ChildID]">
-						<xsl:value-of select="generate-id(//INDI[@ID=$CHilID])"/>
+						<xsl:value-of select="generate-id(//INDI[@ID=$ChildID])"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="'0'"/>			
@@ -1876,7 +1876,7 @@
 						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 						<xsl:attribute name="Ref">
  							<xsl:choose>
- 								<xsl:when test="//INDI[@ID=$husbID]">
+ 								<xsl:when test="//INDI[@ID=$wifeID]">
  									<xsl:value-of select="generate-id(//INDI[@ID=$wifeID])"/>
  								</xsl:when>
  								<xsl:otherwise>
@@ -1904,7 +1904,7 @@
 
 		<xsl:call-template name="Submitter"/>
 
-		<xsl:apply-templates name="NOTE"/>
+		<xsl:apply-templates select="NOTE"/>
 		
 		<xsl:apply-templates select="SOUR">
 			<xsl:with-param name="evidenceKind" select="'the family'"/>
@@ -2232,7 +2232,7 @@
 	<xsl:text> </xsl:text>
 </xsl:template>
 <xsl:template match="NOTE[@REF]" mode="Changed">
-	<xsl:call-template name="handlCONCT"/>
+	<xsl:call-template name="handleCONCT"/>
 	<!-- Adds a single space pad-->
 	<xsl:text> </xsl:text>
 </xsl:template>
