@@ -6,11 +6,18 @@
 <!-- FIX this global variable doesn't work in the program I am using, 
 	however, correct it is in implementation -->
 <xsl:param name="FileCreationDate"/>
-<!--For Debugging -->
+
+<!-- For Debugging -->
+
 <xsl:template match="/">
 	<xsl:apply-templates select="//INDI"/>
 </xsl:template>
-<!-- Start at Root-->
+
+<!-- **********************************************************************
+
+	Root Template
+
+************************************************************************ -->
 <xsl:template match="what">
 	<GEDCOM>
  	<xsl:apply-templates select="//HEAD"/>
@@ -35,12 +42,13 @@
  	
  	</GEDCOM>
 </xsl:template>
-
-<!-- 
  
- Template from HEAD to create HeaderRec
+<!-- **********************************************************************
 
- -->
+	HEAD Template to create HeaderRec
+
+************************************************************************ -->
+
 <!-- Some of the mapping here are suspect because the SOUR tag purpose is ambiguous -->
 <xsl:template match="HEAD">
 	<HeaderRec>
@@ -84,18 +92,24 @@
 	</Caption>
 </xsl:template>
 
-<!-- 
 
-Template for INDI to IndividualRec
+<!-- **********************************************************************
 
- -->
+	INDI Template to create IndividualRec
+
+************************************************************************ -->
  <xsl:template match="INDI">
 	<IndividualRec>
 		<xsl:attribute name="Id">
 			<xsl:value-of select="generate-id()"/>
 		</xsl:attribute>
 		<xsl:apply-templates select="NAME"/>
-		<xsl:apply-templates select="SEX"/>
+		
+		<xsl:if test="SEX">
+			<Gender>
+				<xsl:value-of select="SEX"/>
+			</Gender>
+		</xsl:if>
 
 		<xsl:call-template name="persinfo"/>
 
@@ -107,11 +121,12 @@ Template for INDI to IndividualRec
 	</IndividualRec>
  </xsl:template><!-- end Template for INDI to IndividualRec -->
 
-<!-- 
 
- NAME Template for IndivName element
+<!-- **********************************************************************
 
- -->
+	NAME Template for IndivName elements
+
+************************************************************************ -->
  <xsl:template match="NAME">
 	<IndivName>
 	    	<xsl:choose>
@@ -176,22 +191,13 @@ Template for INDI to IndividualRec
 	</IndivName>
 </xsl:template><!-- end NAME template -->
  
-<!-- 
-Handles SEX tag to create Gender element
- -->
- 
-<xsl:template match="SEX">
- 	<Gender>
- 		<xsl:value-of select="."/>
- 	</Gender>
-</xsl:template>
- 
-<!-- 
 
-A call to this template creates all the EventRects (individual, family
-	and LDS events)
+<!-- **********************************************************************
 
- -->
+	EventRecs Template - call templates that create individual, family
+	and LDS EventRecs
+
+************************************************************************ -->
  
 <xsl:template name="EventRecs">
  	<!-- INDIVIDUAL_EVENT_STRUCTURE -->
@@ -234,10 +240,16 @@ A call to this template creates all the EventRects (individual, family
 //FAM/MARS"/>
 
 <!-- TODO Handle all other events LDS_INDIVIDUAL_ORDINANCE -->
-	
- </xsl:template>
-<!-- Handles all individual events besides BIRT-->
- <xsl:template match="DEAT|CHR|BURI|CREM|BAPM|BARM|BASM|BLES|CHRA|CONF|FCOM|ORDN|NATU|EMIG|IMMI|CENS|PROB|WILL|GRAD|RETI">
+</xsl:template><!-- end EventRecs template -->
+
+
+<!-- **********************************************************************
+
+	INDIVIDUAL_EVENT_STRUCTURE Template - creates all individual events 
+	except BIRTand ADOP
+
+************************************************************************ -->
+<xsl:template match="DEAT|CHR|BURI|CREM|BAPM|BARM|BASM|BLES|CHRA|CONF|FCOM|ORDN|NATU|EMIG|IMMI|CENS|PROB|WILL|GRAD|RETI">
  	
  	<xsl:variable name="tag" select="name()"/>
  	
@@ -328,14 +340,18 @@ A call to this template creates all the EventRects (individual, family
  					<xsl:value-of select="generate-id(..)"/>
  				</xsl:attribute>
  			</Link>
- 			<!-- DOC pointless element in translation at least -->
+ 			<!-- OP pointless element in translation at least -->
  			<Role>principal</Role>
- 			<!-- DOC I refuse to implement the Living element because it is pointless for the most part
- 				and the spec only implies that it is valid only for ordination -->
+ 			<!-- OP I refuse to implement the Living element because it is pointless for the most part
+ 				and the spec only implies that it is valid only for ordination; that is, only for
+				LDS events which can occur after death -->
  			<xsl:apply-templates select="AGE"/>
  		</Participant>
  		<xsl:apply-templates select="DATE"/>
+		
  		<xsl:apply-templates select="PLAC"/>
+		
+		<!-- Call templates that creates a MailAddress element in the form of <Place> element -->
  		<xsl:apply-templates select="ADDR" mode="Place"/>
  		<xsl:call-template name="addEvidence"/>
  		
@@ -345,11 +361,12 @@ A call to this template creates all the EventRects (individual, family
  	</EventRec>
  </xsl:template>
  
- <!-- Strictly speaking GEDCOM 6.0 XML makes no distinction between events associated individuals and
- 	other events.  But we begin parsing these 2 events within the INDI structure-->
- 
- <!-- Handles BIRT Tag-->
- <!-- DOC says how it handles BIRT event including bio mom -->
+<!-- **********************************************************************
+
+	BIRT Template
+
+************************************************************************ -->
+ <!-- DOC  - it handles BIRT event including bio mom -->
  <xsl:template match="BIRT">
  	<EventRec>
  		<xsl:attribute name="Id">
@@ -380,12 +397,21 @@ A call to this template creates all the EventRects (individual, family
  	</EventRec>
  </xsl:template><!-- End BIRT template -->
 
-<!-- DOC? Althougth the FAMC has been eliminated from GEDCOM XML 6.0, it will be helpful to locate
- 	other participants of a birth event.  The only guaranteed participant at this event would be the mother.  Although
- 	the husband made the birth (he or his sperm was/were definitely participant(s) at conception), the  father may be 
- 	absent from the event of the birth.  One drawback with this approach is that a birth of a father's child does not show
- 	up in the record of there life events.  There is one important caveat.  A child may have several mothers: one and 
- 	only one biological and several mothers by adoption -->		
+<!-- **********************************************************************
+
+	FAMC Template mode="BirthEvent" - handler meant to identify mother at
+		the birth event
+
+************************************************************************ -->
+<!-- DOC? Althougth the FAMC has been eliminated from GEDCOM XML 6.0, it will
+	be helpful to locate other participants of a birth event.  The only 
+	guaranteed participant at this event would be the mother.  Although
+ 	the husband made the birth (he or his sperm was/were definitely
+	participant(s) at conception), the  father may be absent from the event
+	of the birth.  One drawback with this approach is that a birth of a father's
+	child does not show up in the record of there life events.  There is one
+	important caveat.  A child may have several mothers: one and only one biological
+	and several mothers by adoption -->
 <xsl:template match="FAMC" mode="BirthEvent">
 	<xsl:variable name="FamilyID" select="@REF"/>
 	<xsl:if test="//FAM[@ID=$FamilyID]/WIFE">
@@ -402,7 +428,13 @@ A call to this template creates all the EventRects (individual, family
 	</xsl:if>
 </xsl:template>
 
- <!-- Handles ADOP Tag -->
+<!-- **********************************************************************
+
+	ADOP Template - this templates create an ADOP EventRect and attempts
+		to add the adoptive parents at the event, by call the FAMC template
+		in AdoptionEvent mode
+
+************************************************************************ -->
  <!-- DOC say how it handles adoption events -->
  <xsl:template match="ADOP">
  	<EventRec>
@@ -430,8 +462,16 @@ A call to this template creates all the EventRects (individual, family
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
  	</EventRec>
- </xsl:template><!-- End BIRT template -->
-		
+</xsl:template><!-- End BIRT template -->
+
+<!-- **********************************************************************
+
+	FAMC Template mode=AdoptionEvent - when called from the ADOP template
+		this template attempts to add the adoptive parents as the participants
+		to this event.  To do so, it test the value of the ADOP tag whose
+		valid values are HUSB, WIFE, or BOTH
+
+************************************************************************ -->
 <xsl:template match="FAMC" mode="AdoptionEvent">
 	<!-- Get Family Ref -->
 	<xsl:variable name="FamilyID" select="@REF"/>
@@ -487,7 +527,11 @@ A call to this template creates all the EventRects (individual, family
 	</xsl:if>
 </xsl:template>
 
- <!-- Handles the FAMILY_EVENT_STRUCTURE  -->
+<!-- **********************************************************************
+
+	FAMILY_EVENT_STRUCTURE Template
+
+************************************************************************ -->
  <xsl:template match="ANUL|CENS|DIV|DIVF|ENGA|MARR|MARB|MARC|MARL|MARS">
  	<xsl:variable name="tag" select="name()"/>
    	<EventRec>
@@ -597,44 +641,73 @@ A call to this template creates all the EventRects (individual, family
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
 	</EventRec>
- </xsl:template>
+</xsl:template>
 
 <xsl:template match="AGE">
 	<Age>
 		<xsl:value-of select="."/>
 	</Age>
 </xsl:template>
- 
- <!-- Handles CAUS of death tag.  GEDCOM 6.0 XML eliminates this tag, so we surround it in a note -->
- <xsl:template match="CAUS">
+
+<!-- **********************************************************************
+
+	CAUS Template - GEDCOM 6.0 XML eliminates this tag, but it is important
+		information.  To include with a individual it is surronded by a
+		Note element 
+
+************************************************************************ -->
+<!-- TODO - make sure this template gets called -->
+<xsl:template match="CAUS">
  	<Note><xsl:text>Cause of death:  </xsl:text>
  		<xsl:value-of select="."/>
  	</Note>
- </xsl:template>
- <!-- end templates related to death -->
- 
- <!-- Handles DATE tag -->
- <xsl:template match="DATE">
- 	<!-- TODO assumes all dates are Gregorian will need to adapt to handle others calendars -->
+</xsl:template>
+
+<!-- **********************************************************************
+
+	DATE Template - current implementations assumes that all dates are
+		Gregorian
+
+************************************************************************ -->
+<!-- TODO enable it to handle non-Gregorian calendars -->
+<xsl:template match="DATE">
+ 	
  	<Date Calendar="Gregorian">
 		<xsl:value-of select="."/>
  	</Date>
  </xsl:template>
- 
- <!-- Handles simple PLAC tag (ex. Fremont, Dodge County, Nebraska, USA) -->
- <!-- TODO? it may be possible to breakdown the above info into PlaceName elements given the Headers PLACE_HIERARCHY--> 
- <xsl:template match="PLAC">
+
+<!-- **********************************************************************
+
+	PLAC Template - handles a simple PLACE_VALUE of the comma delimited
+		form City, Township, County, State, USA - without breaking it 
+		down into PlaceParts
+
+************************************************************************ -->
+<!-- TODO? it may be possible to breakdown the above info into PlaceName 
+	elements given the HEAD's FORM PLACE_HIERARCHY value -->
+<xsl:template match="PLAC">
  	<Place>
  		<PlaceName>
  			<xsl:call-template name="handleCONCT"/>	
  		</PlaceName>
  	</Place>
- </xsl:template>
- 
- <xsl:template name="persinfo">
+</xsl:template>
+
+<!-- **********************************************************************
+
+	Persinfo Template - called to generate PersInfo elements
+
+************************************************************************ -->
+<xsl:template name="persinfo">
 	<xsl:apply-templates select="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL"/>
 </xsl:template>
 
+<!-- **********************************************************************
+
+	INDIVIDUAL_ATTRIBUTE_STRUCTURE Template - creates PersInfo elements
+
+************************************************************************ -->
 <xsl:template match="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL">
 	<xsl:variable name="tag" select="name()"/>
 	
@@ -693,7 +766,12 @@ A call to this template creates all the EventRects (individual, family
 	</PersInfo>
 </xsl:template>
 
+<!-- **********************************************************************
 
+	addEvidence Template - called to add Evidence elements that can only 
+		occur in IndividualRecs and EventRecs
+
+************************************************************************ -->
 <xsl:template name="addEvidence">
 	<xsl:for-each select="descendant-or-self::*">
 		<xsl:apply-templates select="SOUR"/>
@@ -701,13 +779,31 @@ A call to this template creates all the EventRects (individual, family
 	</xsl:for-each>
 </xsl:template>
 
+<!-- **********************************************************************
+
+	SourceRecs Template - called to call SOUR and OBJE templates needed to
+		create SourceRecs
+
+************************************************************************ -->
 <xsl:template name="SourceRecs">
-	<!-- If I decide to loop through all 5.5 Records searching for SOUR tag and create in their
-		place Link elements, skip the SOUR tag in the HEAD Record-->
   	<xsl:apply-templates select="//SOUR[@ID]"/>
   	<xsl:apply-templates select="//OBJE[@ID]"/>
-  </xsl:template>
-<!-- Handles simple GEDCOM SOUR_CITATION (no link)  -->
+</xsl:template>
+
+<!-- **********************************************************************
+
+	SOUR Template - Handles simple GEDCOM 5.5 SOUR_CITATION of the form
+	
+	n SOUR <SOURCE_DESCRIPTION>  {1:1}
+    	+1 [ CONC | CONT ] <SOURCE_DESCRIPTION>  {0:M}
+		+1 TEXT <TEXT_FROM_SOURCE>  {0:M}
+			+2 [CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+			+1 <<NOTE_STRUCTURE>>  {0:M}
+	
+	To handle this tag, the template create Evidence and its associated
+		elements
+
+************************************************************************ -->
 <!-- DOC should note where that the SOURCE_DESCRIPTION has been mapped to Caption Element -->
 <xsl:template match="SOUR">
 	<Evidence>
@@ -727,7 +823,26 @@ A call to this template creates all the EventRects (individual, family
  	</Evidence>
 </xsl:template>
 
-<!-- Handles GEDCOM 5.5 SOUR_CITATION (linked), i.e., SOUR @S2@ or GEDML <SOUR REF="S2"/> -->
+<!-- **********************************************************************
+
+	SOUR[@REF] Template - Handles GEDCOM 5.5 SOUR_CITATION of the form:
+
+	n SOUR @<XREF:SOUR>@    /* pointer to source record */  {1:1}
+	  	+1 PAGE <WHERE_WITHIN_SOURCE>  {0:1}
+		+1 EVEN <EVENT_TYPE_CITED_FROM>  {0:1}
+			+2 ROLE <ROLE_IN_EVENT>  {0:1}
+		+1 DATA        {0:1}
+			+2 DATE <ENTRY_RECORDING_DATE>  {0:1}
+			+2 TEXT <TEXT_FROM_SOURCE>  {0:M}
+				+3 [ CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+		+1 QUAY <CERTAINTY_ASSESSMENT>  {0:1}
+		+1 <<MULTIMEDIA_LINK>>  {0:M}
+		+1 <<NOTE_STRUCTURE>>  {0:M}
+	
+	To handle this tag, the template create Evidence and its associated
+		elements
+		
+************************************************************************ -->
 <!-- DOC Current implementationation discards the valid OBJE or OBJE @O1@ tag inside the SOUR. -->
 <!-- DOC should note that QUAY's CERTAINTY_ASSESMENT has been mapped to Note element -->
  <xsl:template match="SOUR[@REF]">
@@ -778,9 +893,14 @@ A call to this template creates all the EventRects (individual, family
 			</Note>
  		</Citation>
 	</Evidence>
- </xsl:template>
- 
- <!-- Handles GEDCOM SOURCE_RECORD, ie. "0 @S2@ SOUR" or GedML <SOUR ID="S2"> -->
+</xsl:template>
+
+<!-- **********************************************************************
+
+	SOUR[@ID] Template - handles SOURCE_RECORD - 0 @S2@ SOUR - and creates
+		SourceRecs
+
+************************************************************************ -->
  <xsl:template match="SOUR[@ID]">
  	<SourceRec>
  		<xsl:attribute name="Id">
@@ -800,25 +920,50 @@ A call to this template creates all the EventRects (individual, family
  		 <xsl:apply-templates select="CHAN"/>
 
  	</SourceRec>
- </xsl:template>
-  
+</xsl:template>
+
+<!-- **********************************************************************
+
+	TITL Template - despite the same GEDCOM 5.5 occuring as an
+		INDIVIDUAL_ATTRIBUTE, this template is intended to handle
+		SOURCE_DESCRIPTIVE_TITLE
+
+************************************************************************ -->  
 <xsl:template match="TITL">
 	<Title>
 		<xsl:call-template name="handleCONCT"/>
 	</Title>
 </xsl:template>
 
+<!-- **********************************************************************
+
+	AUTH Template - creates Author element
+
+*********************************************************************** -->
 <xsl:template match="AUTH">
 	<Author>
 		<xsl:call-template name="handleCONCT"/>
 	</Author>
 </xsl:template>
+
+<!-- **********************************************************************
+
+	AUTH Template - creates Publishing Element
+
+*********************************************************************** -->
 <xsl:template match="PUBL">
 	<Publishing>
 		<xsl:call-template name="handleCONCT"/>
 	</Publishing>
 </xsl:template>
 
+<!-- **********************************************************************
+
+	SOUR Template mode HeaderRec - the SOUR tag that occurs in the 
+		HEADER is unlike any of the other SOUR tags, so this templates
+		maps its values with valid HeaderRec elements and attributes
+
+*********************************************************************** -->
  <xsl:template match="SOUR" mode="HeaderRec">
  	<FileCreation>
  		<xsl:attribute name="Date">
@@ -868,20 +1013,32 @@ A call to this template creates all the EventRects (individual, family
 		</xsl:if>
  	</FileCreation>
  </xsl:template>
+
+<!-- **********************************************************************
+
+	EvidenceNote Template - call by the SOUR templates that create Evidence
+		elements
+
+*********************************************************************** -->
  
- <xsl:template name="EvidenceNote">
+<xsl:template name="EvidenceNote">
  	<xsl:text>Evidence regarding </xsl:text>
-		<!-- FIX will this work -->
+		<!-- FIX will this work? -->
 	<xsl:value-of select="name(..)"/>
- </xsl:template>
-  		
-<!-- MULTIMEDIA_RECORD -->
+</xsl:template>
+  
+<!-- **********************************************************************
+
+	OBJE[@ID] Template - handles MULTIMEDIA_RECORDs and creates SourceRecs
+
+*********************************************************************** -->
 <xsl:template match="OBJE[@ID]">
 	<SourceRec>
 		<xsl:attribute name="Id">
 			<xsl:value-of select="generate-id()"/>
 		</xsl:attribute>
-		<!-- In GEDCOM 5.5 there are only 7 permissable forms: bmp, gif, jpeg, ole, pcx, tiff, wav -->
+		<!-- In GEDCOM 5.5 there are only 7 permissible forms:
+				bmp, gif, jpeg, ole, pcx, tiff, wav -->
 		<xsl:if test="FORM">
 			<xsl:attribute name="Type">
 				<xsl:value-of select="FORM"/>
@@ -904,6 +1061,12 @@ A call to this template creates all the EventRects (individual, family
 	</SourceRec>
  </xsl:template>
 
+<!-- **********************************************************************
+
+	OBJE[@REF] Template - handle MULTIMEDIA_LINKs and creates Evidence
+		elements
+
+*********************************************************************** -->
 <xsl:template match="OBJE[@REF]">
 	<Evidence>
 		<Citation>
@@ -918,7 +1081,19 @@ A call to this template creates all the EventRects (individual, family
 	</Evidence>
 </xsl:template>
 
-<!-- Handle internal OBJE tags, ie. those that aren't links -->
+<!-- **********************************************************************
+
+	OBJE Template - handles MULTIMEDIA_LINKs that are not really links.
+	
+	n  OBJE           {1:1}
+    	+1 FORM <MULTIMEDIA_FORMAT>  {1:1}
+		+1 TITL <DESCRIPTIVE_TITLE>  {0:1}
+		+1 FILE <MULTIMEDIA_FILE_REFERENCE>  {1:1}
+		+1 <<NOTE_STRUCTURE>>  {0:M}
+
+	This template creates the Evidence element and its associates
+		
+*********************************************************************** -->
 <xsl:template match="OBJE">
 	<Evidence>
 		<Citation>	
@@ -938,9 +1113,13 @@ A call to this template creates all the EventRects (individual, family
 	</Evidence>
 </xsl:template>
 
+<!-- **********************************************************************
 
+	TEXT Template - handles TEXT tag pads CONT and CONC when they are 
+		eliminated
 
-<!-- Handles TEXT or TEXT_FROM_SOURCE -->
+*********************************************************************** -->
+
 <xsl:template match="TEXT">
 	<Extract>
 		<xsl:value-of select="text()"/>
@@ -960,11 +1139,23 @@ A call to this template creates all the EventRects (individual, family
 	</Extract>
 </xsl:template>
 
+<!-- **********************************************************************
+
+	ContactRecs Template - call to create ContactRec elements from the
+		//SUBM and //HEAD/SOUR/CORP tags
+
+*********************************************************************** -->
 <xsl:template name="ContactRecs">
 	<xsl:apply-templates select="//HEAD/SOUR/CORP"/>
   	<xsl:apply-templates select="//SUBM"/>
 </xsl:template>
 
+<!-- **********************************************************************
+
+	CORP Template - generates a ContactRect containing information about
+		the product used to create the GEDCOM 5.5 file
+
+*********************************************************************** -->
 <xsl:template match="CORP">
 	<ContactRec>
 		<xsl:attribute name="Id">
@@ -987,7 +1178,12 @@ A call to this template creates all the EventRects (individual, family
 	</ContactRec>
 </xsl:template>
 
-<!-- Handles SUBM Records of the form 0 @SUB1@ SUBM or gedml <SUBM ID="SUB1"> -->
+<!-- **********************************************************************
+
+	SUBM[@ID] Template - handles the SUBMITTER_RECORD and creates a
+		ContactRec
+
+*********************************************************************** -->
 <xsl:template match="SUBM[@ID]">
 	<ContactRec>
 		<xsl:attribute name="Id">
@@ -1001,6 +1197,7 @@ A call to this template creates all the EventRects (individual, family
 			<xsl:with-param name="PlaceName" select="NAME"/>
 		</xsl:apply-templates>
 		<xsl:apply-templates select="PHON"/>
+		
 		<!-- Handle OBJE hits as either a <Evidence> Element or as a SourceRec link -->
 		<xsl:apply-templates select="OBJE"/>
 		
