@@ -472,69 +472,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	</EventRec>
  </xsl:template>
  
- <xsl:template name="family-links">
- 	<xsl:apply-templates select="FAMC"/>
- 	<xsl:apply-templates select="FAMS"/>
- </xsl:template>
- <!-- not used in GEDCOM XML 6.0 Beta  where IndividualRecs are not linked to FamilyRecs, but
-   	its the other way around -->
- <xsl:template match="FAMC">
- 	<FamilyRec>
- 		<Child>
- 			<Link>
- 				<xsl:attribute name="Target">FamilyRec</xsl:attribute>
- 				<xsl:attribute name="Ref">
- 					<xsl:value-of select="@REF"/>
- 				</xsl:attribute>
- 			</Link>
- <!-- TODO handle sealing -->
- 			<xsl:choose>
- <!-- TEST to  determinine if ADOP handled correctly -->
- 				<xsl:when test="parent::ADOP">
- 					<xsl:element name="RelToMoth">adopted</xsl:element>
-					<xsl:element name="RelToFath">adopted</xsl:element>	
- 				</xsl:when>
-				<xsl:otherwise>
-					<xsl:element name="RelToMoth">biological</xsl:element>
-					<xsl:element name="RelToFath">biological</xsl:element>
-				</xsl:otherwise>
-			</xsl:choose>
- 		</Child>
- 		<!-- TODO handle SOUR and NOTE -->
- 	</FamilyRec>
- </xsl:template>
- 
- <!-- As of this implementation, when the FAMS template is called it creates both HusbFath and WifeMoth elements
- 	even when GEDCOM 5.5 strict they are optional (i.e., mother or father unknown) as it is in
- 	GEDCOM XML 6.0 beta
- -->
- <!-- not used in GEDCOM XML 6.0 Beta  where IndividualRecs are not linked to FamilyRecs, but
-   	its the other way around -->
- <xsl:template match="FAMSold">
- 	<xsl:variable name="Ref" select="@REF"/>
- 	<FamilyRec>
- 		<HusbFath>
- 			<Link>
- 				<xsl:attribute name="Target">
- 				<xsl:text>IndividualRec</xsl:text>
- 				</xsl:attribute>
- 				<xsl:attribute name="Ref">
- 					<xsl:value-of select="//FAM[@ID=$Ref]/HUSB/@REF"/>
- 				</xsl:attribute>
- 			</Link>
- 		</HusbFath>
- 		<WifeMoth>
- 			<Link>
- 			 	<xsl:attribute name="Target">
- 				<xsl:text>IndividualRec</xsl:text>
- 				</xsl:attribute>
- 				<xsl:attribute name="Ref">
-					<xsl:value-of select="//FAM[@ID=$Ref]/WIFE/@REF"/>
- 				</xsl:attribute>
- 			</Link>
- 		</WifeMoth>
- 	</FamilyRec>
- </xsl:template>
  
 <xsl:template match="CHAN">
 	<Change>
