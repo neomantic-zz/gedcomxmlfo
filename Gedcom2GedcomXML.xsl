@@ -7,9 +7,15 @@
 	however, correct it is in implementation -->
 <xsl:param name="FileCreationDate"/>
 
+<!-- TODO
+	* implement generic EVEN 
+       	* Check in AGE handle
+       	* Handle ALIA ?
+ -->
 <!-- For Debugging -->
 <xsl:template match="/">
-	<xsl:apply-templates select="//INDI"/>
+	<xsl:call-template name="EventRecs"/>
+	<xsl:apply-templates select="//FAM"/>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -172,13 +178,14 @@
 
 <!-- **********************************************************************
 ***************************************************************************
-**																		 **
+**										 **
 **	Templates related to the IndividualRecs and its associated elements	 ** 												
-**		* INDI -> <IndividualRec>										 **
-**		* NAME -> <IndivName>											 **
-**		* CAST, DSCR, EDUC, IDNO, NATI, NCHI, NMR, OCCU, 				 **
-**		  PROP, RELI, RESI, SSN, TITL -> <PersInfo>					 	 **
-**																		 **
+**		* INDI -> <IndividualRec>					 **
+**		* NAME -> <IndivName>					 **
+**		* CAST, DSCR, EDUC, IDNO, NATI, NCHI, NMR, OCCU, 	 **
+**		  PROP, RELI, RESI, SSN, TITL -> <PersInfo>			 **
+**		* AGE -> <Note>						 **
+**										 **								 **
 ***************************************************************************
 *********************************************************************** -->
 
@@ -219,17 +226,25 @@
 
 ************************************************************************ -->
 <xsl:template match="NAME">
+	<xsl:variable name="givenNameDone" select="false()"/>
+	<xsl:variable name="surnameDone" select="false()"/>
 	<IndivName>
 	    	<xsl:choose>
 		    <!-- if it is a name in the form of "First Name/Last Name/" -->
     		<xsl:when test="string-length(.) = 2 + string-length(translate(., '/', ''))">
     			<xsl:variable name="fullname" select="text()"/>
     			<xsl:if test="string-length(substring-before($fullname, '/')) &gt; 0">
+    				<xsl:variable name="givenNameDone">
+    					<xsl:value-of select="true"/>
+    				</xsl:variable>
 	    			<NamePart Type="given name" Level="3">
 		        			<xsl:value-of select="substring-before($fullname, '/')"/>        
         				</NamePart>
     			</xsl:if>
     			<xsl:if test="string-length(substring-before(substring-after($fullname,'/'), '/')) &gt; 0">
+    			    	<xsl:variable name="surnameDone">
+    					<xsl:value-of select="true()"/>
+    				</xsl:variable>
     				<NamePart Type="surname" Level="1">
      					<xsl:value-of select="substring-before(substring-after($fullname,'/'), '/')"/>			
      				</NamePart>
@@ -254,9 +269,11 @@
 			</NamePart>
 		</xsl:if>
 		<xsl:if test="GIVN">
-			<NamePart Type="given">
+			<xsl:if test="contains( givenNameDone, 'false' )">
+			<NamePart Type="given name" Level="3">
 				<xsl:value-of select="GIVN"/>
 			</NamePart>
+			</xsl:if>
 		</xsl:if>
 		<xsl:if test="NICK">
 			<NamePart Type="nickname">
@@ -264,12 +281,14 @@
 			</NamePart>
 		</xsl:if>
 		<xsl:if test="SPFX">
+			<xsl:if test="contains( surNameDone, 'false' )">
 			<NamePart Type="surname prefix">
 				<xsl:value-of select="SPFX"/>
 			</NamePart>
+			</xsl:if>
 		</xsl:if>
 		<xsl:if test="SURN">
-			<NamePart Type="surname">
+			<NamePart Type="surname" Level="1">
 				<xsl:value-of select="SURN"/>
 			</NamePart>
 		</xsl:if>
@@ -353,6 +372,7 @@
 		</Information>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
+		<xsl:apply-templates select="ADDR" mode="Place"/>
 	</PersInfo>
 </xsl:template>
 
@@ -400,7 +420,7 @@
 //INDI/PROB|
 //INDI/WILL|
 //INDI/GRAD|
-//INDI/RETI"/>
+//INDI/RETI" mode="Individual"/>
 	
 	<!-- FAMILY_EVENT_STRUCTURE -->
 	<xsl:apply-templates select="//FAM/ANUL|
@@ -412,15 +432,14 @@
 //FAM/MARB|
 //FAM/MARC|
 //FAM/MARL|
-//FAM/MARS"/>
+//FAM/MARS" mode="Family"/>
 
 <!-- TODO Handle all other events LDS_INDIVIDUAL_ORDINANCE -->
 </xsl:template><!-- end EventRecs template -->
 
 <!-- **********************************************************************
 
-	AGE Template - current implementations assumes that all dates are
-		Gregorian
+	AGE Template for Events
 
 ************************************************************************ -->
 <xsl:template match="AGE">
@@ -574,8 +593,9 @@
 
 ***************************************************************************
 ************************************************************************ -->
-<xsl:template match="DEAT|CHR|BURI|CREM|BAPM|BARM|BASM|BLES|CHRA|CONF|FCOM|ORDN|NATU|EMIG|IMMI|CENS|PROB|WILL|GRAD|RETI">
- 	
+<xsl:template match="DEAT|CHR|BURI|CREM|BAPM|BARM|BASM|BLES|CHRA|CONF|FCOM|ORDN|NATU|EMIG|IMMI|CENS|PROB|WILL|GRAD|RETI"
+ mode="Individual">
+ <!-- Added mode because of the CENS tag which can also be a Family Event -->
  	<xsl:variable name="tag" select="name()"/>
  	
  	<EventRec>
@@ -777,6 +797,10 @@
 			<Role>child</Role>
 		</Participant>
 		<!-- Add adoptive parents to the event -->
+		<!-- Handles the this tag structure
+		 	n ADOP
+		 	   +1 FAMC @F2@ 
+		 -->
 		<xsl:apply-templates select="FAMC" mode="AdoptionEvent"/>
 
 		<xsl:apply-templates select="DATE"/>
@@ -870,7 +894,8 @@
 
 ***************************************************************************
 ************************************************************************ -->
-<xsl:template match="ANUL|CENS|DIV|DIVF|ENGA|MARR|MARB|MARC|MARL|MARS">
+<xsl:template match="ANUL|CENS|DIV|DIVF|ENGA|MARR|MARB|MARC|MARL|MARS" mode="Family">
+ <!-- Added mode because of the CENS tag which can also be a Family Event -->
  	<xsl:variable name="tag" select="name()"/>
    	<EventRec>
  		<xsl:attribute name="Id">
@@ -909,30 +934,29 @@
 			</xsl:if>
  		</xsl:attribute>
 		
-		<!-- Sets VitalType attribute if it is possible -->
- 		<xsl:attribute name="VitalType">
-  			<xsl:if test="$tag = 'ANUL'">
-				<xsl:value-of select="'marriage'"/>
-			</xsl:if>
-			<xsl:if test="$tag = 'DIV'">
-				<xsl:value-of select="'divorce'"/>
-			</xsl:if>
-				<xsl:if test="$tag = 'MARR'">
-				<xsl:value-of select="'marriage'"/>
-			</xsl:if>
-			<xsl:if test="$tag = 'MARB'">
-				<xsl:value-of select="'marriage'"/>
-			</xsl:if>
-			<xsl:if test="$tag = 'MARC'">
-				<xsl:value-of select="'marriage'"/>
-			</xsl:if>
-			<xsl:if test="$tag = 'MARL'">
-				<xsl:value-of select="'marriage'"/>
-			</xsl:if>
-			<xsl:if test="$tag = 'MARS'">
-				<xsl:value-of select="'marriage'"/>
-			</xsl:if>
- 		</xsl:attribute>
+		<!-- Sets #IMPLIED VitalType attribute if it is possible -->
+  		<xsl:if test="$tag = 'ANUL'">
+			<xsl:attribute name="VitalType"><xsl:value-of select="'marriage'"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$tag = 'DIV'">
+			<xsl:attribute name="VitalType"><xsl:value-of select="'divorce'"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$tag = 'MARR'">
+			<xsl:attribute name="VitalType"><xsl:value-of select="'marriage'"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$tag = 'MARB'">
+			<xsl:attribute name="VitalType"><xsl:value-of select="'marriage'"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$tag = 'MARC'">
+			<xsl:attribute name="VitalType"><xsl:value-of select="'marriage'"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$tag = 'MARL'">
+			<xsl:attribute name="VitalType"><xsl:value-of select="'marriage'"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$tag = 'MARS'">
+			<xsl:attribute name="VitalType"><xsl:value-of select="'marriage'"/></xsl:attribute>
+		</xsl:if>
+ 		
  	 	
 	 	<xsl:if test="../HUSB">
  	 		<Participant>
@@ -1073,7 +1097,7 @@
 			<!-- Creates Extract element -->
 			<xsl:apply-templates select="TEXT"/>
 			<Note>
-				<xsl:text>This provides evidence for:  </xsl:text>
+				<xsl:text>Evidence regarding </xsl:text>
 				<!-- FIX will this work -->
 				<xsl:value-of select="name(..)"/>
 			</Note>
@@ -1351,24 +1375,24 @@
 
 <!-- **********************************************************************
 ***************************************************************************
-**																		 **
-**	Templates Related to ContactRecs and its associated elements		 **
-**		* CORP -> <ContactRec>											 **
-**		* SUBM[@ID] -> <ContactRec>										 **
-**		* ADDR -> <MailAddress>											 **
-**		* PHON -> <Phone>												 **
-**																		 **
+**										**								 **
+**	Templates Related to ContactRecs and its associated elements	**
+**		* CORP -> <ContactRec>					**
+**		* SUBM[@ID] -> <ContactRec>		           	**
+**		* ADDR -> <MailAddress>					**
+**		* PHON -> <Phone>						**
+**										**								 **
 ***************************************************************************
-***********************************************************************
+*********************************************************************** -->
 
 <!-- **********************************************************************
 ***************************************************************************
-
+	
 	ContactRecs Template - call to create ContactRec elements from the
 		//SUBM and //HEAD/SOUR/CORP tags
 
 ***************************************************************************
-*********************************************************************** -->
+************************************************************************-->
 <xsl:template name="ContactRecs">
 	<xsl:apply-templates select="//HEAD/SOUR/CORP"/>
   	<xsl:apply-templates select="//SUBM"/>
@@ -1549,52 +1573,6 @@
 	</Phone>
 </xsl:template>
  
-<!-- DOC  -->
-<!-- **********************************************************************
-
-	NOTE[@REF] Template - handles a linked NOTE_STRUCTURE or a 
-		reference to notes.  NOTE tags that reference a NOTE_RECORD will
-		not be linked in GEDCOM XML 6.0 because there is no mechanism for
-		that.  There contents will instead be place in the element which
-		referenced them.
-
-*********************************************************************** -->
-<xsl:template match="NOTE[@REF]">
-	<xsl:variable name="NoteID" select="@REF"/>
-	<xsl:apply-templates select="//NOTE[@ID=$NoteID]"/>
-</xsl:template>
-
-<!-- **********************************************************************
-***************************************************************************
-
-	NOTE[@REF] Template - handles a linked NOTE_STRUCTURE or a 
-		reference to notes.  NOTE tags that reference a NOTE_RECORD will
-		not be linked in GEDCOM XML 6.0 because there is no mechanism for
-		that.  There contents will instead be place in the element which
-		referenced them.
-
-***************************************************************************
-*********************************************************************** -->
-<xsl:template match="NOTE[@ID]">
-	<Note>
-		<xsl:call-template name="handleCONCT"/>
-	</Note>
-</xsl:template>
-
-<!-- **********************************************************************
-
-	NOTE Template - handles a "simple" NOTE_STRUCTURE which simply 
-		contains SUBMITTER_TEXT and CONC/CONT tags.  This template
-		ignores the SOUR element, but this info will be captured in the
-		SOUR sweep
-
-*********************************************************************** -->
-<xsl:template match="NOTE">
-	<Note>
-		<xsl:call-template name="handleCONCT"/>
-	</Note>
-</xsl:template>
-
 <!-- **********************************************************************
 ***************************************************************************
 **																		 **
@@ -1615,20 +1593,6 @@
 ***************************************************************************
 *********************************************************************** -->
 <xsl:template match="FAM">
-	<!-- First Create/get the  HUSB and WIFE ids, if they exist -->
-	<xsl:variable name="HusbID">
-		<xsl:if test="HUSB">
-			<xsl:variable name="husbRef" select="HUSB/@REF"/>
-			<xsl:value-of select="generate-id(//INDI[@ID=$husbRef])"/>
-		</xsl:if>
-	</xsl:variable>
-	<xsl:variable name="WifeID">
-		<xsl:if test="WIFE">
-			<xsl:variable name="wifeRef" select="WIFE/@REF"/>
-			<xsl:value-of select="generate-id(//INDI[@ID=$wifeRef])"/>
-		</xsl:if>
-	</xsl:variable>
-
 	<FamilyRec>
 		<xsl:attribute name="Id">
 			<xsl:value-of select="generate-id()"/>
@@ -1638,8 +1602,8 @@
 					<Link>
 						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					 	<xsl:attribute name="Ref">
- 							<xsl:variable name="husbRef" select="HUSB/@REF"/>
-							<xsl:value-of select="generate-id(//INDI[@ID=$husbRef])"/>
+ 							<xsl:variable name="husbID" select="HUSB/@REF"/>
+							<xsl:value-of select="generate-id(//INDI[@ID=$husbID])"/>
  						</xsl:attribute>
  					</Link>
 				</HusbFath>
@@ -1649,8 +1613,8 @@
 					<Link>
 						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
  						<xsl:attribute name="Ref">
-							<xsl:variable name="wifeRef" select="WIFE/@REF"/>
-							<xsl:value-of select="generate-id(//INDI[@ID=$wifeRef])"/>
+							<xsl:variable name="wifeID" select="WIFE/@REF"/>
+							<xsl:value-of select="generate-id(//INDI[@ID=$wifeID])"/>
   						</xsl:attribute>
   					</Link>
 				</WifeMoth>
@@ -1684,17 +1648,17 @@
 
 *********************************************************************** -->
 <xsl:template match="CHIL">
+	<xsl:variable name="childID" select="@REF"/>
 	<Child>	
 		<Link>
 			<xsl:attribute name="Target">IndividualRec</xsl:attribute>
  			<xsl:attribute name="Ref">
- 				<xsl:variable name="childID" select="@REF"/>
 				<xsl:value-of select="generate-id(//INDI[@ID=$childID])"/>
 			</xsl:attribute>
 		</Link>
 			<xsl:choose>
  <!-- FIX this doesn't work -->
- 				<xsl:when test="//INDI[@ID=@REF]/ADOP">
+ 				<xsl:when test="//INDI[@ID=$childID]/ADOP">
  					<xsl:element name="RelToMoth">adopted</xsl:element>
 					<xsl:element name="RelToFath">adopted</xsl:element>	
  				</xsl:when>
@@ -1779,13 +1743,61 @@
 ***************************************************************************
 **																		 **
 **	Templates Applicable for multiple records or different elements		 **
-**		* CONT, CONC
+**		* NOTE[@REF] -> <Note>											 **
+**		* NOTE[@ID] -> <Note>											 **
+**		* CONT, CONC													 **
 **		* DATE -> <Date>												 **
 **		* RIN, RFN, AFN, REFN -> <ExternalID>							 **
 **		* CHAN -> <Changed>												 **
 **																		 **
 ***************************************************************************
 *********************************************************************** -->
+
+<!-- DOC  -->
+<!-- **********************************************************************
+
+	NOTE[@REF] Template - handles a linked NOTE_STRUCTURE or a 
+		reference to notes.  NOTE tags that reference a NOTE_RECORD will
+		not be linked in GEDCOM XML 6.0 because there is no mechanism for
+		that.  There contents will instead be place in the element which
+		referenced them.
+
+*********************************************************************** -->
+<xsl:template match="NOTE[@REF]">
+	<xsl:variable name="NoteID" select="@REF"/>
+	<xsl:apply-templates select="//NOTE[@ID=$NoteID]"/>
+</xsl:template>
+
+<!-- **********************************************************************
+***************************************************************************
+
+	NOTE[@REF] Template - handles a linked NOTE_STRUCTURE or a 
+		reference to notes.  NOTE tags that reference a NOTE_RECORD will
+		not be linked in GEDCOM XML 6.0 because there is no mechanism for
+		that.  There contents will instead be place in the element which
+		referenced them.
+
+***************************************************************************
+*********************************************************************** -->
+<xsl:template match="NOTE[@ID]">
+	<Note>
+		<xsl:call-template name="handleCONCT"/>
+	</Note>
+</xsl:template>
+
+<!-- **********************************************************************
+
+	NOTE Template - handles a "simple" NOTE_STRUCTURE which simply 
+		contains SUBMITTER_TEXT and CONC/CONT tags.  This template
+		ignores the SOUR element, but this info will be captured in the
+		SOUR sweep
+
+*********************************************************************** -->
+<xsl:template match="NOTE">
+	<Note>
+		<xsl:call-template name="handleCONCT"/>
+	</Note>
+</xsl:template>
 
 <!-- **********************************************************************
 
