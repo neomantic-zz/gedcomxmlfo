@@ -13,10 +13,9 @@
        	* Handle ALIA ?
  -->
 <!-- For Debugging -->
-<xsl:template match="debug">
+<xsl:template match="/">
 <!-- <xsl:call-template name="EventRecs"/> -->
-	<xsl:apply-templates select="//FAM"/>
-	<xsl:call-template name="EventRecs"/>
+	<xsl:apply-templates select="//INDI"/>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -26,7 +25,7 @@
 
 ***************************************************************************
 ************************************************************************ -->
-<xsl:template match="/">
+<xsl:template match="real">
 	<GEDCOM>
  	<xsl:apply-templates select="//HEAD"/>
  	<xsl:apply-templates select="//FAM"/>
@@ -164,7 +163,6 @@
 	is possibly part of the Citation element in the HeaderRec
 
 ************************************************************************ -->
-<!-- FIX check if this is needed -->
 <xsl:template match="DATA" mode="HeaderRec">
 	<Caption>
 		<xsl:value-of select="text()"/>
@@ -173,14 +171,16 @@
 
 <!-- **********************************************************************
 ***************************************************************************
-**										 **
+**																		 **
 **	Templates related to the IndividualRecs and its associated elements	 ** 												
-**		* INDI -> <IndividualRec>					 **
-**		* NAME -> <IndivName>					 **
-**		* CAST, DSCR, EDUC, IDNO, NATI, NCHI, NMR, OCCU, 	 **
-**		  PROP, RELI, RESI, SSN, TITL -> <PersInfo>			 **
-**		* AGE -> <Note>						 **
-**										 **								 **
+**		* INDI -> <IndividualRec>										 **
+**		* NAME -> <IndivName>					 						 **
+**		* FAMS -> For Wife Husband's Surname							 **
+**		* NAME mode=Surname -> For Wife Husband's Surname				 **
+**		* CAST, DSCR, EDUC, IDNO, NATI, NCHI, NMR, OCCU, 				 **
+**		  PROP, RELI, RESI, SSN, TITL -> <PersInfo>						 **
+**		* AGE -> <Note>						 							 **
+**										 								 **
 ***************************************************************************
 *********************************************************************** -->
 
@@ -196,7 +196,9 @@
 		<xsl:attribute name="Id">
 			<xsl:value-of select="generate-id()"/>
 		</xsl:attribute>
-		<xsl:apply-templates select="NAME"/>
+		<xsl:apply-templates select="NAME">
+			<xsl:with-param name="Gender" select="SEX"/>
+		</xsl:apply-templates>
 		
 		<xsl:if test="SEX">
 			<Gender>
@@ -225,80 +227,143 @@
 
 ************************************************************************ -->
 <xsl:template match="NAME">
-	<xsl:variable name="givenNameDone" select="false()"/>
-	<xsl:variable name="surnameDone" select="false()"/>
+	<xsl:param name="Gender" select="'M'"/><!-- Default to Male-->
+
+	<xsl:variable name="fullname" select="normalize-space( text() )"/>
+	
 	<IndivName>
-	    	<xsl:choose>
-		    <!-- if it is a name in the form of "First Name/Last Name/" -->
-    		<xsl:when test="string-length(.) = 2 + string-length(translate(., '/', ''))">
-    			<xsl:variable name="fullname" select="text()"/>
-    			<xsl:if test="string-length(substring-before($fullname, '/')) &gt; 0">
-    				<xsl:variable name="givenNameDone">
-    					<xsl:value-of select="true"/>
-    				</xsl:variable>
-	    			<NamePart Type="given name" Level="3">
-		        			<xsl:value-of select="substring-before($fullname, '/')"/>        
-        				</NamePart>
-    			</xsl:if>
-    			<xsl:if test="string-length(substring-before(substring-after($fullname,'/'), '/')) &gt; 0">
-    			    	<xsl:variable name="surnameDone">
-    					<xsl:value-of select="true()"/>
-    				</xsl:variable>
-    				<NamePart Type="surname" Level="1">
-     					<xsl:value-of select="substring-before(substring-after($fullname,'/'), '/')"/>			
-     				</NamePart>
-			</xsl:if>
-     			<xsl:if test="string-length(substring-after(substring-after($fullname,'/'), '/')) &gt; 0">
-     				<NamePart Type="suffix">
- 	        				<xsl:value-of select="substring-after(substring-after($fullname,'/'), '/')"/>
- 	        			</NamePart>
-     			</xsl:if>
-         		</xsl:when>
-		<xsl:otherwise>
-			<NamePart>
-				<xsl:attribute name="Type">whole name</xsl:attribute>
-				<xsl:value-of select="."/>
-			</NamePart>
-		</xsl:otherwise>
-     		</xsl:choose>
-     		<!-- handle NPFX GIVN SPFX SURN and NSFX -->
-		<xsl:if test="NPFX">
-			<NamePart Type="prefix">
-				<xsl:value-of select="NPFX"/>
-			</NamePart>
-		</xsl:if>
-		<xsl:if test="GIVN">
-			<xsl:if test="contains( givenNameDone, 'false' )">
-			<NamePart Type="given name" Level="3">
-				<xsl:value-of select="GIVN"/>
-			</NamePart>
-			</xsl:if>
-		</xsl:if>
-		<xsl:if test="NICK">
-			<NamePart Type="nickname">
-				<xsl:value-of select="NICK"/>
-			</NamePart>
-		</xsl:if>
-		<xsl:if test="SPFX">
-			<xsl:if test="contains( surNameDone, 'false' )">
-			<NamePart Type="surname prefix">
-				<xsl:value-of select="SPFX"/>
-			</NamePart>
-			</xsl:if>
-		</xsl:if>
-		<xsl:if test="SURN">
-			<NamePart Type="surname" Level="1">
-				<xsl:value-of select="SURN"/>
-			</NamePart>
-		</xsl:if>
-		<xsl:if test="NSFX">
-			<NamePart Type="suffix">
-				<xsl:value-of select="NSFX"/>
-			</NamePart>
-		</xsl:if>
- 
+
+ 			<xsl:choose>
+ 			 	<xsl:when test="SURN">
+ 			 		<xsl:if test="$Gender = 'M' ">
+ 						<NamePart Type="surname" Level="1">
+ 							<xsl:value-of select="SURN"/>
+ 						</NamePart>
+ 					</xsl:if>
+ 					<xsl:if test="$Gender= 'F'">
+ 						<NamePart Type="maiden name" Level="2">
+ 							<xsl:value-of select="SURN"/>
+ 						</NamePart> 						
+						<xsl:apply-templates select="../FAMS[@REF]"/>
+ 					</xsl:if>
+ 				 </xsl:when>
+				 
+ 				 <xsl:otherwise>
+ 				 	<xsl:if test="$Gender = 'M'">
+ 				 		<xsl:if test="string-length(substring-before(substring-after($fullname,'/'), '/')) &gt; 0">			
+							<NamePart Type="surname" Level="1">
+								<xsl:value-of select="substring-before(substring-after($fullname,'/'), '/')"/>			
+							</NamePart>
+						</xsl:if>
+					</xsl:if>
+					 <xsl:if test="$Gender = 'F'">
+					 	 <xsl:if test="string-length(substring-before(substring-after($fullname,'/'), '/')) &gt; 0">			
+							<NamePart Type="maiden name" Level="2">
+								<xsl:value-of select="substring-before(substring-after($fullname,'/'), '/')"/>			
+							</NamePart>
+						</xsl:if>
+						<xsl:apply-templates select="../FAMS[@REF]"/>
+ 					</xsl:if>
+ 				 </xsl:otherwise>
+ 			</xsl:choose>
+ 			 			
+ 			<xsl:choose>
+ 	 			<xsl:when test="GIVN">
+ 					<NamePart Type="given name" Level="3">
+ 						<xsl:value-of select="GIVN"/>
+ 					</NamePart>
+ 				</xsl:when>
+ 				<xsl:otherwise>
+ 					<xsl:if test="string-length(substring-before($fullname, '/')) &gt; 0">		    			
+						<NamePart Type="given name" Level="3">
+							<xsl:value-of select="substring-before($fullname, '/')"/>        
+						</NamePart>
+					</xsl:if>
+ 				</xsl:otherwise>
+ 			</xsl:choose>
+
+ 					
+		    	<xsl:if test="NPFX">
+ 				<NamePart Type="prefix">
+ 					<xsl:value-of select="NPFX"/>
+ 				</NamePart>
+ 			</xsl:if>
+ 			
+ 			<xsl:if test="SPFX">
+ 				<NamePart Type="surname prefix">
+ 					<xsl:value-of select="SPFX"/>
+ 				</NamePart>
+ 			</xsl:if>
+
+			<xsl:choose>
+ 				<xsl:when test="NSFX">
+	 				<NamePart Type="suffix">
+	 					<xsl:value-of select="NSFX"/>
+	 				</NamePart>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:if test="string-length(substring-after(substring-after($fullname,'/'), '/')) &gt; 0">
+						<NamePart Type="suffix">
+							<xsl:value-of select="substring-after(substring-after($fullname,'/'), '/')"/>
+						</NamePart>
+					</xsl:if>
+				</xsl:otherwise>
+			</xsl:choose>
+
+ 			<xsl:if test="NICK">
+ 				<NamePart Type="nickname">
+ 					<xsl:value-of select="normalize-space( NICK )"/>
+ 				</NamePart>
+ 			</xsl:if>
+	<!-- Would love to find a way to just dump text() into the IndiviName if all the above
+		conditionals failed -->
+
 	</IndivName>
-</xsl:template><!-- end NAME template -->
+</xsl:template>
+<!-- **********************************************************************
+
+	FAMS Template for tracing out a female's husband's surname
+
+************************************************************************ -->
+<xsl:template match="FAMS[@REF]">
+	
+	<xsl:variable name="FamID" select="@REF"/>
+	
+	<xsl:variable name="HusbID" select="//FAM[@ID = $FamID]/HUSB/@REF"/>
+
+	<xsl:if test="$HusbID">
+		<NamePart Type="surname" Level="1">
+			<xsl:apply-templates select="//INDI[@ID = $HusbID]/NAME" mode="Surname"/>
+		</NamePart>
+	</xsl:if>
+</xsl:template>
+
+<!-- **********************************************************************
+
+	NAME Template which returns on the Surname - for use when INDI is a
+		female and the surname of her husband is needed
+
+************************************************************************ -->
+<xsl:template match="NAME" mode="Surname">
+
+	<xsl:choose>
+		<xsl:when test="SURN">
+			<xsl:value-of select="SURN"/>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:variable name="fullname" select="text()"/>
+			<xsl:if test="string-length(.) = 2 + string-length(translate(., '/', ''))">
+				<xsl:if test="string-length(substring-before(substring-after($fullname,'/'), '/')) &gt; 0">
+					<xsl:if test="contains( surnameDone, 'false' )">
+						<NamePart Type="surname" Level="1">
+							<xsl:value-of select="substring-before(substring-after($fullname,'/'), '/')"/>			
+						</NamePart>
+					</xsl:if>
+				</xsl:if>
+			</xsl:if>		
+		</xsl:otherwise>
+	</xsl:choose>
+</xsl:template>
  
 <!-- **********************************************************************
 
@@ -437,7 +502,11 @@
 //FAM/MARL|
 //FAM/MARS" mode="Family"/>
 
+	<xsl:apply-templates select="//INDI/EVEN" mode="Individual"/>
+	<xsl:apply-templates select="//FAM/EVEN" mode="Family"/>
+
 <!-- TODO Handle all other events LDS_INDIVIDUAL_ORDINANCE -->
+
 </xsl:template><!-- end EventRecs template -->
 
 <!-- **********************************************************************
@@ -582,7 +651,7 @@
 		<xsl:choose>
 	 		<xsl:when test="self::ADR1">
 	 				<!-- DOC street name is not localized -->
-	 			<PlacePart Level="6" Type="street name">
+	 			<PlacePart Level="7" Type="street name">
 	 				<xsl:value-of select="self::ADR1"/>
 	 			</PlacePart>					
 	 		</xsl:when>
@@ -640,7 +709,8 @@
 **		* BIRT -> <EventRec>											 **
 **	 	* ADOP -> <EventRec>											 **
 **		* FAMC -> <Participants> in birth and adoption events			 **
-**																		 **
+**		* EVEN ->  <EventRect>
+**																				 **
 ***************************************************************************
 *********************************************************************** -->
 
@@ -769,6 +839,7 @@
  	</EventRec>
 </xsl:template>
  
+
 <!-- **********************************************************************
 
 	BIRT Template
@@ -985,12 +1056,53 @@
 </xsl:template>
 
 <!-- **********************************************************************
+
+	EVEN Template for Individual Events
+
+************************************************************************ -->
+<xsl:template match="EVEN" mode="Individual">
+ 	<EventRec>
+ 		 <xsl:attribute name="Id">
+ 			<xsl:value-of select="generate-id()"/>
+ 		</xsl:attribute>
+ 		<xsl:attribute name="Type">
+ 			<xsl:value-of select="TYPE"/>
+ 		</xsl:attribute>
+ 		<Participant>
+ 			<Link>
+ 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+ 				<xsl:attribute name="Ref">
+					<xsl:value-of select="generate-id(..)"/>
+				</xsl:attribute>
+				<Role>Principal</Role>
+				<xsl:apply-templates select="AGE"/>
+ 			</Link>
+ 		</Participant>
+ 		
+ 		<xsl:apply-templates select="DATE"/>
+ 		
+ 		<xsl:call-template name="addEventPlace"/>
+ 		
+ 		<xsl:call-template name="Submitter"/>
+ 		
+ 		<xsl:apply-templates select="NOTE"/>
+ 		
+ 		<xsl:call-template name="addEventEvidence"/>
+ 		
+ 		<!-- Since this event is created from the INDI record we assign this the same
+				Change element as it has -->
+		<xsl:apply-templates select="../CHAN"/>
+ 	</EventRec>
+</xsl:template>
+
+<!-- **********************************************************************
 ***************************************************************************
 **																		 **
 **	Templates related to the Family Events and its associated elements	 ** 												
 **		* ANUL, CENS, DIV, DIVF, ENGA, MARR, MARB, 						 **
 **		  MARC, MARL, MARS ->  <EventRec>								 **
 **		* CHIL -> <Participant>	in divorce and census events			 **
+**		* EVEN - <EventRec>
 **																		 **
 ***************************************************************************
 *********************************************************************** -->
@@ -1124,7 +1236,7 @@
  		<xsl:call-template name="Submitter"/>
 		<xsl:apply-templates select="NOTE"/>
 		<xsl:call-template name="addEventEvidence"/>
-			<!-- Since this event is created from the INDI record we assign this the same
+			<!-- Since this event is created from the FAM record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
 	</EventRec>
@@ -1159,6 +1271,83 @@
 		<Role>child</Role>
 	</Participant>
 </xsl:template>
+
+<!-- **********************************************************************
+
+	EVEN Template for Family Events
+
+************************************************************************ -->
+
+<xsl:template match="EVEN" mode="Family">
+ 	<EventRec>
+ 		 <xsl:attribute name="Id">
+ 			<xsl:value-of select="generate-id()"/>
+ 		</xsl:attribute>
+ 		<xsl:attribute name="Type">
+ 			<xsl:value-of select="TYPE"/>
+ 		</xsl:attribute>
+ 	 	<xsl:if test="../HUSB">
+	 		<xsl:variable name="HusbID" select="../HUSB/@REF"/>
+ 	 		<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:choose>
+							<xsl:when test="//INDI[@ID=$HusbID]">
+								<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="IndividualUnknown"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+				</Link>
+				<Role>husband</Role>
+				<xsl:apply-templates select="HUSB/AGE"/>
+			</Participant>
+		</xsl:if>
+		 <xsl:if test="../WIFE">
+		 	<xsl:variable name="WifeID" select="../WIFE/@REF"/>
+ 	 		<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:choose>
+							<xsl:when test="//INDI[@ID=$WifeID]">
+								<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="'IndividualUnknown'"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+				</Link>
+				<Role>wife</Role>
+				<xsl:apply-templates select="WIFE/AGE"/>
+			</Participant>
+		</xsl:if>
+
+		<!-- DOC Assumes that all EVEN that occure in a FAM apply to all children of the FAM -->
+		<xsl:apply-templates select="../CHIL" mode="Events"/>
+
+	
+ 		<xsl:apply-templates select="DATE"/>
+ 		
+ 		<xsl:call-template name="addEventPlace"/>
+ 		
+ 		<xsl:call-template name="Submitter"/>
+ 		
+ 		<xsl:apply-templates select="NOTE"/>
+ 		
+ 		<xsl:call-template name="addEventEvidence"/>
+ 		
+ 		<!-- Since this event is created from the FAM record we assign this the same
+				Change element as it has -->
+		<xsl:apply-templates select="../CHAN"/>
+ 	</EventRec>
+</xsl:template> 
+
+
 
 <!-- **********************************************************************
 ***************************************************************************
@@ -1265,9 +1454,6 @@
 			<Caption>
 				<xsl:call-template name="handleCONCT"/>
 			</Caption>
-			<!-- These must be included, but there is nothing to map them to-->
-			<WhereInSource/>
-			<WhenRecorded/>
 			
 			<!-- Creates Extract element -->
 			<xsl:apply-templates select="TEXT"/>
@@ -1332,18 +1518,24 @@
 				</Caption>
  			</xsl:if>
  			 
- 			<WhereInSource>
- 				<xsl:text>Page: </xsl:text>
- 				<xsl:value-of select="PAGE"/>
- 			</WhereInSource>
+ 			 <xsl:if test="PAGE">
+	  			<WhereInSource>
+	 				<xsl:text>Page: </xsl:text>
+	 				<xsl:value-of select="PAGE"/>
+	 			</WhereInSource>			 
+ 			 </xsl:if>
+
  			
  			<!-- DOC no caption element because not clear what to map it to -->
  			<!-- //SOUR[@ID]/DATA/DATE indicates a DATE_PERIOD - FROM date TO date, so this
  				won't be used for a WhenRecorded element -->
 
- 			<WhenRecorded>
- 				<xsl:value-of select="DATA/DATE"/>
- 			</WhenRecorded>
+			<xsl:if test="DATA/DATE">
+				<WhenRecorded>
+ 					<xsl:value-of select="DATA/DATE"/>
+ 				</WhenRecorded>			
+			</xsl:if>
+ 
  			
  			<!-- Specific extract from the DATA of the SOUR record -->
  			<xsl:if test="DATA/TEXT">
@@ -1509,13 +1701,13 @@
 				</Caption>
 			</xsl:if>
 			
-			
-			<!-- Must be Include but nothing to map it to-->
-			<WhereInSource/>
-			
-			<WhenRecorded>
-				<xsl:value-of select="//OBJE[@ID=$ObjeID]/SOUR[@REF]/DATA/DATE"/>
-			</WhenRecorded>
+
+			<xsl:if test="//OBJE[@ID=$ObjeID]/SOUR[@REF]/DATA/DATE">
+				<WhenRecorded>
+					<xsl:value-of select="//OBJE[@ID=$ObjeID]/SOUR[@REF]/DATA/DATE"/>
+				</WhenRecorded>			
+			</xsl:if>
+
 			<xsl:apply-templates select="NOTE"/>
 			
 			<xsl:if test="$evidenceKind != ''">
@@ -1553,8 +1745,6 @@
 					<xsl:value-of select="TITL"/>
 				</Caption>			
 			</xsl:if>
-			<WhereInSource/>
-			<WhenRecorded/>
 			<xsl:apply-templates select="NOTE"/>
 			<xsl:if test="$evidenceKind != ''">
 				<Note>
@@ -2165,7 +2355,6 @@
 				</xsl:when>
 			</xsl:choose>
 		</xsl:for-each>
-		<!-- FIX This is a hack since I can't figure out how to loop into the TIME element/tag -->
 		<xsl:attribute name="Time">
 				<xsl:value-of select="DATE/TIME"/>
 		</xsl:attribute>
