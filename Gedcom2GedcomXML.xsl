@@ -11,8 +11,14 @@
 IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:output method="xml" indent="yes"/>
 <!-- TODO add param to set the Type attribute in the ExternalID -->
-<!-- Start at Root-->
+<!--For Debugging -->
 <xsl:template match="/">
+	<xsl:apply-templates select="//FAM"/>
+	<xsl:apply-templates select="//FAM/MARR"/>
+	<xsl:apply-templates select="//INDI"/>
+</xsl:template>
+<!-- Start at Root-->
+<xsl:template name="full">
 	<GEDCOM>
  	<xsl:apply-templates select="//HEAD"/>
  	<xsl:apply-templates select="//FAM"/>
@@ -162,10 +168,44 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  </xsl:template><!-- end NICK template -->
  
  <xsl:template name="Events">
- 
+ 	<!-- INDIVIDUAL_EVENT_STRUCTURE -->
 	<xsl:apply-templates select="//INDI/BIRT"/>
 	<xsl:apply-templates select="//INDI/DEAT"/>
- 
+	<xsl:apply-templates select="//INDI/CHR"/>
+	<xsl:apply-templates select="//INDI/BURI"/>
+	<xsl:apply-templates select="//INDI/CREM"/>
+	<xsl:apply-templates select="//INDI/ADOP"/>
+	<xsl:apply-templates select="//INDI/BAPM"/>
+	<xsl:apply-templates select="//INDI/BARM"/>
+	<xsl:apply-templates select="//INDI/BASM"/>
+	<xsl:apply-templates select="//INDI/BLES"/>
+	<xsl:apply-templates select="//INDI/CHRA"/>
+	<xsl:apply-templates select="//INDI/CONF"/>
+	<xsl:apply-templates select="//INDI/FCOM"/>
+	<xsl:apply-templates select="//INDI/ORDN"/>
+	<xsl:apply-templates select="//INDI/NATU"/>
+	<xsl:apply-templates select="//INDI/EMIG"/>
+	<xsl:apply-templates select="//INDI/IMMI"/>
+	<xsl:apply-templates select="//INDI/CENS"/>
+	<xsl:apply-templates select="//INDI/PROB"/>
+	<xsl:apply-templates select="//INDI/WILL"/>
+	<xsl:apply-templates select="//INDI/GRAD"/>
+	<xsl:apply-templates select="//INDI/RETI"/>
+	
+	<!-- FAMILY_EVENT_STRUCTURE -->
+	<xsl:apply-templates select="//FAM/ANUL"/>
+	<xsl:apply-templates select="//FAM/CENS"/>
+	<xsl:apply-templates select="//FAM/DIV"/>
+	<xsl:apply-templates select="//FAM/DIVF"/>
+	<xsl:apply-templates select="//FAM/ENGA"/>
+	<xsl:apply-templates select="//FAM/MARR"/>
+	<xsl:apply-templates select="//FAM/MARB"/>
+	<xsl:apply-templates select="//FAM/MARC"/>
+	<xsl:apply-templates select="//FAM/MARL"/>
+	<xsl:apply-templates select="//FAM/MARS"/>
+
+	<!-- TODO Handle all other events -->
+	
  </xsl:template>
 
  
@@ -427,11 +467,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</Particpant>
 </xsl:template>
 
- <xsl:template name="otherevents">
- 	<xsl:apply-templates select="BAPM"/>
- 	<xsl:apply-templates select="CONF"/>
- 	<xsl:apply-templates select="IMMI"/>
- </xsl:template>
+
  <xsl:template match="BAPM">
  	<EventRec>
  		<xsl:attribute name="Id">
@@ -766,84 +802,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</xsl:if>
 	</xsl:variable>
 
-	<!-- Create separate EventRect elementfor MARR and DIV which no longer belong in a FamilyRec as
-		they did in a FAMILY_STRUCTURE -->
-	<xsl:if test="MARR">
-		<EventRec>
-			<xsl:attribute name="Id">
-				<xsl:value-of select="generate-id(child::MARR)"/>
-			</xsl:attribute>
-			<xsl:attribute name="Type">marriage</xsl:attribute>
-			<xsl:attribute name="VitalType">marriage</xsl:attribute>
-			<xsl:if test="HUSB">
-				<Participant>
-					<Link>
-						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-						<xsl:attribute name="Ref">
-							<xsl:value-of select="$HusbID"/>
-						</xsl:attribute>
-					</Link>
-					<Role>husband</Role>
-				</Participant>
-			</xsl:if>
-			<xsl:if test="WIFE">
-				<Participant>
-					<Link>
-						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-						<xsl:attribute name="Ref">
-							<xsl:value-of select="$WifeID"/>
-						</xsl:attribute>
-					</Link>
-					<Role>wife</Role>
-				</Participant>
-			</xsl:if>
-			<xsl:apply-templates select="DATE"/>
-			<xsl:apply-templates select="PLAC"/>
-			<xsl:apply-templates select="SOUR[@REF]"/>
-			<!-- Since the MARR event is created from the FAM record we assign this the same
-				Change element as the FAM -->
-			<xsl:apply-templates select="parent::CHAN"/>
-		</EventRec>
-	</xsl:if>
-	<xsl:if test="DIV">
-		<EventRec>
-			<xsl:attribute name="Id">
-				<xsl:value-of select="generate-id(child::DIV)"/>
-			</xsl:attribute>
-			<xsl:attribute name="Type">divorce</xsl:attribute>
-			<!-- Even though the Recommedation mention VitalType divorce, it does not
-				exist in the DTD, so we leave it out, which doesn't mean that much because
-				it is an #IMPLIED attribute -->
-			<xsl:if test="HUSB">
-				<Participant>
-					<Link>
-						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-						<xsl:attribute name="Ref">
-							<xsl:value-of select="$HusbID"/>
-						</xsl:attribute>
-					</Link>
-					<Role>husband</Role>
-				</Participant>
-			</xsl:if>
-			<xsl:if test="WIFE">
-				<Participant>
-					<Link>
-						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-						<xsl:attribute name="Ref">
-							<xsl:value-of select="$WifeID"/>
-						</xsl:attribute>
-					</Link>
-					<Role>wife</Role>
-				</Participant>
-			</xsl:if>
-			<xsl:apply-templates select="DATE"/>
-			<xsl:apply-templates select="PLAC"/>
-			<xsl:apply-templates select="SOUR[@REF]"/>
-			<!-- Since the MARR event is created from the FAM record we assign this the same
-				Change element as the FAM -->
-			<xsl:apply-templates select="parent::CHAN"/>
-		</EventRec>
-	</xsl:if>
 	<FamilyRec>
 		<xsl:attribute name="Id">
 			<xsl:value-of select="generate-id()"/>
@@ -881,10 +839,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 				</Link>
 			</BasedOn>
 		</xsl:if>
-		<ExternalID>
-			<xsl:attribute name="Type">User</xsl:attribute>
-			<xsl:attribute name="Id"><xsl:value-of select="@ID"/></xsl:attribute>
-		</ExternalID>
+		<xsl:call-template name="ExternalIDs"/>
+
 		<xsl:apply-templates select="CHAN"/>
 	</FamilyRec>
 </xsl:template>
@@ -912,6 +868,94 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<ChildNbr><xsl:number/></ChildNbr>
 	</Child>
 </xsl:template><!-- End CHIL template-->
+
+<xsl:template match="MARR">
+	<!-- Create separate EventRect elementfor MARR and DIV which no longer belong in a FamilyRec as
+		they did in a FAMILY_STRUCTURE -->
+		<EventRec>
+			<xsl:attribute name="Id">
+				<xsl:value-of select="generate-id()"/>
+			</xsl:attribute>
+			<xsl:attribute name="Type">marriage</xsl:attribute>
+			<xsl:attribute name="VitalType">marriage</xsl:attribute>
+			<xsl:if test="../HUSB">
+				<Participant>
+					<Link>
+						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+						<xsl:attribute name="Ref">
+							<xsl:variable name="HusbID" select="../HUSB/@REF"/>
+							<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
+						</xsl:attribute>
+					</Link>
+					<Role>husband</Role>
+				</Participant>
+			</xsl:if>
+			<xsl:if test="../WIFE">
+				<Participant>
+					<Link>
+						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+						<xsl:attribute name="Ref">
+							<xsl:variable name="WifeID" select="../WIFE/@REF"/>
+							<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
+						</xsl:attribute>
+					</Link>
+					<Role>wife</Role>
+				</Participant>
+			</xsl:if>
+			<xsl:apply-templates select="DATE"/>
+			<xsl:apply-templates select="PLAC"/>
+			<xsl:apply-templates select="SOUR[@REF]"/>
+			<!-- FIX   Since the MARR event is created from the FAM record we assign this the same
+				Change element as the FAM -->
+			<xsl:apply-templates select="../CHAN"/>
+		</EventRec>
+
+</xsl:template>
+
+<xsl:template match="DIV">
+
+		<EventRec>
+			<xsl:attribute name="Id">
+				<xsl:value-of select="generate-id()"/>
+			</xsl:attribute>
+			<xsl:attribute name="Type">divorce</xsl:attribute>
+			<!-- Even though the Recommedation mention VitalType divorce, it does not
+				exist in the DTD, so we leave it out, which doesn't mean that much because
+				it is an #IMPLIED attribute -->
+			<xsl:if test="../HUSB">
+				<Participant>
+					<Link>
+						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+						<xsl:attribute name="Ref">
+							<xsl:variable name="HusbID" select="../HUSB/@REF"/>
+							<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
+
+						</xsl:attribute>
+					</Link>
+					<Role>husband</Role>
+				</Participant>
+			</xsl:if>
+			<xsl:if test="../WIFE">
+				<Participant>
+					<Link>
+						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+						<xsl:attribute name="Ref">
+							<xsl:variable name="WifeID" select="../WIFE/@REF"/>							<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
+							<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
+						</xsl:attribute>
+					</Link>
+					<Role>wife</Role>
+				</Participant>
+			</xsl:if>
+			<xsl:apply-templates select="DATE"/>
+			<xsl:apply-templates select="PLAC"/>
+			<xsl:apply-templates select="SOUR[@REF]"/>
+			<!-- FIX Since the DIV event is created from the FAM record we assign this the same
+				Change element as the FAM -->
+			<xsl:apply-templates select="../CHAN"/>
+		</EventRec>
+
+</xsl:template>
 
 <!-- Handles CHAN tag -->
 <xsl:template match="CHAN">
