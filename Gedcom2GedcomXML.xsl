@@ -2,43 +2,47 @@
 <xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <!-- $Id$ -->
-<!-- At the moment, this stylesheet creates the GEDCOM XML according to this pattern:
-	1) Name elements
-	2) Vital Event elements
-	3) PersInfo elements SSN NMR NCHI OCCU EDUC
-	4) Other event elements CONF BAPM IMMI 
-	5) Family elements 
-IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:output method="xml" indent="yes"/>
-<!-- TODO add param to set the Type attribute in the ExternalID -->
-<!-- FIX this global variable doesn't work in the program I am using, however, correct it is in implementation -->
+<!-- FIX this global variable doesn't work in the program I am using, 
+	however, correct it is in implementation -->
 <xsl:param name="FileCreationDate"/>
 <!--For Debugging -->
-<xsl:template match="/">
+<xsl:template match="debug">
 	<xsl:apply-templates select="//HEAD"/>
-	<xsl:call-template name="ContactRecs"/>
 </xsl:template>
 <!-- Start at Root-->
-<xsl:template name="full">
+<xsl:template match="/">
 	<GEDCOM>
  	<xsl:apply-templates select="//HEAD"/>
  	<xsl:apply-templates select="//FAM"/>
  	<xsl:apply-templates select="//INDI"/>
- <!-- EventRecs -->
+	
+	<!-- EventRecs -->
  	<xsl:call-template name="EventRecs"/>
- <!-- LDSOrdRecs -->
- <!-- ContactRec -->
+	
+	<!-- TODO LDSOrdRecs -->
+	
+	<!-- ContactRec -->
  	<xsl:call-template name="ContactRecs"/>	
-<!-- SourceRec  -->
+	
+	<!-- SourceRec  -->
 	<xsl:call-template name="SourceRecs"/>
-<!-- RepositoryRec -->
+	
+	<!-- RepositoryRec -->
 	<xsl:apply-templates select="//REPO"/>
-<!-- Not creating any GroupRec because there is no equivalent in GEDCOM 5.5 -->
+	
+	<!-- Not creating any GroupRec because there is no equivalent in GEDCOM 5.5 -->
  	
  	</GEDCOM>
 </xsl:template>
 
-<!-- Template from HEAD to HeaderRec -->
+<!-- ------------------------------------------------------------------
+-----------------------------------------------------------------------
+ 
+ Template from HEAD to create HeaderRec
+
+----------------------------------------------------------------------- 
+-------------------------------------------------------------------- -->
 <!-- Some of the mapping here are suspect because the SOUR tag purpose is ambiguous -->
 <xsl:template match="HEAD">
 	<HeaderRec>
@@ -87,7 +91,14 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</Caption>
 </xsl:template>
 
-<!-- Template for INDI to IndividualRec -->
+<!-- ------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+Template for INDI to IndividualRec
+
+-----------------------------------------------------------------------
+-------------------------------------------------------------------- -->
+	-->
  <xsl:template match="INDI">
 	<IndividualRec>
 		<xsl:attribute name="Id">
@@ -106,9 +117,12 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</IndividualRec>
  </xsl:template><!-- end Template for INDI to IndividualRec -->
 
- <!-- NAME Template -->
+<!-- ------------------------------------------------------------------
+
+ NAME Template for IndivName element
+
+-------------------------------------------------------------------- -->
  <xsl:template match="NAME">
- <!-- TODO handle middle name -->
 	<IndivName>
 	    	<xsl:choose>
 		    <!-- if it is a name in the form of "First Name/Last Name/" -->
@@ -130,7 +144,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	        			</NamePart>
      			</xsl:if>
          		</xsl:when>
-		<!-- TODO implement NPFX GIVN SPFX SURN and NSFX -->
 		<xsl:otherwise>
 			<NamePart>
 				<xsl:attribute name="Type">whole name</xsl:attribute>
@@ -138,24 +151,61 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			</NamePart>
 		</xsl:otherwise>
      		</xsl:choose>
- 		<xsl:apply-templates select="NICK"/>
+     		<!-- handle NPFX GIVN SPFX SURN and NSFX -->
+		<xsl:if test="NPFX">
+			<NamePart Type="prefix">
+				<xsl:value-of select="NPFX"/>
+			</NamePart>
+		</xsl:if>
+		<xsl:if test="GIVN">
+			<NamePart Type="given">
+				<xsl:value-of select="GIVN"/>
+			</NamePart>
+		</xsl:if>
+		<xsl:if test="NICK">
+			<NamePart Type="nickname">
+				<xsl:value-of select="NICK"/>
+			</NamePart>
+		</xsl:if>
+		<xsl:if test="SPFX">
+			<NamePart Type="surname prefix">
+				<xsl:value-of select="SPFX"/>
+			</NamePart>
+		</xsl:if>
+		<xsl:if test="SURN">
+			<NamePart Type="surname">
+				<xsl:value-of select="SURN"/>
+			</NamePart>
+		</xsl:if>
+		<xsl:if test="NSFX">
+			<NamePart Type="suffix">
+				<xsl:value-of select="NSFX"/>
+			</NamePart>
+		</xsl:if>
+ 
 	</IndivName>
 </xsl:template><!-- end NAME template -->
-
-<!-- Handles NICK tag -->
-<xsl:template match="NICK">
-     	<NamePart Type="nickname">
-     		<xsl:value-of select="."/>
-     	</NamePart>
- </xsl:template> <!-- end NICK template -->
  
- <xsl:template match="SEX">
+<!-- ------------------------------------------------------------------
+Handles SEX tag to create Gender element
+-------------------------------------------------------------------- -->
+ 
+<xsl:template match="SEX">
  	<Gender>
  		<xsl:value-of select="."/>
  	</Gender>
- </xsl:template>
+</xsl:template>
  
- <xsl:template name="EventRecs">
+<!-- ------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+A call to this template creates all the EventRects (individual, family
+	and LDS events)
+
+-----------------------------------------------------------------------
+-------------------------------------------------------------------- -->
+ 
+<xsl:template name="EventRecs">
  	<!-- INDIVIDUAL_EVENT_STRUCTURE -->
  	<!-- Both BIRT and ADOP are handled separately because  GEDCOM 5.5 allows to add other participants 
  		besides the principles to the event -->
@@ -204,86 +254,81 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  		<xsl:attribute name="Id">
  			<xsl:value-of select="generate-id()"/>
  		</xsl:attribute>
- 	
+		
+		<!-- Set #REQUIRED Attribute Type -->
  		<xsl:attribute name="Type">
- 			<!-- FIX remove choose-->
- 			<xsl:choose>
- 				 <xsl:when test="contains( name(), 'DEAT')">
- 					<xsl:value-of select="'death'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'CHR')">
- 					<xsl:value-of select="'christening'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'BURI')">
- 					<xsl:value-of select="'burial'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'CREM')">
- 					<xsl:value-of select="'cremation'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'BAPM')">
- 					<xsl:value-of select="'baptism'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'BARM')">
- 					<xsl:value-of select="'bar mitzvah'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'BASM')">
- 					<xsl:value-of select="'bas mitzvah'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'BLES')">
- 					<xsl:value-of select="'blessing'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'CHRA')">
- 					<xsl:value-of select="'adult christening'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'CONF')">
- 					<xsl:value-of select="'confirmation'"/>
- 				</xsl:when>
- 				<!-- FIX -->
-  				<xsl:when test="contains( name(), 'FCOM')">
- 					<xsl:value-of select="'first communion'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'ORDN')">
- 					<xsl:value-of select="'ordination'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'NATU')">
- 					<xsl:value-of select="'naturalization'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'EMIG')">
- 					<xsl:value-of select="'emigration'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'IMMI')">
- 					<xsl:value-of select="'immigration'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'CENS')">
- 					<xsl:value-of select="'census'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'PROB')">
- 					<xsl:value-of select="'probate'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'WILL')">
- 					<xsl:value-of select="'will'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'GRAD')">
- 					<xsl:value-of select="'graduation'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'RETI')">
- 					<xsl:value-of select="'retirement'"/>
- 				</xsl:when>
- 			</xsl:choose>
+			<xsl:if test="contains( name(), 'DEAT')">
+				<xsl:value-of select="'death'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'CHR')">
+				<xsl:value-of select="'christening'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'BURI')">
+				<xsl:value-of select="'burial'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'CREM')">
+				<xsl:value-of select="'cremation'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'BAPM')">
+				<xsl:value-of select="'baptism'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'BARM')">
+				<xsl:value-of select="'bar mitzvah'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'BASM')">
+				<xsl:value-of select="'bas mitzvah'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'BLES')">
+				<xsl:value-of select="'blessing'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'CHRA')">
+				<xsl:value-of select="'adult christening'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'CONF')">
+				<xsl:value-of select="'confirmation'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'FCOM')">
+				<xsl:value-of select="'first communion'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'ORDN')">
+				<xsl:value-of select="'ordination'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'NATU')">
+				<xsl:value-of select="'naturalization'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'EMIG')">
+				<xsl:value-of select="'emigration'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'IMMI')">
+				<xsl:value-of select="'immigration'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'CENS')">
+				<xsl:value-of select="'census'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'PROB')">
+				<xsl:value-of select="'probate'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'WILL')">
+				<xsl:value-of select="'will'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'GRAD')">
+				<xsl:value-of select="'graduation'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'RETI')">
+				<xsl:value-of select="'retirement'"/>
+			</xsl:if>
  		</xsl:attribute>
  	
- 		<!-- FIX remove choose-->
- 		<xsl:choose>
- 			 <xsl:when test="contains( name(), 'DEAT')">
- 				<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
- 			</xsl:when>
- 			 <xsl:when test="contains( name(), 'BURI')">
- 				<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
- 			</xsl:when>
-  			<xsl:when test="contains( name(), 'CREM')">
- 				<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
- 			</xsl:when>
- 		</xsl:choose>
+		<!-- Set #IMPLIED VitalType Attribute if it is necessary -->
+		<xsl:if test="contains( name(), 'DEAT')">
+			<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'BURI')">
+			<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'CREM')">
+			<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
+		</xsl:if>
  
  		<Participant>
  			<Link>
@@ -458,65 +503,61 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  			<xsl:value-of select="generate-id()"/>
  		</xsl:attribute>
  		<xsl:attribute name="Type">
- 			<!-- FIX remove choose-->
- 			<xsl:choose>
- 				 <xsl:when test="contains( name(), 'ANUL')">
- 					<xsl:value-of select="'annulment'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'CENS')">
- 					<xsl:value-of select="'census'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'DIV')">
- 					<xsl:value-of select="'divorce'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'DIVF')">
- 					<xsl:value-of select="'divorce filed'"/>
- 				</xsl:when>
-  				<xsl:when test="contains( name(), 'ENGA')">
- 					<xsl:value-of select="'engagement'"/>
- 				</xsl:when>
-   				<xsl:when test="contains( name(), 'MARR')">
- 					<xsl:value-of select="'marriage'"/>
- 				</xsl:when>
-   				<xsl:when test="contains( name(), 'MARB')">
- 					<xsl:value-of select="'marriage banns'"/>
- 				</xsl:when>
-   				<xsl:when test="contains( name(), 'MARC')">
- 					<xsl:value-of select="'marriage contract'"/>
- 				</xsl:when>
-   				<xsl:when test="contains( name(), 'MARL')">
- 					<xsl:value-of select="'marriage license'"/>
- 				</xsl:when>
-   				<xsl:when test="contains( name(), 'MARS')">
- 					<xsl:value-of select="'marriage settlement'"/>
- 				</xsl:when>
- 			</xsl:choose>
+			<xsl:if test="contains( name(), 'ANUL')">
+				<xsl:value-of select="'annulment'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'CENS')">
+				<xsl:value-of select="'census'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'DIV')">
+				<xsl:value-of select="'divorce'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'DIVF')">
+				<xsl:value-of select="'divorce filed'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'ENGA')">
+				<xsl:value-of select="'engagement'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'MARR')">
+				<xsl:value-of select="'marriage'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'MARB')">
+				<xsl:value-of select="'marriage banns'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'MARC')">
+				<xsl:value-of select="'marriage contract'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'MARL')">
+				<xsl:value-of select="'marriage license'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'MARS')">
+				<xsl:value-of select="'marriage settlement'"/>
+			</xsl:if>
  		</xsl:attribute>
+		
+		<!-- Sets VitalType attribute if it is possible -->
  		<xsl:attribute name="VitalType">
- 			<!-- FIX Remove choose -->
- 			<xsl:choose>
-  				 <xsl:when test="contains( name(), 'ANUL')">
- 					<xsl:value-of select="'marriage'"/>
- 				</xsl:when>
-				<xsl:when test="contains( name(), 'DIV')">
- 					<xsl:value-of select="'divorce'"/>
- 				</xsl:when>
-    				<xsl:when test="contains( name(), 'MARR')">
- 					<xsl:value-of select="'marriage'"/>
- 				</xsl:when>
-   				<xsl:when test="contains( name(), 'MARB')">
- 					<xsl:value-of select="'marriage'"/>
- 				</xsl:when>
-   				<xsl:when test="contains( name(), 'MARC')">
- 					<xsl:value-of select="'marriage'"/>
- 				</xsl:when>
-   				<xsl:when test="contains( name(), 'MARL')">
- 					<xsl:value-of select="'marriage'"/>
- 				</xsl:when>
-   				<xsl:when test="contains( name(), 'MARS')">
- 					<xsl:value-of select="'marriage'"/>
- 				</xsl:when>
- 			</xsl:choose>
+  			<xsl:if test="contains( name(), 'ANUL')">
+				<xsl:value-of select="'marriage'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'DIV')">
+				<xsl:value-of select="'divorce'"/>
+			</xsl:if>
+				<xsl:if test="contains( name(), 'MARR')">
+				<xsl:value-of select="'marriage'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'MARB')">
+				<xsl:value-of select="'marriage'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'MARC')">
+				<xsl:value-of select="'marriage'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'MARL')">
+				<xsl:value-of select="'marriage'"/>
+			</xsl:if>
+			<xsl:if test="contains( name(), 'MARS')">
+				<xsl:value-of select="'marriage'"/>
+			</xsl:if>
  		</xsl:attribute>
  	 	
 	 	<xsl:if test="../HUSB">
@@ -558,7 +599,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</xsl:if>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
-		 <xsl:apply-templates select="ADDR" mode="Place"/>
+		<xsl:apply-templates select="ADDR" mode="Place"/>
 		<xsl:apply-templates select="SOUR"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
@@ -604,50 +645,48 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 
 <xsl:template match="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL">
 	<xsl:variable name="Attribute">
-		<!-- FIX remove choose -->
-		<xsl:choose>
-			<xsl:when test="contains( name(), 'CAST')">
-				<xsl:value-of select="'caste'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'DSCR')">
-				<xsl:value-of select="'description'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'EDUC')">
-				<xsl:value-of select="'education'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'IDNO')">
-				<xsl:value-of select="'identification number'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'NATI')">
-				<xsl:value-of select="'nationality'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'NCHI')">
-				<xsl:value-of select="'children'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'NMR')">
-				<xsl:value-of select="'marriage'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'OCCU')">
-				<xsl:value-of select="'occupation'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'PROP')">
-				<xsl:value-of select="'property'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'RELI')">
-				<xsl:value-of select="'religion'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'RESI')">
-				<xsl:value-of select="'residence'"/>
-			</xsl:when>
-			<xsl:when test="contains( name(), 'SSN')">
-				<xsl:value-of select="'social security number'"/>
-			</xsl:when>
-			<!-- FIX? This Probably belongs in the name structure-->
-			<xsl:when test="contains( name(), 'TITL')">
-				<xsl:value-of select="'title'"/>
-			</xsl:when>
-		</xsl:choose>
+		<xsl:if test="contains( name(), 'CAST')">
+			<xsl:value-of select="'caste'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'DSCR')">
+			<xsl:value-of select="'description'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'EDUC')">
+			<xsl:value-of select="'education'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'IDNO')">
+			<xsl:value-of select="'identification number'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'NATI')">
+			<xsl:value-of select="'nationality'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'NCHI')">
+			<xsl:value-of select="'children'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'NMR')">
+			<xsl:value-of select="'marriage'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'OCCU')">
+			<xsl:value-of select="'occupation'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'PROP')">
+			<xsl:value-of select="'property'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'RELI')">
+			<xsl:value-of select="'religion'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'RESI')">
+			<xsl:value-of select="'residence'"/>
+		</xsl:if>
+		<xsl:if test="contains( name(), 'SSN')">
+			<xsl:value-of select="'social security number'"/>
+		</xsl:if>
+		<!-- FIX? This Probably belongs in the name structure-->
+		<xsl:if test="contains( name(), 'TITL')">
+			<xsl:value-of select="'title'"/>
+		</xsl:if>
 	</xsl:variable>
+	
 	<PersInfo>
 		<xsl:attribute name="Type">
 			<xsl:value-of select="$Attribute"/>
@@ -723,7 +762,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  <!-- Handles GEDCOM SOURCE_RECORD, ie. "0 @S2@ SOUR" or GedML <SOUR ID="S2"> -->
  <xsl:template match="SOUR[@ID]">
  	<SourceRec>
- 		<xsl:attribute name="Type"/>
  		<xsl:attribute name="Id">
 			<xsl:value-of select="generate-id()"/>
  		</xsl:attribute>
@@ -766,7 +804,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  			<!-- DOC Fill Date with global variable -->
 			<xsl:value-of select="$FileCreationDate"/>
  		</xsl:attribute>
-		<!-- TODO the TIME attribute is option but it can be implement on a continguent basis-->
+		<!-- TODO the TIME attribute is option but it can be implement on a contingent basis-->
 		<xsl:variable name="theName" select="name(NAME)"/>
 		<xsl:if test="NAME or VERS or CORP or DATA/COPR" >
 			<!-- Creates Product Element-->
@@ -1232,7 +1270,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			</xsl:attribute>
 		</Link>
 			<xsl:choose>
- <!-- TEST to  determinine if ADOP handled correctly -->
+ <!-- FIX this doesn't work -->
  				<xsl:when test="//INDI[@ID=@REF]/ADOP">
  					<xsl:element name="RelToMoth">adopted</xsl:element>
 					<xsl:element name="RelToFath">adopted</xsl:element>	
