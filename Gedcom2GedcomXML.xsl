@@ -89,31 +89,10 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<xsl:apply-templates select="OBJE"/>
 		
 		<xsl:apply-templates select="NOTE"/>
-		<xsl:apply-templates select="CHAN"/>
-
-		<xsl:if test="RFN">
-			<ExternalID>
-				<xsl:attribute name="Type">RFN</xsl:attribute>					
-				<xsl:attribute name="Id">
-					<xsl:value-of select="RFN"/>
-				</xsl:attribute>
-			</ExternalID>
-		</xsl:if>
-		<xsl:if test="RIN">
-			<ExternalID>
-				<xsl:attribute name="Type">RIN</xsl:attribute>					
-				<xsl:attribute name="Id">
-					<xsl:value-of select="RIN"/>
-				</xsl:attribute>
-			</ExternalID>
-		</xsl:if>
-
-		<ExternalID>
- 			<xsl:attribute name="Type">User</xsl:attribute>
- 			<xsl:attribute name="Id">
- 				<xsl:value-of select="@ID"/>
- 			</xsl:attribute>
- 		</ExternalID>
+		
+		<xsl:call-template name="ExternalIDs"/>
+ 		
+ 		<xsl:apply-templates select="CHAN"/>
 	</ContactRec>
 </xsl:template>
 <!-- Template for INDI to IndividualRec -->
@@ -128,17 +107,9 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<!-- BAPM, CONF, IMMI etc. -->
 		<xsl:call-template name="persinfo"/>
 		<xsl:call-template name="extras"/>
-	<!--	<xsl:call-template name="family-links"/> -->	
+		<xsl:call-template name="ExternalIDs"/>
 		<xsl:apply-templates select="CHAN"/>
-		<ExternalID>
-			<xsl:attribute name="Type">User</xsl:attribute>
-			<xsl:attribute name="Id">
-				<xsl:value-of select="@ID"/>
-			</xsl:attribute>
-		</ExternalID>
 	</IndividualRec>
-	<xsl:call-template name="vitalevents"/>
-	<xsl:call-template name="otherevents"/>
  </xsl:template><!-- end Template for INDI to IndividualRec -->
 
  <!-- NAME Template -->
@@ -631,28 +602,11 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		
 		<xsl:apply-templates select="NOTE"/>
 		
-		<xsl:apply-templates select="CHAN"/>
+
 		<!-- ExternalIDs -->
-		<xsl:if test="REFN">
-			<ExternalID>
-				<xsl:attribute name="Type">REFN</xsl:attribute>
-				<xsl:attribute name="Id">
-					<xsl:value-of select="REFN"/>
-				</xsl:attribute>
-			</ExternalID>
-		</xsl:if>
-		<xsl:if test="RIN">
-			<ExternalID>
-				<xsl:attribute name="Type">RIN</xsl:attribute>
-				<xsl:attribute name="Id">
-					<xsl:value-of select="RIN"/>
-				</xsl:attribute>
-			</ExternalID>
-		</xsl:if>
-		<ExternalID>
-			<xsl:attribute name="Type">User</xsl:attribute>
-			<xsl:attribute name="Id"><xsl:value-of select="@ID"/></xsl:attribute>
-		</ExternalID>
+		<xsl:call-template name="ExternalIDs"/>
+		
+		<xsl:apply-templates select="CHAN"/>
 	</SourceRec>
  </xsl:template>
 
@@ -719,98 +673,51 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  			</URI>
  		</xsl:if>
  		<xsl:apply-templates select="PUBL"/>
- 		<xsl:apply-templates select="NOTE"/>
- 		<xsl:apply-templates select="CHAN"/>
- 		
- 		<!-- ExternalIDs -->
- 		<xsl:apply-templates match="REFN"/>
+ 		<xsl:apply-templates select="NOTE"/> 		
+	 	<xsl:call-template name="ExternalIDs"/>
+ 		 
+ 		 <xsl:apply-templates select="CHAN"/>
 
-		<xsl:if test="RIN">
-			<ExternalID>
-				<xsl:attribute name="Type">RIN</xsl:attribute>
-				<xsl:attribute name="Id">
-					<xsl:value-of select="RIN"/>
-				</xsl:attribute>
-			</ExternalID>
-		</xsl:if>
- 		<ExternalID>
- 			<xsl:attribute name="Type">User</xsl:attribute>
- 			<xsl:attribute name="Id">
- 				<xsl:value-of select="@ID"/>
- 			</xsl:attribute>
- 		</ExternalID>
  	</SourceRec>
  </xsl:template>	
 
 <xsl:template match="TITL">
 	<Title>
-		<xsl:value-of select="text()"/>
-		<xsl:for-each select="node()">
-			<xsl:choose>
-				<xsl:when test="self::CONT">
-					<xsl:text> </xsl:text>
-					<xsl:value-of select="self::CONT"/>
-				</xsl:when>
-				<xsl:when test="self::CONC">
-					<xsl:text> </xsl:text>
-					<xsl:value-of select="self::CONC"/>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:for-each>
+		<xsl:call-template name="handleCONCT"/>
 	</Title>
 </xsl:template>
 
 <xsl:template match="AUTH">
 	<Author>
-		<xsl:value-of select="text()"/>
-		<xsl:for-each select="node()">
-			<xsl:choose>
-				<xsl:when test="self::CONT">
-					<xsl:text> </xsl:text>
-					<xsl:value-of select="self::CONT"/>
-				</xsl:when>
-				<xsl:when test="self::CONC">
-					<xsl:text> </xsl:text>
-					<xsl:value-of select="self::CONC"/>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:for-each>
+		<xsl:call-template name="handleCONCT"/>
 	</Author>
 </xsl:template>
 <xsl:template match="PUBL">
 	<Publishing>
-		<xsl:value-of select="text()"/>
-		<xsl:for-each select="node()">
-			<xsl:choose>
-				<xsl:when test="self::CONT">
-					<xsl:text> </xsl:text>
-					<xsl:value-of select="self::CONT"/>
-				</xsl:when>
-				<xsl:when test="self::CONC">
-					<xsl:text> </xsl:text>
-					<xsl:value-of select="self::CONC"/>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:for-each>
+		<xsl:call-template name="handleCONCT"/>
 	</Publishing>
 </xsl:template>
 <!-- Handles TEXT or TEXT_FROM_SOURCE -->
 <xsl:template match="TEXT">
 	<Extract>
-		<xsl:value-of select="text()"/>
-		<xsl:for-each select="node()">
-			<xsl:choose>
-				<xsl:when test="self::CONT">
-					<xsl:text> </xsl:text>
-					<xsl:value-of select="self::CONT"/>
-				</xsl:when>
-				<xsl:when test="self::CONC">
-					<xsl:text> </xsl:text>
-					<xsl:value-of select="self::CONC"/>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:for-each>
+		<xsl:call-template name="handleCONCT"/>
 	</Extract>
+</xsl:template>
+
+<xsl:template name="handleCONCT">
+	<xsl:value-of select="text()"/>
+	<xsl:for-each select="node()">
+		<xsl:choose>
+			<xsl:when test="self::CONT">
+				<xsl:text> </xsl:text>
+				<xsl:value-of select="self::CONT"/>
+			</xsl:when>
+			<xsl:when test="self::CONC">
+				<xsl:text> </xsl:text>
+				<xsl:value-of select="self::CONC"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:for-each>
 </xsl:template>
 
 <!-- TODO HANDLE linked NOTE_STRUCTURE -->
@@ -1039,6 +946,40 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	<CallNbr>
 		<xsl:value-of select="text()"/>
 	</CallNbr>
+</xsl:template>
+
+<xsl:template name="ExternalIDs">
+		<xsl:apply-templates select="REFN"/>
+		<xsl:if test="RIN">
+			<ExternalID>
+				<xsl:attribute name="Type">RIN</xsl:attribute>
+				<xsl:attribute name="Id">
+					<xsl:value-of select="RIN"/>
+				</xsl:attribute>
+			</ExternalID>
+		</xsl:if>
+		<xsl:if test="RFN">
+			<ExternalID>
+				<xsl:attribute name="Type">RFN</xsl:attribute>
+				<xsl:attribute name="Id">
+					<xsl:value-of select="RFN"/>
+				</xsl:attribute>
+			</ExternalID>
+		</xsl:if>
+		<xsl:if test="AFN">
+			<ExternalID>
+				<xsl:attribute name="Type">AFN</xsl:attribute>
+				<xsl:attribute name="Id">
+					<xsl:value-of select="AFN"/>
+				</xsl:attribute>
+			</ExternalID>
+		</xsl:if>
+		<ExternalID>
+			<xsl:attribute name="Type">User</xsl:attribute>
+			<xsl:attribute name="Id">
+				<xsl:value-of select="@ID"/>
+			</xsl:attribute>
+		</ExternalID>
 </xsl:template>
 
 <xsl:template match="REFN">
