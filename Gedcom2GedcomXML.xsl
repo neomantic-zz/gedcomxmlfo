@@ -15,7 +15,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:template match="/">
 	<GEDCOM>
  	<xsl:apply-templates select="//HEAD"/>
- <!-- 	<xsl:apply-templates select="//SUBM"/> -->
+ 	<xsl:apply-templates select="//SUBM"/>
  	<xsl:apply-templates select="//FAM"/>
  	<xsl:apply-templates select="//INDI"/>
 <!--  	<xsl:apply-templates select="//SOUR"/>
@@ -56,7 +56,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 					<Submitter>
 						<Link Target="ContactRec">
 							<xsl:attribute name="Ref">
-								<xsl:value-of select="@REF"/>
+								<xsl:variable name="SubmID" select="@REF"/>
+								<xsl:value-of select="generate-id(//SUBM[@ID=$SubmID])"/>
 							</xsl:attribute>
 						</Link>
 					</Submitter>
@@ -66,6 +67,39 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</HeaderRec>
 </xsl:template> <!-- end Template for HEAD to HeaderRec -->
 
+<!-- Handles SUBM Records of the form 0 @SUB1@ SUBM or gedml <SUBM ID="SUB1"> -->
+<xsl:template match="SUBM[@ID]">
+	<ContactRec>
+		<xsl:attribute name="Id">
+			<xsl:value-of select="generate-id()"/>
+		</xsl:attribute>
+		<!-- TODO?  implement Type attribute with the following values: person, business, organization -->
+		<xsl:apply-templates select="NAME"/>
+		<xsl:apply-templates select="ADDR"/>
+		<xsl:apply-templates select="PHON"/>
+		<xsl:apply-templates select="NOTE"/>
+		<xsl:apply-templates select="CHAN"/>
+		<xsl:choose>
+			<xsl:when test="RFN">
+				<ExternalID>
+					<!-- This implementation assumes that if there is a RFN Tag there will be a RIN tag -->
+					<xsl:attribute name="Type">RFN</xsl:attribute>					
+					<xsl:attribute name="Id">
+						<xsl:value-of select="RIN"/>
+					</xsl:attribute>
+				</ExternalID>
+			</xsl:when>
+			<xsl:otherwise>
+				<ExternalID>
+ 					<xsl:attribute name="Type">User</xsl:attribute>
+ 					<xsl:attribute name="Id">
+ 						<xsl:value-of select="@ID"/>
+ 					</xsl:attribute>
+ 				</ExternalID>
+			</xsl:otherwise>
+		</xsl:choose>
+	</ContactRec>
+</xsl:template>
 <!-- Template for INDI to IndividualRec -->
  <xsl:template match="INDI">
 	<IndividualRec>
@@ -115,8 +149,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	        			</NamePart>
      			</xsl:if>
          		</xsl:when>
-		<!-- I have to implement NPFX GIVN SPFX SURN and NSFX -->
-		<!-- Implementing NICK separately -->
+		<!-- TODO implement NPFX GIVN SPFX SURN and NSFX -->
+		<xsl:otherwise>
+			<NamePart>
+				<xsl:attribute name="Type">whole name</xsl:attribute>
+				<xsl:value-of select="."/>
+			</NamePart>
+		</xsl:otherwise>
      		</xsl:choose>
  		<xsl:apply-templates select="NICK"/>
 	</IndivName>
@@ -269,7 +308,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  
  <!-- Handles ADDR structure without handling PHON -->
  <xsl:template match="ADDR">
- 	<ContactRec>
  		<MailAddress>
  			<AddrLine>
  				<xsl:value-of select="text()"/>
@@ -309,8 +347,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  				</xsl:choose>
 			</xsl:for-each>
  		</MailAddress>
- 	</ContactRec>
-</xsl:template><!-- end ContactRec template -->
+</xsl:template><!-- end ADDR template -->
 
 <!-- FIX if at all possible.  Usually the PHON tag belongs to the MailAddress ContactRec
 	The problem is that GEDCOM 5.5 strict places the PHON and the ADDR tags at the same
@@ -318,11 +355,9 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	the relationship between the MailAddress and the Phone
 -->
 <xsl:template match="PHON">
-	<ContactRec>
-		<Phone>
-			<xsl:value-of select="."/>
-		</Phone>
-	</ContactRec>
+	<Phone>
+		<xsl:value-of select="."/>
+	</Phone>
 </xsl:template>
 
  <xsl:template name="persinfo">
@@ -473,18 +508,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  </xsl:template>
  
  
-<xsl:template match="CHAN">
-	<Change>
-		<xsl:attribute name="Date">
-			<xsl:value-of select="DATE"/>
-		</xsl:attribute>
-		<xsl:attribute name="Time">
-			<xsl:value-of select="DATE/TIME"/>
-		</xsl:attribute>
-		<xsl:apply-templates select="NOTE"/>
-	</Change>
-</xsl:template>
- <!-- this does not work when call like this:
+<!-- this does not work when call like this:
 
   	<xsl:call-template name="events">
  		<xsl:with-param name="eventType"  select="BAPM|CONF"/>
@@ -567,7 +591,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  
 <xsl:template match="OBJE[@ID]"> 	
  </xsl:template>
- <!-- GEDCOM's 5.5 DATA has been dropped in GEDCOM XML 6.0 but I dotn't think we should lose
+ 
+ <!-- GEDCOM's 5.5 DATA has been dropped in GEDCOM XML 6.0 but I don't think we should lose
  	this information, hence it is wrapped in a Note element -->
  <xsl:template match="DATA">
  	<Note>
@@ -680,11 +705,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</xsl:for-each>
 	</Extract>
 </xsl:template>
+
 <!-- TODO HANDLE linked NOTE_STRUCTURE -->
 <xsl:template match="NOTE[@REF]">
 </xsl:template>
+
 <!-- Handles "simple NOTE_STRUCTURE 
-	TODO Handle the SOUR @S2@ which may occur in the GEDCOM 5.5 standard -->
+	TODO Handle the NOTE @N2@ which may occur in the GEDCOM 5.5 standard -->
 <xsl:template match="NOTE">
 	<Note>
 		<xsl:value-of select="text()"/>
@@ -698,6 +725,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</xsl:for-each>
 	</Note>
 </xsl:template>
+
 <!-- Handles FAMILY_RECORD-->
 <xsl:template match="FAM">
 	<!-- First Create/get the  HUSB and WIFE ids, if they exist -->
@@ -859,5 +887,26 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			</xsl:choose>
 		<ChildNbr><xsl:number/></ChildNbr>
 	</Child>
+</xsl:template><!-- End CHIL template-->
+
+<!-- Handles CHAN tag -->
+<xsl:template match="CHAN">
+	<!-- both the Date and the Time attributes are #REQUIRED -->
+	<Changed>
+		<xsl:for-each select="node()">
+			<xsl:choose>
+				<xsl:when test="self::DATE">
+					<xsl:attribute name="Date">
+						<xsl:value-of select="text()"/>
+					</xsl:attribute>				
+				</xsl:when>
+			</xsl:choose>
+		</xsl:for-each>
+		<!-- This is a hack since I can't figure out how to loop into the TIME element/tag -->
+		<xsl:attribute name="Time">
+				<xsl:value-of select="DATE/TIME"/>
+		</xsl:attribute>
+		<xsl:apply-templates select="NOTE"/>
+	</Changed>
 </xsl:template>
 </xsl:stylesheet>
