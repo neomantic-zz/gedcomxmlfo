@@ -13,9 +13,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <!-- TODO add param to set the Type attribute in the ExternalID -->
 <!--For Debugging -->
 <xsl:template match="/">
-	<xsl:call-template name="Events"/>
-	 <xsl:apply-templates select="//FAM"/>
- 	<xsl:apply-templates select="//INDI"/>
+
 </xsl:template>
 <!-- Start at Root-->
 <xsl:template name="full">
@@ -24,13 +22,12 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	<xsl:apply-templates select="//FAM"/>
  	<xsl:apply-templates select="//INDI"/>
  <!-- EventRecs -->
- 	<xsl:call-template name="Events"/>
+ 	<xsl:call-template name="EventRecs"/>
  <!-- LDSOrdRecs -->
- <!-- ContactRec -->		
- 	<xsl:apply-templates select="//SUBM"/>
+ <!-- ContactRec -->
+ 	<xsl:call-template name="ContactRecs"/>	
 <!-- SourceRec  -->
-  	<xsl:apply-templates select="//SOUR[@ID]"/>
-  	<xsl:apply-templates select="//OBJE[@ID]"/>
+	<xsl:call-template name="SourceRecs"/>
 <!-- RepositoryRec -->
 <!-- GroupRec -->
 <!-- What do I do with GEDCOM 5.5 "0 @N1@ NOTE" -->
@@ -169,14 +166,17 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	</Gender>
  </xsl:template><!-- end NICK template -->
  
- <xsl:template name="Events">
+ <xsl:template name="EventRecs">
  	<!-- INDIVIDUAL_EVENT_STRUCTURE -->
- 	<xsl:apply-templates select="//INDI/BIRT|
+ 	<!-- Both BIRT and ADOP are handled separately because  GEDCOM 5.5 allows to add other participants 
+ 		besides the principles to the event -->
+ 	<xsl:apply-templates select="//INDI/BIRT"/>
+ 	<xsl:apply-templates select="//INDI/ADOP"/>
+ 	<xsl:apply-templates select="
 //INDI/DEAT|
 //INDI/CHR|
 //INDI/BURI|
 //INDI/CREM|
-//INDI/ADOP|
 //INDI/BAPM|
 //INDI/BARM|
 //INDI/BASM|
@@ -195,7 +195,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 //INDI/RETI"/>
 	
 	<!-- FAMILY_EVENT_STRUCTURE -->
-<xsl:apply-templates select="//FAM/ANUL|
+	<xsl:apply-templates select="//FAM/ANUL|
 //FAM/CENS|
 //FAM/DIV|
 //FAM/DIVF|
@@ -210,7 +210,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	
  </xsl:template>
 <!-- Handles all individual events besides BIRT-->
- <xsl:template match="DEAT|CHR|BURI|CREM|ADOP|BAPM|BARM|BASM|BLES|CHRA|CONF|FCOM|ORDN|NATU|EMIG|IMMI|CENS|PROB|WILL|GRAD|RETI">
+ <xsl:template match="DEAT|CHR|BURI|CREM|BAPM|BARM|BASM|BLES|CHRA|CONF|FCOM|ORDN|NATU|EMIG|IMMI|CENS|PROB|WILL|GRAD|RETI">
  	<EventRec>
  		<xsl:attribute name="Id">
  			<xsl:value-of select="generate-id()"/>
@@ -228,10 +228,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  				</xsl:when>
   				<xsl:when test="contains( name(), 'CREM')">
  					<xsl:value-of select="'cremation'"/>
- 				</xsl:when>
- 				<!-- FIX -->
-  				<xsl:when test="contains( name(), 'ADOP')">
- 					<xsl:value-of select="'adoption'"/>
  				</xsl:when>
   				<xsl:when test="contains( name(), 'BAPM')">
  					<xsl:value-of select="'baptism'"/>
@@ -285,19 +281,19 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  				</xsl:when>
  			</xsl:choose>
  		</xsl:attribute>
- 		<xsl:attribute name="VitalType">
+ 	
  			<xsl:choose>
  				 <xsl:when test="contains( name(), 'DEAT')">
- 					<xsl:value-of select="'death'"/>
+ 					<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
  				</xsl:when>
  				 <xsl:when test="contains( name(), 'BURI')">
- 					<xsl:value-of select="'death'"/>
+ 					<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
  				</xsl:when>
   				<xsl:when test="contains( name(), 'CREM')">
- 					<xsl:value-of select="'death'"/>
+ 					<xsl:attribute name="VitalType"><xsl:value-of select="'death'"/></xsl:attribute>
  				</xsl:when>
  			</xsl:choose>
- 		</xsl:attribute>
+ 
  		<Participant>
  			<Link>
  				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
@@ -325,6 +321,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	other events.  But we begin parsing these 2 events within the INDI structure-->
  
  <!-- Handles BIRT Tag-->
+ <!-- DOC says how it handles BIRT event including bio mom -->
  <xsl:template match="BIRT">
  	<EventRec>
  		<xsl:attribute name="Id">
@@ -341,8 +338,10 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			</Link>
 			<Role>child</Role>
 		</Participant>
-		<!-- Add Mother and father Participants if they exist -->
-		<xsl:apply-templates select="../FAMC" mode="BirthEvent"/>
+		<!-- Add Mother, iff she is biological, i.e. child not adopted -->
+		<xsl:if test="not(../ADOP)">
+			<xsl:apply-templates select="../FAMC" mode="BirthEvent"/>
+		</xsl:if>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
 		<xsl:apply-templates select="SOUR"/>
@@ -356,7 +355,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	other participants of a birth event.  The only guaranteed participant at this event would be the mother.  Although
  	the husband made the birth (he or his sperm was/were definitely participant(s) at conception), the  father may be 
  	absent from the event of the birth.  One drawback with this approach is that a birth of a father's child does not show
- 	up in the record of there life events -->		
+ 	up in the record of there life events.  There is one important caveat.  A child may have several mothers: one and 
+ 	only one biological and several mothers by adoption -->		
 <xsl:template match="FAMC" mode="BirthEvent">
 	<xsl:variable name="FamilyID" select="@REF"/>
 	<xsl:if test="//FAM[@ID=$FamilyID]/WIFE">
@@ -365,7 +365,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			<Link>
 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(//INDI[@ID=$MotherID)"/>
+					<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
 				</xsl:attribute>
 			</Link>
 			<Role>mother</Role>
@@ -373,6 +373,91 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</xsl:if>
 </xsl:template>
 
+ <!-- Handles ADOP Tag -->
+ <!-- DOC say how it handles adoption events -->
+ <xsl:template match="ADOP">
+ 	<EventRec>
+ 		<xsl:attribute name="Id">
+ 			<xsl:value-of select="generate-id()"/>
+ 		</xsl:attribute>
+ 		<xsl:attribute name="Type">adoption</xsl:attribute>
+ 		<Participant>
+			<Link>
+				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+				<xsl:attribute name="Ref">
+					<xsl:value-of select="generate-id(..)"/>
+				</xsl:attribute>
+			</Link>
+			<Role>child</Role>
+		</Participant>
+		<!-- Add adoptive parents to the event -->
+		<xsl:apply-templates select="FAMC" mode="AdoptionEvent"/>
+
+		<xsl:apply-templates select="DATE"/>
+		<xsl:apply-templates select="PLAC"/>
+		<xsl:apply-templates select="SOUR"/>
+			<!-- Since this event is created from the INDI record we assign this the same
+				Change element as it has -->
+		<xsl:apply-templates select="../CHAN"/>
+ 	</EventRec>
+ </xsl:template><!-- End BIRT template -->
+		
+<xsl:template match="FAMC" mode="AdoptionEvent">
+	<!-- Get Family Ref -->
+	<xsl:variable name="FamilyID" select="@REF"/>
+	<!-- Get value of ADOP tag under FAMC -->
+	<xsl:variable name="AdoptionParents" select="ADOP"/>
+	
+	<xsl:choose>
+		<xsl:when test="contains( $AdoptionParents, 'HUSB')">
+			<xsl:variable name="FatherID" select="//FAM[@ID=$FamilyID]/HUSB/@REF"/>
+			<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
+					</xsl:attribute>
+				</Link>
+				<Role>father</Role>
+			</Participant>
+		</xsl:when>
+		<xsl:when test="contains( $AdoptionParents, 'WIFE')">
+			<xsl:variable name="MotherID" select="//FAM[@ID=$FamilyID]/WIFE/@REF"/>
+			<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
+					</xsl:attribute>
+				</Link>
+				<Role>mother</Role>
+			</Participant>
+		</xsl:when>
+		<xsl:when test="contains( $AdoptionParents, 'BOTH')">
+			<!-- TODO consolidate reduntant code -->
+			<xsl:variable name="FatherID" select="//FAM[@ID=$FamilyID]/HUSB/@REF"/>
+			<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
+					</xsl:attribute>
+				</Link>
+				<Role>father</Role>
+			</Participant>
+			<xsl:variable name="MotherID" select="//FAM[@ID=$FamilyID]/WIFE/@REF"/>
+			<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
+					</xsl:attribute>
+				</Link>
+				<Role>mother</Role>
+			</Participant>
+		</xsl:when>
+	</xsl:choose>
+</xsl:template>
 
  <!-- Handles the FAMILY_EVENT_STRUCTURE  -->
  <xsl:template match="ANUL|CENS|DIV|DIVF|ENGA|MARR|MARB|MARC|MARL|MARS">
@@ -401,7 +486,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  					<xsl:value-of select="'marriage'"/>
  				</xsl:when>
    				<xsl:when test="contains( name(), 'MARB')">
- 					<xsl:value-of select="'adoption'"/>
+ 					<xsl:value-of select="'marriage banns'"/>
  				</xsl:when>
    				<xsl:when test="contains( name(), 'MARC')">
  					<xsl:value-of select="'marriage contract'"/>
@@ -633,7 +718,10 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</PersInfo>
 </xsl:template>
 
-
+<xsl:template name="SourceRecs">
+  	<xsl:apply-templates select="//SOUR[@ID]"/>
+  	<xsl:apply-templates select="//OBJE[@ID]"/>
+  </xsl:template>
 <!-- Handles simple GEDCOM SOUR_CITATION (no link)  -->
 <!-- DOC should note where that the SOURCE_DESCRIPTION has been mapped to Caption Element -->
 <xsl:template match="SOUR">
@@ -774,7 +862,11 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  		 <xsl:apply-templates select="CHAN"/>
 
  	</SourceRec>
- </xsl:template>	
+ </xsl:template>
+ 
+ <xsl:template name="ContactRecs">
+  	<xsl:apply-templates select="//SUBM"/>
+</xsl:template>
 
 <xsl:template match="TITL">
 	<Title>
