@@ -11,9 +11,11 @@
 IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:output method="xml" indent="yes"/>
 <!-- TODO add param to set the Type attribute in the ExternalID -->
+<!-- FIX this global variable doesn't work-->
+<xsl:param name="FileCreationDate"/>
 <!--For Debugging -->
 <xsl:template match="/">
-
+	<xsl:apply-templates select="//HEAD"/>
 </xsl:template>
 <!-- Start at Root-->
 <xsl:template name="full">
@@ -40,7 +42,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:template match="HEAD">
 	<HeaderRec>
 		<!-- Call this template to create the FileCreation Element in case it is needed -->
-		<xsl:apply-templates match="SOUR" mode="HeaderRec"/>
+		<xsl:apply-templates select="SOUR" mode="HeaderRec"/>
 		<xsl:if test="SOUR/DATA">
 			<Citation>
 				<!-- FIX?  Is a Citation invalid if it doesn't have a link and if it isn't, what
@@ -62,7 +64,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</xsl:if>
 		<xsl:if test="SUBM">
 			<Submitter>
-				<Link Target="ContactRec">
+				<Link>
+					<xsl:attribute name="Target">ContactRec</xsl:attribute>
 					<xsl:attribute name="Ref">
 						<xsl:variable name="SubmitterID" select="@REF"/>
 						<xsl:value-of select="generate-id(//SUBM[@ID=$SubmitterID])"/>
@@ -278,11 +281,12 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  			</xsl:choose>
  
  		<Participant>
- 			<Link/>
+ 			<Link>
  				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
  				<xsl:attribute name="Ref">
  					<xsl:value-of select="generate-id(..)"/>
  				</xsl:attribute>
+ 			</Link>
  			<!-- DOC pointless element in translation at least -->
  			<Role>principal</Role>
  			<!-- DOC I refuse to implement the Living element because it is pointless for the most part
@@ -312,11 +316,12 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  		<xsl:attribute name="Type">birth</xsl:attribute>
  		<xsl:attribute name="VitalType">birth</xsl:attribute>
  		<Participant>
-			<Link/>
+			<Link>
 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 				<xsl:attribute name="Ref">
 					<xsl:value-of select="generate-id(..)"/>
 				</xsl:attribute>
+			</Link>
 			<Role>child</Role>
 		</Participant>
 		<!-- Add Mother, iff she is biological, i.e. child not adopted -->
@@ -343,11 +348,12 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	<xsl:if test="//FAM[@ID=$FamilyID]/WIFE">
 		<xsl:variable name="MotherID" select="//FAM[@ID=$FamilyID]/WIFE/@REF"/>
 		<Participant>
-			<Link/>
+			<Link>
 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 				<xsl:attribute name="Ref">
 					<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
 				</xsl:attribute>
+			</Link>
 			<Role>mother</Role>
 		</Participant>
 	</xsl:if>
@@ -362,11 +368,12 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  		</xsl:attribute>
  		<xsl:attribute name="Type">adoption</xsl:attribute>
  		<Participant>
-			<Link/>
+			<Link>
 				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 				<xsl:attribute name="Ref">
 					<xsl:value-of select="generate-id(..)"/>
 				</xsl:attribute>
+			</Link>
 			<Role>child</Role>
 		</Participant>
 		<!-- Add adoptive parents to the event -->
@@ -391,22 +398,24 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<xsl:when test="contains( $AdoptionParents, 'HUSB')">
 			<xsl:variable name="FatherID" select="//FAM[@ID=$FamilyID]/HUSB/@REF"/>
 			<Participant>
-				<Link/>
+				<Link>
 					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					<xsl:attribute name="Ref">
 						<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
 					</xsl:attribute>
+				</Link>
 				<Role>father</Role>
 			</Participant>
 		</xsl:when>
 		<xsl:when test="contains( $AdoptionParents, 'WIFE')">
 			<xsl:variable name="MotherID" select="//FAM[@ID=$FamilyID]/WIFE/@REF"/>
 			<Participant>
-				<Link/>
+				<Link>
 					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					<xsl:attribute name="Ref">
 						<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
 					</xsl:attribute>
+				</Link>
 				<Role>mother</Role>
 			</Participant>
 		</xsl:when>
@@ -414,20 +423,22 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			<!-- TODO consolidate reduntant code -->
 			<xsl:variable name="FatherID" select="//FAM[@ID=$FamilyID]/HUSB/@REF"/>
 			<Participant>
-				<Link/>
+				<Link>
 					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					<xsl:attribute name="Ref">
 						<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
 					</xsl:attribute>
+				</Link>
 				<Role>father</Role>
 			</Participant>
 			<xsl:variable name="MotherID" select="//FAM[@ID=$FamilyID]/WIFE/@REF"/>
 			<Participant>
-				<Link/>
+				<Link>
 					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					<xsl:attribute name="Ref">
 						<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
 					</xsl:attribute>
+				</Link>
 				<Role>mother</Role>
 			</Participant>
 		</xsl:when>
@@ -502,12 +513,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	 	
 	 	<xsl:if test="../HUSB">
  	 		<Participant>
-				<Link/>
+				<Link>
 					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					<xsl:attribute name="Ref">
 						<xsl:variable name="HusbID" select="../HUSB/@REF"/>
 						<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
 					</xsl:attribute>
+				</Link>
 				<Role>husband</Role>
 				<!-- The <Age> element is not added because GEDCOM 5.5 EVENT_DETAILS have an AGE
 					tag, it is unclear to whom the age refers when Family events are by definition more than
@@ -516,12 +528,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</xsl:if>
 		 <xsl:if test="../WIFE">
  	 		<Participant>
-				<Link/>
+				<Link>
 					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					<xsl:attribute name="Ref">
 						<xsl:variable name="WifeID" select="../WIFE/@REF"/>
 						<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
 					</xsl:attribute>
+				</Link>
 				<Role>wife</Role>
 			</Participant>
 		</xsl:if>
@@ -663,12 +676,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  <xsl:template match="SOUR[@REF]">
  	<Evidence>
  		<Citation>
-			<Link/>
+			<Link>
 				<xsl:attribute name="Target">SourceRec</xsl:attribute>
  				<xsl:attribute name="Ref">
  					<xsl:variable name="SourceID" select="@REF"/>
 					<xsl:value-of select="generate-id(//SOUR[@ID=$SourceID])"/>
  				</xsl:attribute>
+ 			</Link>
  			<xsl:if test="PAGE">
  				<WhereInSource>
  					<xsl:value-of select="PAGE"/>
@@ -738,20 +752,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 
  <xsl:template match="SOUR" mode="HeaderRec">
  	<FileCreation>
- 		<!-- Add Date attribute even if it does not exist because it is a #REQUIRED attribute -->
- 		<!-- DOC To the FileCreation attributes I map the following HEAD tags
- 			+1 DATE <TRANSMISSION_DATE>  {0:1}
-      			   +2 TIME <TIME_VALUE>                                      -->
  		<xsl:attribute name="Date">
-			<xsl:value-of select="../DATE"/>
-		</xsl:attribute>
-		<xsl:if test="../DATE/TIME">
-			<xsl:attribute name="Time">
-				<xsl:value-of select="../DATE/TIME"/>
-			</xsl:attribute>
-		</xsl:if>
-		<!-- No available info to fill the "Time" attribute -->
-		<xsl:if test="self::NAME or self::VERS or self::CORP or ../COPR">
+ 			<!-- DOC Fill Date with global variable -->
+			<xsl:value-of select="$FileCreationDate"/>
+ 		</xsl:attribute>
+		<!-- TODO the TIME attribute is option but it can be implement on a continguent basis-->
+		<xsl:variable name="theName" select="name(NAME)"/>
+		<xsl:if test="NAME or VERS or CORP or DATA/COPR" >
 			<!-- Creates Product Element-->
 			<Product>
 				<!-- TODO DOC mapped SOUR APPROVED_SYSTEM_ID  to ProductID Element -->
@@ -767,25 +774,26 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 				</xsl:if>
 				<xsl:if test="CORP">
 					<Supplier>
-						<Link/>
+						<Link>
 							<xsl:attribute name="Target">ContactRec</xsl:attribute>
 							<xsl:attribute name="Ref">
-								<xsl:value-of select="generate-id( self::CORP )"/>
+								<xsl:value-of select="generate-id( CORP )"/>
 							</xsl:attribute>
+						</Link>
 					</Supplier>
 				</xsl:if>
 				
 				<!-- Creates Copyright element-->
-				<xsl:if test="../COPR">
+				<xsl:if test="DATA/COPR">
 					<Copyright>
-						<xsl:value-of select="../COPR"/>
+						<xsl:value-of select="DATA/COPR"/>
 					</Copyright>
 				</xsl:if>
 			</Product>
 		</xsl:if>
  	</FileCreation>
  </xsl:template>
- 				
+ 		
 <!-- MULTIMEDIA_RECORD -->
 <xsl:template match="OBJE[@ID]">
 	<SourceRec>
@@ -818,12 +826,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:template match="OBJE[@REF]">
 	<Evidence>
 		<Citation>
-			<Link/>
+			<Link>
 				<xsl:attribute name="Target">SourceRec</xsl:attribute>
 				<xsl:variable name="ObjeID" select="@REF"/>
 				<xsl:attribute name="Ref">
 					<xsl:value-of select="generate-id(//OBJE[@ID=$ObjeID])"/>
 				</xsl:attribute>
+			</Link>
 		</Citation>
 	</Evidence>
 </xsl:template>
@@ -883,7 +892,14 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<Name>
 			<xsl:value-of select="text()"/>
 		</Name>
-		<xsl:apply-templates select="ADDR" mode="MailAddress"/>
+		<!-- This call assumes that the ADDR structure under the CORP tag actually repeats the business' name.
+			Since the ADDR structure is one level deeper it would seem to suggest that the ADDR text contains
+			a street address in fact.  A with-param could be passed to this template, if it is implemented, but
+			there is no way to tell what is the CONT
+		-->
+		<xsl:apply-templates select="ADDR" mode="MailAddress">
+			<xsl:with-param name="PlaceName" select="self::ADDR[text()]"/>
+		</xsl:apply-templates>
 		<xsl:apply-templates select="PHON"/>
 		<!-- Cannot map any more items of the CORP tag to the ContactRec elements-->
 	</ContactRec>
@@ -917,44 +933,57 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 
 <!-- Handles ADDR structure without handling PHON -->
  <xsl:template match="ADDR" mode="MailAddress">
+ 	<xsl:param name="PlaceName" select="text()"/>
  		<MailAddress>
  			<AddrLine>
- 				<xsl:value-of select="text()"/>
+ 				<Addressee>
+ 					<xsl:value-of select="$PlaceName"/>
+ 				</Addressee>
  			</AddrLine>
- 			<xsl:for-each select="node()">
-				<xsl:choose>
-					<xsl:when test="self::ADR1">
-						<AddrLine>
-							<xsl:value-of select="self::ADR1"/>
-						</AddrLine>
-					</xsl:when>
-					<xsl:when test="self::ADR2">
-						<AddrLine>
-							<xsl:value-of select="self::ADR2"/>
-						</AddrLine>
-					</xsl:when>
-					<xsl:when test="self::CITY">
-						<AddrLine Type="city">
-							<xsl:value-of select="self::CITY"/>
-						</AddrLine>
-					</xsl:when>
-					<xsl:when test="self::STAE">
-						<AddrLine Type="state">
-							<xsl:value-of select="self::STAE"/>
-						</AddrLine>
-					</xsl:when>
-					<xsl:when test="self::POST">
-						<AddrLine Type="postal code">
-							<xsl:value-of select="self::POST"/>
-						</AddrLine>
-					</xsl:when>
-					<xsl:when test="self::CTRY">
-						<AddrLine Type="country">
-							<xsl:value-of select="self::CTRY"/>
-						</AddrLine>
-					</xsl:when>
- 				</xsl:choose>
-			</xsl:for-each>
+			<xsl:if test="CONT">
+				<AddrLine>
+					<xsl:value-of select="self::CONT"/>
+				</AddrLine>
+			</xsl:if>
+			<xsl:if test="ADR1">
+				<AddrLine>
+					<PlacePart Type="street">
+						<xsl:value-of select="ADR1"/>
+					</PlacePart>
+				</AddrLine>
+			</xsl:if>
+			<xsl:if test="ADR2">
+				<AddrLine>
+					<PlacePart Type="street">
+						<xsl:value-of select="ADR2"/>
+					</PlacePart>
+				</AddrLine>
+			</xsl:if>
+			<xsl:if test="CITY or STAE or POST or CTRY">
+				<AddrLine>
+					<xsl:if test="CITY">
+						<PlacePart Type="city">
+							<xsl:value-of select="CITY"/>
+						</PlacePart>
+					</xsl:if>
+
+					<xsl:if test="STAE">
+						<PlacePart Type="state">
+							<xsl:value-of select="STAE"/>
+						</PlacePart>
+					</xsl:if>
+					<xsl:if test="POST">
+						<PlacePart Type="postal code">
+							<xsl:value-of select="POST"/>
+						</PlacePart>
+					</xsl:if>
+					<xsl:if test="CTRY">
+						<PlacePart Type="country">
+							<xsl:value-of select="CTRY"/>
+						</PlacePart>
+					</xsl:if>
+				</AddrLine>
+			</xsl:if>
  		</MailAddress>
 </xsl:template><!-- end ADDR mode=MailAddress template -->
 
@@ -970,12 +999,20 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
     +1 CTRY <ADDRESS_COUNTRY>  {0:1}
   n  PHON <PHONE_NUMBER>
   
-  The first problem is with the first line.  Instead of a "street address" attribute as I have it below, the contents of a
+  FIX - The first problem is with the first line.  Instead of a "street address" attribute as I have it below, the contents of a
   ADDR field may be the name of a building "Springfield Hospital" or person's name "Homer Simpson."  I have made this
-  a level 7 PlacePart but have left out the Type attribute.  It would best be described as a PlaceName and it is possible put
-  this information in the PlaceName element because that permits PCDATA.  However, the contents of ADDR may in fact be a streetname because it is perfectly
-  acceptable for ADDR to contain that instead of a building name.  For example, a person's home address does not have a 
-  PlaceName - their home does not have a name.
+  a level 7 PlacePart but have left out the Type attribute.  It would best be described as a PlaceName.  It is possible to put
+  this information in the PlaceName element because that permits PCDATA.  However, the contents of ADDR may in fact be a
+  streetname because it is perfectly acceptable for ADDR to contain that instead of a building name.
+  For example, a person's home address does not have a PlaceName - their home does not have a name.  It can instead
+  be identified like a postal address
+  Homer Simpson
+  11 Drive
+  Springfield
+  
+  DOC - I have decided that this program will always assume that the ADDR line as opposed to the ADR1 and ADR2
+  lines contains PCDATA that indicates a placename such as ACME Publishing Company or, in the case of a personal address, 
+  the person's name
   
  The second problem involves the PHON tag.  There is no equivalent in a <Place> element.  
  
@@ -983,14 +1020,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  <xsl:template match="ADDR" mode="PlacePart">
  	<Place>
  		<PlaceName>
- 			<!-- ideally this type would indicate something better -->
-			<PlacePart Level="7">
-				<xsl:value-of select="text()"/>
-				<xsl:if test="CONT">
-					<xsl:text> </xsl:text>
-					<xsl:value-of select="CONT"/>
-				</xsl:if>
- 			</PlacePart> 
+			<xsl:call-template name="handleCONCT"/>
  			<xsl:for-each select="node()">
  				<xsl:choose>
  					<xsl:when test="self::ADR1">
@@ -998,6 +1028,11 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  						<PlacePart Level="6" Type="street name">
  							<xsl:value-of select="self::ADR1"/>
  						</PlacePart>					
+ 					</xsl:when>
+ 					<xsl:when test="self::ADR2">
+ 						<PlacePart level="6" Type="street name">
+ 							<xsl:value-of select="self::ADR2"/>
+ 						</PlacePart>
  					</xsl:when>
  					<xsl:when test="self::CITY">
  						<PlacePart Level="4" Type="city">
@@ -1094,32 +1129,35 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</xsl:attribute>
 			<xsl:if test="HUSB">
 				<HusbFath>
-					<Link/>
+					<Link>
 						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 					 	<xsl:attribute name="Ref">
  							<xsl:variable name="husbRef" select="HUSB/@REF"/>
 							<xsl:value-of select="generate-id(//INDI[@ID=$husbRef])"/>
  						</xsl:attribute>
+ 					</Link>
 				</HusbFath>
 			</xsl:if>
 			<xsl:if test="WIFE">
 				<WifeMoth>
-					<Link/>
+					<Link>
 						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
  						<xsl:attribute name="Ref">
 							<xsl:variable name="wifeRef" select="WIFE/@REF"/>
 							<xsl:value-of select="generate-id(//INDI[@ID=$wifeRef])"/>
   						</xsl:attribute>
+  					</Link>
 				</WifeMoth>
 			</xsl:if>
 		<xsl:apply-templates select="CHIL"/>
 		<xsl:if test="MARR">
 			<BasedOn>
-				<Link/>
+				<Link>
 					<xsl:attribute name="Target">EventRec</xsl:attribute>
 					<xsl:attribute name="Ref">
 						<xsl:value-of select="generate-id(child::MARR)"/>
 					</xsl:attribute>
+				</Link>
 			</BasedOn>
 		</xsl:if>
 		<xsl:call-template name="ExternalIDs"/>
@@ -1132,12 +1170,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 
 <xsl:template match="CHIL">
 	<Child>	
-		<Link/>
+		<Link>
 			<xsl:attribute name="Target">IndividualRec</xsl:attribute>
  			<xsl:attribute name="Ref">
  				<xsl:variable name="childID" select="@REF"/>
 				<xsl:value-of select="generate-id(//INDI[@ID=$childID])"/>
 			</xsl:attribute>
+		</Link>
 			<xsl:choose>
  <!-- TEST to  determinine if ADOP handled correctly -->
  				<xsl:when test="//INDI[@ID=@REF]/ADOP">
@@ -1156,12 +1195,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <!-- Handle CHIL elements in the context of creating Family EventRec Particpants -->
 <xsl:template match="CHIL" mode="Events">
 	<Participant>
-		<Link/>
+		<Link>
 			<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 			<xsl:attribute name="Ref">
 				<xsl:variable name="ChildID" select="CHIL/@REF"/>
 				<xsl:value-of select="generate-id(//INDI[@ID=$ChildID])"/>
 			</xsl:attribute>
+		</Link>
 		<Role>child</Role>
 	</Participant>
 </xsl:template>
@@ -1190,12 +1230,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <!-- Handles REPO @R2@ -->
 <xsl:template match="REPO[@REF]">
 	<Repository>
-		<Link/>
+		<Link>
 			<xsl:attribute name="Target">RepositoryRec</xsl:attribute>
 			<xsl:attribute name="Id">
 				<xsl:variable name="RepoID" select="@REF"/>
 				<xsl:value-of select="generate-id(//REPO[@ID=$RepoID])"/>
 			</xsl:attribute>
+		</Link>
 		<xsl:apply-templates select="CALN"/>
 	</Repository>
 </xsl:template>
@@ -1209,7 +1250,9 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <!-- Handles 0 @R2@ REPO -->
 <xsl:template match="REPO[@ID]">
 	<RepositoryRec>
-		<xsl:attribute name="Id" select="generate-id()"/>
+		<xsl:attribute name="Id">
+			<xsl:value-of select="generate-id()"/>
+		</xsl:attribute> 
 		<Name>
 			<xsl:value-of select="NAME"/>
 		</Name>
