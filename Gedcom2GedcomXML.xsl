@@ -13,9 +13,11 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
 
 	Root Template
 
+***************************************************************************
 ************************************************************************ -->
 <xsl:template match="what">
 	<GEDCOM>
@@ -41,11 +43,24 @@
  	
  	</GEDCOM>
 </xsl:template>
+
+<!-- **********************************************************************
+***************************************************************************
+**																		 **
+**	Templates Related to the Header and its associated elements			 ** 												
+**		* HEAD -> <HeaderRec>											 **
+**		* SOUR -> <FileCreation>										 **
+**		* DATA -> <Caption>											 	 **
+**																		 **
+***************************************************************************
+*********************************************************************** -->
  
 <!-- **********************************************************************
+***************************************************************************
 
 	HEAD Template to create HeaderRec
 
+***************************************************************************
 ************************************************************************ -->
 <!-- Some of the mapping here are suspect because the SOUR tag purpose is ambiguous -->
 <xsl:template match="HEAD">
@@ -84,8 +99,67 @@
 </xsl:template> <!-- end Template for HEAD to HeaderRec -->
 
 <!-- **********************************************************************
+***************************************************************************
 
-	DATA Template mode=HeaderRect - creates the Caption element which
+	SOUR Template mode HeaderRec - the SOUR tag that occurs in the 
+		HEADER is unlike any of the other SOUR tags, so this templates
+		maps its values with valid HeaderRec elements and attributes
+
+***************************************************************************
+*********************************************************************** -->
+<xsl:template match="SOUR" mode="HeaderRec">
+ 	<FileCreation>
+ 		<xsl:attribute name="Date">
+ 			<!-- DOC Fill Date with global variable -->
+			<xsl:value-of select="$FileCreationDate"/>
+ 		</xsl:attribute>
+		<!-- TODO the TIME attribute is option but it can be implement on a contingent basis-->
+		<xsl:variable name="theName" select="name(NAME)"/>
+		<xsl:if test="NAME or VERS or CORP or DATA/COPR" >
+			<!-- Creates Product Element-->
+			<Product>
+				<!-- DOC mapped SOUR APPROVED_SYSTEM_ID  to ProductId Element -->
+				<xsl:variable name="ProductId" select="text()"/>
+				<xsl:if test="(string-length( $ProductId )) != 0">
+					<ProductId>
+						<xsl:value-of select="$ProductId"/>
+					</ProductId>
+				</xsl:if>
+				<xsl:if test="VERS">
+					<Version>
+						<xsl:value-of select="VERS"/>
+					</Version>
+				</xsl:if>
+				<xsl:if test="NAME">
+					<Name>
+						<xsl:value-of select="NAME"/>
+					</Name>
+				</xsl:if>
+				<xsl:if test="CORP">
+					<Supplier>
+						<Link>
+							<xsl:attribute name="Target">ContactRec</xsl:attribute>
+							<xsl:attribute name="Ref">
+								<xsl:value-of select="generate-id( CORP )"/>
+							</xsl:attribute>
+						</Link>
+					</Supplier>
+				</xsl:if>
+				
+				<!-- Creates Copyright element-->
+				<xsl:if test="DATA/COPR">
+					<Copyright>
+						<xsl:value-of select="DATA/COPR"/>
+					</Copyright>
+				</xsl:if>
+			</Product>
+		</xsl:if>
+ 	</FileCreation>
+</xsl:template>
+
+<!-- **********************************************************************
+
+	DATA Template mode=HeaderRec - creates the Caption element which
 	is possibly part of the Citation element in the HeaderRec
 
 ************************************************************************ -->
@@ -97,9 +171,23 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
+**																		 **
+**	Templates related to the IndividualRecs and its associated elements	 ** 												
+**		* INDI -> <IndividualRec>										 **
+**		* NAME -> <IndivName>											 **
+**		* CAST, DSCR, EDUC, IDNO, NATI, NCHI, NMR, OCCU, 				 **
+**		  PROP, RELI, RESI, SSN, TITL -> <PersInfo>					 	 **
+**																		 **
+***************************************************************************
+*********************************************************************** -->
+
+<!-- **********************************************************************
+***************************************************************************
 
 	INDI Template to create IndividualRec
 
+***************************************************************************
 ************************************************************************ -->
 <xsl:template match="INDI">
 	<IndividualRec>
@@ -194,6 +282,91 @@
 	</IndivName>
 </xsl:template><!-- end NAME template -->
  
+<!-- **********************************************************************
+
+	Persinfo Template - called to generate PersInfo elements
+
+************************************************************************ -->
+<xsl:template name="persinfo">
+	<xsl:apply-templates select="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL"/>
+</xsl:template>
+
+<!-- **********************************************************************
+***************************************************************************
+
+	INDIVIDUAL_ATTRIBUTE_STRUCTURE Template - creates PersInfo elements
+
+***************************************************************************
+************************************************************************ -->
+<xsl:template match="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL">
+	<xsl:variable name="tag" select="name()"/>
+	
+	<xsl:variable name="Attribute">
+		<xsl:if test="$tag = 'CAST'">
+			<xsl:value-of select="'caste'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'DSCR'">
+			<xsl:value-of select="'description'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'EDUC'">
+			<xsl:value-of select="'education'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'IDNO'">
+			<xsl:value-of select="'identification number'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'NATI'">
+			<xsl:value-of select="'nationality'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'NCHI'">
+			<xsl:value-of select="'children'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'NMR'">
+			<xsl:value-of select="'marriage'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'OCCU'">
+			<xsl:value-of select="'occupation'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'PROP'">
+			<xsl:value-of select="'property'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'RELI'">
+			<xsl:value-of select="'religion'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'RESI'">
+			<xsl:value-of select="'residence'"/>
+		</xsl:if>
+		<xsl:if test="$tag = 'SSN'">
+			<xsl:value-of select="'social security number'"/>
+		</xsl:if>
+		<!-- FIX? This Probably belongs in the name structure-->
+		<xsl:if test="$tag = 'TITL'">
+			<xsl:value-of select="'title'"/>
+		</xsl:if>
+	</xsl:variable>
+	
+	<PersInfo>
+		<xsl:attribute name="Type">
+			<xsl:value-of select="$Attribute"/>
+		</xsl:attribute>
+		<Information>
+			<xsl:value-of select="text()"/>
+		</Information>
+		<xsl:apply-templates select="DATE"/>
+		<xsl:apply-templates select="PLAC"/>
+	</PersInfo>
+</xsl:template>
+
+<!-- **********************************************************************
+***************************************************************************
+**																		 **
+**	Templates applicable to Individual, Family, and LDS Events	 		 **													 										
+**		* AGE -> <Age>													 **
+**		* CAUS -> <NOTE>												 **
+**	 	* PLAC -> <Place>												 **
+**		* ADDR -> <Place><PlaceName><PlacePart>							 **
+**																		 **
+***************************************************************************
+*********************************************************************** -->
 
 <!-- **********************************************************************
 
@@ -244,12 +417,162 @@
 <!-- TODO Handle all other events LDS_INDIVIDUAL_ORDINANCE -->
 </xsl:template><!-- end EventRecs template -->
 
+<!-- **********************************************************************
+
+	AGE Template - current implementations assumes that all dates are
+		Gregorian
+
+************************************************************************ -->
+<xsl:template match="AGE">
+	<Age>
+		<xsl:value-of select="."/>
+	</Age>
+</xsl:template>
 
 <!-- **********************************************************************
+
+	CAUS Template - GEDCOM 6.0 XML eliminates this tag, but it is important
+		information.  To include with a individual it is surronded by a
+		Note element 
+
+************************************************************************ -->
+<!-- TODO - make sure this template gets called -->
+<xsl:template match="CAUS">
+ 	<Note><xsl:text>Cause of death:  </xsl:text>
+ 		<xsl:value-of select="."/>
+ 	</Note>
+</xsl:template>
+
+<!-- **********************************************************************
+
+	PLAC Template - handles a simple PLACE_VALUE of the comma delimited
+		form City, Township, County, State, USA - without breaking it 
+		down into PlaceParts
+
+************************************************************************ -->
+<!-- TODO? it may be possible to breakdown the above info into PlaceName 
+	elements given the HEAD's FORM PLACE_HIERARCHY value -->
+<xsl:template match="PLAC">
+ 	<Place>
+ 		<PlaceName>
+ 			<xsl:call-template name="handleCONCT"/>	
+ 		</PlaceName>
+ 	</Place>
+</xsl:template>
+
+<!-- **********************************************************************
+***************************************************************************
+
+	ADDR Template mode=Place - Handles ADDR which occur in INDI, OBJE and
+		SOUR tags.  Since the MailAddress element can only occur
+		inside the GroupRec and the ContactRec and these cannot be link to
+		in the other Recs, ADDRESS_STRUCTURE data is tagged using the
+		<Place>, <PlaceName>, and <PlacePart> elements.
+		
+***************************************************************************
+************************************************************************ -->
+<!-- DOC Again this isn't the most ideal solution for handling this GEDCOM 5.5 structure:
+  n  ADDR <ADDRESS_LINE>  {0:1}
+    +1 CONT <ADDRESS_LINE>  {0:M}
+    +1 ADR1 <ADDRESS_LINE1>  {0:1}
+    +1 ADR2 <ADDRESS_LINE2>  {0:1}
+    +1 CITY <ADDRESS_CITY>  {0:1}
+    +1 STAE <ADDRESS_STATE>  {0:1}
+    +1 POST <ADDRESS_POSTAL_CODE>  {0:1}
+    +1 CTRY <ADDRESS_COUNTRY>  {0:1}
+  n  PHON <PHONE_NUMBER>
+  
+  FIX - The first problem is with the first line.  The contents of a ADDR field
+  may be the name of a building "Springfield Hospital" or person's name
+  "Homer Simpson."  It could also be a mere street address. 
+  
+  The following template assumes that ADDR <ADDRESS_LINE> actually specifies a 
+  building name, business name, or personal name and places this data inside
+  the <PlaceName> element which permits both PCDATA and PlacePart elements.
+  
+  DOC The second problem involves the PHON tag.  There is no equivalent in a <Place> element.  
+ 
+-->
+<xsl:template match="ADDR" mode="Place">
+ 	<Place>
+ 		<PlaceName>
+			<xsl:value-of select="text()"/>
+			<xsl:apply-templates select="CONT" mode="Place"/>
+ 			<xsl:for-each select="node()">
+ 				<xsl:choose>
+ 					<xsl:when test="self::ADR1">
+  						<!-- DOC street name is not localized -->
+ 						<PlacePart Level="6" Type="street name">
+ 							<xsl:value-of select="self::ADR1"/>
+ 						</PlacePart>					
+ 					</xsl:when>
+ 					<xsl:when test="self::ADR2">
+ 						<PlacePart level="6" Type="street name">
+ 							<xsl:value-of select="self::ADR2"/>
+ 						</PlacePart>
+ 					</xsl:when>
+ 					<xsl:when test="self::CITY">
+ 						<PlacePart Level="4" Type="city">
+ 							<xsl:value-of select="self::CITY"/>
+ 						</PlacePart>					
+ 					</xsl:when>
+					<xsl:when test="self::STAE">
+ 						<PlacePart Level="2" Type="state">
+ 							<xsl:value-of select="self::STAE"/>
+ 						</PlacePart>
+					</xsl:when>
+ 					<xsl:when test="self::POST">
+ 						<PlacePart Level="5" Type="postal code">
+ 							<xsl:value-of select="self::POST"/>
+ 						</PlacePart> 					
+ 					</xsl:when>
+ 					<xsl:when test="self::CTRY">
+ 						<PlacePart Level="1" Type="country">
+ 							<xsl:value-of select="self::CTRY"/>
+ 						</PlacePart>
+ 					</xsl:when>
+ 				</xsl:choose>
+ 			</xsl:for-each>
+ 		</PlaceName>
+ 	</Place>
+</xsl:template>
+ 
+ <!-- **********************************************************************
+
+	CONT Template mode=Place - handles the CONT tag that may occur
+		in the ADDR line of a ADDRESS_STRUCTURE.  But since it is the context
+		of a Place element it simply padds each ADDR's CONT line with a 
+		whitespace
+
+*********************************************************************** -->
+<xsl:template match="CONT" mode="Place">
+ 	<!-- Pad with space between content of ADDR and CONT and other CONT tags-->
+ 	<xsl:text> </xsl:text>
+ 	<xsl:value-of select="."/>
+</xsl:template>
+
+<!-- **********************************************************************
+***************************************************************************
+**																		 **
+**	Templates related to the Individual Events and its associated		 **
+**  elements	 														 ** 												
+**		* DEAT, CHR, BURI, CREM, BAPM, BARM, BASM, BLES, CHRA,			 **
+**	  	  CONF, FCOM, ORDN, NATU, EMIG, IMMI, CENS, PROB,				 **
+**		  WILL, GRAD, RETI  -> <EventRec>								 **
+**		* BIRT -> <EventRec>											 **
+**	 	* ADOP -> <EventRec>											 **
+**		* FAMC -> <Participants> in birth and adoption events			 **
+**																		 **
+***************************************************************************
+*********************************************************************** -->
+
+<!-- **********************************************************************
+***************************************************************************
 
 	INDIVIDUAL_EVENT_STRUCTURE Template - creates all individual events 
 	except BIRTand ADOP
 
+***************************************************************************
 ************************************************************************ -->
 <xsl:template match="DEAT|CHR|BURI|CREM|BAPM|BARM|BASM|BLES|CHRA|CONF|FCOM|ORDN|NATU|EMIG|IMMI|CENS|PROB|WILL|GRAD|RETI">
  	
@@ -530,9 +853,22 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
+**																		 **
+**	Templates related to the Family Events and its associated elements	 ** 												
+**		* ANUL, CENS, DIV, DIVF, ENGA, MARR, MARB, 						 **
+**		  MARC, MARL, MARS ->  <EventRec>								 **
+**		* CHIL -> <Participant>	in divorce and census events			 **
+**																		 **
+***************************************************************************
+*********************************************************************** -->
+
+<!-- **********************************************************************
+***************************************************************************
 
 	FAMILY_EVENT_STRUCTURE Template
 
+***************************************************************************
 ************************************************************************ -->
 <xsl:template match="ANUL|CENS|DIV|DIVF|ENGA|MARR|MARB|MARC|MARL|MARS">
  	<xsl:variable name="tag" select="name()"/>
@@ -647,131 +983,55 @@
 
 <!-- **********************************************************************
 
-	AGE Template - current implementations assumes that all dates are
-		Gregorian
+	CHIL Template mode="Events" - handles child elements in the context
+		of creating Family EventRec, of which there are two possibilities:
+		CENS and DIV.  The template simply adds them as a Participant
+		to the event as well as providing a link to the IndividualRec
 
-************************************************************************ -->
-<xsl:template match="AGE">
-	<Age>
-		<xsl:value-of select="."/>
-	</Age>
+*********************************************************************** -->
+
+<xsl:template match="CHIL" mode="Events">
+	<Participant>
+		<Link>
+			<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+			<xsl:attribute name="Ref">
+				<xsl:variable name="ChildID" select="CHIL/@REF"/>
+				<xsl:value-of select="generate-id(//INDI[@ID=$ChildID])"/>
+			</xsl:attribute>
+		</Link>
+		<Role>child</Role>
+	</Participant>
 </xsl:template>
 
 <!-- **********************************************************************
-
-	CAUS Template - GEDCOM 6.0 XML eliminates this tag, but it is important
-		information.  To include with a individual it is surronded by a
-		Note element 
-
-************************************************************************ -->
-<!-- TODO - make sure this template gets called -->
-<xsl:template match="CAUS">
- 	<Note><xsl:text>Cause of death:  </xsl:text>
- 		<xsl:value-of select="."/>
- 	</Note>
-</xsl:template>
-
-<!-- **********************************************************************
-
-	DATE Template - current implementations assumes that all dates are
-		Gregorian
-
-************************************************************************ -->
-<!-- TODO enable it to handle non-Gregorian calendars -->
-<xsl:template match="DATE">
- 	
- 	<Date Calendar="Gregorian">
-		<xsl:value-of select="."/>
- 	</Date>
-</xsl:template>
+***************************************************************************
+**																		 **
+**	Templates Related to Sources and Evidence and their associated		 **
+**		 elements		 												 **
+**		* SOUR -> <Evidence>											 **
+**		* SOUR[@REF] -> <Evidence>										 **
+**		* SOUR[@ID] -> <SourceRec>									 	 **
+**		* TITL -> <Title>												 **
+**		* AUTH -> <Author>												 **
+**		* PUBL -> <Publishing>											 **
+**		* OBJE[@REF] -> <Evidence>										 **
+**		* OBJE[@ID] -> <SourceRec>										 **
+**		* OBJE -> <Evidence>											 **
+**		* TEXT -> <Extract>												 **
+**																		 **
+***************************************************************************
+*********************************************************************** -->
 
 <!-- **********************************************************************
 
-	PLAC Template - handles a simple PLACE_VALUE of the comma delimited
-		form City, Township, County, State, USA - without breaking it 
-		down into PlaceParts
+
+	SourceRecs Template - called to call SOUR and OBJE templates needed to
+		create SourceRecs
 
 ************************************************************************ -->
-<!-- TODO? it may be possible to breakdown the above info into PlaceName 
-	elements given the HEAD's FORM PLACE_HIERARCHY value -->
-<xsl:template match="PLAC">
- 	<Place>
- 		<PlaceName>
- 			<xsl:call-template name="handleCONCT"/>	
- 		</PlaceName>
- 	</Place>
-</xsl:template>
-
-<!-- **********************************************************************
-
-	Persinfo Template - called to generate PersInfo elements
-
-************************************************************************ -->
-<xsl:template name="persinfo">
-	<xsl:apply-templates select="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL"/>
-</xsl:template>
-
-<!-- **********************************************************************
-
-	INDIVIDUAL_ATTRIBUTE_STRUCTURE Template - creates PersInfo elements
-
-************************************************************************ -->
-<xsl:template match="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL">
-	<xsl:variable name="tag" select="name()"/>
-	
-	<xsl:variable name="Attribute">
-		<xsl:if test="$tag = 'CAST'">
-			<xsl:value-of select="'caste'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'DSCR'">
-			<xsl:value-of select="'description'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'EDUC'">
-			<xsl:value-of select="'education'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'IDNO'">
-			<xsl:value-of select="'identification number'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'NATI'">
-			<xsl:value-of select="'nationality'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'NCHI'">
-			<xsl:value-of select="'children'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'NMR'">
-			<xsl:value-of select="'marriage'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'OCCU'">
-			<xsl:value-of select="'occupation'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'PROP'">
-			<xsl:value-of select="'property'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'RELI'">
-			<xsl:value-of select="'religion'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'RESI'">
-			<xsl:value-of select="'residence'"/>
-		</xsl:if>
-		<xsl:if test="$tag = 'SSN'">
-			<xsl:value-of select="'social security number'"/>
-		</xsl:if>
-		<!-- FIX? This Probably belongs in the name structure-->
-		<xsl:if test="$tag = 'TITL'">
-			<xsl:value-of select="'title'"/>
-		</xsl:if>
-	</xsl:variable>
-	
-	<PersInfo>
-		<xsl:attribute name="Type">
-			<xsl:value-of select="$Attribute"/>
-		</xsl:attribute>
-		<Information>
-			<xsl:value-of select="text()"/>
-		</Information>
-		<xsl:apply-templates select="DATE"/>
-		<xsl:apply-templates select="PLAC"/>
-	</PersInfo>
+<xsl:template name="SourceRecs">
+  	<xsl:apply-templates select="//SOUR[@ID]"/>
+  	<xsl:apply-templates select="//OBJE[@ID]"/>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -788,17 +1048,7 @@
 </xsl:template>
 
 <!-- **********************************************************************
-
-	SourceRecs Template - called to call SOUR and OBJE templates needed to
-		create SourceRecs
-
-************************************************************************ -->
-<xsl:template name="SourceRecs">
-  	<xsl:apply-templates select="//SOUR[@ID]"/>
-  	<xsl:apply-templates select="//OBJE[@ID]"/>
-</xsl:template>
-
-<!-- **********************************************************************
+***************************************************************************
 
 	SOUR Template - Handles simple GEDCOM 5.5 SOUR_CITATION of the form
 	
@@ -811,6 +1061,7 @@
 	To handle this tag, the template create Evidence and its associated
 		elements
 
+***************************************************************************
 ************************************************************************ -->
 <!-- DOC should note where that the SOURCE_DESCRIPTION has been mapped to Caption Element -->
 <xsl:template match="SOUR">
@@ -832,6 +1083,7 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
 
 	SOUR[@REF] Template - Handles GEDCOM 5.5 SOUR_CITATION of the form:
 
@@ -849,7 +1101,8 @@
 	
 	To handle this tag, the template create Evidence and its associated
 		elements
-		
+
+***************************************************************************		
 ************************************************************************ -->
 <!-- DOC Current implementationation discards the valid OBJE or OBJE @O1@ tag inside the SOUR. -->
 <!-- DOC should note that QUAY's CERTAINTY_ASSESMENT has been mapped to Note element -->
@@ -904,10 +1157,12 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
 
 	SOUR[@ID] Template - handles SOURCE_RECORD - 0 @S2@ SOUR - and creates
 		SourceRecs
 
+***************************************************************************
 ************************************************************************ -->
 <xsl:template match="SOUR[@ID]">
  	<SourceRec>
@@ -967,63 +1222,6 @@
 
 <!-- **********************************************************************
 
-	SOUR Template mode HeaderRec - the SOUR tag that occurs in the 
-		HEADER is unlike any of the other SOUR tags, so this templates
-		maps its values with valid HeaderRec elements and attributes
-
-*********************************************************************** -->
-<xsl:template match="SOUR" mode="HeaderRec">
- 	<FileCreation>
- 		<xsl:attribute name="Date">
- 			<!-- DOC Fill Date with global variable -->
-			<xsl:value-of select="$FileCreationDate"/>
- 		</xsl:attribute>
-		<!-- TODO the TIME attribute is option but it can be implement on a contingent basis-->
-		<xsl:variable name="theName" select="name(NAME)"/>
-		<xsl:if test="NAME or VERS or CORP or DATA/COPR" >
-			<!-- Creates Product Element-->
-			<Product>
-				<!-- DOC mapped SOUR APPROVED_SYSTEM_ID  to ProductId Element -->
-				<xsl:variable name="ProductId" select="text()"/>
-				<xsl:if test="(string-length( $ProductId )) != 0">
-					<ProductId>
-						<xsl:value-of select="$ProductId"/>
-					</ProductId>
-				</xsl:if>
-				<xsl:if test="VERS">
-					<Version>
-						<xsl:value-of select="VERS"/>
-					</Version>
-				</xsl:if>
-				<xsl:if test="NAME">
-					<Name>
-						<xsl:value-of select="NAME"/>
-					</Name>
-				</xsl:if>
-				<xsl:if test="CORP">
-					<Supplier>
-						<Link>
-							<xsl:attribute name="Target">ContactRec</xsl:attribute>
-							<xsl:attribute name="Ref">
-								<xsl:value-of select="generate-id( CORP )"/>
-							</xsl:attribute>
-						</Link>
-					</Supplier>
-				</xsl:if>
-				
-				<!-- Creates Copyright element-->
-				<xsl:if test="DATA/COPR">
-					<Copyright>
-						<xsl:value-of select="DATA/COPR"/>
-					</Copyright>
-				</xsl:if>
-			</Product>
-		</xsl:if>
- 	</FileCreation>
-</xsl:template>
-
-<!-- **********************************************************************
-
 	EvidenceNote Template - call by the SOUR templates that create Evidence
 		elements
 
@@ -1035,9 +1233,11 @@
 </xsl:template>
   
 <!-- **********************************************************************
+***************************************************************************
 
 	OBJE[@ID] Template - handles MULTIMEDIA_RECORDs and creates SourceRecs
 
+***************************************************************************
 *********************************************************************** -->
 <xsl:template match="OBJE[@ID]">
 	<SourceRec>
@@ -1069,10 +1269,12 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
 
 	OBJE[@REF] Template - handle MULTIMEDIA_LINKs and creates Evidence
 		elements
-
+		
+***************************************************************************
 *********************************************************************** -->
 <xsl:template match="OBJE[@REF]">
 	<Evidence>
@@ -1089,6 +1291,7 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
 
 	OBJE Template - handles MULTIMEDIA_LINKs that are not really links.
 	
@@ -1099,7 +1302,8 @@
 		+1 <<NOTE_STRUCTURE>>  {0:M}
 
 	This template creates the Evidence element and its associates
-		
+
+***************************************************************************
 *********************************************************************** -->
 <xsl:template match="OBJE">
 	<Evidence>
@@ -1146,10 +1350,24 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
+**																		 **
+**	Templates Related to ContactRecs and its associated elements		 **
+**		* CORP -> <ContactRec>											 **
+**		* SUBM[@ID] -> <ContactRec>										 **
+**		* ADDR -> <MailAddress>											 **
+**		* PHON -> <Phone>												 **
+**																		 **
+***************************************************************************
+***********************************************************************
+
+<!-- **********************************************************************
+***************************************************************************
 
 	ContactRecs Template - call to create ContactRec elements from the
 		//SUBM and //HEAD/SOUR/CORP tags
 
+***************************************************************************
 *********************************************************************** -->
 <xsl:template name="ContactRecs">
 	<xsl:apply-templates select="//HEAD/SOUR/CORP"/>
@@ -1215,13 +1433,14 @@
 	</ContactRec>
 </xsl:template>
 
-
 <!-- **********************************************************************
+***************************************************************************
 
 	ADDR Template mode=MailAddress - creates the MailAddress element and its
 		associated elements.  MailAddress is pretty limited and can only
 		occur inside a GroupRec or ContactRec.  
 
+***************************************************************************
 ************************************************************************ -->
 <!-- DOC This does not handle the PHON element of a ADDRESS_STRUCTURE -->
 <xsl:template match="ADDR" mode="MailAddress">
@@ -1314,97 +1533,6 @@
 	</AddrLine>
 </xsl:template>
 
-
-<!-- **********************************************************************
-
-	ADDR Template mode=Place - Handles ADDR which occur in INDI, OBJE and
-		SOUR tags.  Since the MailAddress element can only occur
-		inside the GroupRec and the ContactRec and these cannot be link to
-		in the other Recs, ADDRESS_STRUCTURE data is tagged using the
-		<Place>, <PlaceName>, and <PlacePart> elements.
-
-************************************************************************ -->
-<!-- DOC Again this isn't the most ideal solution for handling this GEDCOM 5.5 structure:
-  n  ADDR <ADDRESS_LINE>  {0:1}
-    +1 CONT <ADDRESS_LINE>  {0:M}
-    +1 ADR1 <ADDRESS_LINE1>  {0:1}
-    +1 ADR2 <ADDRESS_LINE2>  {0:1}
-    +1 CITY <ADDRESS_CITY>  {0:1}
-    +1 STAE <ADDRESS_STATE>  {0:1}
-    +1 POST <ADDRESS_POSTAL_CODE>  {0:1}
-    +1 CTRY <ADDRESS_COUNTRY>  {0:1}
-  n  PHON <PHONE_NUMBER>
-  
-  FIX - The first problem is with the first line.  The contents of a ADDR field
-  may be the name of a building "Springfield Hospital" or person's name
-  "Homer Simpson."  It could also be a mere street address. 
-  
-  The following template assumes that ADDR <ADDRESS_LINE> actually specifies a 
-  building name, business name, or personal name and places this data inside
-  the <PlaceName> element which permits both PCDATA and PlacePart elements.
-  
-  DOC The second problem involves the PHON tag.  There is no equivalent in a <Place> element.  
- 
--->
-<xsl:template match="ADDR" mode="Place">
- 	<Place>
- 		<PlaceName>
-			<xsl:value-of select="text()"/>
-			<xsl:apply-templates select="CONT" mode="Place"/>
- 			<xsl:for-each select="node()">
- 				<xsl:choose>
- 					<xsl:when test="self::ADR1">
-  						<!-- DOC street name is not localized -->
- 						<PlacePart Level="6" Type="street name">
- 							<xsl:value-of select="self::ADR1"/>
- 						</PlacePart>					
- 					</xsl:when>
- 					<xsl:when test="self::ADR2">
- 						<PlacePart level="6" Type="street name">
- 							<xsl:value-of select="self::ADR2"/>
- 						</PlacePart>
- 					</xsl:when>
- 					<xsl:when test="self::CITY">
- 						<PlacePart Level="4" Type="city">
- 							<xsl:value-of select="self::CITY"/>
- 						</PlacePart>					
- 					</xsl:when>
-					<xsl:when test="self::STAE">
- 						<PlacePart Level="2" Type="state">
- 							<xsl:value-of select="self::STAE"/>
- 						</PlacePart>
-					</xsl:when>
- 					<xsl:when test="self::POST">
- 						<PlacePart Level="5" Type="postal code">
- 							<xsl:value-of select="self::POST"/>
- 						</PlacePart> 					
- 					</xsl:when>
- 					<xsl:when test="self::CTRY">
- 						<PlacePart Level="1" Type="country">
- 							<xsl:value-of select="self::CTRY"/>
- 						</PlacePart>
- 					</xsl:when>
- 				</xsl:choose>
- 			</xsl:for-each>
- 		</PlaceName>
- 	</Place>
-</xsl:template>
- 
- <!-- **********************************************************************
-
-	CONT Template mode=Place - handles the CONT tag that may occur
-		in the ADDR line of a ADDRESS_STRUCTURE.  But since it is the context
-		of a Place element it simply padds each ADDR's CONT line with a 
-		whitespace
-
-*********************************************************************** -->
-<xsl:template match="CONT" mode="Place">
- 	<!-- Pad with space between content of ADDR and CONT and other CONT tags-->
- 	<xsl:text> </xsl:text>
- 	<xsl:value-of select="."/>
-</xsl:template>
- 
-
 <!-- **********************************************************************
 
 	PHON Template 
@@ -1420,31 +1548,7 @@
 		<xsl:value-of select="."/>
 	</Phone>
 </xsl:template>
-
-<!-- **********************************************************************
-
-	handleCONCT Template - utility template that handles the multiple
-		occurance of CONC and CONT.  It is never used in the case of 
-		text intended to be an <Extract> because, in this case, <br/>
-		are permissable and CONT could be translated to <br/>
-
-*********************************************************************** -->
-<xsl:template name="handleCONCT">
-	<xsl:value-of select="text()"/>
-	<xsl:for-each select="node()">
-		<xsl:choose>
-			<xsl:when test="self::CONT">
-				<xsl:text> </xsl:text>
-				<xsl:value-of select="self::CONT"/>
-			</xsl:when>
-			<xsl:when test="self::CONC">
-				<xsl:text> </xsl:text>
-				<xsl:value-of select="self::CONC"/>
-			</xsl:when>
-		</xsl:choose>
-	</xsl:for-each>
-</xsl:template>
-
+ 
 <!-- DOC  -->
 <!-- **********************************************************************
 
@@ -1461,6 +1565,7 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
 
 	NOTE[@REF] Template - handles a linked NOTE_STRUCTURE or a 
 		reference to notes.  NOTE tags that reference a NOTE_RECORD will
@@ -1468,6 +1573,7 @@
 		that.  There contents will instead be place in the element which
 		referenced them.
 
+***************************************************************************
 *********************************************************************** -->
 <xsl:template match="NOTE[@ID]">
 	<Note>
@@ -1490,11 +1596,23 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
+**																		 **
+**	Templates Related to Familes and its associated elements			 **
+**		* FAM -> <FamilyRec>											 **
+**		* CHIL -> <Child>												 **
+**																		 **
+***************************************************************************
+*********************************************************************** -->
+
+<!-- **********************************************************************
+***************************************************************************
 
 	FAM Template - creates the FamilyRec and related elements, checking
 		to determine there is a MARR event supporting this, checking
 		to determine the ID of both parents if they are available.
-
+		
+***************************************************************************
 *********************************************************************** -->
 <xsl:template match="FAM">
 	<!-- First Create/get the  HUSB and WIFE ids, if they exist -->
@@ -1590,58 +1708,22 @@
 </xsl:template>
 
 <!-- **********************************************************************
-
-	CHIL Template mode="Events" - handles child elements in the context
-		of creating Family EventRec, of which there are two possibilities:
-		CENS and DIV.  The template simply adds them as a Participant
-		to the event as well as providing a link to the IndividualRec
-
+***************************************************************************
+**																		 **
+**	Templates Related to Repositories and its associated elements		 **
+**		* REPO[@REF] -> <Repository>									 **
+**		* REPO[@ID] -> <RepositoryRec>									 **
+**																		 **
+***************************************************************************
 *********************************************************************** -->
 
-<xsl:template match="CHIL" mode="Events">
-	<Participant>
-		<Link>
-			<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-			<xsl:attribute name="Ref">
-				<xsl:variable name="ChildID" select="CHIL/@REF"/>
-				<xsl:value-of select="generate-id(//INDI[@ID=$ChildID])"/>
-			</xsl:attribute>
-		</Link>
-		<Role>child</Role>
-	</Participant>
-</xsl:template>
-
 <!-- **********************************************************************
-
-	CHAN Template - creates the Changed element and sets the Date and Time
-		attributes
-
-*********************************************************************** -->
-<xsl:template match="CHAN">
-	<!-- both the Date and the Time attributes are #REQUIRED -->
-	<Changed>
-		<xsl:for-each select="node()">
-			<xsl:choose>
-				<xsl:when test="self::DATE">
-					<xsl:attribute name="Date">
-						<xsl:value-of select="text()"/>
-					</xsl:attribute>				
-				</xsl:when>
-			</xsl:choose>
-		</xsl:for-each>
-		<!-- FIX This is a hack since I can't figure out how to loop into the TIME element/tag -->
-		<xsl:attribute name="Time">
-				<xsl:value-of select="DATE/TIME"/>
-		</xsl:attribute>
-		<xsl:apply-templates select="NOTE"/>
-	</Changed>
-</xsl:template>
-
-<!-- **********************************************************************
+***************************************************************************
 
 	REPO[@REF] Template - from a linked reference to repository, occuring
 		in a SourceRec
 
+***************************************************************************
 *********************************************************************** -->
 <xsl:template match="REPO[@REF]">
 	<Repository>
@@ -1656,6 +1738,11 @@
 	</Repository>
 </xsl:template>
 
+<!-- **********************************************************************
+
+	CALN Template - creates CallNbr element for Repository Elements
+
+*********************************************************************** -->
 <xsl:template match="CALN">
 	<CallNbr>
 		<xsl:value-of select="text()"/>
@@ -1663,9 +1750,11 @@
 </xsl:template>
 
 <!-- **********************************************************************
+***************************************************************************
 
 	REPO[@ID] Template - creates RepositoryRecs
 
+***************************************************************************
 *********************************************************************** -->
 <xsl:template match="REPO[@ID]">
 	<RepositoryRec>
@@ -1683,6 +1772,57 @@
 		<xsl:apply-templates select="NOTE"/>
 		<xsl:apply-templates select="CHAN"/>
 	</RepositoryRec>
+</xsl:template>
+
+
+<!-- **********************************************************************
+***************************************************************************
+**																		 **
+**	Templates Applicable for multiple records or different elements		 **
+**		* CONT, CONC
+**		* DATE -> <Date>												 **
+**		* RIN, RFN, AFN, REFN -> <ExternalID>							 **
+**		* CHAN -> <Changed>												 **
+**																		 **
+***************************************************************************
+*********************************************************************** -->
+
+<!-- **********************************************************************
+
+	handleCONCT Template - utility template that handles the multiple
+		occurance of CONC and CONT.  It is never used in the case of 
+		text intended to be an <Extract> because, in this case, <br/>
+		are permissable and CONT could be translated to <br/>
+
+*********************************************************************** -->
+<xsl:template name="handleCONCT">
+	<xsl:value-of select="text()"/>
+	<xsl:for-each select="node()">
+		<xsl:choose>
+			<xsl:when test="self::CONT">
+				<xsl:text> </xsl:text>
+				<xsl:value-of select="self::CONT"/>
+			</xsl:when>
+			<xsl:when test="self::CONC">
+				<xsl:text> </xsl:text>
+				<xsl:value-of select="self::CONC"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:for-each>
+</xsl:template>
+
+<!-- **********************************************************************
+
+	DATE Template - current implementations assumes that all dates are
+		Gregorian
+
+************************************************************************ -->
+<!-- TODO enable it to handle non-Gregorian calendars -->
+<xsl:template match="DATE">
+ 	
+ 	<Date Calendar="Gregorian">
+		<xsl:value-of select="."/>
+ 	</Date>
 </xsl:template>
 
 <!-- **********************************************************************
@@ -1739,6 +1879,32 @@
 			<xsl:value-of select="text()"/>
 		</xsl:attribute>
 	</ExternalID>
+</xsl:template>
+
+<!-- **********************************************************************
+
+	CHAN Template - creates the Changed element and sets the Date and Time
+		attributes
+
+*********************************************************************** -->
+<xsl:template match="CHAN">
+	<!-- both the Date and the Time attributes are #REQUIRED -->
+	<Changed>
+		<xsl:for-each select="node()">
+			<xsl:choose>
+				<xsl:when test="self::DATE">
+					<xsl:attribute name="Date">
+						<xsl:value-of select="text()"/>
+					</xsl:attribute>				
+				</xsl:when>
+			</xsl:choose>
+		</xsl:for-each>
+		<!-- FIX This is a hack since I can't figure out how to loop into the TIME element/tag -->
+		<xsl:attribute name="Time">
+				<xsl:value-of select="DATE/TIME"/>
+		</xsl:attribute>
+		<xsl:apply-templates select="NOTE"/>
+	</Changed>
 </xsl:template>
 
 </xsl:stylesheet>
