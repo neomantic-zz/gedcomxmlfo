@@ -13,8 +13,9 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <!-- TODO add param to set the Type attribute in the ExternalID -->
 <!--For Debugging -->
 <xsl:template match="/">
- 	<xsl:apply-templates select="//INDI"/>
 	<xsl:call-template name="Events"/>
+	 <xsl:apply-templates select="//FAM"/>
+ 	<xsl:apply-templates select="//INDI"/>
 </xsl:template>
 <!-- Start at Root-->
 <xsl:template name="full">
@@ -170,7 +171,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  
  <xsl:template name="Events">
  	<!-- INDIVIDUAL_EVENT_STRUCTURE -->
-	<xsl:apply-templates select="//INDI/BIRT|
+ 	<xsl:apply-templates select="//INDI/BIRT|
 //INDI/DEAT|
 //INDI/CHR|
 //INDI/BURI|
@@ -193,19 +194,19 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 //INDI/GRAD|
 //INDI/RETI"/>
 	
-	<!-- FAMILY_EVENT_STRUCTURE 
-	<xsl:apply-templates select="//FAM/ANUL"/>
-	<xsl:apply-templates select="//FAM/CENS"/>
-	<xsl:apply-templates select="//FAM/DIV"/>
-	<xsl:apply-templates select="//FAM/DIVF"/>
-	<xsl:apply-templates select="//FAM/ENGA"/>
-	<xsl:apply-templates select="//FAM/MARR"/>
-	<xsl:apply-templates select="//FAM/MARB"/>
-	<xsl:apply-templates select="//FAM/MARC"/>
-	<xsl:apply-templates select="//FAM/MARL"/>
-	<xsl:apply-templates select="//FAM/MARS"/>
--->
-	<!-- TODO Handle all other events -->
+	<!-- FAMILY_EVENT_STRUCTURE -->
+<xsl:apply-templates select="//FAM/ANUL|
+//FAM/CENS|
+//FAM/DIV|
+//FAM/DIVF|
+//FAM/ENGA|
+//FAM/MARR|
+//FAM/MARB|
+//FAM/MARC|
+//FAM/MARL|
+//FAM/MARS"/>
+
+<!-- TODO Handle all other events LDS_INDIVIDUAL_ORDINANCE -->
 	
  </xsl:template>
 <!-- Handles all individual events besides BIRT-->
@@ -220,7 +221,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  					<xsl:value-of select="'death'"/>
  				</xsl:when>
   				<xsl:when test="contains( name(), 'CHR')">
- 					<xsl:value-of select="'death'"/>
+ 					<xsl:value-of select="'christening'"/>
  				</xsl:when>
   				<xsl:when test="contains( name(), 'BURI')">
  					<xsl:value-of select="'burial'"/>
@@ -230,7 +231,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  				</xsl:when>
  				<!-- FIX -->
   				<xsl:when test="contains( name(), 'ADOP')">
- 					<xsl:value-of select="'death'"/>
+ 					<xsl:value-of select="'adoption'"/>
  				</xsl:when>
   				<xsl:when test="contains( name(), 'BAPM')">
  					<xsl:value-of select="'baptism'"/>
@@ -246,14 +247,14 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  				</xsl:when>
  				<!-- FIX -->
   				<xsl:when test="contains( name(), 'CHRA')">
- 					<xsl:value-of select="'death'"/>
+ 					<xsl:value-of select="'adult christening'"/>
  				</xsl:when>
   				<xsl:when test="contains( name(), 'CONF')">
  					<xsl:value-of select="'confirmation'"/>
  				</xsl:when>
  				<!-- FIX -->
   				<xsl:when test="contains( name(), 'FCOM')">
- 					<xsl:value-of select="'death'"/>
+ 					<xsl:value-of select="'first communion'"/>
  				</xsl:when>
   				<xsl:when test="contains( name(), 'ORDN')">
  					<xsl:value-of select="'ordination'"/>
@@ -311,11 +312,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  			<Role>principal</Role>
  			<!-- DOC I refuse to implement the Living element because it is pointless for the most part
  				and the spec only implies that it is valid only for ordination -->
- 			<xsl:if test="AGE">
- 				<Age>
- 					<xsl:value-of select="AGE"/>
- 				</Age>
- 			</xsl:if>
+ 			<xsl:apply-templates select="AGE"/>
  		</Participant>
  		<xsl:apply-templates select="DATE"/>
  		<xsl:apply-templates select="PLAC"/>
@@ -355,82 +352,125 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<xsl:apply-templates select="../CHAN"/>
  	</EventRec>
  </xsl:template><!-- End BIRT template -->
- 
- <!-- begin templates related to death -->
- <xsl:template match="DEAT">
- 	<EventRec>
+
+
+ <!-- Handles the FAMILY_EVENT_STRUCTURE  -->
+ <xsl:template match="ANUL|CENS|DIV|DIVF|ENGA|MARR|MARB|MARC|MARL|MARS">
+   	<EventRec>
  		<xsl:attribute name="Id">
  			<xsl:value-of select="generate-id()"/>
  		</xsl:attribute>
- 		<xsl:attribute name="Type">death</xsl:attribute>
- 		<xsl:attribute name="VitalType">death</xsl:attribute>
- 		<Participant>
-			<Link>
-				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(..)"/>
-				</xsl:attribute>
-			</Link>
-			<Role>principal</Role>
-		</Participant>
+ 		<xsl:attribute name="Type">
+ 			<xsl:choose>
+ 				 <xsl:when test="contains( name(), 'ANUL')">
+ 					<xsl:value-of select="'annulment'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'CENS')">
+ 					<xsl:value-of select="'census'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'DIV')">
+ 					<xsl:value-of select="'divorce'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'DIVF')">
+ 					<xsl:value-of select="'divorce filed'"/>
+ 				</xsl:when>
+  				<xsl:when test="contains( name(), 'ENGA')">
+ 					<xsl:value-of select="'engagement'"/>
+ 				</xsl:when>
+   				<xsl:when test="contains( name(), 'MARR')">
+ 					<xsl:value-of select="'marriage'"/>
+ 				</xsl:when>
+   				<xsl:when test="contains( name(), 'MARB')">
+ 					<xsl:value-of select="'adoption'"/>
+ 				</xsl:when>
+   				<xsl:when test="contains( name(), 'MARC')">
+ 					<xsl:value-of select="'marriage contract'"/>
+ 				</xsl:when>
+   				<xsl:when test="contains( name(), 'MARL')">
+ 					<xsl:value-of select="'marriage license'"/>
+ 				</xsl:when>
+   				<xsl:when test="contains( name(), 'MARS')">
+ 					<xsl:value-of select="'marriage settlement'"/>
+ 				</xsl:when>
+ 			</xsl:choose>
+ 		</xsl:attribute>
+ 		<xsl:attribute name="VitalType">
+ 			<xsl:choose>
+  				 <xsl:when test="contains( name(), 'ANUL')">
+ 					<xsl:value-of select="'marriage'"/>
+ 				</xsl:when>
+				<xsl:when test="contains( name(), 'DIV')">
+ 					<xsl:value-of select="'divorce'"/>
+ 				</xsl:when>
+    				<xsl:when test="contains( name(), 'MARR')">
+ 					<xsl:value-of select="'marriage'"/>
+ 				</xsl:when>
+   				<xsl:when test="contains( name(), 'MARB')">
+ 					<xsl:value-of select="'marriage'"/>
+ 				</xsl:when>
+   				<xsl:when test="contains( name(), 'MARC')">
+ 					<xsl:value-of select="'marriage'"/>
+ 				</xsl:when>
+   				<xsl:when test="contains( name(), 'MARL')">
+ 					<xsl:value-of select="'marriage'"/>
+ 				</xsl:when>
+   				<xsl:when test="contains( name(), 'MARS')">
+ 					<xsl:value-of select="'marriage'"/>
+ 				</xsl:when>
+ 			</xsl:choose>
+ 		</xsl:attribute>
+ 	 	
+	 	<xsl:if test="../HUSB">
+ 	 		<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:variable name="HusbID" select="../HUSB/@REF"/>
+						<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
+					</xsl:attribute>
+				</Link>
+				<Role>husband</Role>
+				<!-- The <Age> element is not added because GEDCOM 5.5 EVENT_DETAILS have an AGE
+					tag, it is unclear to whom the age refers when Family events are by definition more than
+					one individual at possibly different ages -->
+			</Participant>
+		</xsl:if>
+		 <xsl:if test="../WIFE">
+ 	 		<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:variable name="WifeID" select="../WIFE/@REF"/>
+						<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
+					</xsl:attribute>
+				</Link>
+				<Role>wife</Role>
+			</Participant>
+		</xsl:if>
+		<!-- Handle All FAM events that one would need to mention the involvment of children. Of course,
+			there could be children preceding the marriage but this situation is difficult to determine
+			using GEDCOM 5.5 structures (Theorectically, this may be accounted for if one compares the date
+			of the marriage with the date of birth of the children). -->
+		<xsl:variable name="NodeName" select="name()"/>
+		<xsl:if test="contains($NodeName, 'DIV') or
+				contains( $NodeName, 'DIVF') or 
+				contains( $NodeName, 'CENS')">
+			<xsl:apply-templates select="../CHIL" mode="Events"/>
+		</xsl:if>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
 		<xsl:apply-templates select="SOUR"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
- 	</EventRec>
- </xsl:template> <!-- end DEAT template -->
- 
- <!-- Handles BURI tag -->
- <xsl:template match="BURI">
-  	<EventRec>
- 		<xsl:attribute name="Id">
- 			<xsl:value-of select="generate-id()"/>
- 		</xsl:attribute>
- 		<xsl:attribute name="Type">burial</xsl:attribute>
- 		<Participant>
-			<Link>
-				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(..)"/>
-				</xsl:attribute>
-			</Link>
-			<Role>principal</Role>
-		</Participant>
-		<xsl:apply-templates select="DATE"/>
-		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR"/>
-			<!-- Since this event is created from the INDI record we assign this the same
-				Change element as it has -->
-		<xsl:apply-templates select="../CHAN"/>
- 	</EventRec>
+	</EventRec>
  </xsl:template>
- 
- <!-- Handles CREM tag -->
- <xsl:template match="CREM">
-  	<EventRec>
- 		<xsl:attribute name="Id">
- 			<xsl:value-of select="generate-id()"/>
- 		</xsl:attribute>
- 		<xsl:attribute name="Type">cremation</xsl:attribute>
- 		<Participant>
-			<Link>
-				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(..)"/>
-				</xsl:attribute>
-			</Link>
-			<Role>principal</Role>
-		</Participant>
-		<xsl:apply-templates select="DATE"/>
-		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR"/>
-			<!-- Since this event is created from the INDI record we assign this the same
-				Change element as it has -->
-		<xsl:apply-templates select="../CHAN"/>
- 	</EventRec>
- </xsl:template>
+
+<xsl:template match="AGE">
+	<Age>
+		<xsl:value-of select="."/>
+	</Age>
+</xsl:template>
  
  <!-- Handles CAUS of death tag.  GEDCOM 6.0 XML eliminates this tag, so we surround it in a note -->
  <xsl:template match="CAUS">
@@ -541,7 +581,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 				<xsl:value-of select="'marriage'"/>
 			</xsl:when>
 			<xsl:when test="contains( name(), 'OCCU')">
-				<xsl:value-of select="'occuptation'"/>
+				<xsl:value-of select="'occupation'"/>
 			</xsl:when>
 			<xsl:when test="contains( name(), 'PROP')">
 				<xsl:value-of select="'property'"/>
@@ -573,80 +613,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</PersInfo>
 </xsl:template>
 
-
- <xsl:template match="BAPM">
- 	<EventRec>
- 		<xsl:attribute name="Id">
- 			<xsl:value-of select="generate-id()"/>
- 		</xsl:attribute>
- 		<xsl:attribute name="Type">baptism</xsl:attribute>
- 		<Participant>
-			<Link>
-				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(..)"/>
-				</xsl:attribute>
-			</Link>
-			<Role>principal</Role>
-		</Participant>
-		<xsl:apply-templates select="DATE"/>
-		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR"/>
-			<!-- Since this event is created from the INDI record we assign this the same
-				Change element as it has -->
-		<xsl:apply-templates select="../CHAN"/>
- 	</EventRec>
- </xsl:template>
-
- <xsl:template match="CONF">
- 	<EventRec>
- 		<xsl:attribute name="Id">
- 			<xsl:value-of select="generate-id()"/>
- 		</xsl:attribute>
- 		<xsl:attribute name="Type">confirmation</xsl:attribute>
- 		<Participant>
-			<Link>
-				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(..)"/>
-				</xsl:attribute>
-			</Link>
-			<Role>principal</Role>
-		</Participant>
-		<xsl:apply-templates select="DATE"/>
-		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR"/>
-			<!-- Since this event is created from the INDI record we assign this the same
-				Change element as it has -->
-		<xsl:apply-templates select="../CHAN"/>
- 	</EventRec>
- </xsl:template>
-
- <xsl:template match="IMMI">
-  	<EventRec>
- 		<xsl:attribute name="Id">
- 			<xsl:value-of select="generate-id()"/>
- 		</xsl:attribute>
- 		<xsl:attribute name="Type">immigration</xsl:attribute>
- 		<Participant>
-			<Link>
-				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-				<xsl:attribute name="Ref">
-					<xsl:value-of select="generate-id(..)"/>
-				</xsl:attribute>
-			</Link>
-			<Role>principal</Role>
-		</Participant>
-		<xsl:apply-templates select="DATE"/>
-		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR"/>
-			<!-- Since this event is created from the INDI record we assign this the same
-				Change element as it has -->
-		<xsl:apply-templates select="../CHAN"/>
- 	</EventRec>
- </xsl:template>
- 
- 
 
 <!-- Handles simple GEDCOM SOUR_CITATION (no link)  -->
 <!-- DOC should note where that the SOURCE_DESCRIPTION has been mapped to Caption Element -->
@@ -939,92 +905,21 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</Child>
 </xsl:template><!-- End CHIL template-->
 
-<xsl:template match="MARR">
-	<!-- Create separate EventRect elementfor MARR and DIV which no longer belong in a FamilyRec as
-		they did in a FAMILY_STRUCTURE -->
-		<EventRec>
-			<xsl:attribute name="Id">
-				<xsl:value-of select="generate-id()"/>
+<!-- Handle CHIL elements in the context of creating Family EventRec Particpants -->
+<xsl:template match="CHIL" mode="Events">
+	<Participant>
+		<Link>
+			<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+			<xsl:attribute name="Ref">
+				<xsl:variable name="ChildID" select="CHIL/@REF"/>
+				<xsl:value-of select="generate-id(//INDI[@ID=$ChildID])"/>
 			</xsl:attribute>
-			<xsl:attribute name="Type">marriage</xsl:attribute>
-			<xsl:attribute name="VitalType">marriage</xsl:attribute>
-			<xsl:if test="../HUSB">
-				<Participant>
-					<Link>
-						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-						<xsl:attribute name="Ref">
-							<xsl:variable name="HusbID" select="../HUSB/@REF"/>
-							<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
-						</xsl:attribute>
-					</Link>
-					<Role>husband</Role>
-				</Participant>
-			</xsl:if>
-			<xsl:if test="../WIFE">
-				<Participant>
-					<Link>
-						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-						<xsl:attribute name="Ref">
-							<xsl:variable name="WifeID" select="../WIFE/@REF"/>
-							<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
-						</xsl:attribute>
-					</Link>
-					<Role>wife</Role>
-				</Participant>
-			</xsl:if>
-			<xsl:apply-templates select="DATE"/>
-			<xsl:apply-templates select="PLAC"/>
-			<xsl:apply-templates select="SOUR"/>
-			<!-- FIX   Since the MARR event is created from the FAM record we assign this the same
-				Change element as the FAM -->
-			<xsl:apply-templates select="../CHAN"/>
-		</EventRec>
-
+		</Link>
+		<Role>child</Role>
+	</Participant>
 </xsl:template>
 
-<xsl:template match="DIV">
-		<EventRec>
-			<xsl:attribute name="Id">
-				<xsl:value-of select="generate-id()"/>
-			</xsl:attribute>
-			<xsl:attribute name="Type">divorce</xsl:attribute>
-			<!-- Even though the Recommedation mention VitalType divorce, it does not
-				exist in the DTD, so we leave it out, which doesn't mean that much because
-				it is an #IMPLIED attribute -->
-			<xsl:if test="../HUSB">
-				<Participant>
-					<Link>
-						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-						<xsl:attribute name="Ref">
-							<xsl:variable name="HusbID" select="../HUSB/@REF"/>
-							<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
 
-						</xsl:attribute>
-					</Link>
-					<Role>husband</Role>
-				</Participant>
-			</xsl:if>
-			<xsl:if test="../WIFE">
-				<Participant>
-					<Link>
-						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
-						<xsl:attribute name="Ref">
-							<xsl:variable name="WifeID" select="../WIFE/@REF"/>
-							<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
-						</xsl:attribute>
-					</Link>
-					<Role>wife</Role>
-				</Participant>
-			</xsl:if>
-			<xsl:apply-templates select="DATE"/>
-			<xsl:apply-templates select="PLAC"/>
-			<xsl:apply-templates select="SOUR"/>
-			<!-- FIX Since the DIV event is created from the FAM record we assign this the same
-				Change element as the FAM -->
-			<xsl:apply-templates select="../CHAN"/>
-		</EventRec>
-
-</xsl:template>
 
 <!-- Handles CHAN tag -->
 <xsl:template match="CHAN">
