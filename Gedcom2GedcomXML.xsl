@@ -786,13 +786,17 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:template match="PUBL">
 	<Publishing>
 		<xsl:value-of select="text()"/>
-		<xsl:for-each select="CONT">
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="CONT"/>
-		</xsl:for-each>
-		<xsl:for-each select="CONC">
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="CONC"/>
+		<xsl:for-each select="node()">
+			<xsl:choose>
+				<xsl:when test="self::CONT">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="self::CONT"/>
+				</xsl:when>
+				<xsl:when test="self::CONC">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="self::CONC"/>
+				</xsl:when>
+			</xsl:choose>
 		</xsl:for-each>
 	</Publishing>
 </xsl:template>
@@ -800,13 +804,17 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:template match="TEXT">
 	<Extract>
 		<xsl:value-of select="text()"/>
-		<xsl:for-each select="CONT">
-			<br/>
-			<xsl:value-of select="CONT"/>
-		</xsl:for-each>
-		<xsl:for-each select="CONC">
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="CONC"/>
+		<xsl:for-each select="node()">
+			<xsl:choose>
+				<xsl:when test="self::CONT">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="self::CONT"/>
+				</xsl:when>
+				<xsl:when test="self::CONC">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="self::CONC"/>
+				</xsl:when>
+			</xsl:choose>
 		</xsl:for-each>
 	</Extract>
 </xsl:template>
