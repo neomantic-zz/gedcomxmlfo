@@ -29,9 +29,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <!-- SourceRec  -->
 	<xsl:call-template name="SourceRecs"/>
 <!-- RepositoryRec -->
-<!-- GroupRec -->
-<!-- What do I do with GEDCOM 5.5 "0 @N1@ NOTE" -->
-
+	<xs:apply-templates select="//REPO"/>
+<!-- Not creating any GroupRec because there is no equivalent in GEDCOM 5.5 -->
  	
  	</GEDCOM>
 </xsl:template>
@@ -87,7 +86,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</xsl:attribute>
 		<!-- TODO?  implement Type attribute with the following values: person, business, organization -->
 		<xsl:apply-templates select="NAME"/>
-		<xsl:apply-templates select="ADDR"/>
+		<xsl:apply-templates select="ADDR" mode="MailAddress"/>
 		<xsl:apply-templates select="PHON"/>
 		<!-- Handle OBJE hits as either a <Evidence> Element or as a SourceRec link -->
 		<xsl:apply-templates select="OBJE"/>
@@ -594,7 +593,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  </xsl:template>
  
  <!-- Handles simple PLAC tag (ex. Fremont, Dodge County, Nebraska, USA) -->
- <!-- TODO will need to handle all elements related to PLAC such as PlaceName PlaceNameVar --> 
+ <!-- TODO? it may be possible to breakdown the above info into PlaceName elements given the Headers PLACE_HIERARCHY--> 
  <xsl:template match="PLAC">
  	<Place>
  		<PlaceName>
@@ -603,60 +602,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  	</Place>
  </xsl:template>
  
- <!-- Handles ADDR structure without handling PHON -->
- <xsl:template match="ADDR">
- 		<MailAddress>
- 			<AddrLine>
- 				<xsl:value-of select="text()"/>
- 			</AddrLine>
- 			<xsl:for-each select="node()">
-				<xsl:choose>
-					<xsl:when test="self::ADR1">
-						<AddrLine>
-							<xsl:value-of select="self::ADR1"/>
-						</AddrLine>
-					</xsl:when>
-					<xsl:when test="self::ADR2">
-						<AddrLine>
-							<xsl:value-of select="self::ADR2"/>
-						</AddrLine>
-					</xsl:when>
-					<xsl:when test="self::CITY">
-						<AddrLine Type="city">
-							<xsl:value-of select="self::CITY"/>
-						</AddrLine>
-					</xsl:when>
-					<xsl:when test="self::STAE">
-						<AddrLine Type="state">
-							<xsl:value-of select="self::STAE"/>
-						</AddrLine>
-					</xsl:when>
-					<xsl:when test="self::POST">
-						<AddrLine Type="postal code">
-							<xsl:value-of select="self::POST"/>
-						</AddrLine>
-					</xsl:when>
-					<xsl:when test="self::CTRY">
-						<AddrLine Type="country">
-							<xsl:value-of select="self::CTRY"/>
-						</AddrLine>
-					</xsl:when>
- 				</xsl:choose>
-			</xsl:for-each>
- 		</MailAddress>
-</xsl:template><!-- end ADDR template -->
-
-<!-- FIX if at all possible.  Usually the PHON tag belongs to the MailAddress ContactRec
-	The problem is that GEDCOM 5.5 strict places the PHON and the ADDR tags at the same
-	level.  The current implementation simply surrounds the Phone element with at ContactRec, losing, IOW,
-	the relationship between the MailAddress and the Phone
--->
-<xsl:template match="PHON">
-	<Phone>
-		<xsl:value-of select="."/>
-	</Phone>
-</xsl:template>
-
  <xsl:template name="persinfo">
 	<xsl:apply-templates select="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL"/>
 </xsl:template>
@@ -771,7 +716,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  					<xsl:value-of select="QUAY"/>
  				</Note>
  			</xsl:if>
- 
+			<!-- There can be more than one Note element-->
  			<xsl:apply-templates select="NOTE"/>
  		</Citation>
 	</Evidence>
@@ -863,11 +808,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 
  	</SourceRec>
  </xsl:template>
- 
- <xsl:template name="ContactRecs">
-  	<xsl:apply-templates select="//SUBM"/>
-</xsl:template>
-
+  
 <xsl:template match="TITL">
 	<Title>
 		<xsl:call-template name="handleCONCT"/>
@@ -904,6 +845,133 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</Extract>
 </xsl:template>
 
+<xsl:template name="ContactRecs">
+  	<xsl:apply-templates select="//SUBM"/>
+</xsl:template>
+<!-- DOC the <MailAddress> element's use is pretty limited.  It can only occur in GroupRec and ContactRec.  SourceRec,
+	EventRec, and IndividualRec cannot connect to it via a <Link> Element contained it a Contact element  -->
+
+<!-- Handles ADDR structure without handling PHON -->
+ <xsl:template match="ADDR" mode="MailAddress">
+ 		<MailAddress>
+ 			<AddrLine>
+ 				<xsl:value-of select="text()"/>
+ 			</AddrLine>
+ 			<xsl:for-each select="node()">
+				<xsl:choose>
+					<xsl:when test="self::ADR1">
+						<AddrLine>
+							<xsl:value-of select="self::ADR1"/>
+						</AddrLine>
+					</xsl:when>
+					<xsl:when test="self::ADR2">
+						<AddrLine>
+							<xsl:value-of select="self::ADR2"/>
+						</AddrLine>
+					</xsl:when>
+					<xsl:when test="self::CITY">
+						<AddrLine Type="city">
+							<xsl:value-of select="self::CITY"/>
+						</AddrLine>
+					</xsl:when>
+					<xsl:when test="self::STAE">
+						<AddrLine Type="state">
+							<xsl:value-of select="self::STAE"/>
+						</AddrLine>
+					</xsl:when>
+					<xsl:when test="self::POST">
+						<AddrLine Type="postal code">
+							<xsl:value-of select="self::POST"/>
+						</AddrLine>
+					</xsl:when>
+					<xsl:when test="self::CTRY">
+						<AddrLine Type="country">
+							<xsl:value-of select="self::CTRY"/>
+						</AddrLine>
+					</xsl:when>
+ 				</xsl:choose>
+			</xsl:for-each>
+ 		</MailAddress>
+</xsl:template><!-- end ADDR mode=MailAddress template -->
+
+<!-- Handler ADDR as it occurs in a INDI SOUR OBJE tags -->
+<!-- DOC Again this isn't the most ideal solution for handling this GEDCOM 5.5 structure:
+  n  ADDR <ADDRESS_LINE>  {0:1}
+    +1 CONT <ADDRESS_LINE>  {0:M}
+    +1 ADR1 <ADDRESS_LINE1>  {0:1}
+    +1 ADR2 <ADDRESS_LINE2>  {0:1}
+    +1 CITY <ADDRESS_CITY>  {0:1}
+    +1 STAE <ADDRESS_STATE>  {0:1}
+    +1 POST <ADDRESS_POSTAL_CODE>  {0:1}
+    +1 CTRY <ADDRESS_COUNTRY>  {0:1}
+  n  PHON <PHONE_NUMBER>
+  
+  The first problem is with the first line.  Instead of a "street address" attribute as I have it below, the contents of a
+  ADDR field may be the name of a building "Springfield Hospital" or person's name "Homer Simpson."  I have made this
+  a level 7 PlacePart but have left out the Type attribute.  It would best be described as a PlaceName and it is possible put
+  this information in the PlaceName element because that permits PCDATA.  However, the contents of ADDR may in fact be a streetname because it is perfectly
+  acceptable for ADDR to contain that instead of a building name.  For example, a person's home address does not have a 
+  PlaceName - their home does not have a name.
+  
+ The second problem involves the PHON tag.  There is no equivalent in a <Place> element.  
+ 
+  -->
+ <xsl:template match="ADDR" mode="PlacePart">
+ 	<Place>
+ 		<PlaceName>
+ 			<!-- ideally this type would indicate something better -->
+			<PlacePart Level="7">
+				<xsl:value-of select="text()"/>
+				<xsl:if test="CONT">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="CONT"/>
+				</xsl:if>
+ 			</PlacePart> 
+ 			<xsl:for-each select="node()">
+ 				<xsl:choose>
+ 					<xsl:when test="self::ADR1">
+  						<!-- DOC street name is not localized -->
+ 						<PlacePart Level="6" Type="street name">
+ 							<xsl:value-of select="self::ADR1"/>
+ 						</PlacePart>					
+ 					</xsl:when>
+ 					<xsl:when test="self::CITY">
+ 						<PlacePart Level="4" Type="city">
+ 							<xsl:value-of select="self::CITY"/>
+ 						</PlacePart>					
+ 					</xsl:when>
+					<xsl:when test="self::STAE">
+ 						<PlacePart Level="2" Type="state">
+ 							<xsl:value-of select="self::STAE"/>
+ 						</PlacePart>
+					</xsl:when>
+ 					<xsl:when test="self::POST">
+ 						<PlacePart Level="5" Type="postal code">
+ 							<xsl:value-of select="self::POST"/>
+ 						</PlacePart> 					
+ 					</xsl:when>
+ 					<xsl:when test="self::CTRY">
+ 						<PlacePart Level="1" Type="country">
+ 							<xsl:value-of select="self::CTRY"/>
+ 						</PlacePart>
+ 					</xsl:when>
+ 				</xsl:choose>
+ 			</xsl:for-each>
+ 		</PlaceName>
+ 	</Place>
+ </xsl:template>
+ 
+<!-- FIX if at all possible.  Usually the PHON tag belongs to the MailAddress ContactRec
+	The problem is that GEDCOM 5.5 strict places the PHON and the ADDR tags at the same
+	level.  The current implementation simply surrounds the Phone element with at ContactRec, losing, IOW,
+	the relationship between the MailAddress and the Phone
+-->
+<xsl:template match="PHON">
+	<Phone>
+		<xsl:value-of select="."/>
+	</Phone>
+</xsl:template>
+
 <xsl:template name="handleCONCT">
 	<xsl:value-of select="text()"/>
 	<xsl:for-each select="node()">
@@ -920,12 +988,20 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</xsl:for-each>
 </xsl:template>
 
-<!-- TODO HANDLE linked NOTE_STRUCTURE -->
+<!-- HANDLE linked NOTE_STRUCTURE.  NOTE tags than reference a NOTE_RECORD will not be linked in 
+	GEDCOM XML 6.0 because there is no mechanism for that.  There contents will instead be place in
+	the element which referenced them -->
 <xsl:template match="NOTE[@REF]">
+	<xsl:variable name="NoteID" select="@REF"/>
+	<xsl:apply-template="//NOTE[@ID=$NoteID"/>
 </xsl:template>
 
-<!-- Handles "simple NOTE_STRUCTURE 
-	TODO Handle the NOTE @N2@ which may occur in the GEDCOM 5.5 standard -->
+<xsl:template match="NOTE[@ID]">
+	<Note>
+		<xsl:call-template name="handleCONCT"/>
+	</Note>
+</xsl:template>
+<!-- Handles "simple" NOTE_STRUCTURE -->
 <xsl:template match="NOTE">
 	<Note>
 		<xsl:call-template name="handleCONCT"/>
@@ -1031,8 +1107,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</Participant>
 </xsl:template>
 
-
-
 <!-- Handles CHAN tag -->
 <xsl:template match="CHAN">
 	<!-- both the Date and the Time attributes are #REQUIRED -->
@@ -1068,14 +1142,25 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	</Repository>
 </xsl:template>
 
-<!-- Handles 0 @R2@ REPO -->
-<xsl:template match="REPO[@ID]">
-</xsl:template>
-
 <xsl:template match="CALN">
 	<CallNbr>
 		<xsl:value-of select="text()"/>
 	</CallNbr>
+</xsl:template>
+
+<!-- Handles 0 @R2@ REPO -->
+<xsl:template match="REPO[@ID]">
+	<RepositoryRec>
+		<xsl:attribute name="Id" select="generate-id()"/>
+		<Name>
+			<xsl:value-of select="NAME"/>
+		</Name>
+		<xsl:apply-templates select="ADDR" mode="MailAddress"/>
+		<xsl:apply-templates select="PHON"/>
+		<!-- not implementing Email or URI elements because no equivalent in GEDCOM 5.5 -->
+		<xsl:apply-templates select="NOTE"/>
+		<xsl:apply-templates select="CHAN"/>
+	</RepositoryRec>
 </xsl:template>
 
 <!-- DOC at one place in the draft specification it says there are only 2 values for attribute 
