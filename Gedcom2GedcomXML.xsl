@@ -14,8 +14,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <!--For Debugging -->
 <xsl:template match="/">
 	<xsl:apply-templates select="//FAM"/>
-	<xsl:apply-templates select="//FAM/MARR"/>
-	<xsl:apply-templates select="//INDI"/>
 </xsl:template>
 <!-- Start at Root-->
 <xsl:template name="full">
@@ -115,6 +113,9 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<xsl:call-template name="persinfo"/>
 		<xsl:call-template name="extras"/>
 		<xsl:call-template name="ExternalIDs"/>
+		
+		<xsl:apply-templates select="SOUR"/>
+
 		<xsl:apply-templates select="CHAN"/>
 	</IndividualRec>
  </xsl:template><!-- end Template for INDI to IndividualRec -->
@@ -236,7 +237,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</Participant>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR[@REF]"/>
+		<xsl:apply-templates select="SOUR"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -262,7 +263,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</Participant>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR[@REF]"/>
+		<xsl:apply-templates select="SOUR"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -287,7 +288,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</Participant>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR[@REF]"/>
+		<xsl:apply-templates select="SOUR"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -312,7 +313,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</Participant>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR[@REF]"/>
+		<xsl:apply-templates select="SOUR"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -339,7 +340,9 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  <!-- TODO will need to handle all elements related to PLAC such as PlaceName PlaceNameVar --> 
  <xsl:template match="PLAC">
  	<Place>
- 		<xsl:value-of select="."/>
+ 		<PlaceName>
+ 			<xsl:call-template name="handleCONCT"/>	
+ 		</PlaceName>
  	</Place>
  </xsl:template>
  
@@ -485,7 +488,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</Participant>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR[@REF]"/>
+		<xsl:apply-templates select="SOUR"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -509,7 +512,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</Participant>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR[@REF]"/>
+		<xsl:apply-templates select="SOUR"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -533,7 +536,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</Participant>
 		<xsl:apply-templates select="DATE"/>
 		<xsl:apply-templates select="PLAC"/>
-		<xsl:apply-templates select="SOUR[@REF]"/>
+		<xsl:apply-templates select="SOUR"/>
 			<!-- Since this event is created from the INDI record we assign this the same
 				Change element as it has -->
 		<xsl:apply-templates select="../CHAN"/>
@@ -563,27 +566,20 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 
 <!-- Handles simple GEDCOM SOUR_CITATION (no link)  -->
 <xsl:template match="SOUR">
-<Evidence>
-	<Citation>
-		<Extract>
-			<xsl:value-of select="text()"/>	
-			<xsl:for-each select="CONT">
-				<br/>
-				<xsl:value-of select="CONT"/>
-			</xsl:for-each>
-			<xsl:for-each select="CONC">
-				<!-- Add Space to prevent lines running together-->
-				<xsl:text> </xsl:text>
-				<xsl:value-of select="CONC"/>
-			</xsl:for-each>
-		</Extract>
-		<xsl:apply-templates select="NOTE"/>
-	</Citation>
- </Evidence>
+	<Evidence>
+		<Citation>
+			<Caption>
+				<!-- FIX -->
+				<xsl:value-of select="text()"/>
+			</Caption>
+			<xsl:apply-templates select="TEXT"/>
+			<xsl:apply-templates select="NOTE"/>
+		</Citation>
+ 	</Evidence>
 </xsl:template>
 
 <!-- Handles GEDCOM 5.5 SOUR_CITATION (linked), i.e., SOUR @S2@ or GEDML <SOUR REF="S2"/> -->
-<!-- TEST -->
+<!-- Current implementationation discards the valid OBJE or OBJE @O1@ tag inside the SOUR. -->
  <xsl:template match="SOUR[@REF]">
  	<Evidence>
  		<Citation>
@@ -594,34 +590,33 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 					<xsl:value-of select="generate-id(//SOUR[@ID=$SourceID])"/>
  				</xsl:attribute>
  			</Link>
- 			<xsl:for-each select="child::*">
- 				<xsl:choose>
- 					<xsl:when test="self::PAGE">
- 					 	<WhereInSource>
- 							<xsl:value-of select="self::PAGE"/>
- 						</WhereInSource>
- 					</xsl:when>
- 					<xsl:when test="self::QUAY">
- 						<Note>
- 							<xsl:text>The GEDCOM 5.5 quality of this source is:  </xsl:text>
- 							<xsl:value-of select="self::QUAY"/>
- 						</Note>
- 					</xsl:when>
- 					<xsl:when test="self::DATA">
- 						<xsl:apply-templates select="self::DATA"/>
- 					</xsl:when>
- 				</xsl:choose>
- 			</xsl:for-each>
+ 
+ 			<xsl:if test="PAGE">
+ 				<WhereInSource>
+ 					<xsl:value-of select="PAGE"/>
+ 				</WhereInSource>
+ 			</xsl:if>
+ 			
  			<xsl:if test="DATA/DATE">
  				<WhenRecorded>
  					<xsl:value-of select="DATA/DATE"/>
  				</WhenRecorded>
+ 			</xsl:if>			
+ 			
+ 			<xsl:if test="DATA/TEXT">
+ 				<xsl:apply-templates select="DATA/TEXT"/>
  			</xsl:if>
+			<xsl:if test="QUAY">
+ 				<Note>
+ 					<xsl:text>The GEDCOM 5.5 quality of this source is:  </xsl:text>
+ 					<xsl:value-of select="QUAY"/>
+ 				</Note>
+ 			</xsl:if>
+ 
  			<xsl:apply-templates select="NOTE"/>
  		</Citation>
 	</Evidence>
  </xsl:template>
- 
  
 <!-- MULTIMEDIA_RECORD -->
 <xsl:template match="OBJE[@ID]">
@@ -647,11 +642,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</xsl:if>
 		
 		<xsl:apply-templates select="NOTE"/>
-		
 
-		<!-- ExternalIDs -->
-		<xsl:call-template name="ExternalIDs"/>
-		
 		<xsl:apply-templates select="CHAN"/>
 	</SourceRec>
  </xsl:template>
@@ -691,18 +682,6 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 </xsl:template>
 
 
- <!-- GEDCOM's 5.5 DATA has been dropped in GEDCOM XML 6.0 but I don't think we should lose
- 	this information, hence it is wrapped in a Note element -->
- <xsl:template match="DATA">
- 	<Note>
- 		<xsl:text>The date of this information is:  </xsl:text>
- 	</Note>
- 	<Extract>
- <!-- TODO handle the CONC and CONT tags in the TEXT element (add spaces at each occurance) -->
- 		<xsl:value-of select="TEXT"/>
- 	</Extract>
-</xsl:template>
-
 <!-- Handles GEDCOM SOURCE_RECORD, ie. "0 @S2@ SOUR" or GedML <SOUR ID="S2"> -->
  <xsl:template match="SOUR[@ID]">
  	<SourceRec>
@@ -720,8 +699,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  		</xsl:if>
  		<xsl:apply-templates select="PUBL"/>
  		<xsl:apply-templates select="NOTE"/> 		
-	 	<xsl:call-template name="ExternalIDs"/>
- 		 
+ 		
  		 <xsl:apply-templates select="CHAN"/>
 
  	</SourceRec>
@@ -746,7 +724,20 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <!-- Handles TEXT or TEXT_FROM_SOURCE -->
 <xsl:template match="TEXT">
 	<Extract>
-		<xsl:call-template name="handleCONCT"/>
+		<xsl:value-of select="text()"/>
+		<xsl:for-each select="node()">
+			<xsl:choose>
+				<xsl:when test="self::CONT">
+					<!-- Insert line break for every CONT-->
+					<br/>
+					<xsl:value-of select="self::CONT"/>
+				</xsl:when>
+				<xsl:when test="self::CONC">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="self::CONC"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:for-each>
 	</Extract>
 </xsl:template>
 
@@ -774,15 +765,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 	TODO Handle the NOTE @N2@ which may occur in the GEDCOM 5.5 standard -->
 <xsl:template match="NOTE">
 	<Note>
-		<xsl:value-of select="text()"/>
-		<xsl:for-each select="CONT">
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="CONT"/>
-		</xsl:for-each>
-		<xsl:for-each select="CONC">
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="CONC"/>
-		</xsl:for-each>
+		<xsl:call-template name="handleCONCT"/>
 	</Note>
 </xsl:template>
 
@@ -841,6 +824,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		</xsl:if>
 		<xsl:call-template name="ExternalIDs"/>
 
+		<xsl:apply-templates select="SOUR"/>
+		
 		<xsl:apply-templates select="CHAN"/>
 	</FamilyRec>
 </xsl:template>
@@ -904,7 +889,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			</xsl:if>
 			<xsl:apply-templates select="DATE"/>
 			<xsl:apply-templates select="PLAC"/>
-			<xsl:apply-templates select="SOUR[@REF]"/>
+			<xsl:apply-templates select="SOUR"/>
 			<!-- FIX   Since the MARR event is created from the FAM record we assign this the same
 				Change element as the FAM -->
 			<xsl:apply-templates select="../CHAN"/>
@@ -940,7 +925,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 					<Link>
 						<xsl:attribute name="Target">IndividualRec</xsl:attribute>
 						<xsl:attribute name="Ref">
-							<xsl:variable name="WifeID" select="../WIFE/@REF"/>							<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
+							<xsl:variable name="WifeID" select="../WIFE/@REF"/>
 							<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
 						</xsl:attribute>
 					</Link>
@@ -949,7 +934,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			</xsl:if>
 			<xsl:apply-templates select="DATE"/>
 			<xsl:apply-templates select="PLAC"/>
-			<xsl:apply-templates select="SOUR[@REF]"/>
+			<xsl:apply-templates select="SOUR"/>
 			<!-- FIX Since the DIV event is created from the FAM record we assign this the same
 				Change element as the FAM -->
 			<xsl:apply-templates select="../CHAN"/>
