@@ -13,7 +13,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <!-- TODO add param to set the Type attribute in the ExternalID -->
 <!--For Debugging -->
 <xsl:template match="/">
-	<xsl:apply-templates select="//FAM"/>
+	<xsl:apply-templates select="//INDI"/>
 </xsl:template>
 <!-- Start at Root-->
 <xsl:template name="full">
@@ -109,9 +109,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<xsl:apply-templates select="NAME"/>
 		<xsl:apply-templates select="SEX"/>
 
-		<!-- BAPM, CONF, IMMI etc. -->
 		<xsl:call-template name="persinfo"/>
-		<xsl:call-template name="extras"/>
+
 		<xsl:call-template name="ExternalIDs"/>
 		
 		<xsl:apply-templates select="SOUR"/>
@@ -401,6 +400,16 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 </xsl:template>
 
  <xsl:template name="persinfo">
+<!-- 
+	<xsl:apply-templates select="CAST"/>
+	<xsl:apply-templates select="DSCR"/>
+	<xsl:apply-templates select="EDUC"/>
+	<xsl:apply-templates select="IDNO"/>
+	<xsl:apply-templates select="NATI"/>
+	<xsl:apply-templates select="NCHI"/>
+	<xsl:apply-templates select="NMR"/>
+	<xsl:apply-templates select="OCCU"/>
+	<xsl:apply-templates select="PROP"/>
 	<xsl:if test="RELI">
 		<PersInfo Type="religion">
 			<Information>
@@ -408,6 +417,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			</Information>
 		</PersInfo>
 	</xsl:if>
+	<xsl:apply-templates select="RESI"/>
+	
 	<xsl:if test="SSN">
 		<PersInfo Type="SSN">
 			<Information>
@@ -415,51 +426,67 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			</Information>
 		</PersInfo>
 	</xsl:if>
-	<xsl:apply-templates select="EDUC"/>
-
-	<xsl:apply-templates select="OCCU"/>
+	<xsl:apply-templates select="TITL"/>
+-->
+	<xsl:apply-templates select="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL"/>
 </xsl:template>
 
- <xsl:template match="EDUC">
- 	<PersInfo Type="education">
+<xsl:template match="CAST|DSCR|EDUC|IDNO|NATI|NCHI|NMR|OCCU|PROP|RELI|RESI|SSN|TITL">
+	<xsl:variable name="Attribute">
+		<xsl:choose>
+			<xsl:when test="contains( name(), 'CAST')">
+				<xsl:value-of select="'caste'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'DSCR')">
+				<xsl:value-of select="'description'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'EDUC')">
+				<xsl:value-of select="'education'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'IDNO')">
+				<xsl:value-of select="'identification number'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'NATI')">
+				<xsl:value-of select="'nationality'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'NCHI')">
+				<xsl:value-of select="'children'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'NMR')">
+				<xsl:value-of select="'marriage'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'OCCU')">
+				<xsl:value-of select="'occuptation'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'PROP')">
+				<xsl:value-of select="'property'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'RELI')">
+				<xsl:value-of select="'religion'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'RESI')">
+				<xsl:value-of select="'residence'"/>
+			</xsl:when>
+			<xsl:when test="contains( name(), 'SSN')">
+				<xsl:value-of select="'social security number'"/>
+			</xsl:when>
+			<!-- This Probably belongs in the name structure-->
+			<xsl:when test="contains( name(), 'TITL')">
+				<xsl:value-of select="'title'"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:variable>
+	<PersInfo>
+		<xsl:attribute name="Type">
+			<xsl:value-of select="$Attribute"/>
+		</xsl:attribute>
 		<Information>
- 			<xsl:value-of select="text()"/>
+			<xsl:value-of select="."/>
 		</Information>
- 		<xsl:apply-templates select="child::*"/>
- 	</PersInfo>
- </xsl:template>
- 
- <xsl:template match="OCCU">
- 	<PersInfo Type="occupation">
- 		<Information>
- 			<xsl:value-of select="text()"/>
- 		</Information>
- 		<xsl:apply-templates select="child::*"/>
- 	</PersInfo>
- </xsl:template>
- 
-<xsl:template name="extras">
-	<xsl:apply-templates select="NMR"/>
-	<xsl:apply-templates select="NCHI"/>
-</xsl:template>
-
-<xsl:template match="NMR">
-	<PersInfo Type="marriage">
-			<Information>
-				<xsl:value-of select="text()"/>
-			</Information>
-		<xsl:apply-templates select="child::*"/>
 	</PersInfo>
 </xsl:template>
 
-<xsl:template match="NCHI">
-	<PersInfo Type="children">
-		<Information>
-			<xsl:value-of select="text()"/>
-		</Information>
-		<xsl:apply-templates select="child::*"/>
-	</PersInfo>
-</xsl:template>
+ 
 
 <!-- FIX this is wrong -->
 <xsl:template match="AGE">
@@ -565,6 +592,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 </xsl:template>
 
 <!-- Handles simple GEDCOM SOUR_CITATION (no link)  -->
+<!-- DOC should note where that the SOURCE_DESCRIPTION has been mapped to Caption Element -->
 <xsl:template match="SOUR">
 	<Evidence>
 		<Citation>
@@ -579,6 +607,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 
 <!-- Handles GEDCOM 5.5 SOUR_CITATION (linked), i.e., SOUR @S2@ or GEDML <SOUR REF="S2"/> -->
 <!-- Current implementationation discards the valid OBJE or OBJE @O1@ tag inside the SOUR. -->
+<!-- DOC should note that QUAY's CERTAINTY_ASSESMENT has been mapped to Note element -->
  <xsl:template match="SOUR[@REF]">
  	<Evidence>
  		<Citation>
