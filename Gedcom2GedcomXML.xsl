@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<!-- 
+ ******************************************************************************
+ ******************************************************************************
+    Copyright © 2004 Chad Albers
+     
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    
+ ******************************************************************************
+ ******************************************************************************
+ -->
+ <!-- ************************************************************************
+ 	This file contains excerpts from "The GEDCOM Standard Release 5.5"
+ 	copyrighted by the The Church of Jesus Christ of Latter-day Saints, the
+ 	10 January 1996 version.  The excerpts are for documenation purposes
+ 	only.
+ 	
+	Copyright © 1987, 1989, 1992, 1993, 1995 by The Church of Jesus Christ
+	of Latter-day Saints. 
+
+ ***************************************************************************-->
 <!-- $Id$ -->
+
 <xsl:output method="xml" indent="yes"/>
 <!-- FIX this global variable doesn't work in the program I am using, 
 	however, correct it is in implementation -->
@@ -36,7 +69,8 @@
 	<!-- EventRecs -->
  	<xsl:call-template name="EventRecs"/>
 	
-	<!-- TODO LDSOrdRecs -->
+	<!--  LDSOrdRecs -->
+	<xsl:call-template name="LDSOrdRecs"/>
 	
 	<!-- ContactRec -->
  	<xsl:call-template name="ContactRecs"/>
@@ -504,8 +538,6 @@
 
 	<xsl:apply-templates select="//INDI/EVEN" mode="Individual"/>
 	<xsl:apply-templates select="//FAM/EVEN" mode="Family"/>
-
-<!-- TODO Handle all other events LDS_INDIVIDUAL_ORDINANCE -->
 
 </xsl:template><!-- end EventRecs template -->
 
@@ -1394,12 +1426,20 @@
 	
 	<xsl:apply-templates select="SOUR"/>
 	<xsl:apply-templates select="OBJE"/>
+	<xsl:apply-templates select="SOUR[@REF]"/>
+	<xsl:apply-templates select="OBJE[@REF]"/>
 	
 	<!-- PLAC appears in the context of an EVENT_DETAIL-->
 	<xsl:apply-templates select="PLAC/SOUR">
 		<xsl:with-param name="evidenceKind" select="'place'"/>
 	</xsl:apply-templates>
+	<xsl:apply-templates select="PLAC/SOUR[@REF]">
+		<xsl:with-param name="evidenceKind" select="'place'"/>
+	</xsl:apply-templates>
 	<xsl:apply-templates select="PLAC/SOUR/OBJE">
+		<xsl:with-param name="evidenceKind" select="'place'"/>
+	</xsl:apply-templates>
+	<xsl:apply-templates select="PLAC/SOUR/OBJE[@REF]">
 		<xsl:with-param name="evidenceKind" select="'place'"/>
 	</xsl:apply-templates>
 </xsl:template>
@@ -1999,6 +2039,41 @@
 	FAM Template - creates the FamilyRec and related elements, checking
 		to determine there is a MARR event supporting this, checking
 		to determine the ID of both parents if they are available.
+
+n @<XREF:FAM>@   FAM   {1:1}
+    +1 HUSB @<XREF:INDI>@  {0:1}
+    +1 WIFE @<XREF:INDI>@  {0:1}
+    +1 CHIL @<XREF:INDI>@  {0:M}
+    +1 SUBM @<XREF:SUBM>@  {0:M}
+    +1 SOUR @<XREF:SOUR>@     {1:1}
+         +2 PAGE <WHERE_WITHIN_SOURCE>  {0:1}
+         +2 DATA        {0:1}
+            +3 DATE <ENTRY_RECORDING_DATE>  {0:1}
+            +3 TEXT <TEXT_FROM_SOURCE>  {0:M}
+                +4 [ CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+         +2 QUAY <CERTAINTY_ASSESSMENT>  {0:1}
+     +1 NOTE @<XREF:NOTE>@  {1:1}
+     +1 NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+          +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+     +1 SOUR <SOURCE_DESCRIPTION>  {1:1}
+          +2 [ CONC | CONT ] <SOURCE_DESCRIPTION>  {0:M}
+          +2 TEXT <TEXT_FROM_SOURCE>  {0:M}
+      	   +3 [CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+          +2  NOTE @<XREF:NOTE>@  {1:1}
+          +2  NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+          +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}   
+      +2 <<NOTE_STRUCTURE>>  {0:M}
+      +2 <<MULTIMEDIA_LINK>>  {0:M}
+    
+    +1 <<MULTIMEDIA_LINK>>  {0:M}
+    +1 NOTE @<XREF:NOTE>@  {1:1}
+    +1 NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+        +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+    +1 REFN <USER_REFERENCE_NUMBER>  {0:M}
+    +1 RIN <AUTOMATED_RECORD_ID>  {0:1}
+    +1 CHAN          {1:1}
+        +2 DATE <CHANGE_DATE>  {1:1}
+             + 3 TIME <TIME_VALUE>  {0:1}
 		
 ***************************************************************************
 *********************************************************************** -->
@@ -2276,7 +2351,7 @@
 <!-- TODO enable it to handle non-Gregorian calendars -->
 <xsl:template match="DATE">
 	<Date Calendar="Gregorian">
-		<xsl:value-of select="."/>
+		<xsl:value-of select="normalize-space( text() )"/>
 	</Date>
 </xsl:template>
 
@@ -2442,4 +2517,393 @@
 		<Name>Repository Unknown</Name>
 	</RepositoryRec>
 </xsl:template>
+
+<!-- **********************************************************************
+****************************************************************************
+
+	Templates  related to LDSOrdRecs
+		* LDSOrdRecs template -> calls all LDSOrdRec templates
+		* BAPL, CONL, ENDL -> <LDSOrdRec>
+		* SLGS -> <LDSOrdRec>
+		* SLGC -> <LDSordRec>
+		* STAT -> <OrdStat>
+		* FAMC mode ChildSealing -> <Particpant>Mother and Father
+
+***************************************************************************
+*********************************************************************** -->
+
+<!-- **********************************************************************
+
+	LDSOrdRecs template - calls all the templates necessary for making
+		LDSOrdRec elements
+
+*********************************************************************** -->
+<xsl:template name="LDSOrdRecs">
+	<xsl:apply-templates select="//INDI/BAPL|//INDI/CONL|//INDI/ENDL"/>
+	<xsl:apply-templates select="//INDI/SLGC"/>
+	<xsl:apply-templates select="//FAM/SLGS"/>
+</xsl:template>
+
+<!-- **********************************************************************
+
+	BAPL, CONL, EDNL template - handles these ordinances
+	
+  n  [ BAPL | CONL ]  {1:1}
+    +1 STAT <LDS_BAPTISM_DATE_STATUS>  {0:1}
+    +1 DATE <DATE_LDS_ORD>  {0:1}
+    +1 TEMP <TEMPLE_CODE>  {0:1}
+    +1 PLAC <PLACE_LIVING_ORDINANCE>  {0:1}
+    +1 SOUR @<XREF:SOUR>@     {1:1}
+         +2 PAGE <WHERE_WITHIN_SOURCE>  {0:1}
+         +2 DATA        {0:1}
+            +3 DATE <ENTRY_RECORDING_DATE>  {0:1}
+            +3 TEXT <TEXT_FROM_SOURCE>  {0:M}
+                +4 [ CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+         +2 QUAY <CERTAINTY_ASSESSMENT>  {0:1}
+     +1 NOTE @<XREF:NOTE>@  {1:1}
+     +1 NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+          +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+     +1 SOUR <SOURCE_DESCRIPTION>  {1:1}
+          +2 [ CONC | CONT ] <SOURCE_DESCRIPTION>  {0:M}
+          +2 TEXT <TEXT_FROM_SOURCE>  {0:M}
+      	   +3 [CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+          +2  NOTE @<XREF:NOTE>@  {1:1}
+          +2  NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+          +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+    +1  NOTE @<XREF:NOTE>@  {1:1}
+    +1  NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+          +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+
+  n  ENDL          {1:1}
+    +1 STAT <LDS_ENDOWMENT_DATE_STATUS>  {0:1}
+    +1 DATE <DATE_LDS_ORD>  {0:1}
+    +1 TEMP <TEMPLE_CODE>  {0:1}
+    +1 PLAC <PLACE_LIVING_ORDINANCE>  {0:1}
+    +1 SOUR @<XREF:SOUR>@     {1:1}
+        +2 PAGE <WHERE_WITHIN_SOURCE>  {0:1}
+        +2 DATA        {0:1}
+            +3 DATE <ENTRY_RECORDING_DATE>  {0:1}
+            +3 TEXT <TEXT_FROM_SOURCE>  {0:M}
+                +4 [ CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+        +2 QUAY <CERTAINTY_ASSESSMENT>  {0:1}
+     +1 NOTE @<XREF:NOTE>@  {1:1}
+     +1 NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+         +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+     +1 SOUR <SOURCE_DESCRIPTION>  {1:1}
+          +2 [ CONC | CONT ] <SOURCE_DESCRIPTION>  {0:M}
+          +2 TEXT <TEXT_FROM_SOURCE>  {0:M}
+      	   +3 [CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+          +2  NOTE @<XREF:NOTE>@  {1:1}
+          +2  NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+          +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+    +1 NOTE @<XREF:NOTE>@  {1:1}
+    +1 NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+         +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+
+*********************************************************************** -->
+<xsl:template match="BAPL|CONL|ENDL">
+
+	<xsl:variable name="ordinance" select="name()"/>
+	
+	<LDSOrdRec>
+		<xsl:attribute name="Id">
+			<xsl:value-of select="generate-id()"/>
+		</xsl:attribute>
+		<xsl:attribute name="Type">
+			<xsl:choose>
+				<xsl:when test="$ordinance = 'BAPL'">
+					<xsl:value-of select="'B'"/>
+				</xsl:when>
+				<xsl:when test="$ordinance = 'CONL'">
+					<xsl:value-of select="'C'"/>
+				</xsl:when>
+				<xsl:when test="$ordinance = 'ENDL'">
+					<xsl:value-of select="'E'"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:attribute>
+		
+		<Participant>
+			<Link>
+				<xsl:attribute name="Target">IndividualRec"</xsl:attribute>
+				<xsl:attribute name="Ref">
+					<xsl:value-of select="generate-id()"/>
+				</xsl:attribute>
+			</Link>
+		</Participant>
+		
+		
+		<xsl:apply-templates select="STAT"/>
+		
+		<xsl:if test="TEMP">
+			<TempleCode>
+				<xsl:value-of select="TEMP"/>
+			</TempleCode>
+		</xsl:if>
+		<xsl:apply-templates select="DATE"/>
+
+		<xsl:call-template name="addEventPlace"/>
+		
+		<xsl:apply-templates select="NOTE"/>
+		
+		<xsl:call-template name="addEventEvidence"/>
+		
+	</LDSOrdRec>
+
+</xsl:template>
+<!-- **********************************************************************
+
+	SLGC template - handles child sealing ordinance
+
+n  SLGC          {1:1}
+    +1 STAT <LDS_CHILD_SEALING_DATE_STATUS>  {0:1}
+    +1 DATE <DATE_LDS_ORD>  {0:1}
+    +1 TEMP <TEMPLE_CODE>  {0:1}
+    +1 PLAC <PLACE_LIVING_ORDINANCE>  {0:1}
+    +1 FAMC @<XREF:FAM>@  {1:1}
+    +1 SOUR @<XREF:SOUR>@     {1:1}
+        +2 PAGE <WHERE_WITHIN_SOURCE>  {0:1}
+        +2 DATA        {0:1}
+            +3 DATE <ENTRY_RECORDING_DATE>  {0:1}
+            +3 TEXT <TEXT_FROM_SOURCE>  {0:M}
+                +4 [ CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+        +2 QUAY <CERTAINTY_ASSESSMENT>  {0:1}
+     +1 NOTE @<XREF:NOTE>@  {1:1}
+     +1 NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+          +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+     +1 SOUR <SOURCE_DESCRIPTION>  {1:1}
+          +2 [ CONC | CONT ] <SOURCE_DESCRIPTION>  {0:M}
+          +2 TEXT <TEXT_FROM_SOURCE>  {0:M}
+      	   +3 [CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+          +2  NOTE @<XREF:NOTE>@  {1:1}
+          +2  NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+          +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+    +1 NOTE @<XREF:NOTE>@  {1:1}
+    +1 NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+         +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+    
+*********************************************************************** -->
+<xsl:template match="SLGC">
+	<LDSOrdRec>
+		<xsl:attribute name="Id">
+			<xsl:value-of select="generate-id()"/>
+		</xsl:attribute>
+		<xsl:attribute name="Type">
+			<xsl:value-of select="'SP'"/>
+		</xsl:attribute>
+		
+		<Participant>
+			<Link>
+				<xsl:attribute name="Target">IndividualRec"</xsl:attribute>
+				<xsl:attribute name="Ref">
+					<xsl:value-of select="generate-id(..)"/>
+				</xsl:attribute>
+			</Link>
+			<Role>Child</Role>
+		</Participant>
+		
+		<xsl:apply-templates select="FAMC" mode="ChildSealing"/>
+		
+		<xsl:apply-templates select="STAT"/>
+		
+		<xsl:if test="TEMP">
+			<TempleCode>
+				<xsl:value-of select="TEMP"/>
+			</TempleCode>
+		</xsl:if>
+		<xsl:apply-templates select="DATE"/>
+
+		<xsl:call-template name="addEventPlace"/>
+		
+		<xsl:apply-templates select="NOTE"/>
+		
+		<xsl:call-template name="addEventEvidence"/>
+		
+	</LDSOrdRec>
+
+</xsl:template>
+<!-- **********************************************************************
+
+	SLGS template - handles spouse sealing ordinance
+ 
+ n  SLGS          {1:1}
+    +1 STAT <LDS_SPOUSE_SEALING_DATE_STATUS>  {0:1}
+    +1 DATE <DATE_LDS_ORD>  {0:1}
+    +1 TEMP <TEMPLE_CODE>  {0:1}
+    +1 PLAC <PLACE_LIVING_ORDINANCE>  {0:1}
+    +1 <<SOURCE_CITATION>>  {0:M}
+    +1 <<NOTE_STRUCTURE>>  {0:M}
+    +1 SOUR @<XREF:SOUR>@     {1:1}
+        +2 PAGE <WHERE_WITHIN_SOURCE>  {0:1}
+        +2 DATA        {0:1}
+            +3 DATE <ENTRY_RECORDING_DATE>  {0:1}
+            +3 TEXT <TEXT_FROM_SOURCE>  {0:M}
+                +4 [ CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+        +2 QUAY <CERTAINTY_ASSESSMENT>  {0:1}
+     +1 NOTE @<XREF:NOTE>@  {1:1}
+     +1 NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+         +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+     +1 SOUR <SOURCE_DESCRIPTION>  {1:1}
+          +2 [ CONC | CONT ] <SOURCE_DESCRIPTION>  {0:M}
+          +2 TEXT <TEXT_FROM_SOURCE>  {0:M}
+      	   +3 [CONC | CONT ] <TEXT_FROM_SOURCE>  {0:M}
+          +2  NOTE @<XREF:NOTE>@  {1:1}
+          +2  NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+          +2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+    +1 NOTE @<XREF:NOTE>@  {1:1}
+    +1 NOTE [<SUBMITTER_TEXT> | <NULL>]  {1:1}
+        + 2 [ CONC | CONT ] <SUBMITTER_TEXT>  {0:M}
+    	
+*********************************************************************** -->
+<xsl:template match="SLGS">
+
+	<xsl:variable name="ordinance" select="name()"/>
+	
+	<LDSOrdRec>
+		<xsl:attribute name="Id">
+			<xsl:value-of select="generate-id()"/>
+		</xsl:attribute>
+		<xsl:attribute name="Type">
+			<xsl:value-of select="'SS'"/>
+		</xsl:attribute>
+		
+		<xsl:if test="../HUSB/@REF">
+			<xsl:variable name="HusbID" select="../HUSB/@REF"/>
+			<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:choose>
+							<xsl:when test="//INDI[@ID=$HusbID]">
+								<xsl:value-of select="generate-id(//INDI[@ID=$HusbID])"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="'IndividualUnknown'"/>
+							</xsl:otherwise>
+						</xsl:choose>				
+					</xsl:attribute>
+				</Link>
+				<Role>husband</Role>
+			</Participant>
+		</xsl:if>
+		
+		<xsl:if test="../WIFE/@REF">
+			<xsl:variable name="WifeID" select="../WIFE/@REF"/>
+			<Participant>
+				<Link>
+					<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+					<xsl:attribute name="Ref">
+						<xsl:choose>
+							<xsl:when test="//INDI[@ID=$WifeID]">
+								<xsl:value-of select="generate-id(//INDI[@ID=$WifeID])"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="'IndividualUnknown'"/>
+							</xsl:otherwise>
+						</xsl:choose>				
+					</xsl:attribute>
+				</Link>
+				<Role>wife</Role>
+			</Participant>
+		</xsl:if>
+
+		<xsl:apply-templates select="STAT"/>
+		
+		<xsl:if test="TEMP">
+			<TempleCode>
+				<xsl:value-of select="TEMP"/>
+			</TempleCode>
+		</xsl:if>
+		<xsl:apply-templates select="DATE"/>
+
+		<xsl:call-template name="addEventPlace"/>
+		
+		<xsl:apply-templates select="NOTE"/>
+		
+		<xsl:call-template name="addEventEvidence"/>
+		
+	</LDSOrdRec>
+
+</xsl:template>
+
+<!-- **********************************************************************
+
+	STAT template - creates OrdStat and handles the following data:
+		* LDS_BAPTISM_DATE_STATUS
+		* LDS_ENDOWMENT_DATE_STATUS
+		* LDS_CHILD_SEALING_DATE_STATUS
+		* LDS_SPOUSE_SEALING_DATE_STATUS
+
+*********************************************************************** -->
+<xsl:template match="STAT">
+
+	<xsl:variable name="status" select="normalize-space( . )"/>
+	
+	<OrdStat>
+		<xsl:attribute name="Code">
+			<xsl:if test="($status != 'INFANT') and ($status != 'PRE-1970' )">
+				<xsl:value-of select="translate( $status, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz' )"/>
+			</xsl:if>
+			<!-- There is no GEDCOM 6.0 equivalent to INFANT and PRE-1970, they are mapped to 'completed'-->
+			<xsl:if test="($status != 'INFANT') and ($status != 'PRE-1970' )">
+				<xsl:value-of select="'completed'"/>
+			</xsl:if>
+		</xsl:attribute>
+
+	</OrdStat>
+</xsl:template>
+
+<!-- **********************************************************************
+
+	FAMC mode ChildSealing template - handles the addition of parent
+		Participant elements for a SLGC ordinance
+	
+
+*********************************************************************** -->
+<xsl:template match="FAMC" mode="ChildSealing">
+	<!-- Get Family Ref -->
+	<xsl:variable name="FamilyID" select="@REF"/>
+
+
+	<xsl:if test="//FAM[@ID=$FamilyID]/HUSB/@REF">
+		<xsl:variable name="FatherID" select="//FAM[@ID=$FamilyID]/HUSB/@REF"/>
+		<Participant>
+			<Link>
+				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+				<xsl:attribute name="Ref">
+					<xsl:choose>
+						<xsl:when test="//INDI[@ID=$FatherID]">
+							<xsl:value-of select="generate-id(//INDI[@ID=$FatherID])"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'IndividualUnknown'"/>
+						</xsl:otherwise>
+					</xsl:choose>				
+				</xsl:attribute>
+			</Link>
+			<Role>father</Role>
+		</Participant>
+	</xsl:if>
+	
+	<xsl:if test="//FAM[@ID=$FamilyID]/WIFE/@REF">
+		<xsl:variable name="MotherID" select="//FAM[@ID=$FamilyID]/WIFE/@REF"/>
+		<Participant>
+			<Link>
+				<xsl:attribute name="Target">IndividualRec</xsl:attribute>
+				<xsl:attribute name="Ref">
+					<xsl:choose>
+						<xsl:when test="//INDI[@ID=$MotherID]">
+							<xsl:value-of select="generate-id(//INDI[@ID=$MotherID])"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'IndividualUnknown'"/>
+						</xsl:otherwise>
+					</xsl:choose>				
+				</xsl:attribute>
+			</Link>
+			<Role>mother</Role>
+		</Participant>
+	</xsl:if>
+</xsl:template>
+
 </xsl:stylesheet>
