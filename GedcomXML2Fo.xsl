@@ -40,7 +40,7 @@
 				font-family="sans-serif" 
 				font-size="6pt"
 				text-align="right">
-				Page <xsl:page-number/>of
+				Page of
 				<xsl:text> </xsl:text>
 				<xsl:if test="( $numberOfChildren div 6  ) &lt;= 1">
 					<xsl:if test="$numberOfChildren &lt;= 4">
@@ -101,26 +101,26 @@
 			</fo:table>
 			
 
-			<xsl:template name="children">
+			<xsl:call-template name="children">
 				<xsl:with-param name="count" select="$numberOfChildren"/>
 				<xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
-			</xsl:template>
+			</xsl:call-template>
 		</fo:flow>
 	</fo:page-sequence>
 </xsl:template>
 
 <xsl:template name="children">
-	<xsl:with-param name="count"/>
-	<xsl:with-param name="numberOfChildren"/>
-	<xsl:with-param name="firstPageDone" select="false()"/>
+	<xsl:param name="count"/>
+	<xsl:param name="numberOfChildren"/>
+	<xsl:param name="firstPageDone" select="false()"/>
 
 	
 	<xsl:for-each select="Child">
 				
 		<xsl:if test="( $count mod 4) or ($count mod 6 )">
-			<xsl:apply-template select="current()">
-				<xsl:with-param name="childNbr" select="$numberOfChildren - $count + 1)"/>	
-			</xsl:apply-template>
+			<xsl:apply-templates select="current()">
+				<xsl:with-param name="childNbr" select="$numberOfChildren - $count + 1"/>	
+			</xsl:apply-templates>
 			
 			<xsl:choose>
 				<xsl:when test="$numberOfChildren &lt; 4">
@@ -130,7 +130,7 @@
 						<xsl:with-param name="firstPageDone" select="true()"/>
 					</xsl:call-template>			
 				</xsl:when>
-				<xsl:when test="$numberOfChilder &gt; 4">
+				<xsl:when test="$numberOfChildren &gt; 4">
 					<xsl:call-template name="children">
 						<xsl:with-param name="count" select="$count - 1"/>
 						<xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
@@ -158,9 +158,9 @@
 			</xsl:call-template>
 			
 			<!-- Continue adding children -->
-			<xsl:apply-template select="current()">
-				<xsl:with-param name="childNbr" select="$numberOfChildren - $count + 1)"/>	
-			</xsl:apply-template>
+			<xsl:apply-templates select="current()">
+				<xsl:with-param name="childNbr" select="$numberOfChildren - $count + 1"/>	
+			</xsl:apply-templates>
 			<xsl:call-template name="children">
 				<xsl:with-param name="count" select="$count - 1"/>
 				<xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
@@ -180,9 +180,9 @@
 			</xsl:if>
 						
 			<!-- Continue adding children -->
-			<xsl:apply-template select="current()">
-				<xsl:with-param name="childNbr" select="$numberOfChildren - $count + 1)"/>	
-			</xsl:apply-template>
+			<xsl:apply-templates select="current()">
+				<xsl:with-param name="childNbr" select="$numberOfChildren - $count + 1"/>	
+			</xsl:apply-templates>
 			<xsl:call-template name="children">
 				<xsl:with-param name="count" select="$count - 1"/>
 				<xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
@@ -439,35 +439,32 @@
 				<xsl:with-param name="role" select="'wife'"/>
 			</xsl:apply-templates>		
 		</xsl:when>
-		<xsl:otherwise>
-			<xsl:choose>
-				<xsl:when test="$gender = 'M'">
-					<xsl:call-template name="blankChildSpouse">
-						<xsl:with-param name="role" select="'wife'"/>
-					</xsl:call-template>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:call-template name="blankChildSpouse">
-						<xsl:with-param name="role" select="'husband'"/>
-					</xsl:call-template> 
-				</xsl:otherwise>
-			</xsl:choose>
+		<xsl:otherwise>			
+			<xsl:call-template name="blankChildSpouse"/>
 		</xsl:otherwise>
 	</xsl:choose>
 
 	
 	<!-- Child's date of marriage -->
-	<xsl:call-template name="married">
-		<xsl:with-param name="IndividualRef" select="$childID"/>
+
 		<xsl:choose>
 			<xsl:when test="$gender = 'F'">
-				<xsl:with-param name="role" select="'wife'"/>
+				<xsl:call-template name="married">
+					<xsl:with-param name="IndividualRef" select="$childID"/>
+					<xsl:with-param name="role" select="'wife'"/>
+				</xsl:call-template>
+
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:with-param name="role" select="'husband'"/>
+				<xsl:call-template name="married">
+					<xsl:with-param name="IndividualRef" select="$childID"/>
+					<xsl:with-param name="role" select="'husband'"/>
+				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:call-template>	
+
+	
+
 		
 </xsl:template>
 
@@ -617,7 +614,7 @@
 			
 		<xsl:choose>
 			<xsl:when test="//EventRec[@Type = 'birth' ]/Participant/Link[@Ref = $IndividualRef]">
-				<xsl:apply-templates match="//EventRec[@Type = 'birth' ]/Participant/Link[@Ref = $IndividualRef]">
+				<xsl:apply-templates select="//EventRec[@Type = 'birth' ]/Participant/Link[@Ref = $IndividualRef]">
 					<xsl:with-param name="role" select="'child'"/>
 				</xsl:apply-templates>					
 			</xsl:when>
@@ -771,7 +768,7 @@
 			
 		<xsl:choose>
 			<xsl:when test="//EventRec[@Type = 'death' ]/Participant/Link[@Ref = $IndividualRef]">
-				<xsl:apply-templates match="//EventRec[@Type = 'death' ]/Participant/Link[@Ref = $IndividualRef]">
+				<xsl:apply-templates select="//EventRec[@Type = 'death' ]/Participant/Link[@Ref = $IndividualRef]">
 					<xsl:with-param name="role" select="'principle'"/>
 				</xsl:apply-templates>					
 			</xsl:when>
@@ -859,7 +856,7 @@
 			
 		<xsl:choose>
 			<xsl:when test="//EventRec[@Type = 'burial' ]/Participant/Link[@Ref = $IndividualRef]">
-				<xsl:apply-templates match="//EventRec[@Type = 'burial' ]/Participant/Link[@Ref = $IndividualRef]">
+				<xsl:apply-templates select="//EventRec[@Type = 'burial' ]/Participant/Link[@Ref = $IndividualRef]">
 					<xsl:with-param name="role" select="'principle'"/>
 				</xsl:apply-templates>					
 			</xsl:when>
@@ -943,7 +940,7 @@
 			
 		<xsl:choose>
 			<xsl:when test="//EventRec[@Type = 'marriage' ]/Participant/Link[@Ref = $IndividualRef]">
-				<xsl:apply-templates match="//EventRec[@Type = 'marriage' ]/Participant/Link[@Ref = $IndividualRef]">
+				<xsl:apply-templates select="//EventRec[@Type = 'marriage' ]/Participant/Link[@Ref = $IndividualRef]">
 					<xsl:with-param name="role" select="husband"/>
 				</xsl:apply-templates>					
 			</xsl:when>
@@ -1004,7 +1001,7 @@
 					
 			<xsl:choose>
 				<xsl:when test="//FamilyRec/Child/Link[@Ref=$IndividualRef]">
-					<xsl:apply-templates match="//FamilyRec/Child/Link[@Ref=$IndividuaRef]" mode="parents">
+					<xsl:apply-templates select="//FamilyRec/Child/Link[@Ref=$IndividualRef]" mode="parents">
 						<xsl:with-param name="role" select="$role"/>
 					</xsl:apply-templates>					
 				</xsl:when>
@@ -1356,6 +1353,99 @@
 			</fo:block>
 		</fo:table-cell>
 	</fo:table-row>
+</xsl:template>
+
+<xsl:template name="blankChildSpouse">
+
+	<!-- Child Spouse-->
+	<fo:table>
+		<fo:table-column column-width="6mm"/>
+		<fo:table-column column-width="23mm"/>
+		<fo:table-column column-width="66mm"/>
+		<fo:table-column column-width="10mm"/>
+		<fo:table-column column-width="75mm"/>
+		<fo:table-body>
+			<fo:table-row 
+				height="6mm">
+				<fo:table-cell 
+					border-left-color="black" 
+					border-left-style="solid" 
+					border-left-width=".1mm" 
+					padding-top=".1mm"
+					padding-left="1mm">
+					<fo:block 
+						font-family="sans-serif" 
+						font-size="10pt">
+					</fo:block>
+				</fo:table-cell>
+				<fo:table-cell 
+					border-left-color="black" 
+					border-left-style="solid" 
+					border-left-width=".1mm" 
+					border-top-color="black" 
+					border-top-style="solid" 
+					border-top-width=".1mm"
+					padding-top=".1mm"
+					padding-left="1mm">
+					<fo:block 
+						font-family="sans-serif"
+						font-size="6pt">
+						Spouse
+					</fo:block>
+					<fo:block 
+						font-family="sans-serif"
+						font-size="6pt">
+						Given name(s)
+					</fo:block>
+				</fo:table-cell>
+				<fo:table-cell  
+					border-top-color="black" 
+					border-top-style="solid" 
+					border-top-width=".1mm"
+					padding-top="1.5mm">
+					<fo:block 
+						font-family="sans-serif" 
+						font-size="10pt">
+
+					</fo:block>
+				</fo:table-cell>
+				<fo:table-cell 
+					border-left-color="black" 
+					border-left-style="solid" 
+					border-left-width=".1mm" 
+					border-top-color="black" 
+					border-top-style="solid" 
+					border-top-width=".1mm"
+					padding-top=".1mm"
+					padding-left="1mm">
+					<fo:block 
+						font-family="sans-serif"
+						font-size="6pt">
+						Last
+					</fo:block>
+					<fo:block 
+						font-family="sans-serif"
+						font-size="6pt">
+						name
+					</fo:block>
+				</fo:table-cell>
+				<fo:table-cell  
+					border-right-color="black" 
+					border-right-style="solid" 
+					border-right-width=".1mm" 
+					border-top-color="black" 
+					border-top-style="solid" 
+					border-top-width=".1mm"
+					padding-top="1.5mm">
+					<fo:block 
+						font-family="sans-serif" 
+						font-size="10pt">
+
+					</fo:block>
+				</fo:table-cell>
+			</fo:table-row>
+		</fo:table-body>
+	</fo:table>
 </xsl:template>
 
 </xsl:stylesheet>
