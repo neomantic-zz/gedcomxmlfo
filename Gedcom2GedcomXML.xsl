@@ -11,11 +11,12 @@
 IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:output method="xml" indent="yes"/>
 <!-- TODO add param to set the Type attribute in the ExternalID -->
-<!-- FIX this global variable doesn't work-->
+<!-- FIX this global variable doesn't work in the program I am using, however, correct it is in implementation -->
 <xsl:param name="FileCreationDate"/>
 <!--For Debugging -->
 <xsl:template match="/">
 	<xsl:apply-templates select="//HEAD"/>
+	<xsl:call-template name="ContactRecs"/>
 </xsl:template>
 <!-- Start at Root-->
 <xsl:template name="full">
@@ -67,7 +68,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 				<Link>
 					<xsl:attribute name="Target">ContactRec</xsl:attribute>
 					<xsl:attribute name="Ref">
-						<xsl:variable name="SubmitterID" select="@REF"/>
+						<xsl:variable name="SubmitterID" select="SUBM/@REF"/>
 						<xsl:value-of select="generate-id(//SUBM[@ID=$SubmitterID])"/>
 					</xsl:attribute>
 				</Link>
@@ -761,7 +762,13 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 		<xsl:if test="NAME or VERS or CORP or DATA/COPR" >
 			<!-- Creates Product Element-->
 			<Product>
-				<!-- TODO DOC mapped SOUR APPROVED_SYSTEM_ID  to ProductID Element -->
+				<!-- DOC mapped SOUR APPROVED_SYSTEM_ID  to ProductId Element -->
+				<xsl:variable name="ProductId" select="text()"/>
+				<xsl:if test="(string-length( $ProductId )) != 0">
+					<ProductId>
+						<xsl:value-of select="$ProductId"/>
+					</ProductId>
+				</xsl:if>
 				<xsl:if test="VERS">
 					<Version>
 						<xsl:value-of select="VERS"/>
@@ -841,11 +848,12 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 <xsl:template match="OBJE">
 	<Evidence>
 		<Citation>	
-			<Link/>
+			<Link>
 				<xsl:attribute name="Target">SourceRec</xsl:attribute>
 				<xsl:attribute name="Ref">
 					<xsl:value-of select="generate-id()"/>
 				</xsl:attribute>
+			</Link>
 			<xsl:if test="TITL">
 				<Caption>
 					<xsl:value-of select="TITL"/>
@@ -898,7 +906,8 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 			there is no way to tell what is the CONT
 		-->
 		<xsl:apply-templates select="ADDR" mode="MailAddress">
-			<xsl:with-param name="PlaceName" select="self::ADDR[text()]"/>
+			<!-- FIX NOW! -->
+			<xsl:with-param name="PlaceName" select="ADDR"/>
 		</xsl:apply-templates>
 		<xsl:apply-templates select="PHON"/>
 		<!-- Cannot map any more items of the CORP tag to the ContactRec elements-->
@@ -937,7 +946,7 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
  		<MailAddress>
  			<AddrLine>
  				<Addressee>
- 					<xsl:value-of select="$PlaceName"/>
+ 					<xsl:value-of select="text()"/>
  				</Addressee>
  			</AddrLine>
 			<xsl:if test="CONT">
@@ -977,12 +986,14 @@ IOW, it does not follow how the original flow of the input GEDCOM 5.5 file -->
 							<xsl:value-of select="POST"/>
 						</PlacePart>
 					</xsl:if>
-					<xsl:if test="CTRY">
+				</AddrLine>
+				<xsl:if test="CTRY">
+					<AddrLine>
 						<PlacePart Type="country">
 							<xsl:value-of select="CTRY"/>
 						</PlacePart>
-					</xsl:if>
-				</AddrLine>
+					</AddrLine>
+				</xsl:if>
 			</xsl:if>
  		</MailAddress>
 </xsl:template><!-- end ADDR mode=MailAddress template -->
