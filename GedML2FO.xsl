@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xsl:stylesheet version="1.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" 
+	xmlns:fo="http://www.w3.org/1999/XSL/Format" 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:date="http://exslt.org/dates-and-times"
+  	extension-element-prefixes="date">
 <!-- $Id$ -->
 
 <!-- 
@@ -78,9 +82,10 @@
 		<fo:static-content flow-name="xsl-region-after">
 			<fo:block 
 				font-family="sans-serif" 
-				font-size="10pt"
+				font-size="8pt"
 				text-align="left">
-				<xsl:text>Generated: xx/xx/xxxx</xsl:text>
+				<xsl:text>Generated: </xsl:text>
+				<xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/>
 			</fo:block>
 		</fo:static-content>
 	
