@@ -173,16 +173,21 @@
 		<fo:table-column column-width="76mm"/>
 		<fo:table-body>
 		
+			<!-- Spouse's Family -->
+			<xsl:variable name="FamID" select="//INDI[@ID = $IndiID]/FAMC/@REF"/>
+		
+			<!-- Assumes traditional family (male/female) 
+			     but in this case, it is biological -->
 			<!-- Spouse's Father -->
 			<xsl:call-template name="parentNameRow">
-				<xsl:with-param name="IndiID" select="//FAM[@ID = FAMC/@REF]/HUSB/@REF"/>
+				<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/HUSB/@REF"/>
 				<xsl:with-param name="role" select="$role"/>
 				<xsl:with-param name="gender" select="'Male'"/>
 			</xsl:call-template>
 			
 			<!-- Spouse's Mother -->
 			<xsl:call-template name="parentNameRow">
-				<xsl:with-param name="IndiID" select="//FAM[@ID = FAMC/@REF]/WIFE/@REF"/>
+				<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/WIFE/@REF"/>
 				<xsl:with-param name="role" select="$role"/>
 				<xsl:with-param name="gender" select="'Female'"/>
 			</xsl:call-template>
@@ -819,7 +824,7 @@
 	</fo:table>
 
 	<xsl:call-template name="childMarriage">
-		<xsl:with-param name="Fams" select="//INDI[@ID = $IndiID]/FAMS"/>
+		<xsl:with-param name="FamID" select="//INDI[@ID = $IndiID]/FAMS/@REF"/>
 		<xsl:with-param name="IndiID" select="$IndiID"/>
 	</xsl:call-template>
 
@@ -883,13 +888,11 @@
 
 
 <xsl:template name="childMarriage">
-	<xsl:param name="Fams"/>
+	<xsl:param name="FamID"/>
 	<xsl:param name="IndiID"/>
 	
 		<!-- Created because parser doesn't like it when I just pass @REF is a [ ] expression -->
-		
-		<xsl:variable name="FamID" select="@REF"/>
-	
+			
 		<!-- Create spouse row -->
     	<fo:table table-layout="fixed">
     		<fo:table-column column-width="6mm"/>
