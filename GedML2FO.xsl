@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xsl:stylesheet version="1.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <!-- $Id$ -->
-<!-- TODO - Handle Unknown First and Last Name -->
+
+<!-- 
+ ******************************************************************************
+ ******************************************************************************
+    Copyright (c) 2005 Chad Albers
+     
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    
+ ******************************************************************************
+ ******************************************************************************
+ -->
+
 <xsl:output indent="yes" method="xml"/>
  
 <xsl:template match="/">
 		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<fo:layout-master-set>
-				<fo:simple-page-master margin-bottom=".5cm" margin-left="2.5cm" margin-right="1cm" margin-top="1.5cm" master-name="Family" page-height="11in" page-width="8.5in">
+				<fo:simple-page-master margin-bottom=".3cm" margin-left="2.5cm" margin-right="1cm" margin-top="1.5cm" master-name="Family" page-height="11in" page-width="8.5in">
 					<fo:region-before extent="1cm"/>
 					<fo:region-body margin-top="1cm" margin-bottom="1cm"/>
 					<fo:region-after extent=".5cm"/>
@@ -88,10 +111,21 @@
 	<xsl:param name="role"/>
 	
 	<!-- Table with Spouse Names -->
-	<xsl:call-template name="spouseNameRow">
-		<xsl:with-param name="role" select="$role"/>
-		<xsl:with-param name="IndiID" select="$IndiID"/>
-	</xsl:call-template>
+	<fo:table table-layout="fixed"
+		border-top-color="black" 
+		border-top-style="solid" 
+		border-top-width=".1mm">
+		<fo:table-column column-width="22mm"/>
+		<fo:table-column column-width="72mm"/>
+		<fo:table-column column-width="12mm"/>
+		<fo:table-column column-width="74mm"/>
+		<fo:table-body>
+        	<xsl:call-template name="spouseNameRow">
+        		<xsl:with-param name="role" select="$role"/>
+        		<xsl:with-param name="IndiID" select="$IndiID"/>
+        	</xsl:call-template>
+		</fo:table-body>
+	</fo:table>
 
 	<!-- Table with all Events -->
 	<!-- TODO Probably make the 2nd Column smaller for Born/Died/Burried Events 
@@ -161,76 +195,69 @@
 	<xsl:param name="role"/>	
 	<xsl:param name="IndiID"/>
 
-	<fo:table table-layout="fixed"
-		border-top-color="black" 
-		border-top-style="solid" 
-		border-top-width=".1mm">
-		<fo:table-column column-width="22mm"/>
-		<fo:table-column column-width="72mm"/>
-		<fo:table-column column-width="12mm"/>
-		<fo:table-column column-width="74mm"/>
-		<fo:table-body>
-        	<fo:table-row 
-        		height="6mm">
-        		<fo:table-cell 
-        			border-left-color="black" 
-        			border-left-style="solid" 
-        			border-left-width=".1mm"
-					border-bottom-color="black" 
-					border-bottom-style="solid" 
-					border-bottom-width=".1mm">
-        			padding-top=".3mm"
-        			padding-left="1mm">
-        			<fo:block 
-        				font-family="sans-serif"
-        				font-size="8pt">
-        				<xsl:value-of select="$role"/>
-        			</fo:block>
-        			<fo:block 
-        				font-family="sans-serif"
-        				font-size="7pt"
-        				padding-left="1mm">
-        				<xsl:text>Given name(s)</xsl:text>
-        			</fo:block>
-        		</fo:table-cell>
-        	
-        		<!-- Insert Given Name Cell -->
-        		<xsl:call-template name="givenName">
-        			<xsl:with-param name="IndiID" select="$IndiID"/>
-        		</xsl:call-template>
-        		
-        		<fo:table-cell 
-					border-bottom-color="black" 
-					border-bottom-style="solid" 
-					border-bottom-width=".1mm">
-        			padding-top=".3mm"
-        			padding-left="1mm"
-        			padding-right="1mm">
-        			<fo:block 
-        				font-family="sans-serif"
-        				font-size="8pt">
-        				<xsl:if test="$role = 'Husband'">
-        					<xsl:text>Last</xsl:text>
-        				</xsl:if>
-        				<xsl:if test="$role = 'Wife'">
-        					<xsl:text>Maiden</xsl:text>
-        				</xsl:if>
-        			</fo:block>
-        			<fo:block 
-        				font-family="sans-serif"
-        				font-size="8pt">
-        				<xsl:text>name</xsl:text>
-        			</fo:block>
-        		</fo:table-cell>
-        		
-        		<!-- Insert Surname table-cell -->
-        		<xsl:call-template name="surname">
-        			<xsl:with-param name="IndiID" select="$IndiID"/>
-        		</xsl:call-template>
-        		
-        	</fo:table-row>
-		</fo:table-body>
-	</fo:table>
+	<fo:table-row 
+		height="6mm">
+		<fo:table-cell 
+			border-left-color="black" 
+			border-left-style="solid" 
+			border-left-width=".1mm"
+			border-bottom-color="black" 
+			border-bottom-style="solid" 
+			border-bottom-width=".1mm">
+			padding-top=".3mm"
+			padding-left="1mm">
+			<fo:block 
+				font-family="sans-serif"
+				font-size="8pt"
+				text-indent="2pt">
+				<xsl:value-of select="$role"/>
+			</fo:block>
+			<fo:block 
+				font-family="sans-serif"
+				font-size="7pt"
+				padding-left="1mm"
+				text-indent="2pt">
+				<xsl:text>Given name(s)</xsl:text>
+			</fo:block>
+		</fo:table-cell>
+	
+		<!-- Insert Given Name Cell -->
+		<xsl:call-template name="givenName">
+			<xsl:with-param name="IndiID" select="$IndiID"/>
+		</xsl:call-template>
+		
+		<fo:table-cell 
+			border-bottom-color="black" 
+			border-bottom-style="solid" 
+			border-bottom-width=".1mm">
+			padding-top=".3mm"
+			padding-left="1mm"
+			padding-right="1mm">
+			<fo:block 
+				font-family="sans-serif"
+				font-size="8pt"
+				text-indent="2pt">
+				<xsl:if test="$role = 'Husband'">
+					<xsl:text>Last</xsl:text>
+				</xsl:if>
+				<xsl:if test="$role = 'Wife'">
+					<xsl:text>Maiden</xsl:text>
+				</xsl:if>
+			</fo:block>
+			<fo:block 
+				font-family="sans-serif"
+				font-size="8pt"
+				text-indent="2pt">
+				<xsl:text>name</xsl:text>
+			</fo:block>
+		</fo:table-cell>
+		
+		<!-- Insert Surname table-cell -->
+		<xsl:call-template name="surname">
+			<xsl:with-param name="IndiID" select="$IndiID"/>
+		</xsl:call-template>
+		
+	</fo:table-row>
 </xsl:template>
 
 <!-- Creates table-cell with Given Name -->
@@ -406,27 +433,57 @@
 	<!-- Added this param so that it will work with the Child's spouse.  Probably
 		not the most optimal implementation fo speed -->
 	<xsl:param name="FamID"/>
+	
+	<!-- (Lamely) added this variable to avoid redundant code when it comes to
+	    creating the married row for a child.  If the role is 'Child', then
+	    it causes this template to added a bottom line to the normally blank
+	    outside cell/column -->
+	<xsl:param name="role"/>
 
 	<fo:table-row 
 		height="6mm"
 		keep-with-previous.within-line="always">
-		<fo:table-cell 
-			border-left-color="black" 
-			border-left-style="solid" 
-			border-left-width=".1mm" 
-			padding="2pt">
-			<fo:block 
-				font-family="sans-serif" 
-				font-size="10pt">
-			</fo:block>
-		</fo:table-cell>
+		<xsl:choose>
+			<xsl:when test="$role = 'Child'">
+
+        		<fo:table-cell 
+        			border-left-color="black" 
+        			border-left-style="solid" 
+        			border-left-width=".1mm" 
+        			border-bottom-color="black" 
+        			border-bottom-style="solid" 
+        			border-bottom-width=".1mm"
+        			padding="2pt">
+        			<fo:block 
+        				font-family="sans-serif" 
+        				font-size="10pt">
+        			</fo:block>
+        		</fo:table-cell>
+			
+			</xsl:when>
+			<xsl:otherwise>
+
+        		<fo:table-cell 
+        			border-left-color="black" 
+        			border-left-style="solid" 
+        			border-left-width=".1mm" 
+        			padding="2pt">
+        			<fo:block 
+        				font-family="sans-serif" 
+        				font-size="10pt">
+        			</fo:block>
+        		</fo:table-cell>
+			
+			</xsl:otherwise>
+		</xsl:choose>
+
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
 			border-left-width=".1mm"
-            			border-bottom-color="black" 
-            			border-bottom-style="solid" 
-            			border-bottom-width=".1mm"
+			border-bottom-color="black" 
+			border-bottom-style="solid" 
+			border-bottom-width=".1mm"
 			padding="2pt">
 			<fo:block 
 				font-family="sans-serif" 
@@ -628,18 +685,45 @@
 		<xsl:if test="( position() mod 6 ) = 5">
 			<!-- Insert Spouse name (Child's Father) -->
         	<!-- Table with Spouse Names -->
-        	<xsl:call-template name="spouseNameRow">
-        		<xsl:with-param name="role" select="'Husband'"/>
-        		<xsl:with-param name="IndiID" select="$fatherID"/>
-        	</xsl:call-template>
+         	<fo:table table-layout="fixed"
+        		border-top-color="black" 
+        		border-top-style="solid" 
+        		border-top-width=".1mm"
+        		break-before="page"> <!-- this breaks to the new page -->
+        		<fo:table-column column-width="22mm"/>
+        		<fo:table-column column-width="72mm"/>
+        		<fo:table-column column-width="12mm"/>
+        		<fo:table-column column-width="74mm"/>
+        		<fo:table-body>
+
+                	<xsl:call-template name="spouseNameRow">
+                		<xsl:with-param name="role" select="'Husband'"/>
+                		<xsl:with-param name="IndiID" select="$fatherID"/>
+                	</xsl:call-template>
+                	
+				</fo:table-body>
+			</fo:table>
 			
 			<!-- Insert Spouse name (Child's Mother) -->
         	<!-- Table with Spouse Names -->
-        	<xsl:call-template name="spouseNameRow">
-        		<xsl:with-param name="role" select="'Wife'"/>
-        		<xsl:with-param name="IndiID" select="$motherID"/>
-        	</xsl:call-template>			
-			
+         	<fo:table table-layout="fixed"
+        		border-top-color="black" 
+        		border-top-style="solid" 
+        		border-top-width=".1mm">
+        		<fo:table-column column-width="22mm"/>
+        		<fo:table-column column-width="72mm"/>
+        		<fo:table-column column-width="12mm"/>
+        		<fo:table-column column-width="74mm"/>
+        		<fo:table-body>
+
+                	<xsl:call-template name="spouseNameRow">
+                		<xsl:with-param name="role" select="'Wife'"/>
+                		<xsl:with-param name="IndiID" select="$motherID"/>
+                	</xsl:call-template>
+                	
+				</fo:table-body>
+			</fo:table>			
+
 			<xsl:call-template name="childListLabel"/>		
 		</xsl:if>
 
@@ -763,13 +847,13 @@
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="6pt"
-				text-indent="2pt">
+				text-indent="1pt">
 				<xsl:text>Sex</xsl:text>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="9pt"
-				text-indent="4pt">
+				text-indent="2pt">
 					<xsl:value-of select="//INDI[@ID = $IndiID]/SEX"/>	
 			</fo:block>
 		</fo:table-cell>
@@ -802,8 +886,6 @@
 	<xsl:param name="Fams"/>
 	<xsl:param name="IndiID"/>
 	
-	<xsl:for-each select="$Fams">
-		
 		<!-- Created because parser doesn't like it when I just pass @REF is a [ ] expression -->
 		
 		<xsl:variable name="FamID" select="@REF"/>
@@ -931,101 +1013,12 @@
     			<fo:table-body>
 
                 	<xsl:call-template name="married">
-                		<xsl:with-param name="FamID" select="$FamID"/>	
+                		<xsl:with-param name="FamID" select="$FamID"/>
+                		<xsl:with-param name="role" select="'Child'"/>	
                 	</xsl:call-template>				
     
     			</fo:table-body>
 		</fo:table>	
-	</xsl:for-each>	
-
-
-	<!-- If this child is not married, add the spouse name and marriage date rows anyway -->
-	<xsl:if test="count( $Fams ) = 0 ">
-	
-    	<fo:table table-layout="fixed">
-    		<fo:table-column column-width="6mm"/>
-    		<fo:table-column column-width="28mm"/>				
-    		<fo:table-column column-width="60mm"/>
-    		<fo:table-column column-width="10mm"/>
-    		<fo:table-column column-width="76mm"/>
-    		<fo:table-body>    
-            	<fo:table-row 
-            		height="6mm">
-            		<fo:table-cell 
-            			border-left-color="black" 
-            			border-left-style="solid" 
-            			border-left-width=".1mm" 
-            			padding="2pt">
-            			<fo:block 
-            				font-family="sans-serif" 
-            				font-size="10pt">
-            			</fo:block>
-            		</fo:table-cell>
-            		<fo:table-cell 							
-            			border-left-color="black" 
-            			border-left-style="solid" 
-            			border-left-width=".1mm"
-            			padding-top="1.5mm"
-            			padding-left="1mm">
-            			<!-- set at 6pt -->
-            			<fo:block
-            				font-family="sans-serif"
-            				font-size="6pt">				
-            				<xsl:text>Spouse&#8217;s </xsl:text>
-            			</fo:block>
-            			<fo:block 
-            				font-family="sans-serif"
-            				font-size="6pt">
-            				<xsl:text>Given name(s)</xsl:text>
-            			</fo:block>
-            		</fo:table-cell>
-            		
-            		<!-- Insert Given Name table-cell -->
-             		<xsl:call-template name="givenName"/>
-            		
-            		<fo:table-cell 
-            			border-left-color="black" 
-            			border-left-style="solid" 
-            			border-left-width=".1mm" 
-            			padding-top=".3mm"
-            			padding-left="1mm">
-            			<!-- set at 6pt -->
-            			<fo:block 
-            				font-family="sans-serif"
-            				font-size="6pt">
-            				<xsl:text>Last</xsl:text>
-            			</fo:block>
-            			<fo:block 
-            				font-family="sans-serif"
-            				font-size="6pt">
-            				<xsl:text>name</xsl:text>
-            			</fo:block>
-            		</fo:table-cell>
-            		
-            		<!-- Insert Surname Cell-->
-             		<xsl:call-template name="surname"/>
-            		    		
-    			</fo:table-row>
-    		</fo:table-body>
-    	</fo:table>	
-
-		<!-- Table with Married Event -->
-		<fo:table 
-			table-layout="fixed">
-    		<fo:table-column column-width="6mm"/>
-    		<fo:table-column column-width="10mm"/>
-    		<fo:table-column column-width="26mm"/>
-    		<fo:table-column column-width="10mm"/>
-    		<fo:table-column column-width="128mm"/>
-    			<fo:table-body>
-
-                	<xsl:call-template name="married"/>
-    
-    			</fo:table-body>
-		</fo:table>	
-
-	</xsl:if>
-	
 
 </xsl:template>
 
