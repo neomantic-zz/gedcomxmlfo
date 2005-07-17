@@ -176,6 +176,7 @@
 			<!-- Spouse's Family -->
 			<xsl:variable name="FamID" select="//INDI[@ID = $IndiID]/FAMC/@REF"/>
 		
+			<!-- TODO?  Confirm Biological status -->
 			<!-- Assumes traditional family (male/female) 
 			     but in this case, it is biological -->
 			<!-- Spouse's Father -->
@@ -641,36 +642,41 @@
 	<!-- return the text of PLAC not the text of its child elements -->
 	<xsl:choose>
 		<!-- When it is greater than 70, but less that 80, change font to 10pt -->
-		<xsl:when test="(string-length( normalize-space( text() )) &gt; 70 ) and (string-length( normalize-space( text() ) ) &lt;= 84)">
+		<xsl:when test="(string-length( normalize-space( text() )) &gt; 70 ) and (string-length( normalize-space( text() ) ) &lt;= 81)">
 			<fo:block 
 				font-family="serif" 
 				font-size="10pt">
 					<xsl:value-of select="normalize-space( text() )"/>	
 			</fo:block>
 		</xsl:when>
+		<xsl:when test="string-length( normalize-space( text() ) ) &gt; 85">
+			<fo:block 
+				font-family="serif" 
+				font-size="7pt">
+ 				<xsl:value-of select="normalize-space( text() )"/>			 				
+			</fo:block>
+		</xsl:when>
+				
 		<!-- Truncate -->
-		<xsl:when test="string-length( normalize-space( text() ) ) &gt; 84">
+		<xsl:when test="string-length( normalize-space( text() ) ) &gt; 81">
 			<fo:block 
 				font-family="serif" 
 				font-size="10pt">
-				
+ 				<xsl:value-of select="normalize-space( text() )"/>			 				
  				<xsl:choose>
-					<xsl:when test="string-length( normalize-space( text() ) ) &gt; 85">
- 						<xsl:value-of select="substring( normalize-space( text() ), 1, 82 )"/>
-						<xsl:text>...</xsl:text>
+					<xsl:when test="string-length( normalize-space( text() ) ) &gt; 81">
+ 						<xsl:value-of select="substring( normalize-space( text() ), 1, 78 )"/>
+						<xsl:text> ...</xsl:text>
 					</xsl:when>
-					<xsl:otherwise>
- 						<xsl:value-of select="normalize-space( text() )"/>
- 					</xsl:otherwise>
  				</xsl:choose> 
 			</fo:block>
 		</xsl:when>
-		<!-- default to 12pt -->
+		<!-- default to 12pt -->				
 		<xsl:otherwise>
 			<fo:block 
 				font-family="serif" 
 				font-size="12pt">
-				<xsl:value-of select="normalize-space( text() )"/>	
+				<xsl:value-of select="normalize-space( text() )"/>		
 			</fo:block>
 		</xsl:otherwise>				
 	</xsl:choose>
@@ -737,7 +743,42 @@
 			<xsl:with-param name="childNumber" select="position()"/>
 		</xsl:call-template>	
 	</xsl:for-each>
+
+	<!-- If the Number of Children is less than 4 on the first page,
+		 then this conditional will create blankChildren to fill the page -->	
+	<xsl:if test="$numberOfChildren &lt; 4 ">
+		<xsl:call-template name="addBlankChildren">
+			<xsl:with-param name="childNumber" select="$numberOfChildren + 1"/>
+			<xsl:with-param name="numberOfBlankChildren" select="4 - $numberOfChildren"/>
+		</xsl:call-template>
+	</xsl:if>
+
+	<!-- If the Number of Children is greater than four (which means that it is on
+		the second page), then this conditional will create blankChildren to fill the page -->		
+	<xsl:if test="$numberOfChildren &gt; 4 ">
+		<xsl:call-template name="addBlankChildren">
+			<xsl:with-param name="childNumber" select="$numberOfChildren + 1"/>
+			<xsl:with-param name="numberOfBlankChildren" select="6 - ( ( $numberOfChildren + 2 ) mod 6 )"/>
+		</xsl:call-template>			
+	</xsl:if>
 	
+	
+</xsl:template>
+
+<xsl:template name="addBlankChildren">
+	<xsl:param name="childNumber"/>
+	<xsl:param name="numberOfBlankChildren"/>
+	
+	<xsl:if test="$numberOfBlankChildren > 0">
+    	<xsl:call-template name="child">
+    		<xsl:with-param name="childNumber" select="$childNumber"/>
+    	</xsl:call-template>
+
+    	<xsl:call-template name="addBlankChildren">
+    		<xsl:with-param name="childNumber" select="$childNumber + 1"/>
+    		<xsl:with-param name="numberOfBlankChildren" select="$numberOfBlankChildren - 1"/>
+    	</xsl:call-template>	
+	</xsl:if>
 </xsl:template>
 
 
