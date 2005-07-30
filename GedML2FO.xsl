@@ -30,11 +30,17 @@
  -->
 
 <xsl:output indent="yes" method="xml"/>
+
+<!-- change this global variable if you don't want the FAM XREF or the INDI XREF to be included -->
+<xsl:variable name="includeID" select="true()"/>
+<!-- <xsl:variable name="includeID" select="false()"/> -->
  
 <xsl:template match="/">
+
+	
 		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<fo:layout-master-set>
-				<fo:simple-page-master margin-bottom=".3cm" margin-left="2.5cm" margin-right="1cm" margin-top="1.5cm" master-name="Family" page-height="11in" page-width="8.5in">
+				<fo:simple-page-master margin-bottom=".2cm" margin-left="2.5cm" margin-right="1cm" margin-top="1.5cm" master-name="Family" page-height="11in" page-width="8.5in">
 					<fo:region-before extent="1cm"/>
 					<fo:region-body margin-top="1cm" margin-bottom="1cm"/>
 					<fo:region-after extent=".5cm"/>
@@ -42,7 +48,7 @@
 			</fo:layout-master-set>
 			
 			<xsl:apply-templates select="//FAM"/>
-	
+				
 		</fo:root>
 
 
@@ -70,11 +76,18 @@
 			<fo:block	
 				font-family="sans-serif" 
 				font-size="6pt"
-				text-align="right">			
+				text-align="right">
 				<xsl:text>Page </xsl:text>
 					<fo:page-number/>
 						<xsl:text> of </xsl:text>
 					<xsl:value-of select="( ( $numberOfChildren + 1 ) div 6 ) - ( ( ( $numberOfChildren + 1 ) div 6 ) mod 1 ) + 1"/>		
+
+				<xsl:if test="$includeID = true()">
+    				<xsl:text> (Fam. ID </xsl:text>
+    				<xsl:value-of select="@ID"/>
+    				<xsl:text>)</xsl:text>
+    			</xsl:if>	
+
 			</fo:block>
 		</fo:static-content>
 		
@@ -139,8 +152,8 @@
 		<fo:table-column column-width="6mm"/>
 		<fo:table-column column-width="10mm"/>
 		<fo:table-column column-width="26mm"/>
-		<fo:table-column column-width="10mm"/>
-		<fo:table-column column-width="128mm"/>
+		<fo:table-column column-width="8mm"/>
+		<fo:table-column column-width="130mm"/>
 		<fo:table-body>
 		
 		<!-- Born row -->
@@ -296,9 +309,25 @@
 					<xsl:if test="string-length(substring-before( normalize-space( //INDI[@ID = $IndiID]/NAME) , '/')) &gt; 0">                        
 						<xsl:value-of select="substring-before( normalize-space( //INDI[@ID = $IndiID]/NAME) , '/')"/>        
 					</xsl:if>
+					
+        		<!-- only include id in parentheses when it exists -->
+        		<xsl:if test="$includeID = true()">
+            		<xsl:if test="$IndiID">
+                		<fo:inline font-family="serif" 
+                			font-size="8pt">
+                			<xsl:text>   (</xsl:text>
+                			<xsl:value-of select="$IndiID"/>
+                			<xsl:text>)</xsl:text>
+                		</fo:inline>
+                	</xsl:if>
+            	</xsl:if>
+
 				</xsl:otherwise>
 			</xsl:choose>
+
 		</fo:block>
+		
+		
 	</fo:table-cell>					
 </xsl:template>
 
@@ -645,46 +674,71 @@
 <xsl:template match="PLAC">
 
 	<!-- return the text of PLAC not the text of its child elements -->
-	<xsl:choose>
-		<!-- When it is greater than 70, but less that 80, change font to 10pt -->
-		<xsl:when test="(string-length( normalize-space( text() )) &gt; 70 ) and (string-length( normalize-space( text() ) ) &lt;= 81)">
-			<fo:block 
-				font-family="serif" 
-				font-size="10pt">
-					<xsl:value-of select="normalize-space( text() )"/>	
-			</fo:block>
-		</xsl:when>
-		<xsl:when test="string-length( normalize-space( text() ) ) &gt; 85">
-			<fo:block 
-				font-family="serif" 
-				font-size="7pt">
- 				<xsl:value-of select="normalize-space( text() )"/>			 				
-			</fo:block>
-		</xsl:when>
-				
-		<!-- Truncate -->
-		<xsl:when test="string-length( normalize-space( text() ) ) &gt; 81">
-			<fo:block 
-				font-family="serif" 
-				font-size="10pt">
- 				<xsl:value-of select="normalize-space( text() )"/>			 				
- 				<xsl:choose>
-					<xsl:when test="string-length( normalize-space( text() ) ) &gt; 81">
- 						<xsl:value-of select="substring( normalize-space( text() ), 1, 78 )"/>
-						<xsl:text> ...</xsl:text>
-					</xsl:when>
- 				</xsl:choose> 
-			</fo:block>
-		</xsl:when>
-		<!-- default to 12pt -->				
-		<xsl:otherwise>
-			<fo:block 
-				font-family="serif" 
-				font-size="12pt">
-				<xsl:value-of select="normalize-space( text() )"/>		
-			</fo:block>
-		</xsl:otherwise>				
-	</xsl:choose>
+    <xsl:variable name="stringLength" select="string-length(normalize-space( text() ) )"/>
+    
+   <xsl:choose>
+    	<xsl:when test="$stringLength &gt;= 97">
+    			<fo:block 
+    				font-family="serif" 
+    				font-size="8pt">
+    				<xsl:value-of select="substring( normalize-space( text() ), 1, 94 )"/>
+    				<xsl:text>...</xsl:text>
+    			</fo:block>
+    	</xsl:when>	
+    	<xsl:when test="($stringLength &gt;= 87) and ($stringLength &lt; 97)">
+    		<fo:block 
+    				font-family="serif" 
+    				font-size="8pt">
+    				<xsl:value-of select="normalize-space( text() )"/>
+    			</fo:block>
+    	</xsl:when>
+    	<xsl:when test="$stringLength &gt;= 86">
+    			<fo:block 
+    				font-family="serif" 
+    				font-size="9pt">
+    				<xsl:value-of select="substring( normalize-space( text() ), 1, 83 )"/>
+    				<xsl:text>...</xsl:text>
+    			</fo:block>
+    	</xsl:when>
+    	<xsl:when test="($stringLength &gt;= 77) and ($stringLength &lt; 86)">
+    			<fo:block 
+    				font-family="serif" 
+    				font-size="9pt">
+    				<xsl:value-of select="normalize-space( text() )"/>
+    			</fo:block>
+    	</xsl:when>
+    	<xsl:when test="$stringLength &gt;= 76">
+    			<fo:block 
+    				font-family="serif" 
+    				font-size="10pt">
+    				<xsl:value-of select="substring( normalize-space( text() ), 1, 73 )"/>
+    				<xsl:text>...</xsl:text>
+    			</fo:block>
+    	</xsl:when>
+    	<xsl:when test="($stringLength &gt;= 70) and ($stringLength &lt; 75)">
+    			<fo:block 
+    				font-family="serif" 
+    				font-size="10pt">
+    				<xsl:value-of select="normalize-space( text() )"/>
+    			</fo:block>
+    	</xsl:when>
+    	<xsl:when test="$stringLength &gt;= 71">
+    			<fo:block 
+    				font-family="serif" 
+    				font-size="11pt">
+    				<xsl:value-of select="substring( normalize-space( text() ), 1, 69 )"/>
+    				<xsl:text>...</xsl:text>
+    			</fo:block>
+    	</xsl:when>
+    	<xsl:otherwise>
+    			<fo:block 
+    				font-family="serif" 
+    				font-size="11pt">
+    				<xsl:value-of select="normalize-space( text() )"/>
+    			</fo:block>
+    	</xsl:otherwise>
+    </xsl:choose>
+
 </xsl:template>
 
 
@@ -760,12 +814,16 @@
 
 	<!-- If the Number of Children is greater than four (which means that it is on
 		the second page), then this conditional will create blankChildren to fill the page -->		
-	<xsl:if test="$numberOfChildren &gt; 4 ">
-		<xsl:call-template name="addBlankChildren">
-			<xsl:with-param name="childNumber" select="$numberOfChildren + 1"/>
-			<xsl:with-param name="numberOfBlankChildren" select="6 - ( ( $numberOfChildren + 2 ) mod 6 )"/>
-		</xsl:call-template>			
-	</xsl:if>
+
+	<!-- Note: the 2nd conditional tests if blank children need to be created at all -->
+    <xsl:if test="$numberOfChildren &gt; 4 ">
+	    <xsl:if test="(6 - ( ( $numberOfChildren + 2 ) mod 6 )) &lt; 6">
+	   		<xsl:call-template name="addBlankChildren">
+  				<xsl:with-param name="childNumber" select="$numberOfChildren + 1"/>
+  				<xsl:with-param name="numberOfBlankChildren" select="6 - ( ( $numberOfChildren + 2 ) mod 6 )"/>
+   			</xsl:call-template>			
+    	</xsl:if>
+    </xsl:if>
 	
 	
 </xsl:template>
@@ -845,8 +903,8 @@
 		<fo:table-column column-width="6mm"/>
 		<fo:table-column column-width="10mm"/>
 		<fo:table-column column-width="26mm"/>
-		<fo:table-column column-width="10mm"/>
-		<fo:table-column column-width="128mm"/>
+		<fo:table-column column-width="8mm"/>
+		<fo:table-column column-width="130mm"/>
 		<fo:table-body>
 		
 			<!-- Born row -->
@@ -1057,8 +1115,8 @@
     		<fo:table-column column-width="6mm"/>
     		<fo:table-column column-width="10mm"/>
     		<fo:table-column column-width="26mm"/>
-    		<fo:table-column column-width="10mm"/>
-    		<fo:table-column column-width="128mm"/>
+    		<fo:table-column column-width="8mm"/>
+    		<fo:table-column column-width="130mm"/>
     			<fo:table-body>
 
                 	<xsl:call-template name="married">
