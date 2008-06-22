@@ -4,7 +4,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:date="http://exslt.org/dates-and-times"
   	extension-element-prefixes="date">
-<!-- 
+<!--
  ******************************************************************************
  ******************************************************************************
     Copyright (c) 2005 Chad Albers - chad@neomantic.com
@@ -84,12 +84,23 @@
     				<xsl:text> (Fam. ID </xsl:text>
     				<xsl:value-of select="@ID"/>
     				<xsl:text>)</xsl:text>
-    			</xsl:if>	
-
+    			</xsl:if>
 			</fo:block>
 		</fo:static-content>
-
-        <fo:flow flow-name="xsl-region-body">
+		
+        <!-- Footer -->
+		<fo:static-content flow-name="xsl-region-after">
+			<fo:block 
+				font-family="sans-serif" 
+				font-size="8pt"
+				text-align="left">
+				<xsl:text>Generated: </xsl:text>
+                <!-- Disabling inserte date because missing extension -->
+				<!-- <xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/> -->
+			</fo:block>
+		</fo:static-content>
+	
+		<fo:flow flow-name="xsl-region-body">
 			<xsl:call-template name="spouse">
 				<xsl:with-param name="IndiID" select="HUSB/@REF"/>
 				<xsl:with-param name="role" select="'Husband'"/>
@@ -107,20 +118,7 @@
     		</xsl:call-template>  
 		</fo:flow>
 
-		<!-- Footer -->
-		<fo:static-content flow-name="xsl-region-after">
-			<fo:block 
-				font-family="sans-serif" 
-				font-size="8pt"
-				text-align="left">
-				<xsl:text>Generated: </xsl:text>
-                <!-- Need extension to generate date
-				xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/
-                -->
-             </fo:block>
-		</fo:static-content>
-        
-	</fo:page-sequence>
+    </fo:page-sequence>
 </xsl:template>
 
 
@@ -408,40 +406,52 @@
     		border-bottom-style="solid" 
     		border-bottom-width=".1mm" 
     		padding-top="1.5mm">    	
-			<!-- Insert DATE_VALUE --> 
-            
-             <fo:block 
-    				font-family="serif" 
-    				font-size="11pt">
-
-
-			<xsl:choose>
-				<xsl:when test="$eventName = 'Born'">
-					<xsl:value-of select="//INDI[@ID = $IndiID]/BIRT/DATE"/>
-				</xsl:when>
-				<xsl:when test="$eventName = 'Died'">
-					<xsl:value-of select="//INDI[@ID = $IndiID]/DEAT/DATE"/>			
-				</xsl:when>
-				<xsl:when test="$eventName = 'Buried'">
-                    <xsl:value-of select="//INDI[@ID = $IndiID]/BURI/DATE"/>
-				</xsl:when>
-			</xsl:choose>
-</fo:block>  
-                
-            <!--
-			<xsl:choose>
-				<xsl:when test="$eventName = 'Born'">
-					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BIRT/DATE"/>
-				</xsl:when>
-				<xsl:when test="$eventName = 'Died'">
-					<xsl:apply-templates select="//INDI[@ID = $IndiID]/DEAT/DATE"/>			
-				</xsl:when>
-				<xsl:when test="$eventName = 'Buried'">
-                    <xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/DATE"/>
-				</xsl:when>
-			</xsl:choose> -->
-    			
-    	</fo:table-cell>
+            <!-- DATE -->
+    			<xsl:choose>
+    				<xsl:when test="$eventName = 'Born'">
+                        <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/BIRT/DATE">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/BIRT/DATE"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:when>
+    				<xsl:when test="$eventName = 'Died'">
+    				     <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/DEAT/DATE">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/DEAT/DATE"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>    				
+                    </xsl:when>
+    				<xsl:when test="$eventName = 'Buried'">
+    				    <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/BURI/DATE">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/DATE"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                   </xsl:when>
+    			</xsl:choose>
+       	</fo:table-cell>
     	<fo:table-cell  
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
@@ -461,24 +471,51 @@
     		border-bottom-style="solid" 
     		border-bottom-width=".1mm"
 			padding-top="1.5mm">
-			<fo:block 
-				font-family="serif" 
-				font-size="12pt">
- 
 			<!--Place of Event -->						
     			<xsl:choose>
     				<xsl:when test="$eventName = 'Born'">
-    					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BIRT/PLAC"/>
-    				</xsl:when>
+                        <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/BIRT/PLAC">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/BIRT/PLAC"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:when>
     				<xsl:when test="$eventName = 'Died'">
-    					<xsl:apply-templates select="//INDI[@ID = $IndiID]/DEAT/PLAC"/>				
-    				</xsl:when>
-    				<xsl:when test="$eventName = 'Buried'">
-    					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/PLAC"/>				
-    				</xsl:when>
+                        <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/DEAT/PLAC">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/DEAT/PLAC"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:when>
+                    <xsl:when test="$eventName = 'Buried'">
+                        <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/BURI/PLAC">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/PLAC"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                        </xsl:when>
     			</xsl:choose>
-    						
-			</fo:block>
 		</fo:table-cell>
 	</fo:table-row>
 </xsl:template>
@@ -554,7 +591,18 @@
     		padding-top="1.5mm">    	
     		
     		<!-- DATE -->
-    		<xsl:apply-templates select="//FAM[@ID=$FamID]/MARR/DATE"/>
+            <xsl:choose>
+                <xsl:when test="//FAM[@ID=$FamID]/MARR/DATE">
+                    <xsl:apply-templates select="//FAM[@ID=$FamID]/MARR/DATE"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <fo:block 
+                        font-family="serif" 
+                        font-size="12pt">
+                           <xsl:text/>
+                    </fo:block>
+                </xsl:otherwise>
+            </xsl:choose>
 
     	</fo:table-cell>
     	<fo:table-cell 
@@ -579,14 +627,19 @@
     		border-bottom-style="solid" 
     		border-bottom-width=".1mm" 
 			padding-top="1.5mm">
-			<fo:block 
-				font-family="serif" 
-				font-size="12pt">
-
 			<!--Place of Event -->								
-		 		<xsl:apply-templates select="//FAM[@ID=$FamID]/MARR/PLAC"/>
-			
-			</fo:block>
+		 	<xsl:choose>
+                <xsl:when test="//FAM[@ID=$FamID]/MARR/PLAC">
+                    <xsl:apply-templates select="//FAM[@ID=$FamID]/MARR/PLAC"/>
+                </xsl:when>
+                <xsl:otherwise>
+                   <fo:block 
+                        font-family="serif" 
+                        font-size="12pt">
+                       <xsl:text/>
+                </fo:block>
+                </xsl:otherwise>
+            </xsl:choose>
 		</fo:table-cell>
 
 	</fo:table-row>
@@ -1148,64 +1201,42 @@
 <xsl:template match="DATE">
 
 	<!-- DATE_VALUE's range is 1<35 -->
-   	<xsl:variable name="stringLength" select="string-length(normalize-space( text() ) )"/>
-    <fo:block 
-        font-family="serif" 
-    	font-size="11pt">
-    	<!-- <xsl:value-of select="normalize-space( text() )"/> -->
-       <xsl:text>sucks:</xsl:text>
-    </fo:block>
-<!--   <xsl:choose>
-    	<xsl:when test="$stringLength &gt;= 21">
-    			<fo:block 
-    				font-family="serif" 
-    				font-size="6pt">
-    				<xsl:value-of select="normalize-space( text() )"/>
-    			</fo:block>
-    	</xsl:when>
-      	<xsl:when test="$stringLength = 19">
-    			<fo:block 
-    				font-family="serif" 
-    				font-size="7pt">
-    				<xsl:value-of select="normalize-space( text() )"/>
-    			</fo:block>
-    	</xsl:when>
-       	<xsl:when test="$stringLength = 17">
-    			<fo:block 
-    				font-family="serif" 
-    				font-size="8pt">
-    				<xsl:value-of select="normalize-space( text() )"/>
-    			</fo:block>
-    	</xsl:when>
-	   	<xsl:when test="$stringLength = 15">
-    			<fo:block 
-    				font-family="serif" 
-    				font-size="9pt">
-    				<xsl:value-of select="normalize-space( text() )"/>
-    			</fo:block>
-    	</xsl:when>
-      	<xsl:when test="$stringLength = 13" >
-    			<fo:block 
-    				font-family="serif" 
-    				font-size="10pt">
-    				<xsl:value-of select="normalize-space( text() )"/>
-    			</fo:block>
-    	</xsl:when>
-    	<xsl:when test="$stringLength &gt; 13">
-    			<fo:block 
-    				font-family="serif" 
-    				font-size="6pt">
-    				<xsl:value-of select="normalize-space( text() )"/>
-    			</fo:block>
-    	</xsl:when>
-    	<xsl:otherwise>
-    			<fo:block 
-    				font-family="serif" 
-    				font-size="11pt">
-    				<xsl:value-of select="normalize-space( text() )"/>
-    			</fo:block>
-    	</xsl:otherwise>
-    </xsl:choose> -->
+	<xsl:choose>
+		<!-- When it is greater than 70, but less that 80, change font to 10pt -->
+		<xsl:when test="(string-length( normalize-space( . )) &gt; 12 ) and (string-length( normalize-space( . ) ) &lt;= 15)">
+			<fo:block 
+				font-family="serif" 
+				font-size="10pt">
+				<xsl:value-of select="normalize-space( . )"/>
+			</fo:block>
+		</xsl:when>
+		<!-- Truncate -->
+		<xsl:when test="string-length( normalize-space( . ) ) &gt; 15">
+			<fo:block 
+				font-family="serif" 
+				font-size="10pt">
+				
+ 				<xsl:choose>
+					<xsl:when test="string-length( normalize-space( . ) ) &gt; 16">
+ 						<xsl:value-of select="substring( normalize-space( . ), 1, 13 )"/>
+						<xsl:text>...</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+ 						<xsl:value-of select="normalize-space( . )"/>
+ 					</xsl:otherwise>
+ 				</xsl:choose> 
+			</fo:block>
+		</xsl:when>
+		<!-- default to 12pt -->
+		<xsl:otherwise>
+			<fo:block 
+				font-family="serif" 
+				font-size="12pt">
+				<xsl:value-of select="normalize-space( . )"/>
+			</fo:block>
+		</xsl:otherwise>				
+	</xsl:choose>
+
 </xsl:template>
 
 </xsl:stylesheet>
