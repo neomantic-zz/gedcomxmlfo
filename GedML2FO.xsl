@@ -4,12 +4,10 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:date="http://exslt.org/dates-and-times"
   	extension-element-prefixes="date">
-<!-- $Id$ -->
-
 <!-- 
  ******************************************************************************
  ******************************************************************************
-    Copyright (c) 2005 Chad Albers
+    Copyright (c) 2005 Chad Albers - chad@neomantic.com
      
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,8 +39,8 @@
 		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<fo:layout-master-set>
 				<fo:simple-page-master margin-bottom=".2cm" margin-left="2.5cm" margin-right="1cm" margin-top="1.5cm" master-name="Family" page-height="11in" page-width="8.5in">
-					<fo:region-before extent="1cm"/>
 					<fo:region-body margin-top="1cm" margin-bottom="1cm"/>
+                    <fo:region-before extent="1cm"/>
 					<fo:region-after extent=".5cm"/>
 				</fo:simple-page-master>
 			</fo:layout-master-set>
@@ -90,19 +88,8 @@
 
 			</fo:block>
 		</fo:static-content>
-		
-		<!-- Footer -->
-		<fo:static-content flow-name="xsl-region-after">
-			<fo:block 
-				font-family="sans-serif" 
-				font-size="8pt"
-				text-align="left">
-				<xsl:text>Generated: </xsl:text>
-				<xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/>
-			</fo:block>
-		</fo:static-content>
-	
-		<fo:flow flow-name="xsl-region-body">
+
+        <fo:flow flow-name="xsl-region-body">
 			<xsl:call-template name="spouse">
 				<xsl:with-param name="IndiID" select="HUSB/@REF"/>
 				<xsl:with-param name="role" select="'Husband'"/>
@@ -117,9 +104,22 @@
     			<xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
 				<xsl:with-param name="fatherID" select="HUSB/@REF"/>
 				<xsl:with-param name="motherID" select="WIFE/@REF"/>
-    		</xsl:call-template> 
- 
+    		</xsl:call-template>  
 		</fo:flow>
+
+		<!-- Footer -->
+		<fo:static-content flow-name="xsl-region-after">
+			<fo:block 
+				font-family="sans-serif" 
+				font-size="8pt"
+				text-align="left">
+				<xsl:text>Generated: </xsl:text>
+                <!-- Need extension to generate date
+				xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/
+                -->
+             </fo:block>
+		</fo:static-content>
+        
 	</fo:page-sequence>
 </xsl:template>
 
@@ -227,7 +227,7 @@
 			border-left-width=".1mm"
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".1mm">
+			border-bottom-width=".1mm"
 			padding-top=".3mm"
 			padding-left="1mm">
 			<fo:block 
@@ -253,7 +253,7 @@
 		<fo:table-cell 
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".1mm">
+			border-bottom-width=".1mm"
 			padding-top=".3mm"
 			padding-left="1mm"
 			padding-right="1mm">
@@ -408,7 +408,27 @@
     		border-bottom-style="solid" 
     		border-bottom-width=".1mm" 
     		padding-top="1.5mm">    	
-			<!-- Insert DATE_VALUE -->
+			<!-- Insert DATE_VALUE --> 
+            
+             <fo:block 
+    				font-family="serif" 
+    				font-size="11pt">
+
+
+			<xsl:choose>
+				<xsl:when test="$eventName = 'Born'">
+					<xsl:value-of select="//INDI[@ID = $IndiID]/BIRT/DATE"/>
+				</xsl:when>
+				<xsl:when test="$eventName = 'Died'">
+					<xsl:value-of select="//INDI[@ID = $IndiID]/DEAT/DATE"/>			
+				</xsl:when>
+				<xsl:when test="$eventName = 'Buried'">
+                    <xsl:value-of select="//INDI[@ID = $IndiID]/BURI/DATE"/>
+				</xsl:when>
+			</xsl:choose>
+</fo:block>  
+                
+            <!--
 			<xsl:choose>
 				<xsl:when test="$eventName = 'Born'">
 					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BIRT/DATE"/>
@@ -417,9 +437,9 @@
 					<xsl:apply-templates select="//INDI[@ID = $IndiID]/DEAT/DATE"/>			
 				</xsl:when>
 				<xsl:when test="$eventName = 'Buried'">
-					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/DATE"/>				
+                    <xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/DATE"/>
 				</xsl:when>
-			</xsl:choose>
+			</xsl:choose> -->
     			
     	</fo:table-cell>
     	<fo:table-cell  
@@ -432,7 +452,7 @@
     			font-size="6pt">
     			<xsl:text>Place</xsl:text>
     		</fo:block>
-    	</fo:table-cell>					
+    	</fo:table-cell>
 		<fo:table-cell 
 			border-right-color="black" 
 			border-right-style="solid" 
@@ -1129,8 +1149,13 @@
 
 	<!-- DATE_VALUE's range is 1<35 -->
    	<xsl:variable name="stringLength" select="string-length(normalize-space( text() ) )"/>
-    
-   	<xsl:choose>
+    <fo:block 
+        font-family="serif" 
+    	font-size="11pt">
+    	<!-- <xsl:value-of select="normalize-space( text() )"/> -->
+       <xsl:text>sucks:</xsl:text>
+    </fo:block>
+<!--   <xsl:choose>
     	<xsl:when test="$stringLength &gt;= 21">
     			<fo:block 
     				font-family="serif" 
@@ -1180,7 +1205,7 @@
     				<xsl:value-of select="normalize-space( text() )"/>
     			</fo:block>
     	</xsl:otherwise>
-    </xsl:choose>
+    </xsl:choose> -->
 </xsl:template>
 
 </xsl:stylesheet>
