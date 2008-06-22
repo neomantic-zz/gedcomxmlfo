@@ -4,7 +4,6 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:date="http://exslt.org/dates-and-times"
   	extension-element-prefixes="date">
-<!-- $Id$ -->
 
 <!-- 
  ******************************************************************************
@@ -41,8 +40,8 @@
 		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<fo:layout-master-set>
 				<fo:simple-page-master margin-bottom=".2cm" margin-left="2.5cm" margin-right="1cm" margin-top="1.5cm" master-name="Family" page-height="11in" page-width="8.5in">
-					<fo:region-before extent="1cm"/>
 					<fo:region-body margin-top="1cm" margin-bottom="1cm"/>
+                    <fo:region-before extent="1cm"/>
 					<fo:region-after extent=".5cm"/>
 				</fo:simple-page-master>
 			</fo:layout-master-set>
@@ -90,15 +89,14 @@
 
 			</fo:block>
 		</fo:static-content>
-		
-		<!-- Footer -->
+		        <!-- Footer -->
 		<fo:static-content flow-name="xsl-region-after">
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="8pt"
 				text-align="left">
 				<xsl:text>Generated: </xsl:text>
-				<xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/>
+				<!-- <xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/> -->
 			</fo:block>
 		</fo:static-content>
 	
@@ -118,8 +116,8 @@
 				<xsl:with-param name="fatherID" select="HUSB/@REF"/>
 				<xsl:with-param name="motherID" select="WIFE/@REF"/>
     		</xsl:call-template> 
- 
-		</fo:flow>
+		</fo:flow>        
+
 	</fo:page-sequence>
 </xsl:template>
 
@@ -227,7 +225,7 @@
 			border-left-width=".1mm"
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".1mm">
+			border-bottom-width=".1mm"
 			padding-top=".3mm"
 			padding-left="1mm">
 			<fo:block 
@@ -253,7 +251,7 @@
 		<fo:table-cell 
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".1mm">
+			border-bottom-width=".1mm"
 			padding-top=".3mm"
 			padding-left="1mm"
 			padding-right="1mm">
