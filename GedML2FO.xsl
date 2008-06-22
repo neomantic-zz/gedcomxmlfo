@@ -148,8 +148,8 @@
 		 to give more date Information -->
 	<fo:table table-layout="fixed">
 		<fo:table-column column-width="6mm"/>
-		<fo:table-column column-width="10mm"/>
-		<fo:table-column column-width="26mm"/>
+		<fo:table-column column-width="9mm"/>
+		<fo:table-column column-width="27mm"/>
 		<fo:table-column column-width="8mm"/>
 		<fo:table-column column-width="130mm"/>
 		<fo:table-body>
@@ -405,12 +405,16 @@
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
     		border-bottom-width=".1mm" 
-    		padding-top="1.5mm">
-    		<fo:block 
-    			font-family="serif" 
-    			font-size="12pt">	
-    	
+    		padding-top="1.5mm">    	
     			<!-- DATE -->
+        <xsl:if test="string-length( normalize-space( . ) ) ;gt; 0">
+			<fo:block 
+				font-family="serif" 
+				font-size="12pt">
+                <xsl:text>Date Unknown</xsl:text>
+             </fo:block>
+        </xsl:when>
+
     			<xsl:choose>
     				<xsl:when test="$eventName = 'Born'">
     					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BIRT/DATE"/>
@@ -423,7 +427,6 @@
     				</xsl:when>
     			</xsl:choose>
     
-    		</fo:block>	
     	</fo:table-cell>
     	<fo:table-cell  
     		border-bottom-color="black" 
@@ -444,10 +447,6 @@
     		border-bottom-style="solid" 
     		border-bottom-width=".1mm"
 			padding-top="1.5mm">
-			<fo:block 
-				font-family="serif" 
-				font-size="12pt">
-
 			<!--Place of Event -->						
     			<xsl:choose>
     				<xsl:when test="$eventName = 'Born'">
@@ -460,8 +459,6 @@
     					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/PLAC"/>				
     				</xsl:when>
     			</xsl:choose>
-    						
-			</fo:block>
 		</fo:table-cell>
 	</fo:table-row>
 </xsl:template>
@@ -495,6 +492,7 @@
         			<fo:block 
         				font-family="sans-serif" 
         				font-size="10pt">
+        				<xsl:value-of select="$FamID"/>
         			</fo:block>
         		</fo:table-cell>
 			
@@ -988,12 +986,16 @@
 				
 </xsl:template>
 
+<!-- FIX when child is married twice the marriage date of both weddings show up
+	Also think through the way the Spouse name is handled...could the two husbands/
+	wives mess things up?
+-->
 
 <xsl:template name="childMarriage">
 	<xsl:param name="FamID"/>
 	<xsl:param name="IndiID"/>
 	
-		<!-- Created because parser doesn't like it when I just pass @REF is a [ ] expression -->
+		<!-- Created because parser doesn't like it when I just passed @REF in a [ ] expression -->
 			
 		<!-- Create spouse row -->
     	<fo:table table-layout="fixed">
