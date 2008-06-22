@@ -38,8 +38,8 @@
 	
 		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<fo:layout-master-set>
-				<fo:simple-page-master margin-bottom=".2cm" margin-left="2.5cm" margin-right="1cm" margin-top="1.5cm" master-name="Family" page-height="11in" page-width="8.5in">
-					<fo:region-body margin-top="1cm" margin-bottom="1cm"/>
+				<fo:simple-page-master margin-bottom=".2cm" margin-left="2.5cm" margin-right="1cm" margin-top="1cm" master-name="Family" page-height="11in" page-width="8.5in">
+					<fo:region-body margin-top="1cm" margin-bottom=".5cm"/>
                     <fo:region-before extent="1cm"/>
 					<fo:region-after extent=".5cm"/>
 				</fo:simple-page-master>
@@ -67,7 +67,7 @@
 		<fo:static-content flow-name="xsl-region-before">
 			<fo:block 
 				font-family="sans-serif" 
-				font-size="16pt"
+				font-size="14pt"
 				text-align="center">
 				<xsl:text>Family Group Record</xsl:text>
 			</fo:block>
@@ -225,11 +225,11 @@
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
 			border-bottom-width=".2mm"
-			padding-top=".3mm"
+			padding-top="1mm"
 			padding-left="1mm">
 			<fo:block 
 				font-family="sans-serif"
-				font-size="8pt"
+				font-size="7pt"
 				text-indent="2pt">
 				<xsl:value-of select="$role"/>
 			</fo:block>
@@ -251,12 +251,12 @@
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
 			border-bottom-width=".2mm"
-			padding-top=".3mm"
+			padding-top="1mm"
 			padding-left="1mm"
 			padding-right="1mm">
 			<fo:block 
 				font-family="sans-serif"
-				font-size="8pt"
+				font-size="7pt"
 				text-indent="2pt">
 				<xsl:if test="$role = 'Husband'">
 					<xsl:text>Last</xsl:text>
@@ -267,7 +267,7 @@
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
-				font-size="8pt"
+				font-size="7pt"
 				text-indent="2pt">
 				<xsl:text>name</xsl:text>
 			</fo:block>
@@ -292,11 +292,11 @@
 		border-right-width=".2mm"
 		border-bottom-color="black" 
 		border-bottom-style="solid" 
-		border-bottom-width=".2mm"> 
+		border-bottom-width=".2mm"
+        padding-top="2mm"> 
 		<fo:block 
 			font-family="serif" 
-			font-size="12pt"
-			padding-top="1.5mm">				
+			font-size="11pt">				
 			<xsl:choose>
 				<xsl:when test="//INDI[@ID = $IndiID]/NAME/GIVN">
 					<xsl:value-of select="//INDI[@ID = $IndiID]/NAME/GIVN"/>
@@ -339,10 +339,10 @@
 		border-bottom-color="black" 
 		border-bottom-style="solid" 
 		border-bottom-width=".2mm"
-		padding-top="1.5mm">
+		padding-top="2mm">
 		<fo:block 
 			font-family="serif" 
-			font-size="12pt">
+			font-size="11pt">
 			<!-- Surname -->
 			<xsl:choose>
 				<xsl:when test="//INDI[@ID = $IndiID]/NAME/SURN">
@@ -548,7 +548,9 @@
         			<fo:block 
         				font-family="sans-serif" 
         				font-size="10pt">
-        				<xsl:value-of select="$FamID"/>
+                        <!-- enable to insert FamID of Child 
+        				<xsl:value-of select="$FamID"/> -->
+                        <xsl:text/>
         			</fo:block>
         		</fo:table-cell>
 			
