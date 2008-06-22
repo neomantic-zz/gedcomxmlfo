@@ -127,10 +127,9 @@
 	<xsl:param name="role"/>
 	
 	<!-- Table with Spouse Names -->
-	<fo:table table-layout="fixed"
-		border-top-color="black" 
+	<fo:table border-top-color="black" 
 		border-top-style="solid" 
-		border-top-width=".1mm">
+		border-top-width=".2mm">
 		<fo:table-column column-width="22mm"/>
 		<fo:table-column column-width="72mm"/>
 		<fo:table-column column-width="12mm"/>
@@ -146,7 +145,7 @@
 	<!-- Table with all Events -->
 	<!-- TODO Probably make the 2nd Column smaller for Born/Died/Burried Events 
 		 to give more date Information -->
-	<fo:table table-layout="fixed">
+	<fo:table>
 		<fo:table-column column-width="6mm"/>
 		<fo:table-column column-width="9mm"/>
 		<fo:table-column column-width="27mm"/>
@@ -181,7 +180,7 @@
 	</fo:table>
 	
 	<!-- Table with Spouse's parents -->
-	<fo:table table-layout="fixed">
+	<fo:table>
 		<fo:table-column column-width="6mm"/>
 		<fo:table-column column-width="22mm"/>				
 		<fo:table-column column-width="66mm"/>
@@ -222,10 +221,10 @@
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".1mm"
+			border-left-width=".2mm"
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".1mm"
+			border-bottom-width=".2mm"
 			padding-top=".3mm"
 			padding-left="1mm">
 			<fo:block 
@@ -251,7 +250,7 @@
 		<fo:table-cell 
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".1mm"
+			border-bottom-width=".2mm"
 			padding-top=".3mm"
 			padding-left="1mm"
 			padding-right="1mm">
@@ -290,10 +289,10 @@
 	<fo:table-cell
 		border-right-color="black" 
 		border-right-style="solid" 
-		border-right-width=".1mm"
+		border-right-width=".2mm"
 		border-bottom-color="black" 
 		border-bottom-style="solid" 
-		border-bottom-width=".1mm"> 
+		border-bottom-width=".2mm"> 
 		<fo:block 
 			font-family="serif" 
 			font-size="12pt"
@@ -336,10 +335,10 @@
 	<fo:table-cell  
 		border-right-color="black" 
 		border-right-style="solid" 
-		border-right-width=".1mm"
+		border-right-width=".2mm"
 		border-bottom-color="black" 
 		border-bottom-style="solid" 
-		border-bottom-width=".1mm"
+		border-bottom-width=".2mm"
 		padding-top="1.5mm">
 		<fo:block 
 			font-family="serif" 
@@ -371,7 +370,7 @@
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".1mm" 
+			border-left-width=".2mm" 
 			padding="2pt">
 			<fo:block 
 				font-family="sans-serif" 
@@ -386,10 +385,10 @@
 		<fo:table-cell
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".1mm" 
+			border-left-width=".2mm" 
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".1mm" 
+    		border-bottom-width=".2mm" 
 			padding="2pt">
 			<fo:block 
 				font-family="sans-serif" 
@@ -401,10 +400,10 @@
     	<fo:table-cell
     		border-right-color="black" 
 			border-right-style="solid" 
-			border-right-width=".1mm"
+			border-right-width=".2mm"
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".1mm" 
+    		border-bottom-width=".2mm" 
     		padding-top="1.5mm">    	
             <!-- DATE -->
     			<xsl:choose>
@@ -455,7 +454,7 @@
     	<fo:table-cell  
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".1mm"
+    		border-bottom-width=".2mm"
     		padding="2pt">
     		<fo:block 
     			font-family="sans-serif" 
@@ -466,10 +465,10 @@
 		<fo:table-cell 
 			border-right-color="black" 
 			border-right-style="solid" 
-			border-right-width=".1mm" 
+			border-right-width=".2mm" 
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".1mm"
+    		border-bottom-width=".2mm"
 			padding-top="1.5mm">
 			<!--Place of Event -->						
     			<xsl:choose>
@@ -541,10 +540,10 @@
         		<fo:table-cell 
         			border-left-color="black" 
         			border-left-style="solid" 
-        			border-left-width=".1mm" 
+        			border-left-width=".2mm" 
         			border-bottom-color="black" 
         			border-bottom-style="solid" 
-        			border-bottom-width=".1mm"
+        			border-bottom-width=".2mm"
         			padding="2pt">
         			<fo:block 
         				font-family="sans-serif" 
@@ -559,7 +558,7 @@
         		<fo:table-cell 
         			border-left-color="black" 
         			border-left-style="solid" 
-        			border-left-width=".1mm" 
+        			border-left-width=".2mm" 
         			padding="2pt">
         			<fo:block 
         				font-family="sans-serif" 
@@ -573,10 +572,10 @@
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".1mm"
+			border-left-width=".2mm"
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".1mm"
+			border-bottom-width=".2mm"
 			padding="2pt">
 			<fo:block 
 				font-family="sans-serif" 
@@ -587,7 +586,7 @@
     	<fo:table-cell
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".1mm" 
+    		border-bottom-width=".2mm" 
     		padding-top="1.5mm">    	
     		
     		<!-- DATE -->
@@ -608,10 +607,10 @@
     	<fo:table-cell 
     		border-left-color="black" 
     		border-left-style="solid" 
-    		border-left-width=".1mm"
+    		border-left-width=".2mm"
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".1mm"
+    		border-bottom-width=".2mm"
     		padding="2pt">
     		<fo:block 
     			font-family="sans-serif" 
@@ -622,10 +621,10 @@
 		<fo:table-cell 
 			border-right-color="black" 
 			border-right-style="solid" 
-			border-right-width=".1mm"
+			border-right-width=".2mm"
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".1mm" 
+    		border-bottom-width=".2mm" 
 			padding-top="1.5mm">
 			<!--Place of Event -->								
 		 	<xsl:choose>
@@ -656,7 +655,7 @@
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".1mm"
+			border-left-width=".2mm"
 			padding="2pt">
 			<fo:block 
 				font-family="sans-serif" 
@@ -666,10 +665,10 @@
 		<fo:table-cell 							
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".1mm"
+			border-left-width=".2mm"
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".1mm"
+    		border-bottom-width=".2mm"
 			padding-top="1.5mm"
 			padding-left="1mm">
 			<!-- In contrast to Husband and Wife, the Father/Mother label is set at 6pt -->
@@ -703,7 +702,7 @@
 		<fo:table-cell 
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".1mm" 
+    		border-bottom-width=".2mm" 
 			padding-top=".3mm"
 			padding-left="1mm">
 			<!-- In contrast to Husband and Wife, the Father/Mother label is set at 6pt -->
@@ -820,10 +819,9 @@
 		<xsl:if test="( position() mod 6 ) = 5">
 			<!-- Insert Spouse name (Child's Father) -->
         	<!-- Table with Spouse Names -->
-         	<fo:table table-layout="fixed"
-        		border-top-color="black" 
+         	<fo:table border-top-color="black" 
         		border-top-style="solid" 
-        		border-top-width=".1mm"
+        		border-top-width=".2mm"
         		break-before="page"> <!-- this breaks to the new page -->
         		<fo:table-column column-width="22mm"/>
         		<fo:table-column column-width="72mm"/>
@@ -841,10 +839,9 @@
 			
 			<!-- Insert Spouse name (Child's Mother) -->
         	<!-- Table with Spouse Names -->
-         	<fo:table table-layout="fixed"
-        		border-top-color="black" 
+         	<fo:table border-top-color="black" 
         		border-top-style="solid" 
-        		border-top-width=".1mm">
+        		border-top-width=".2mm">
         		<fo:table-column column-width="22mm"/>
         		<fo:table-column column-width="72mm"/>
         		<fo:table-column column-width="12mm"/>
@@ -912,10 +909,9 @@
 
 <xsl:template name="childListLabel">
 
-	<fo:table table-layout="fixed"
-		border-top-color="black" 
+	<fo:table border-top-color="black" 
 		border-top-style="solid" 
-		border-top-width=".1mm">
+		border-top-width=".2mm">
 		<fo:table-column column-width="180mm"/>
 		<fo:table-body>
 			<fo:table-row 
@@ -925,13 +921,13 @@
 					padding-left="2mm"
             		border-left-color="black" 
             		border-left-style="solid" 
-            		border-left-width=".1mm" 
+            		border-left-width=".2mm" 
             		border-right-color="black" 
             		border-right-style="solid" 
-            		border-right-width=".1mm"
+            		border-right-width=".2mm"
         			border-bottom-color="black" 
         			border-bottom-style="solid" 
-        			border-bottom-width=".1mm">
+        			border-bottom-width=".2mm">
 					<fo:block		
 						font-family="sans-serif" 
 						font-size="10pt">
@@ -950,7 +946,7 @@
 	<xsl:param name="childNumber"/>
 	
 	<!-- Table with Child's Name -->
-	<fo:table table-layout="fixed">
+	<fo:table>
 		<fo:table-column column-width="6mm"/>
 		<fo:table-column column-width="14mm"/>
 		<fo:table-column column-width="160mm"/>
@@ -964,7 +960,7 @@
 	</fo:table>
 
 	<!-- Table with all Events -->
-	<fo:table table-layout="fixed">
+	<fo:table>
 		<fo:table-column column-width="6mm"/>
 		<fo:table-column column-width="10mm"/>
 		<fo:table-column column-width="26mm"/>
@@ -1006,16 +1002,16 @@
 		<fo:table-cell
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".1mm"
+			border-left-width=".2mm"
 			border-right-color="black" 
 			border-right-style="solid" 
-			border-right-width=".1mm"
+			border-right-width=".2mm"
 			border-top-color="black" 
 			border-top-style="solid" 
-			border-top-width=".1mm"
+			border-top-width=".2mm"
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".1mm"
+			border-bottom-width=".2mm"
 			padding-top=".3mm"
 			padding-left="1mm">
 			<fo:block 
@@ -1035,7 +1031,7 @@
 		<fo:table-cell 
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".1mm"
+			border-bottom-width=".2mm"
 			padding-top=".3mm"
 			padding-left="1mm">
 			<fo:block 
@@ -1067,7 +1063,7 @@
 		<!-- Created because parser doesn't like it when I just passed @REF in a [ ] expression -->
 			
 		<!-- Create spouse row -->
-    	<fo:table table-layout="fixed">
+    	<fo:table>
     		<fo:table-column column-width="6mm"/>
     		<fo:table-column column-width="18mm"/>				
     		<fo:table-column column-width="70mm"/>
@@ -1081,7 +1077,7 @@
             		<fo:table-cell 
             			border-left-color="black" 
             			border-left-style="solid" 
-            			border-left-width=".1mm" 
+            			border-left-width=".2mm" 
             			padding="2pt">
             			<fo:block 
             				font-family="sans-serif" 
@@ -1091,10 +1087,10 @@
             		<fo:table-cell 							
             			border-left-color="black" 
             			border-left-style="solid" 
-            			border-left-width=".1mm"
+            			border-left-width=".2mm"
             			border-bottom-color="black" 
             			border-bottom-style="solid" 
-            			border-bottom-width=".1mm"
+            			border-bottom-width=".2mm"
             			padding-top="1.5mm"
             			padding-left="1mm">
             			<!-- set at 6pt -->
@@ -1134,10 +1130,10 @@
             		<fo:table-cell 
             			border-left-color="black" 
             			border-left-style="solid" 
-            			border-left-width=".1mm"
+            			border-left-width=".2mm"
             			border-bottom-color="black" 
             			border-bottom-style="solid" 
-            			border-bottom-width=".1mm" 
+            			border-bottom-width=".2mm" 
             			padding-top=".3mm"
             			padding-left="1mm">
             			<!-- set at 6pt -->
@@ -1179,8 +1175,7 @@
     	</fo:table>	
 	
 		<!-- Table with Married Event -->
-		<fo:table 
-			table-layout="fixed">
+		<fo:table>
     		<fo:table-column column-width="6mm"/>
     		<fo:table-column column-width="9mm"/>
     		<fo:table-column column-width="27mm"/>
