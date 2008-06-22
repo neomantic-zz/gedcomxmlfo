@@ -407,24 +407,49 @@
     		border-bottom-width=".1mm" 
     		padding-top="1.5mm">    	
     			<!-- DATE -->
-        <xsl:if test="string-length( normalize-space( . ) ) ;gt; 0">
-			<fo:block 
-				font-family="serif" 
-				font-size="12pt">
-                <xsl:text>Date Unknown</xsl:text>
-             </fo:block>
-        </xsl:when>
-
     			<xsl:choose>
     				<xsl:when test="$eventName = 'Born'">
-    					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BIRT/DATE"/>
-    				</xsl:when>
+                        <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/BIRT/DATE">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/BIRT/DATE"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:when>
     				<xsl:when test="$eventName = 'Died'">
-    					<xsl:apply-templates select="//INDI[@ID = $IndiID]/DEAT/DATE"/>			
-    				</xsl:when>
+    				     <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/DEAT/DATE">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/DEAT/DATE"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>    				
+                    </xsl:when>
     				<xsl:when test="$eventName = 'Buried'">
-    					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/DATE"/>				
-    				</xsl:when>
+    				    <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/BURI/DATE">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/DATE"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                   </xsl:when>
     			</xsl:choose>
     
     	</fo:table-cell>
@@ -450,14 +475,47 @@
 			<!--Place of Event -->						
     			<xsl:choose>
     				<xsl:when test="$eventName = 'Born'">
-    					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BIRT/PLAC"/>
-    				</xsl:when>
+                        <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/BIRT/PLAC">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/BIRT/PLAC"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:when>
     				<xsl:when test="$eventName = 'Died'">
-    					<xsl:apply-templates select="//INDI[@ID = $IndiID]/DEAT/PLAC"/>				
-    				</xsl:when>
-    				<xsl:when test="$eventName = 'Buried'">
-    					<xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/PLAC"/>				
-    				</xsl:when>
+                        <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/DEAT/PLAC">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/DEAT/PLAC"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:when>
+                    <xsl:when test="$eventName = 'Buried'">
+                        <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $IndiID]/BURI/PLAC">
+                                <xsl:apply-templates select="//INDI[@ID = $IndiID]/BURI/PLAC"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="12pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                        </xsl:when>
     			</xsl:choose>
 		</fo:table-cell>
 	</fo:table-row>
@@ -1138,7 +1196,7 @@
 			<fo:block 
 				font-family="serif" 
 				font-size="10pt">
-					<xsl:value-of select="normalize-space( . )"/>	
+				<xsl:value-of select="normalize-space( . )"/>
 			</fo:block>
 		</xsl:when>
 		<!-- Truncate -->
@@ -1163,12 +1221,11 @@
 			<fo:block 
 				font-family="serif" 
 				font-size="12pt">
-				<xsl:value-of select="normalize-space( . )"/>	
+				<xsl:value-of select="normalize-space( . )"/>
 			</fo:block>
 		</xsl:otherwise>				
 	</xsl:choose>
 
 </xsl:template>
-
 
 </xsl:stylesheet>

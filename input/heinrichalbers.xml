@@ -1,0 +1,1245 @@
+<GED>
+  <HEAD>
+    <SOUR>LIFELINES 3.0.46
+    <DATA>
+    <DATE>3 JUN 1982</DATE></DATA></SOUR>
+    <DEST>ANY</DEST>
+    <DATE>8 JUL 2005 
+    <TIME>21:47</TIME></DATE>
+    <SUBM REF="S1"/>
+    <GEDC>
+      <VERS>5.5</VERS>
+      <FORM>LINEAGE-LINKED</FORM>
+    </GEDC>
+    <CHAR>ASCII</CHAR>
+  </HEAD>
+  <FAM ID="F3">
+    <HUSB REF="I5"/>
+    <WIFE REF="I4"/>
+    <MARR>
+      <DATE>21 DEC 1883</DATE>
+      <PLAC>Platte Center, Nebraska, USA 
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms Platte Center</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S2"/>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms year of marriage</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+        <NOTE>From unspecified obituary, confirms full date</NOTE>
+      </SOUR>
+      <SOUR REF="S98">
+        <NOTE>Photocopy of Marriage certificate 
+        <CONT>Peter's name here is incorrectly spelled as "Elbers"</CONT></NOTE>
+        <NOTE>Confirms full date</NOTE>
+      </SOUR>
+    </MARR>
+    <SOUR REF="S1"/>
+    <SOUR REF="S2"/>
+    <SOUR REF="S97">
+      <PAGE>1</PAGE>
+    </SOUR>
+    <SOUR REF="S76">
+      <QUAY>3</QUAY>
+      <NOTE>They are buried next to each other suggesting marrariages</NOTE>
+    </SOUR>
+    <CHAN>
+      <DATE>20 JUN 2005</DATE>
+    </CHAN>
+    <CHIL REF="I6"/>
+    <CHIL REF="I7"/>
+    <CHIL REF="I8"/>
+    <CHIL REF="I9"/>
+    <CHIL REF="I10"/>
+    <CHIL REF="I11"/>
+    <CHIL REF="I12"/>
+    <CHIL REF="I13"/>
+    <CHIL REF="I14"/>
+    <CHIL REF="I3"/>
+    <CHIL REF="I15"/>
+  </FAM>
+  <INDI ID="I3">
+    <NAME>William/Albers/ 
+    <NICK>Willie or Bill</NICK>
+    <SOUR REF="S5"/></NAME>
+    <SEX>M</SEX>
+    <BIRT>
+      <DATE>2 JUL 1902</DATE>
+      <PLAC>Platte County, Nebraska, USA 
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms Platte</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms fill date of birth</NOTE>
+      </SOUR>
+    </BIRT>
+    <DEAT>
+      <DATE>21 JUN 1989</DATE>
+      <PLAC>Fremont, Dodge County, Nebraska, USA</PLAC>
+      <CAUS>Ischemic Heart Disease</CAUS>
+      <SOUR REF="S27">
+        <NOTE>Confirms Heart Disease</NOTE>
+      </SOUR>
+      <SOUR REF="S22">
+        <NOTE>Confirms date of death</NOTE>
+      </SOUR>
+    </DEAT>
+    <BURI>
+      <DATE>26 SEP 1988</DATE>
+      <PLAC>Fremont, Dodge County, Nebraska, USA</PLAC>
+      <ADDR>Memorial Cemetery 
+      <ADR1>West 23rd St.</ADR1>
+      <CITY>Fremont</CITY>
+      <STAE>NE</STAE></ADDR>
+    </BURI>
+    <OCCU>Tractor Salesmen 
+    <DATE>1935</DATE>
+    <SOUR REF="S2"/></OCCU>
+    <OCCU>Mechanic 
+    <NOTE>at the Farmers Union</NOTE>
+    <SOUR REF="S2">
+      <PAGE>4</PAGE>
+    </SOUR></OCCU>
+    <OCCU>Standard Oil Retail Sales Agent 
+    <DATE>1939</DATE>
+    <SOUR REF="S2"/></OCCU>
+    <NCHI>2</NCHI>
+    <SSN>506-09-8010 
+    <SOUR REF="S22"/></SSN>
+    <RETI>
+      <DATE>1967</DATE>
+      <SOUR REF="S2"/>
+    </RETI>
+    <CHAN>
+      <DATE>20 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F3"/>
+    <FAMS REF="F2"/>
+	<FAMS REF="F100"/>
+  </INDI>
+  <INDI ID="I5">
+    <NAME>Peter Heinrich/Albers/ 
+    <NOTE>Sometimes Heinrich is anglicized to Henry</NOTE></NAME>
+    <SEX>M</SEX>
+<BIRT><!--  1234567890123456789 -->
+      <DATE>BET 19 MAR 149</DATE>
+<!--      <PLAC>Achterdiech, Hannover, Germany 
+	 <PLAC>WWWWWWWWW1WWWWWWWWW2WWWWWWWWW3WWWWWWWWW4WWWWWWWWW5WWWWWWWWW6WWWWWWWWW7WWWWWWWWW8WWWWWWWWW9 -->
+	<PLAC>School District No. 14, Burrows Township, Platte County, Nebraska, USA, School District No. 14, Burrows Township, Platte County, Nebraska, USA<SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms country of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>1, 3</PAGE>
+        <NOTE>Confirms country of birth and Hannover</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>14, 16</PAGE>
+        <NOTE>Photocopies of 2 obits, confirms date and town of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S98">
+        <NOTE>Marriage License says Hanover</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S2">
+        <NOTE>Confirms date of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S77">
+        <DATA>
+          <DATE>9 SEP 2004</DATE>
+        </DATA>
+        <QUAY>3</QUAY>
+        <NOTE>Confirms complete date of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms month and year of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>1, 3</PAGE>
+        <NOTE>Confirms complete date of birth</NOTE>
+      </SOUR>
+    </BIRT>
+    <IMMI>
+      <DATE>1883</DATE>
+      <SOUR REF="S1">
+        <NOTE>Confirms year</NOTE>
+      </SOUR>
+      <SOUR REF="S93">
+        <NOTE>Confirms year</NOTE>
+      </SOUR>
+      <AGE>31y</AGE>
+      <CAUS>Dodge Draft</CAUS>
+      <NOTE>Dad told me about the Draft dodging</NOTE>
+    </IMMI>
+    <NATU>
+      <DATE>6 JUN 1892</DATE>
+      <SOUR REF="S97">
+        <NOTE>Confirms full date. says this informaition can be found at the 
+        <CONC>Platte County Clerk's Office</CONC></NOTE>
+        <PAGE>4</PAGE>
+      </SOUR>
+    </NATU>
+    <CENS>
+      <DATE>1 JUN 1900</DATE>
+      <SOUR REF="S1">
+        <NOTE>Confirms year</NOTE>
+      </SOUR>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms full date and age</NOTE>
+      </SOUR>
+      <AGE>48y</AGE>
+    </CENS>
+    <OCCU>Farmer 
+    <SOUR REF="S1"/>
+    <SOUR REF="S2"/>
+    <SOUR REF="S93">
+      <QUAY>3</QUAY>
+    </SOUR></OCCU>
+    <EVEN>
+      <TYPE>SchoolBoardTreasurer</TYPE>
+      <PLAC>School District No. 14, Burrows Township, Platte County, Nebraska, USA</PLAC>
+<!-- FROM 1911 to 1913 -->
+      <DATE>FROM 1911</DATE>
+      <SOUR REF="S6"/>
+    </EVEN>
+    <NCHI>11 
+    <SOUR REF="S2"/></NCHI>
+    <DEAT>
+<!--       <DATE>26 AUG 1916</DATE>
+ -->     
+ 	  <DATE>12345678901234567890123456789012345</DATE>
+ 	  <PLAC>Platte County, Nebraska, USA 
+      <SOUR REF="S2"/></PLAC>
+      <CAUS>Suicide</CAUS>
+      <SOUR REF="S2">
+        <NOTE>Confirms date of death</NOTE>
+      </SOUR>
+      <SOUR REF="S77">
+        <DATA>
+          <DATE>9 SEP 2004</DATE>
+        </DATA>
+        <QUAY>3</QUAY>
+        <NOTE>Confirms complete date of death</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+        <NOTE>Confirms complete date of death</NOTE>
+        <NOTE>From Katherine Albers obit. newspaper unknown</NOTE>
+      </SOUR>
+    </DEAT>
+    <BURI>
+<!--       <PLAC>Shell Creek Baptist Cemetery, Shell Creek Township, Platte County, Nebraska, USA 
+ -->      
+ 	<PLAC>123456789012345678901234567890123456789012345678901234567890123456789 12345678901234567890123456789012345678901234567890
+ 	<NOTE>North of Columbus, NE and W. of Platte Center, NE</NOTE>
+      <SOUR REF="S2"/>
+      <SOUR REF="S77">
+        <DATA>
+          <DATE>9 SEP 2004</DATE>
+        </DATA>
+        <QUAY>3</QUAY>
+        <NOTE>Confirms place of burial</NOTE>
+      </SOUR></PLAC>
+      <ADDR>Shell Creek Baptist Church 
+      <ADR1>RR. 3, Box 246 Mason Rd.</ADR1>
+      <CITY>Columbus</CITY>
+      <STAE>Nebraska</STAE>
+      <POST>68601</POST></ADDR>
+      <PHON>402-246-4893</PHON>
+    </BURI>
+    <CHAN>
+      <DATE>12 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F22"/>
+    <FAMS REF="F3"/>
+  </INDI>
+  <INDI ID="I4">
+    <NAME>Katherine/Reese/ 
+    <NICK>Katie</NICK>
+    <SOUR REF="S1">
+      <NOTE>Confirms nickname</NOTE>
+    </SOUR>
+    <SOUR REF="S93">
+      <QUAY>3</QUAY>
+      <NOTE>Confirms nickname</NOTE>
+    </SOUR></NAME>
+    <SEX>F</SEX>
+    <BIRT>
+      <DATE>26 NOV 1863</DATE>
+      <PLAC>Hanover, Germany 
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms country of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+        <NOTE>From unspecified obituary, confirms Hanover</NOTE>
+      </SOUR>
+      <SOUR REF="S98">
+        <NOTE>Marriage License says hannover</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S69">
+        <DATA>
+          <DATE>9 SEP 2004</DATE>
+        </DATA>
+        <QUAY>3</QUAY>
+        <NOTE>Confirms full date of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms month and year of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms complete date of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+        <NOTE>From unspecified obituary, complete date of birth</NOTE>
+      </SOUR>
+    </BIRT>
+    <IMMI>
+      <DATE>1881</DATE>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+        <NOTE>From a obiturary whose source is unlabeled</NOTE>
+      </SOUR>
+      <NOTE>Another source ? says 1882</NOTE>
+      <PLAC>Platte County, Nebraska, USA 
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR></PLAC>
+      <SOUR REF="S2">
+        <NOTE>says 1881</NOTE>
+      </SOUR>
+    </IMMI>
+    <OCCU>Farmer 
+    <DATE>1923</DATE>
+    <PLAC>Burrows Township, Platte County, Nebraska, USA</PLAC>
+    <ADDR>P.O. Monroe, Route 1</ADDR>
+    <NOTE>She is listed as owning everything son John owns 
+    <CONC>Rents 178 acres, sec. 30, Rents 200 acres, sec 29</CONC>
+    <CONC>Owner of P.H. Albers Estate</CONC></NOTE>
+    <SOUR REF="S5"/></OCCU>
+    <CENS>
+      <DATE>1 JUN 1900</DATE>
+      <PLAC>Burrows Township, Platte County, Nebraska, USA</PLAC>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms place, date, and age</NOTE>
+      </SOUR>
+      <AGE>36y</AGE>
+    </CENS>
+    <DEAT>
+      <DATE>10 MAY 1942</DATE>
+      <PLAC>Platte Center, Nebraska, USA</PLAC>
+      <SOUR REF="S69">
+        <DATA>
+          <DATE>9 SEP 2004</DATE>
+        </DATA>
+        <QUAY>3</QUAY>
+        <NOTE>Confirms full date of death</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms complete date of death</NOTE>
+      </SOUR>
+      <AGE>78y</AGE>
+      <NOTE>This was Mother's Day</NOTE>
+    </DEAT>
+    <BURI>
+      <PLAC>Shell Creek Baptist Cemetery 
+      <NOTE>North of Columbus, NE and W of Platte Center, NE</NOTE>
+      <SOUR REF="S69">
+        <DATA>
+          <DATE>9 SEP 2004</DATE>
+        </DATA>
+        <QUAY>3</QUAY>
+        <NOTE>Confirms place of burial</NOTE>
+      </SOUR></PLAC>
+      <ADDR>Shell Creek Baptist Church 
+      <ADR1>RR. 3, Box 246 Mason Rd.</ADR1>
+      <CITY>Columbus</CITY>
+      <STAE>Nebraska</STAE>
+      <POST>68601</POST></ADDR>
+      <PHON>402-246-4893</PHON>
+    </BURI>
+    <NCHI>11</NCHI>
+    <SOUR REF="S1"/>
+    <SOUR REF="S2"/>
+    <CHAN>
+      <DATE>12 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F31"/>
+    <FAMS REF="F3"/>
+  </INDI>
+  <INDI ID="I6">
+    <NAME>Henry/Albers/</NAME>
+    <SEX>M</SEX>
+    <BIRT>
+      <DATE>18 JAN 1885</DATE>
+      <SOUR REF="S1">
+        <NOTE>Confirms full date of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S4">
+        <NOTE>Confirms full date of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms month and year of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms full date of birth</NOTE>
+      </SOUR>
+      <NOTE>Hilda's Letter states 1884</NOTE>
+      <PLAC>Platte Center, Platte County, Nebraska, USA 
+      <SOUR REF="S2"/>
+      <SOUR REF="S1"/>
+      <SOUR REF="S4"/>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms state and country of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Adds Platte Center</NOTE>
+      </SOUR></PLAC>
+    </BIRT>
+    <EDUC>
+      <PLAC>School District No. 14, Platte County, Nebraska, USA</PLAC>
+    </EDUC>
+    <EVEN>
+      <TYPE>SchoolBoardTreasurer</TYPE>
+      <PLAC>School District No. 14, Burrows Township, Platte County, Nebraska, USA</PLAC>
+      <DATE>FROM 1919 TO 1920</DATE>
+      <SOUR REF="S6"/>
+    </EVEN>
+    <CENS>
+      <DATE>1 JUN 1900</DATE>
+      <PLAC>Burrows Township, Platte County, Nebraska, USA</PLAC>
+      <AGE>15y</AGE>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>confirms date, place and age</NOTE>
+      </SOUR>
+    </CENS>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Platte Center, Platte County, Nebraska, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+    </RESI>
+    <DEAT>
+      <DATE>25 JUN 1958</DATE>
+      <PLAC>Costa Mesa, California, USA 
+      <SOUR REF="S2"/>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms city and state</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Kate's record say that he died 25 JUN 1958</NOTE>
+      </SOUR>
+    </DEAT>
+    <OCCU>Carpenter</OCCU>
+    <NCHI>6</NCHI>
+    <RESI>
+      <PLAC>Long Beach, Los Angeles, California, USA 
+      <SOUR REF="S22">
+        <NOTE>The source says this was the last know residence</NOTE>
+      </SOUR></PLAC>
+    </RESI>
+    <SOUR REF="S2"/>
+    <CHAN>
+      <DATE>11 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F3"/>
+    <FAMS REF="F99"/>
+  </INDI>
+  <INDI ID="I7">
+    <NAME>Frieda/Albers/ 
+    <NOTE>Hilda's Letter spells it Freda</NOTE>
+    <NOTE>School District Census says Freeda</NOTE>
+    <NOTE>S5 spells it Freda</NOTE></NAME>
+    <SEX>F</SEX>
+    <BIRT>
+      <DATE>28 JUL 1886</DATE>
+      <SOUR REF="S1">
+        <NOTE>Confirms full date of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S2">
+        <NOTE>Confirms full date of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S4">
+        <NOTE>Confirms full date of birth</NOTE>
+      </SOUR>
+      <PLAC>Platte Center, Platte County, Nebraska, USA 
+      <SOUR REF="S2"/>
+      <SOUR REF="S1"/>
+      <SOUR REF="S4"/>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms state and country of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Adds platte center</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms month and year of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3,22</PAGE>
+        <NOTE>Confirms full date of birth</NOTE>
+      </SOUR>
+    </BIRT>
+    <EDUC>
+      <PLAC>School District No. 14, Platte County, Nebraska, USA</PLAC>
+      <SOUR REF="S4"/>
+    </EDUC>
+    <CENS>
+      <DATE>1 JUN 1900</DATE>
+      <PLAC>Burrows Township, Platte County, Nebraska, USA</PLAC>
+      <AGE>13y</AGE>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms date, place, and age</NOTE>
+      </SOUR>
+    </CENS>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Genoa, Nance County, Nebraska, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+    </RESI>
+    <DEAT>
+      <DATE>27 MAR 1951</DATE>
+      <PLAC>Genoa, Nance County, Nebraska, USA 
+      <SOUR REF="S2"/>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms Genoa</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S97">
+        <PAGE>3,27</PAGE>
+        <NOTE>Provides full date of death. Page 27 is a transcript of her 
+        <CONC>obit appearing in the St. Edward Advance</CONC></NOTE>
+      </SOUR>
+      <AGE>64y</AGE>
+    </DEAT>
+    <BURI>
+      <PLAC>Genoa, Nance County, Nebraska, USA</PLAC>
+      <ADDR>Valley View Cemetery 
+      <CITY>Genoa</CITY>
+      <STAE>NE</STAE></ADDR>
+      <SOUR REF="S97">
+        <PAGE>22</PAGE>
+        <NOTE>Supplies place and cemetery</NOTE>
+      </SOUR>
+    </BURI>
+    <NCHI>5</NCHI>
+    <OCCU>Farmer</OCCU>
+    <SOUR REF="S2"/>
+    <CHAN>
+      <DATE>12 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F3"/>
+    <FAMS REF="F100"/>
+  </INDI>
+  <INDI ID="I8">
+    <NAME>Bertha/Albers/</NAME>
+    <SEX>F</SEX>
+    <BIRT>
+      <DATE>29 FEB 1888</DATE>
+      <SOUR REF="S2">
+        <NOTE>Confirms date of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S1">
+        <NOTE>Confirms date of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S4">
+        <NOTE>Confirms date of birth</NOTE>
+      </SOUR>
+      <PLAC>Platte County, Nebraska, USA 
+      <SOUR REF="S2"/>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms state and country of birth</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms month and year of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms full date of birth</NOTE>
+      </SOUR>
+    </BIRT>
+    <EDUC>
+      <PLAC>School District No. 14, Platte County, Nebraska, USA</PLAC>
+    </EDUC>
+    <CENS>
+      <DATE>1 JUN 1900</DATE>
+      <PLAC>Burrows Township, Platte County, Nebraska, USA</PLAC>
+      <AGE>12y</AGE>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms date, place, and year</NOTE>
+      </SOUR>
+    </CENS>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Fremont, Dodge County, Nebraska, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+    </RESI>
+    <DEAT>Y</DEAT>
+    <OCCU>Farmer</OCCU>
+    <NCHI>4</NCHI>
+    <SOUR REF="S2"/>
+    <CHAN>
+      <DATE>11 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F3"/>
+    <FAMS REF="F101"/>
+  </INDI>
+  <INDI ID="I9">
+    <NAME>John Delryn/Albers/ 
+    <NICK>Johnnie, Jack</NICK>
+    <SOUR REF="S1">
+      <NOTE>Confirms Johnnie nickname</NOTE>
+    </SOUR>
+    <SOUR REF="S2">
+      <NOTE>Confirms Jack nickname</NOTE>
+    </SOUR>
+    <SOUR REF="S4"/>
+    <SOUR REF="S93">
+      <QUAY>3</QUAY>
+      <NOTE>Confirms Johnnie as a nickname</NOTE>
+    </SOUR></NAME>
+    <SEX>M</SEX>
+    <BIRT>
+      <DATE>6 MAR 1890</DATE>
+      <PLAC>Platte County, Nebraska, USA 
+      <SOUR REF="S2">
+        <NOTE>Evidence for place of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms state and country of birth</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S1">
+        <NOTE>Confirms complete birth date</NOTE>
+      </SOUR>
+      <SOUR REF="S2">
+        <NOTE>Confirms complete birth date</NOTE>
+      </SOUR>
+      <SOUR REF="S4">
+        <NOTE>Confirms complete birth date</NOTE>
+      </SOUR>
+      <SOUR REF="S93">
+        <NOTE>Confirms month and year of birth</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms complete date of birth</NOTE>
+      </SOUR>
+    </BIRT>
+    <EDUC>
+      <PLAC>School District No. 14, Platte County, Nebraska, USA</PLAC>
+      <SOUR REF="S4"/>
+    </EDUC>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Chambers, Holt County, Nebraska, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+    </RESI>
+    <EVEN>
+      <TYPE>School Board Secretary</TYPE>
+      <PLAC>School District No. 14. Burrows Township Schools, Platte County, Nebraska, USA</PLAC>
+      <DATE>FROM 1917 TO 1927</DATE>
+      <SOUR REF="S6"/>
+    </EVEN>
+    <DEAT>
+      <PLAC>Chambers, Holt County, Nebraska, USA 
+      <SOUR REF="S2"/></PLAC>
+      <CAUS>Suicide</CAUS>
+      <NOTE>Stephen Albers said he died from suicide</NOTE>
+    </DEAT>
+    <OCCU>Farmer 
+    <DATE>1923</DATE>
+    <AGE>32y</AGE>
+    <PLAC>Burrows Township, Platte County, Nebraska, USA</PLAC>
+    <ADDR>P.O. Monroe, Route 1</ADDR>
+    <SOUR REF="S5">
+      <NOTE>Confirms age</NOTE>
+    </SOUR>
+    <NOTE>S5 says he rented 178 ac., sec.30 and 200 acres, sec. 29 
+    <CONC>It also mentions "Valley Grove Home" and says he owns</CONC>
+    <CONC>P.H. Albers Estate</CONC></NOTE>
+    <SOUR REF="S5"/>
+    <SOUR REF="S2"/></OCCU>
+    <OCCU>Rancher 
+    <AGE>35y</AGE>
+    <AGNC>Great Depression</AGNC>
+    <SOUR REF="S2"/></OCCU>
+    <NCHI>4 
+    <SOUR REF="S2"/></NCHI>
+    <CENS>
+      <DATE>1 JUN 1900</DATE>
+      <PLAC>Burrows Township, Platte County, Nebraska, USA</PLAC>
+      <AGE>10y</AGE>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms date, place, and age</NOTE>
+      </SOUR>
+    </CENS>
+    <CHAN>
+      <DATE>11 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F3"/>
+    <FAMS REF="F21"/>
+  </INDI>
+  <INDI ID="I10">
+    <NAME>Emma/Albers/</NAME>
+    <SEX>F</SEX>
+    <BIRT>
+      <DATE>6 DEC 1892</DATE>
+      <SOUR REF="S1">
+        <NOTE>Confirms only month and year</NOTE>
+      </SOUR>
+      <SOUR REF="S4">
+        <NOTE>Confirms month and year but also says the 6th of December</NOTE>
+      </SOUR>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms month and year of birth</NOTE>
+      </SOUR>
+      <PLAC>Nebraska, USA 
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms state and country of birth</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms day of birth as 6th</NOTE>
+      </SOUR>
+    </BIRT>
+    <EDUC>
+      <PLAC>School District No. 14, Platte County, Nebraska, USA</PLAC>
+      <SOUR REF="S4"/>
+    </EDUC>
+    <CENS>
+      <DATE>1 JUN 1900</DATE>
+      <PLAC>Burrows Township, Platte County, Nebraska, USA</PLAC>
+      <AGE>7y</AGE>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms date, place, and age</NOTE>
+      </SOUR>
+    </CENS>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Genoa, Nance County, Nebraska, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+    </RESI>
+    <DEAT>
+      <DATE>16 MAY 1967</DATE>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Says day of death is 16 MAY 1967</NOTE>
+      </SOUR>
+      <PLAC>Genoa, Nance County, Nebraska, USA 
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Also says "Valleyview" but I'm not sure if that refers to 
+        <CONC>the cemetery or a town name</CONC></NOTE>
+      </SOUR></PLAC>
+    </DEAT>
+    <OCCU>Farmer 
+    <PLAC>Genoa, Nancy County, Nebraska, USA</PLAC>
+    <SOUR REF="S2"/></OCCU>
+    <NCHI>3</NCHI>
+    <SOUR REF="S2"/>
+    <CHAN>
+      <DATE>11 JUN 2005</DATE>
+    </CHAN>
+    <NOTE>All information derived from source SSDI may be actually from 
+    <CONC>another individual. See the disputed birth date issue.</CONC></NOTE>
+    <FAMC REF="F3"/>
+    <FAMS REF="F102"/>
+  </INDI>
+  <INDI ID="I11">
+    <NAME>Alma/Albers/ 
+    <NOTE>Referred to as Elma in the 1900FedCensus</NOTE>
+    <NOTE>Referred to as Alma in 1901 School District Census</NOTE>
+    <NOTE>Refered to as Elma in S93</NOTE></NAME>
+    <SEX>F</SEX>
+    <BIRT>
+      <DATE>22 JUN 1894</DATE>
+      <SOUR REF="S1">
+        <NOTE>Gives evidence regarding month and date</NOTE>
+      </SOUR>
+      <SOUR REF="S4">
+        <NOTE>Gives evidence regarding month, day and year but it says 22 JUN 1893</NOTE>
+      </SOUR>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms month and year</NOTE>
+      </SOUR>
+      <PLAC>Platte County, Nebraska, USA 
+      <SOUR REF="S4"/>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms state and country of birth</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Adds day of birth, confirms the rest</NOTE>
+      </SOUR>
+    </BIRT>
+    <EDUC>
+      <PLAC>School District No. 14</PLAC>
+      <SOUR REF="S4"/>
+    </EDUC>
+    <CENS>
+      <DATE>1 JUN 1900</DATE>
+      <PLAC>Burrows Township, Platte County, Nebraska, USA</PLAC>
+      <AGE>5y</AGE>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms place, date, and age</NOTE>
+      </SOUR>
+    </CENS>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Lindsay, Platte County, Nebraska, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+    </RESI>
+    <DEAT>
+      <DATE>1975</DATE>
+      <SOUR REF="S96">
+        <PAGE>3</PAGE>
+        <NOTE>Adds year</NOTE>
+      </SOUR>
+    </DEAT>
+    <OCCU>Farmer 
+    <PLAC>Lloyd Home place, Lindsay, NE, USA</PLAC>
+    <SOUR REF="S2"/></OCCU>
+    <CHAN>
+      <DATE>12 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F3"/>
+    <FAMS REF="F103"/>
+  </INDI>
+  <INDI ID="I12">
+    <NAME>Walter/Albers/</NAME>
+    <SEX>M</SEX>
+    <BIRT>
+      <DATE>22 FEB 1896</DATE>
+      <SOUR REF="S1"/>
+      <SOUR REF="S4">
+        <NOTE>It says 22/22/95</NOTE>
+      </SOUR>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms month and year of birth (1896)</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms date of birth</NOTE>
+      </SOUR>
+    </BIRT>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Costa Mesa, California, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+        <NOTE>I suspect this is incorrect. I think the obit is actually 
+        <CONC>referring to Henry Albers</CONC></NOTE>
+      </SOUR>
+    </RESI>
+    <CENS>
+      <DATE>1 JUN 1900</DATE>
+      <AGE>4y</AGE>
+      <PLAC>Burrows Township, Platte County, Nebraska, USA</PLAC>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms date, place, and age</NOTE>
+      </SOUR>
+    </CENS>
+    <EDUC>
+      <PLAC>School District No. 14, Platte County, Nebraska, USA</PLAC>
+    </EDUC>
+    <DEAT>
+      <PLAC>California 
+      <SOUR REF="S2"/></PLAC>
+    </DEAT>
+    <NCHI>2 
+    <SOUR REF="S2"/></NCHI>
+    <CHAN>
+      <DATE>12 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F3"/>
+    <FAMS REF="F104"/>
+  </INDI>
+  <INDI ID="I13">
+    <NAME>Martha/Albers/</NAME>
+    <SEX>F</SEX>
+    <BIRT>
+      <DATE>10 OCT 1898</DATE>
+      <SOUR REF="S1"/>
+      <SOUR REF="S2"/>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Lists month of birth as SEP, confirms year</NOTE>
+      </SOUR>
+      <PLAC>Nebraska, USA 
+      <SOUR REF="S93">
+        <QUAY>2</QUAY>
+        <NOTE>Confirms state and country of birth</NOTE>
+      </SOUR></PLAC>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Lists day of birth as 10 OCT 1898.</NOTE>
+        <QUAY>2</QUAY>
+      </SOUR>
+    </BIRT>
+    <CENS>
+      <DATE>1 JUN 1900</DATE>
+      <PLAC>Burrows Township, Platte Country, Nebraska, USA</PLAC>
+      <AGE>1y</AGE>
+      <SOUR REF="S93">
+        <QUAY>3</QUAY>
+        <NOTE>Confirms date, age, and place</NOTE>
+      </SOUR>
+    </CENS>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Genoa, Nance County, Nebraska, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+    </RESI>
+    <DEAT>
+      <DATE>11 FEB 1987</DATE>
+      <PLAC>Monroe, Nebraska, USA 
+      <SOUR REF="S2"/></PLAC>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Provides complete date of death</NOTE>
+      </SOUR>
+    </DEAT>
+    <OCCU>Farmer 
+    <PLAC>Parry Home Farm 
+    <SOUR REF="S2"/></PLAC></OCCU>
+    <NCHI>3 
+    <SOUR REF="S2"/></NCHI>
+    <CHAN>
+      <DATE>11 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F3"/>
+    <FAMS REF="F105"/>
+  </INDI>
+  <INDI ID="I14">
+    <NAME>Alvina/Albers/ 
+    <NICK>Alva</NICK>
+    <NOTE>S2 lists her as Elva</NOTE>
+    <SOUR REF="S97">
+      <PAGE>3</PAGE>
+    </SOUR></NAME>
+    <SEX>F</SEX>
+    <BIRT>
+      <DATE>4 NOV 1900</DATE>
+      <SOUR REF="S2">
+        <NOTE>Confirms year as 1900</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Provides full date of birth</NOTE>
+      </SOUR>
+    </BIRT>
+    <DEAT>
+      <DATE>8 JUN 1973</DATE>
+      <PLAC>Genoa, Nance County, Nebraska, USA 
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+      </SOUR></PLAC>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Provides full date of death</NOTE>
+      </SOUR>
+    </DEAT>
+    <OCCU>Farmer 
+    <SOUR REF="S2"/></OCCU>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Genoa, Nance County, Nebraska, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+    </RESI>
+    <NCHI>3</NCHI>
+    <SOUR REF="S2"/>
+    <CHAN>
+      <DATE>12 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F3"/>
+    <FAMS REF="F106"/>
+  </INDI>
+  <INDI ID="I15">
+    <NAME>Verna/Albers/</NAME>
+    <SEX>F</SEX>
+    <BIRT>
+      <DATE>7 JUL 1904</DATE>
+      <SOUR REF="S2">
+        <NOTE>Supplies year</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Supplies full date of birth</NOTE>
+      </SOUR>
+    </BIRT>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Platte Center, Platte County, Nebraska, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+    </RESI>
+    <DEAT>Y</DEAT>
+    <OCCU>Farmer 
+    <PLAC>Platte Center, Nebraska, USA 
+    <SOUR REF="S2"/></PLAC>
+    <NOTE>Blessen home farm</NOTE></OCCU>
+    <NCHI>3 
+    <SOUR REF="S2"/></NCHI>
+    <CHAN>
+      <DATE>12 JUN 2005</DATE>
+    </CHAN>
+    <FAMC REF="F3"/>
+    <FAMS REF="F107"/>
+  </INDI>
+  <!-- Bertha's Family -->
+  <FAM ID="F101">
+    <HUSB REF="I328"/>
+    <WIFE REF="I8"/>
+    <MARR>Y</MARR>
+    <SOUR REF="S97">
+      <PAGE>3, 14</PAGE>
+    </SOUR>
+    <CHAN>
+      <DATE>11 JUN 2005</DATE>
+    </CHAN>
+  </FAM>
+  <!-- William Albers Family -->
+  <FAM ID="F2">
+    <HUSB REF="I3"/>
+    <WIFE REF="I23"/>
+    <MARR>
+      <DATE>9 SEP 1937</DATE>
+      <PLAC>Papillion, Sarpy County, Nebraska, USA</PLAC>
+      <SOUR REF="S25"/>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Confirms full date of marriage</NOTE>
+      </SOUR>
+    </MARR>
+    <CHAN>
+      <DATE>12 JUN 2005</DATE>
+    </CHAN>
+    <CHIL REF="I2"/>
+    <CHIL REF="I50"/>
+  </FAM>
+  <INDI ID="I23">
+    <NAME>Helen Elfrieda/Croshaw/ 
+    <NOTE>Helen says that her middle name was supposed to be Frieda</NOTE></NAME>
+    <SEX>F</SEX>
+    <BIRT>
+      <DATE>11 APR 1918</DATE>
+      <PLAC>Wahoo, Saunders County, Nebraska, USA</PLAC>
+    </BIRT>
+    <EDUC>High School 
+    <PLAC>Wahoo, Saunders County, Nebraska, USA</PLAC></EDUC>
+    <OCCU>Resturant</OCCU>
+    <NMR>1</NMR>
+    <NCHI>2</NCHI>
+    <RESI>
+      <ADDR>802 Towne Square Dr. 
+      <CITY>Fremont</CITY>
+      <STAE>NE</STAE>
+      <POST>68025</POST></ADDR>
+    </RESI>
+    <CHAN>
+      <DATE>19 DEC 2004</DATE>
+    </CHAN>
+    <FAMC REF="F5"/>
+    <FAMS REF="F2"/>
+  </INDI>
+  <FAM ID="F100">
+    <HUSB REF="I327"/>
+    <WIFE REF="I7"/>
+    <MARR>
+      <DATE>23 OCT 1907</DATE>
+      <SOUR REF="S97">
+        <PAGE>3</PAGE>
+        <NOTE>Provides full date of wedding</NOTE>
+      </SOUR>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+      <PLAC>Albion, Boone County, Nebraska, USA 
+      <SOUR REF="S97">
+        <PAGE>22</PAGE>
+      </SOUR></PLAC>
+    </MARR>
+    <CHAN>
+      <DATE>11 JUN 2005</DATE>
+    </CHAN>
+    <CHIL REF="I340"/>
+    <CHIL REF="I341"/>
+    <CHIL REF="I342"/>
+    <CHIL REF="I343"/> 
+    <CHIL REF="I344"/>
+  </FAM>
+  <INDI ID="I327">
+    <NAME>Thomas Roy/Thomazin/</NAME>
+    <SEX>M</SEX>
+    <BIRT>
+      <PLAC>Monroe, Platte County, Nebraska, USA 
+      <SOUR REF="S97">
+        <PAGE>22</PAGE>
+        <NOTE>From wife's obit.</NOTE>
+      </SOUR></PLAC>
+    </BIRT>
+    <RESI>
+      <DATE>1942</DATE>
+      <PLAC>Genoa, Nance County, Nebraska, USA</PLAC>
+      <SOUR REF="S97">
+        <PAGE>14</PAGE>
+      </SOUR>
+    </RESI>
+    <SOUR REF="S97">
+      <PAGE>3</PAGE>
+    </SOUR>
+    <CHAN>
+      <DATE>14 JUN 2005</DATE>
+    </CHAN>
+    <FAMS REF="F100"/>
+  </INDI>
+  <INDI ID="I344">
+    <NAME>Glenn/Thomazin/</NAME>
+    <SEX>M</SEX>
+    <BIRT>Y</BIRT>
+    <SOUR REF="S97">
+      <PAGE>3</PAGE>
+    </SOUR>
+    <CHAN>
+      <DATE>12 JUN 2005</DATE>
+    </CHAN>
+    <FAMS REF="F2"/>
+    <FAMC REF="F100"/>
+  </INDI>
+    <INDI ID="I2">
+    <NAME>Stephen Kent/Albers/</NAME>
+    <SEX>M</SEX>
+    <BIRT>
+      <DATE>21 FEB 1943</DATE>
+      <PLAC>Fremont, Nebraska, USA</PLAC>
+    </BIRT>
+    <NCHI>2</NCHI>
+    <NMR>2</NMR>
+    <OCCU>Managing Engineer for AT&amp;T</OCCU>
+    <RELI>Lutheran</RELI>
+    <SSN>505-50-2592</SSN>
+    <CHAN>
+      <DATE>24 JUL 2004</DATE>
+    </CHAN>
+    <FAMC REF="F2"/>
+    <FAMS REF="F1"/>
+  </INDI>
+    <FAM ID="F1">
+    <HUSB REF="I2"/>
+    <WIFE REF="I16"/>
+    <MARR>
+      <DATE>3 APR 1965</DATE>
+      <PLAC>Fremont, Nebraska, USA</PLAC>
+    </MARR>
+    <DIV>
+      <DATE>18 FEB 1982</DATE>
+      <PLAC>Kansas City, Missouri, USA</PLAC>
+    </DIV>
+    <CHAN>
+      <DATE>4 AUG 2004</DATE>
+    </CHAN>
+    <CHIL REF="I1"/>
+    <CHIL REF="I49"/>
+  </FAM>
+  <INDI ID="I16">
+    <NAME>Joyce Ann/Schurman/</NAME>
+    <SEX>F</SEX>
+    <BIRT>
+      <DATE>31 JUL 1944</DATE>
+      <PLAC>Fremont, Nebraska, USA</PLAC>
+    </BIRT>
+    <BAPM>
+      <DATE>13 AUG 1944</DATE>
+      <PLAC>Immanuel Lutheran Church, Hooper, Nebraska, USA</PLAC>
+      <SOUR REF="S10"/>
+    </BAPM>
+    <CONF>
+      <DATE>1958</DATE>
+      <SOUR REF="S10"/>
+    </CONF>
+    <SSN>505-58-3950</SSN>
+    <NMR>2</NMR>
+    <NCHI>2</NCHI>
+    <EDUC>High School Diploma 
+    <DATE>1962</DATE>
+    <PLAC>Hooper High School, Hooper, Nebraska, USA</PLAC></EDUC>
+    <EVEN>
+      <TYPE>Home Coming Queen</TYPE>
+      <DATE>1961</DATE>
+    </EVEN>
+    <EVEN>
+      <TYPE>FFA Sweetheart</TYPE>
+      <DATE>1961</DATE>
+    </EVEN>
+    <OCCU>Telephone Operator 
+    <PLAC>Fremont, Nebraska, USA</PLAC></OCCU>
+    <OCCU>Secretary 
+    <PLAC>Marion MerrillDow, Kansas City, Missouri, USA</PLAC></OCCU>
+    <RELI>Lutheran</RELI>
+    <RESI>
+      <ADDR>11321 W. 131st St. 
+      <CITY>Overland Park</CITY>
+      <STAE>KS</STAE>
+      <POST>66213</POST></ADDR>
+    </RESI>
+    <CHAN>
+      <DATE>19 DEC 2004</DATE>
+    </CHAN>
+    <FAMC REF="F16"/>
+    <FAMS REF="F1"/>
+    <FAMS REF="F41"/>
+  </INDI>
+</GED>
