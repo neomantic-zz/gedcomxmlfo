@@ -225,19 +225,16 @@
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
 			border-bottom-width=".2mm"
-			padding-left="1mm"
+			padding-left=".75mm"
             padding-top=".5mm">
 			<fo:block 
 				font-family="sans-serif"
-				font-size="6pt"
-				text-indent="2pt">
+				font-size="6pt">
 				<xsl:value-of select="$role"/>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
-				font-size="5pt"
-				padding-left="1mm"
-				text-indent="2pt">
+				font-size="5pt">
 				<xsl:text>Given name(s)</xsl:text>
 			</fo:block>
 		</fo:table-cell>
@@ -251,13 +248,12 @@
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
 			border-bottom-width=".2mm"
-			padding-left="1mm"
 			padding-right="1mm"
+			padding-left=".75mm"
             padding-top=".5mm">
 			<fo:block 
 				font-family="sans-serif"
-				font-size="6pt"
-				text-indent="2pt">
+				font-size="6pt">
 				<xsl:if test="$role = 'Husband'">
 					<xsl:text>Last</xsl:text>
 				</xsl:if>
@@ -267,8 +263,7 @@
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
-				font-size="5pt"
-				text-indent="2pt">
+				font-size="5pt">
 				<xsl:text>name</xsl:text>
 			</fo:block>
 		</fo:table-cell>
@@ -940,7 +935,7 @@
         			border-bottom-width=".2mm">
 					<fo:block		
 						font-family="sans-serif" 
-						font-size="10pt">
+						font-size="9pt">
 						<xsl:text>Children - List each child in order of birth</xsl:text>
 					</fo:block>
 				</fo:table-cell>
@@ -1042,11 +1037,11 @@
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
 			border-bottom-width=".2mm"
-			padding-top=".3mm"
-			padding-left="1mm">
+			padding-top=".75mm"
+			padding-left=".75mm">
 			<fo:block 
 				font-family="sans-serif"
-				font-size="7pt"
+				font-size="6pt"
 				padding-left="1mm">
 				<xsl:text>Given name(s)</xsl:text>
 			</fo:block>

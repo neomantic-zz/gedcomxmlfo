@@ -23,16 +23,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Husband</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Husband</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Peter Heinrich<fo:inline font-family="serif" font-size="8pt">   (I5)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Last</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Last</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Albers</fo:block>
@@ -171,16 +171,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Wife</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Wife</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Katherine<fo:inline font-family="serif" font-size="8pt">   (I4)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Maiden</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Maiden</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Reese</fo:block>
@@ -300,7 +300,7 @@
         <fo:table-body>
           <fo:table-row height="5mm">
             <fo:table-cell padding-top="1.5mm" padding-left="2mm" border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm">
-              <fo:block font-family="sans-serif" font-size="10pt">Children - List each child in order of birth</fo:block>
+              <fo:block font-family="sans-serif" font-size="9pt">Children - List each child in order of birth</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -315,8 +315,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">M</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Henry<fo:inline font-family="serif" font-size="8pt">   (I6)</fo:inline></fo:block>
@@ -448,8 +448,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">F</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Frieda<fo:inline font-family="serif" font-size="8pt">   (I7)</fo:inline></fo:block>
@@ -581,8 +581,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">F</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Bertha<fo:inline font-family="serif" font-size="8pt">   (I8)</fo:inline></fo:block>
@@ -716,8 +716,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">M</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">John Delryn<fo:inline font-family="serif" font-size="8pt">   (I9)</fo:inline></fo:block>
@@ -846,16 +846,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Husband</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Husband</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Peter Heinrich<fo:inline font-family="serif" font-size="8pt">   (I5)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Last</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Last</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Albers</fo:block>
@@ -870,16 +870,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Wife</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Wife</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Katherine<fo:inline font-family="serif" font-size="8pt">   (I4)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Maiden</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Maiden</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Reese</fo:block>
@@ -892,7 +892,7 @@
         <fo:table-body>
           <fo:table-row height="5mm">
             <fo:table-cell padding-top="1.5mm" padding-left="2mm" border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm">
-              <fo:block font-family="sans-serif" font-size="10pt">Children - List each child in order of birth</fo:block>
+              <fo:block font-family="sans-serif" font-size="9pt">Children - List each child in order of birth</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -907,8 +907,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">F</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Emma<fo:inline font-family="serif" font-size="8pt">   (I10)</fo:inline></fo:block>
@@ -1040,8 +1040,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">F</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Alma<fo:inline font-family="serif" font-size="8pt">   (I11)</fo:inline></fo:block>
@@ -1173,8 +1173,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">M</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Walter<fo:inline font-family="serif" font-size="8pt">   (I12)</fo:inline></fo:block>
@@ -1306,8 +1306,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">F</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Martha<fo:inline font-family="serif" font-size="8pt">   (I13)</fo:inline></fo:block>
@@ -1439,8 +1439,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">F</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Alvina<fo:inline font-family="serif" font-size="8pt">   (I14)</fo:inline></fo:block>
@@ -1572,8 +1572,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">M</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">William<fo:inline font-family="serif" font-size="8pt">   (I3)</fo:inline></fo:block>
@@ -1704,16 +1704,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Husband</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Husband</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Peter Heinrich<fo:inline font-family="serif" font-size="8pt">   (I5)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Last</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Last</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Albers</fo:block>
@@ -1728,16 +1728,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Wife</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Wife</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Katherine<fo:inline font-family="serif" font-size="8pt">   (I4)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Maiden</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Maiden</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Reese</fo:block>
@@ -1750,7 +1750,7 @@
         <fo:table-body>
           <fo:table-row height="5mm">
             <fo:table-cell padding-top="1.5mm" padding-left="2mm" border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm">
-              <fo:block font-family="sans-serif" font-size="10pt">Children - List each child in order of birth</fo:block>
+              <fo:block font-family="sans-serif" font-size="9pt">Children - List each child in order of birth</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -1765,8 +1765,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">F</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Verna<fo:inline font-family="serif" font-size="8pt">   (I15)</fo:inline></fo:block>
@@ -1898,8 +1898,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -2031,8 +2031,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -2164,8 +2164,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -2297,8 +2297,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -2430,8 +2430,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -2571,18 +2571,18 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Husband</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Husband</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">
                 <fo:inline font-family="serif" font-size="8pt">   (I328)</fo:inline>
               </fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Last</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Last</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -2721,16 +2721,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Wife</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Wife</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Bertha<fo:inline font-family="serif" font-size="8pt">   (I8)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Maiden</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Maiden</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Albers</fo:block>
@@ -2850,7 +2850,7 @@
         <fo:table-body>
           <fo:table-row height="5mm">
             <fo:table-cell padding-top="1.5mm" padding-left="2mm" border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm">
-              <fo:block font-family="sans-serif" font-size="10pt">Children - List each child in order of birth</fo:block>
+              <fo:block font-family="sans-serif" font-size="9pt">Children - List each child in order of birth</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -2865,8 +2865,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -2998,8 +2998,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -3131,8 +3131,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -3264,8 +3264,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -3405,16 +3405,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Husband</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Husband</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">William<fo:inline font-family="serif" font-size="8pt">   (I3)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Last</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Last</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Albers</fo:block>
@@ -3553,16 +3553,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Wife</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Wife</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Helen Elfrieda<fo:inline font-family="serif" font-size="8pt">   (I23)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Maiden</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Maiden</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Croshaw</fo:block>
@@ -3682,7 +3682,7 @@
         <fo:table-body>
           <fo:table-row height="5mm">
             <fo:table-cell padding-top="1.5mm" padding-left="2mm" border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm">
-              <fo:block font-family="sans-serif" font-size="10pt">Children - List each child in order of birth</fo:block>
+              <fo:block font-family="sans-serif" font-size="9pt">Children - List each child in order of birth</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -3697,8 +3697,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">M</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Stephen Kent<fo:inline font-family="serif" font-size="8pt">   (I2)</fo:inline></fo:block>
@@ -3830,8 +3830,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">
@@ -3965,8 +3965,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -4098,8 +4098,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -4239,16 +4239,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Husband</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Husband</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Thomas Roy<fo:inline font-family="serif" font-size="8pt">   (I327)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Last</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Last</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Thomazin</fo:block>
@@ -4387,16 +4387,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Wife</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Wife</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Frieda<fo:inline font-family="serif" font-size="8pt">   (I7)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Maiden</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Maiden</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Albers</fo:block>
@@ -4516,7 +4516,7 @@
         <fo:table-body>
           <fo:table-row height="5mm">
             <fo:table-cell padding-top="1.5mm" padding-left="2mm" border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm">
-              <fo:block font-family="sans-serif" font-size="10pt">Children - List each child in order of birth</fo:block>
+              <fo:block font-family="sans-serif" font-size="9pt">Children - List each child in order of birth</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -4531,8 +4531,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">
@@ -4666,8 +4666,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">
@@ -4801,8 +4801,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">
@@ -4936,8 +4936,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">
@@ -5068,16 +5068,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Husband</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Husband</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Thomas Roy<fo:inline font-family="serif" font-size="8pt">   (I327)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Last</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Last</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Thomazin</fo:block>
@@ -5092,16 +5092,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Wife</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Wife</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Frieda<fo:inline font-family="serif" font-size="8pt">   (I7)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Maiden</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Maiden</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Albers</fo:block>
@@ -5114,7 +5114,7 @@
         <fo:table-body>
           <fo:table-row height="5mm">
             <fo:table-cell padding-top="1.5mm" padding-left="2mm" border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm">
-              <fo:block font-family="sans-serif" font-size="10pt">Children - List each child in order of birth</fo:block>
+              <fo:block font-family="sans-serif" font-size="9pt">Children - List each child in order of birth</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -5129,8 +5129,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt">M</fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Glenn<fo:inline font-family="serif" font-size="8pt">   (I344)</fo:inline></fo:block>
@@ -5262,8 +5262,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -5395,8 +5395,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -5528,8 +5528,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -5661,8 +5661,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -5794,8 +5794,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -5935,16 +5935,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Husband</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Husband</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Stephen Kent<fo:inline font-family="serif" font-size="8pt">   (I2)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Last</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Last</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Albers</fo:block>
@@ -6083,16 +6083,16 @@
         <fo:table-column column-width="74mm"/>
         <fo:table-body>
           <fo:table-row height="5mm">
-            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Wife</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" padding-left="1mm" text-indent="2pt">Given name(s)</fo:block>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Wife</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Joyce Ann<fo:inline font-family="serif" font-size="8pt">   (I16)</fo:inline></fo:block>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-left="1mm" padding-right="1mm" padding-top=".5mm">
-              <fo:block font-family="sans-serif" font-size="6pt" text-indent="2pt">Maiden</fo:block>
-              <fo:block font-family="sans-serif" font-size="5pt" text-indent="2pt">name</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-right="1mm" padding-left=".75mm" padding-top=".5mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Maiden</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">Schurman</fo:block>
@@ -6212,7 +6212,7 @@
         <fo:table-body>
           <fo:table-row height="5mm">
             <fo:table-cell padding-top="1.5mm" padding-left="2mm" border-left-color="black" border-left-style="solid" border-left-width=".2mm" border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm">
-              <fo:block font-family="sans-serif" font-size="10pt">Children - List each child in order of birth</fo:block>
+              <fo:block font-family="sans-serif" font-size="9pt">Children - List each child in order of birth</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -6227,8 +6227,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">
@@ -6362,8 +6362,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt">
@@ -6497,8 +6497,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
@@ -6630,8 +6630,8 @@
               <fo:block font-family="sans-serif" font-size="6pt" text-indent="1pt">Sex</fo:block>
               <fo:block font-family="sans-serif" font-size="9pt" text-indent="2pt"/>
             </fo:table-cell>
-            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".3mm" padding-left="1mm">
-              <fo:block font-family="sans-serif" font-size="7pt" padding-left="1mm">Given name(s)</fo:block>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".2mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".2mm" padding-top="1mm">
               <fo:block font-family="serif" font-size="11pt"/>
