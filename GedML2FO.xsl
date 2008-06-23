@@ -217,7 +217,7 @@
 	<xsl:param name="IndiID"/>
 
 	<fo:table-row 
-		height="6mm">
+		height="5mm">
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
@@ -225,17 +225,17 @@
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
 			border-bottom-width=".2mm"
-			padding-top="1mm"
-			padding-left="1mm">
+			padding-left="1mm"
+            padding-top=".5mm">
 			<fo:block 
 				font-family="sans-serif"
-				font-size="7pt"
+				font-size="6pt"
 				text-indent="2pt">
 				<xsl:value-of select="$role"/>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
-				font-size="7pt"
+				font-size="5pt"
 				padding-left="1mm"
 				text-indent="2pt">
 				<xsl:text>Given name(s)</xsl:text>
@@ -251,12 +251,12 @@
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
 			border-bottom-width=".2mm"
-			padding-top="1mm"
 			padding-left="1mm"
-			padding-right="1mm">
+			padding-right="1mm"
+            padding-top=".5mm">
 			<fo:block 
 				font-family="sans-serif"
-				font-size="7pt"
+				font-size="6pt"
 				text-indent="2pt">
 				<xsl:if test="$role = 'Husband'">
 					<xsl:text>Last</xsl:text>
@@ -267,7 +267,7 @@
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
-				font-size="7pt"
+				font-size="5pt"
 				text-indent="2pt">
 				<xsl:text>name</xsl:text>
 			</fo:block>
@@ -293,7 +293,7 @@
 		border-bottom-color="black" 
 		border-bottom-style="solid" 
 		border-bottom-width=".2mm"
-        padding-top="2mm"> 
+        padding-top="1mm"> 
 		<fo:block 
 			font-family="serif" 
 			font-size="11pt">				
@@ -339,7 +339,7 @@
 		border-bottom-color="black" 
 		border-bottom-style="solid" 
 		border-bottom-width=".2mm"
-		padding-top="2mm">
+		padding-top="1mm">
 		<fo:block 
 			font-family="serif" 
 			font-size="11pt">
@@ -365,13 +365,14 @@
 	
 	<!-- Event Rows have Bottom Borders -->
 	<fo:table-row 
-		height="6mm"
+		height="5mm"
 		keep-with-previous.within-line="always">
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
 			border-left-width=".2mm" 
-			padding="2pt">
+			padding-left=".75mm"
+            padding-top=".75mm">
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="10pt"
@@ -389,7 +390,8 @@
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
     		border-bottom-width=".2mm" 
-			padding="2pt">
+			padding-left=".75mm"
+            padding-top=".75mm">
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="6pt">
@@ -415,7 +417,7 @@
                             <xsl:otherwise>
                                 <fo:block 
                                     font-family="serif" 
-                                    font-size="12pt">
+                                    font-size="11pt">
                                        <xsl:text/>
                                 </fo:block>
                              </xsl:otherwise>
@@ -429,7 +431,7 @@
                             <xsl:otherwise>
                                 <fo:block 
                                     font-family="serif" 
-                                    font-size="12pt">
+                                    font-size="11pt">
                                        <xsl:text/>
                                 </fo:block>
                              </xsl:otherwise>
@@ -443,7 +445,7 @@
                             <xsl:otherwise>
                                 <fo:block 
                                     font-family="serif" 
-                                    font-size="12pt">
+                                    font-size="11pt">
                                        <xsl:text/>
                                 </fo:block>
                              </xsl:otherwise>
@@ -455,7 +457,8 @@
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
     		border-bottom-width=".2mm"
-    		padding="2pt">
+    		padding-left=".75mm"
+            padding-top=".75mm">
     		<fo:block 
     			font-family="sans-serif" 
     			font-size="6pt">
@@ -480,7 +483,7 @@
                             <xsl:otherwise>
                                 <fo:block 
                                     font-family="serif" 
-                                    font-size="12pt">
+                                    font-size="11pt">
                                        <xsl:text/>
                                 </fo:block>
                              </xsl:otherwise>
@@ -494,7 +497,7 @@
                             <xsl:otherwise>
                                 <fo:block 
                                     font-family="serif" 
-                                    font-size="12pt">
+                                    font-size="11pt">
                                        <xsl:text/>
                                 </fo:block>
                              </xsl:otherwise>
@@ -508,7 +511,7 @@
                             <xsl:otherwise>
                                 <fo:block 
                                     font-family="serif" 
-                                    font-size="12pt">
+                                    font-size="11pt">
                                        <xsl:text/>
                                 </fo:block>
                              </xsl:otherwise>
@@ -532,7 +535,7 @@
 	<xsl:param name="role"/>
 
 	<fo:table-row 
-		height="6mm"
+		height="5mm"
 		keep-with-previous.within-line="always">
 		<xsl:choose>
 			<xsl:when test="$role = 'Child'">
@@ -544,7 +547,8 @@
         			border-bottom-color="black" 
         			border-bottom-style="solid" 
         			border-bottom-width=".2mm"
-        			padding="2pt">
+        			padding-left=".75mm"
+                    padding-top=".75mm">
         			<fo:block 
         				font-family="sans-serif" 
         				font-size="10pt">
@@ -561,7 +565,8 @@
         			border-left-color="black" 
         			border-left-style="solid" 
         			border-left-width=".2mm" 
-        			padding="2pt">
+        			padding-left=".75mm"
+                    padding-top=".75mm">
         			<fo:block 
         				font-family="sans-serif" 
         				font-size="10pt">
@@ -578,7 +583,8 @@
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
 			border-bottom-width=".2mm"
-			padding="2pt">
+			padding-left=".75mm"
+            padding-top=".75mm">
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="6pt">
@@ -599,7 +605,7 @@
                 <xsl:otherwise>
                     <fo:block 
                         font-family="serif" 
-                        font-size="12pt">
+                        font-size="11pt">
                            <xsl:text/>
                     </fo:block>
                 </xsl:otherwise>
@@ -613,7 +619,8 @@
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
     		border-bottom-width=".2mm"
-    		padding="2pt">
+    		padding-left=".75mm"
+            padding-top=".75mm">
     		<fo:block 
     			font-family="sans-serif" 
     			font-size="6pt">
@@ -636,7 +643,7 @@
                 <xsl:otherwise>
                    <fo:block 
                         font-family="serif" 
-                        font-size="12pt">
+                        font-size="11pt">
                        <xsl:text/>
                 </fo:block>
                 </xsl:otherwise>
@@ -653,12 +660,13 @@
 	<xsl:param name="gender"/>
 	
 	<fo:table-row 
-		height="6mm">
+		height="5mm">
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
 			border-left-width=".2mm"
-			padding="2pt">
+			padding-left=".75mm"
+            padding-top=".75mm">
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="10pt">
@@ -671,8 +679,8 @@
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
     		border-bottom-width=".2mm"
-			padding-top="1.5mm"
-			padding-left="1mm">
+			padding-left="1mm"
+            padding-top=".5mm">
 			<!-- In contrast to Husband and Wife, the Father/Mother label is set at 6pt -->
 			<fo:block
 				font-family="sans-serif"
@@ -691,7 +699,7 @@
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
-				font-size="6pt">
+				font-size="5pt">
 				<xsl:text>Given name(s)</xsl:text>
 			</fo:block>
 		</fo:table-cell>
@@ -705,12 +713,12 @@
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
     		border-bottom-width=".2mm" 
-			padding-top=".3mm"
-			padding-left="1mm">
+			padding-left="1mm"
+            padding-top=".5mm">
 			<!-- In contrast to Husband and Wife, the Father/Mother label is set at 6pt -->
 			<fo:block 
 				font-family="sans-serif"
-				font-size="6pt">
+				font-size="5pt">
 				<!-- Determine if label "Last" or "Maiden", default to "Last" -->
 				<xsl:choose>
 					<xsl:when test="$gender = 'Female'">
@@ -723,7 +731,7 @@
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
-				font-size="6pt">
+				font-size="5pt">
 				<xsl:text>name</xsl:text>
 			</fo:block>
 		</fo:table-cell>
@@ -917,7 +925,7 @@
 		<fo:table-column column-width="180mm"/>
 		<fo:table-body>
 			<fo:table-row 
-				height="6mm">
+				height="5mm">
 				<fo:table-cell 	
 					padding-top="1.5mm"
 					padding-left="2mm"
@@ -1074,13 +1082,14 @@
     		<fo:table-body>
     
             	<fo:table-row 
-            		height="6mm"
+            		height="5mm"
             		keep-with-previous.within-line="always">
             		<fo:table-cell 
             			border-left-color="black" 
             			border-left-style="solid" 
             			border-left-width=".2mm" 
-            			padding="2pt">
+            			padding-left=".75mm"
+                        padding-top=".75mm">
             			<fo:block 
             				font-family="sans-serif" 
             				font-size="10pt">
@@ -1093,17 +1102,17 @@
             			border-bottom-color="black" 
             			border-bottom-style="solid" 
             			border-bottom-width=".2mm"
-            			padding-top="1.5mm"
-            			padding-left="1mm">
+            			padding-left=".75mm"
+                        padding-top=".75mm">
             			<!-- set at 6pt -->
             			<fo:block
             				font-family="sans-serif"
-            				font-size="6pt">				
+            				font-size="5pt">				
             				<xsl:text>Spouse&#8217;s </xsl:text>
             			</fo:block>
             			<fo:block 
             				font-family="sans-serif"
-            				font-size="6pt">
+            				font-size="5pt">
             				<xsl:text>Given name(s)</xsl:text>
             			</fo:block>
             		</fo:table-cell>
@@ -1136,17 +1145,17 @@
             			border-bottom-color="black" 
             			border-bottom-style="solid" 
             			border-bottom-width=".2mm" 
-            			padding-top=".3mm"
-            			padding-left="1mm">
-            			<!-- set at 6pt -->
+            			padding-left=".75mm"
+                        padding-top=".75mm">
+            			<!-- set at 5pt -->
             			<fo:block 
             				font-family="sans-serif"
-            				font-size="6pt">
+            				font-size="5pt">
             				<xsl:text>Last</xsl:text>
             			</fo:block>
             			<fo:block 
             				font-family="sans-serif"
-            				font-size="6pt">
+            				font-size="5pt">
             				<xsl:text>name</xsl:text>
             			</fo:block>
             		</fo:table-cell>
@@ -1224,11 +1233,11 @@
  				</xsl:choose> 
 			</fo:block>
 		</xsl:when>
-		<!-- default to 12pt -->
+		<!-- default to 11pt -->
 		<xsl:otherwise>
 			<fo:block 
 				font-family="serif" 
-				font-size="12pt">
+				font-size="11pt">
 				<xsl:value-of select="normalize-space( . )"/>
 			</fo:block>
 		</xsl:otherwise>				
