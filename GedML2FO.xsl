@@ -129,7 +129,7 @@
 	<!-- Table with Spouse Names -->
 	<fo:table border-top-color="black" 
 		border-top-style="solid" 
-		border-top-width=".2mm">
+		border-top-width=".3mm">
 		<fo:table-column column-width="22mm"/>
 		<fo:table-column column-width="72mm"/>
 		<fo:table-column column-width="12mm"/>
@@ -221,10 +221,10 @@
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".2mm"
+			border-left-width=".3mm"
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".2mm"
+			border-bottom-width=".3mm"
 			padding-left=".75mm"
             padding-top=".5mm">
 			<fo:block 
@@ -247,7 +247,7 @@
 		<fo:table-cell 
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".2mm"
+			border-bottom-width=".3mm"
 			padding-right="1mm"
 			padding-left=".75mm"
             padding-top=".5mm">
@@ -284,10 +284,10 @@
 	<fo:table-cell
 		border-right-color="black" 
 		border-right-style="solid" 
-		border-right-width=".2mm"
+		border-right-width=".3mm"
 		border-bottom-color="black" 
 		border-bottom-style="solid" 
-		border-bottom-width=".2mm"
+		border-bottom-width=".3mm"
         padding-top="1mm"> 
 		<fo:block 
 			font-family="serif" 
@@ -330,10 +330,10 @@
 	<fo:table-cell  
 		border-right-color="black" 
 		border-right-style="solid" 
-		border-right-width=".2mm"
+		border-right-width=".3mm"
 		border-bottom-color="black" 
 		border-bottom-style="solid" 
-		border-bottom-width=".2mm"
+		border-bottom-width=".3mm"
 		padding-top="1mm">
 		<fo:block 
 			font-family="serif" 
@@ -365,7 +365,7 @@
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".2mm" 
+			border-left-width=".3mm" 
 			padding-left=".75mm"
             padding-top=".75mm">
 			<fo:block 
@@ -381,10 +381,10 @@
 		<fo:table-cell
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".2mm" 
+			border-left-width=".3mm" 
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".2mm" 
+    		border-bottom-width=".3mm" 
 			padding-left=".75mm"
             padding-top=".75mm">
 			<fo:block 
@@ -397,10 +397,10 @@
     	<fo:table-cell
     		border-right-color="black" 
 			border-right-style="solid" 
-			border-right-width=".2mm"
+			border-right-width=".3mm"
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".2mm" 
+    		border-bottom-width=".3mm" 
     		padding-top="1.5mm">    	
             <!-- DATE -->
     			<xsl:choose>
@@ -451,7 +451,7 @@
     	<fo:table-cell  
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".2mm"
+    		border-bottom-width=".3mm"
     		padding-left=".75mm"
             padding-top=".75mm">
     		<fo:block 
@@ -463,10 +463,10 @@
 		<fo:table-cell 
 			border-right-color="black" 
 			border-right-style="solid" 
-			border-right-width=".2mm" 
+			border-right-width=".3mm" 
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".2mm"
+    		border-bottom-width=".3mm"
 			padding-top="1.5mm">
 			<!--Place of Event -->						
     			<xsl:choose>
@@ -538,10 +538,10 @@
         		<fo:table-cell 
         			border-left-color="black" 
         			border-left-style="solid" 
-        			border-left-width=".2mm" 
+        			border-left-width=".3mm" 
         			border-bottom-color="black" 
         			border-bottom-style="solid" 
-        			border-bottom-width=".2mm"
+        			border-bottom-width=".3mm"
         			padding-left=".75mm"
                     padding-top=".75mm">
         			<fo:block 
@@ -559,7 +559,7 @@
         		<fo:table-cell 
         			border-left-color="black" 
         			border-left-style="solid" 
-        			border-left-width=".2mm" 
+        			border-left-width=".3mm" 
         			padding-left=".75mm"
                     padding-top=".75mm">
         			<fo:block 
@@ -574,10 +574,10 @@
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".2mm"
+			border-left-width=".3mm"
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".2mm"
+			border-bottom-width=".3mm"
 			padding-left=".75mm"
             padding-top=".75mm">
 			<fo:block 
@@ -589,7 +589,7 @@
     	<fo:table-cell
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".2mm" 
+    		border-bottom-width=".3mm" 
     		padding-top="1.5mm">    	
     		
     		<!-- DATE -->
@@ -610,10 +610,10 @@
     	<fo:table-cell 
     		border-left-color="black" 
     		border-left-style="solid" 
-    		border-left-width=".2mm"
+    		border-left-width=".3mm"
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".2mm"
+    		border-bottom-width=".3mm"
     		padding-left=".75mm"
             padding-top=".75mm">
     		<fo:block 
@@ -625,10 +625,10 @@
 		<fo:table-cell 
 			border-right-color="black" 
 			border-right-style="solid" 
-			border-right-width=".2mm"
+			border-right-width=".3mm"
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".2mm" 
+    		border-bottom-width=".3mm" 
 			padding-top="1.5mm">
 			<!--Place of Event -->								
 		 	<xsl:choose>
@@ -659,7 +659,7 @@
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".2mm"
+			border-left-width=".3mm"
 			padding-left=".75mm"
             padding-top=".75mm">
 			<fo:block 
@@ -670,10 +670,10 @@
 		<fo:table-cell 							
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".2mm"
+			border-left-width=".3mm"
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".2mm"
+    		border-bottom-width=".3mm"
 			padding-left="1mm"
             padding-top=".5mm">
 			<!-- In contrast to Husband and Wife, the Father/Mother label is set at 6pt -->
@@ -707,7 +707,7 @@
 		<fo:table-cell 
     		border-bottom-color="black" 
     		border-bottom-style="solid" 
-    		border-bottom-width=".2mm" 
+    		border-bottom-width=".3mm" 
 			padding-left="1mm"
             padding-top=".5mm">
 			<!-- In contrast to Husband and Wife, the Father/Mother label is set at 6pt -->
@@ -826,7 +826,7 @@
         	<!-- Table with Spouse Names -->
          	<fo:table border-top-color="black" 
         		border-top-style="solid" 
-        		border-top-width=".2mm"
+        		border-top-width=".3mm"
         		break-before="page"> <!-- this breaks to the new page -->
         		<fo:table-column column-width="22mm"/>
         		<fo:table-column column-width="72mm"/>
@@ -846,7 +846,7 @@
         	<!-- Table with Spouse Names -->
          	<fo:table border-top-color="black" 
         		border-top-style="solid" 
-        		border-top-width=".2mm">
+        		border-top-width=".3mm">
         		<fo:table-column column-width="22mm"/>
         		<fo:table-column column-width="72mm"/>
         		<fo:table-column column-width="12mm"/>
@@ -916,7 +916,7 @@
 
 	<fo:table border-top-color="black" 
 		border-top-style="solid" 
-		border-top-width=".2mm">
+		border-top-width=".3mm">
 		<fo:table-column column-width="180mm"/>
 		<fo:table-body>
 			<fo:table-row 
@@ -926,13 +926,13 @@
 					padding-left="2mm"
             		border-left-color="black" 
             		border-left-style="solid" 
-            		border-left-width=".2mm" 
+            		border-left-width=".3mm" 
             		border-right-color="black" 
             		border-right-style="solid" 
-            		border-right-width=".2mm"
+            		border-right-width=".3mm"
         			border-bottom-color="black" 
         			border-bottom-style="solid" 
-        			border-bottom-width=".2mm">
+        			border-bottom-width=".3mm">
 					<fo:block		
 						font-family="sans-serif" 
 						font-size="9pt">
@@ -1007,16 +1007,16 @@
 		<fo:table-cell
 			border-left-color="black" 
 			border-left-style="solid" 
-			border-left-width=".2mm"
+			border-left-width=".3mm"
 			border-right-color="black" 
 			border-right-style="solid" 
-			border-right-width=".2mm"
+			border-right-width=".3mm"
 			border-top-color="black" 
 			border-top-style="solid" 
-			border-top-width=".2mm"
+			border-top-width=".3mm"
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".2mm"
+			border-bottom-width=".3mm"
 			padding-top=".3mm"
 			padding-left="1mm">
 			<fo:block 
@@ -1036,7 +1036,7 @@
 		<fo:table-cell 
 			border-bottom-color="black" 
 			border-bottom-style="solid" 
-			border-bottom-width=".2mm"
+			border-bottom-width=".3mm"
 			padding-top=".75mm"
 			padding-left=".75mm">
 			<fo:block 
@@ -1082,7 +1082,7 @@
             		<fo:table-cell 
             			border-left-color="black" 
             			border-left-style="solid" 
-            			border-left-width=".2mm" 
+            			border-left-width=".3mm" 
             			padding-left=".75mm"
                         padding-top=".75mm">
             			<fo:block 
@@ -1093,10 +1093,10 @@
             		<fo:table-cell 							
             			border-left-color="black" 
             			border-left-style="solid" 
-            			border-left-width=".2mm"
+            			border-left-width=".3mm"
             			border-bottom-color="black" 
             			border-bottom-style="solid" 
-            			border-bottom-width=".2mm"
+            			border-bottom-width=".3mm"
             			padding-left=".75mm"
                         padding-top=".75mm">
             			<!-- set at 6pt -->
@@ -1136,10 +1136,10 @@
             		<fo:table-cell 
             			border-left-color="black" 
             			border-left-style="solid" 
-            			border-left-width=".2mm"
+            			border-left-width=".3mm"
             			border-bottom-color="black" 
             			border-bottom-style="solid" 
-            			border-bottom-width=".2mm" 
+            			border-bottom-width=".3mm" 
             			padding-left=".75mm"
                         padding-top=".75mm">
             			<!-- set at 5pt -->
