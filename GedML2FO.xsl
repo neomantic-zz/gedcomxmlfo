@@ -99,28 +99,77 @@
 				<!-- <xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/> -->
 			</fo:block>
 		</fo:static-content>
-	
-		<fo:flow flow-name="xsl-region-body">
-			<xsl:call-template name="spouse">
-				<xsl:with-param name="IndiID" select="HUSB/@REF"/>
-				<xsl:with-param name="role" select="'Husband'"/>
-			</xsl:call-template>
-			<xsl:call-template name="spouse">
-				<xsl:with-param name="IndiID" select="WIFE/@REF"/>
-				<xsl:with-param name="role" select="'Wife'"/>
-			</xsl:call-template>			
-    
-    		<!-- Children -->
-     		<xsl:call-template name="children">
-    			<xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
-				<xsl:with-param name="fatherID" select="HUSB/@REF"/>
-				<xsl:with-param name="motherID" select="WIFE/@REF"/>
-    		</xsl:call-template>  
-		</fo:flow>
 
+        <fo:flow flow-name="xsl-region-body">
+            <xsl:call-template name="report-line">
+                   <xsl:with-param name="familySection" select="'spouseSection'"/>
+            </xsl:call-template>
+        </fo:flow>
     </fo:page-sequence>
 </xsl:template>
 
+
+<xsl:template name="report-line">
+    <xsl:param name="lineNumber">0</xsl:param>
+    <xsl:param name="familySection"/>
+    <xsl:param name="childNumber">0</xsl:param>
+    
+    <!-- decide if line should be generated -->
+    <xsl:if test="$lineNumber &lt;= 39">
+       
+        <!-- decide which section to generate - spouseSection or childrenSection -->        
+        <xsl:choose>
+        <xsl:when test="$familySection = 'spouseSection'">
+            <!-- Husband and Wife -->
+                <xsl:call-template name="spouse">
+                    <xsl:with-param name="IndiID" select="HUSB/@REF"/>
+                    <xsl:with-param name="role" select="'Husband'"/>
+                </xsl:call-template>
+                <xsl:call-template name="spouse">
+                    <xsl:with-param name="IndiID" select="WIFE/@REF"/>
+                    <xsl:with-param name="role" select="'Wife'"/>
+                </xsl:call-template>
+               
+                <xsl:call-template name="childListLabel"/>
+                
+                <xsl:call-template name="report-line">
+                    <xsl:with-param name="lineNumber" select="$lineNumber + 13"/>
+                    <xsl:with-param name="familySection" select="'childrenSection'"/>
+                </xsl:call-template>
+        </xsl:when>
+        <xsl:when test="$familySection = 'childrenSection'">
+        	<xsl:variable name="numberOfChildren" select="count( CHIL )"/>
+            
+                <xsl:comment><xsl:value-of select="$childNumber"/></xsl:comment>
+			
+                <!--All children have at minimum 6 rows, with the possible of 2 more rows per 
+			  additional spouses -->
+			<xsl:if test="$childNumber &lt;= $numberOfChildren">
+				<!-- get child ID -->
+
+				<xsl:variable name="childID" select="CHIL[$childNumber + 1]/@REF"/>
+				<!-- get number of child's FAMSs node; i.e, number of marriages the child has had -->
+				<xsl:variable name="numberOfChildMarriages" select="count(//INDI[@ID = $childID]/FAMS)"/>
+				
+                <xsl:call-template name="makeChild">
+                    <xsl:with-param name="IndiID" select="$childID"/>
+                    <xsl:with-param name="childNumber" select="$childNumber+1"/>
+                    <xsl:with-param name="lineNumber" select="$lineNumber + 4 + (2 * $numberOfChildMarriages)"/>  
+               </xsl:call-template>
+
+		    <!-- Children
+     		<xsl:call-template name="children">
+    			<xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
+				<xsl:with-param name="fatreherID" select="HUSB/@REF"/>
+				<xsl:with-param name="motherID" select="WIFE/@REF"/>
+    		</xsl:call-template> --> 
+
+            </xsl:if>
+        </xsl:when>
+        
+  		</xsl:choose>        
+        </xsl:if>    
+</xsl:template>
 
 <xsl:template name="spouse">
 	<xsl:param name="IndiID"/>
@@ -815,17 +864,93 @@
 	<xsl:param name="numberOfChildren"/>
 	<xsl:param name="fatherID"/>
 	<xsl:param name="motherID"/>
-	
-	<!-- Start of Children -->
-	<xsl:call-template name="childListLabel"/>
-	
+
+    <!--
 	<xsl:for-each select="CHIL">
 
+        <xsl:call-template name="generateExtraPageHeaders"/>
+   	</xsl:for-each>
+    -->
+    
+    
+        <!-- this is always called, it generates the child rows -->
+		<xsl:call-template name="child">
+			<xsl:with-param name="IndiID" select="@REF"/>
+			<xsl:with-param name="childNumber" select="position()"/>
+		</xsl:call-template>
+
+
+    <xsl:call-template name="generateBlankChildren">
+        <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
+    </xsl:call-template>    
+    
+    <xsl:call-template name="report-line">
+        <xsl:with-param name="lineNumber" select="4"/>
+        <xsl:with-param name="familySection" select="'childrenSection'"/>
+    </xsl:call-template>
+
+	
+	
+
+	
+</xsl:template>
+
+<xsl:template name="generateBlankChildren">
+    <xsl:param name="numberOfChildren"/>
+
+	<!-- If the Number of Children is less than 4 on the first page,
+		 then this conditional will create blankChildren to fill the page -->	
+	<xsl:if test="$numberOfChildren &lt; 4 ">
+		<xsl:call-template name="addBlankChildren">
+			<xsl:with-param name="childNumber" select="$numberOfChildren + 1"/>
+			<xsl:with-param name="numberOfBlankChildren" select="4 - $numberOfChildren"/>
+		</xsl:call-template>
+	</xsl:if>
+
+	<!-- If the Number of Children is greater than four (which means that it is on
+		the second page), then this conditional will create blankChildren to fill the page -->		
+
+	<!-- Note: the 2nd conditional tests if blank children need to be created at all -->
+    <xsl:if test="$numberOfChildren &gt; 4 ">
+	    <xsl:if test="(6 - ( ( $numberOfChildren + 2 ) mod 6 )) &lt; 6">
+	   		<xsl:call-template name="addBlankChildren">
+  				<xsl:with-param name="childNumber" select="$numberOfChildren + 1"/>
+  				<xsl:with-param name="numberOfBlankChildren" select="6 - ( ( $numberOfChildren + 2 ) mod 6 )"/>
+   			</xsl:call-template>			
+    	</xsl:if>
+    </xsl:if>
+
+
+</xsl:template>
+
+<xsl:template name="addBlankChildren">
+	<xsl:param name="childNumber"/>
+	<xsl:param name="numberOfBlankChildren"/>
+	
+	<xsl:if test="$numberOfBlankChildren > 0">
+    	<xsl:call-template name="child">
+    		<xsl:with-param name="childNumber" select="$childNumber"/>
+    	</xsl:call-template>
+
+    	<xsl:call-template name="addBlankChildren">
+    		<xsl:with-param name="childNumber" select="$childNumber + 1"/>
+    		<xsl:with-param name="numberOfBlankChildren" select="$numberOfBlankChildren - 1"/>
+    	</xsl:call-template>	
+	</xsl:if>
+</xsl:template>
+
+<xsl:template name="generateExtraPageHeaders">
+    <xsl:param name="fatherID"/>
+    <xsl:param name="motherID"/>
+    
+        <!-- this conditional determines if a new page has been started, and if so
+          it adds the mother and father rows to the top, and the row that that says
+          "Children - List each child in order of birth" -->
 		<xsl:if test="( position() mod 6 ) = 5">
 			<!-- Insert Spouse name (Child's Father) -->
         	<!-- Table with Spouse Names -->
-         	<fo:table border-top-color="black" 
-        		border-top-style="solid" 
+         	<fo:table border-top-color="black"
+        		border-top-style="solid"
         		border-top-width=".3mm"
         		break-before="page"> <!-- this breaks to the new page -->
         		<fo:table-column column-width="22mm"/>
@@ -863,54 +988,7 @@
 
 			<xsl:call-template name="childListLabel"/>		
 		</xsl:if>
-
-		<xsl:call-template name="child">
-			<xsl:with-param name="IndiID" select="@REF"/>
-			<xsl:with-param name="childNumber" select="position()"/>
-		</xsl:call-template>	
-	</xsl:for-each>
-
-	<!-- If the Number of Children is less than 4 on the first page,
-		 then this conditional will create blankChildren to fill the page -->	
-	<xsl:if test="$numberOfChildren &lt; 4 ">
-		<xsl:call-template name="addBlankChildren">
-			<xsl:with-param name="childNumber" select="$numberOfChildren + 1"/>
-			<xsl:with-param name="numberOfBlankChildren" select="4 - $numberOfChildren"/>
-		</xsl:call-template>
-	</xsl:if>
-
-	<!-- If the Number of Children is greater than four (which means that it is on
-		the second page), then this conditional will create blankChildren to fill the page -->		
-
-	<!-- Note: the 2nd conditional tests if blank children need to be created at all -->
-    <xsl:if test="$numberOfChildren &gt; 4 ">
-	    <xsl:if test="(6 - ( ( $numberOfChildren + 2 ) mod 6 )) &lt; 6">
-	   		<xsl:call-template name="addBlankChildren">
-  				<xsl:with-param name="childNumber" select="$numberOfChildren + 1"/>
-  				<xsl:with-param name="numberOfBlankChildren" select="6 - ( ( $numberOfChildren + 2 ) mod 6 )"/>
-   			</xsl:call-template>			
-    	</xsl:if>
-    </xsl:if>
-	
-	
 </xsl:template>
-
-<xsl:template name="addBlankChildren">
-	<xsl:param name="childNumber"/>
-	<xsl:param name="numberOfBlankChildren"/>
-	
-	<xsl:if test="$numberOfBlankChildren > 0">
-    	<xsl:call-template name="child">
-    		<xsl:with-param name="childNumber" select="$childNumber"/>
-    	</xsl:call-template>
-
-    	<xsl:call-template name="addBlankChildren">
-    		<xsl:with-param name="childNumber" select="$childNumber + 1"/>
-    		<xsl:with-param name="numberOfBlankChildren" select="$numberOfBlankChildren - 1"/>
-    	</xsl:call-template>	
-	</xsl:if>
-</xsl:template>
-
 
 <xsl:template name="childListLabel">
 
@@ -945,10 +1023,11 @@
 
 </xsl:template>
 
-<xsl:template name="child">
+<xsl:template name="makeChild">
 	
 	<xsl:param name="IndiID"/>
 	<xsl:param name="childNumber"/>
+    <xsl:param name="lineNumber"/>
 	
 	<!-- Table with Child's Name -->
 	<fo:table>
@@ -997,6 +1076,12 @@
 		<xsl:with-param name="FamID" select="//INDI[@ID = $IndiID]/FAMS/@REF"/>
 		<xsl:with-param name="IndiID" select="$IndiID"/>
 	</xsl:call-template>
+    
+    <xsl:call-template name="report-line">
+        <xsl:with-param name="childNumber" select="$childNumber"/>
+        <xsl:with-param name="familySection" select="'childrenSection'"/>
+        <xsl:with-param name="lineNumber" select="$lineNumber"/>
+    </xsl:call-template>
 
 </xsl:template>
 
