@@ -138,13 +138,8 @@
     <xsl:param name="numberOfChildren"/>
     <xsl:param name="childNumber" select="1"/>
     
-    <xsl:choose>
-        <xsl:when test="$numberOfChildren = 0">
-            <xsl:call-template name="addBlankChildren">
-                <xsl:with-param name="numberOfChildren" select="4"/>
-            </xsl:call-template>
-        </xsl:when>
-        <xsl:when test="$childNumber &lt;= $numberOfChildren">
+        <xsl:comment><xsl:text>makeChildren</xsl:text></xsl:comment>
+        <xsl:if test="$childNumber &lt;= $numberOfChildren">
             <xsl:call-template name="makeChild2">
                 <xsl:with-param name="childNumber" select="$childNumber"/>
                 <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
@@ -154,28 +149,42 @@
                 <xsl:with-param name="childNumber" select="$childNumber + 1"/>
                 <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
             </xsl:call-template>
-
-        </xsl:when>                
-    </xsl:choose>
-
-                
-            <xsl:if test="$numberOfChildren &lt; 4">
-                <xsl:call-template name="addBlankChildren">
-                    <xsl:with-param name="numberOfChildren" select="4 - $numberOfChildren"/>
-                    </xsl:call-template>
-                    </xsl:if>
-    
-    <xsl:if test="$numberOfChildren &lt; 4">
-            <xsl:call-template name="addBlankChildren">
-                <xsl:with-param name="numberOfChildren" select="4 - $numberOfChildren"/>
-            </xsl:call-template>
         </xsl:if>
-<!--        <xsl:if test="$numberOfChildren &gt; 4">
-            <xsl:call-template name="addBlankChildren">
-                <xsl:with-param name="numberOfChildren" select="6 - (($numberOfChildren + 2) mod 6)"/>
-            </xsl:call-template>
-        </xsl:if> -->
-    
+        
+        <!-- blank children conditionals -->
+        <!-- if the handler has reach a point where all the children have been created 
+            which is indicated by the childNumber being incremented past the numberOfChildren -->
+        <xsl:if test="$childNumber &gt; $numberOfChildren">
+               <!-- if the numberOfChildren was less that 4, then is only one page of the Family Record,
+                 then the rest of the page must be filled up with blank children, and then the number
+                 of blank children to create is obtained by subtracting the numberOfChildren from 4 -->
+               <xsl:if test="$numberOfChildren &lt; 4">
+                    <xsl:call-template name="addBlankChildren">
+                        <xsl:with-param name="numberOfChildren" select="4 - $numberOfChildren"/>
+                        <xsl:with-param name="childNumber" select="$childNumber"/>
+                    </xsl:call-template>
+                </xsl:if>
+                <!-- if the numberOfChildren is greater than 4, then there are more than one page for
+                  the Family Record, then there are 6 children per 2nd page+, and the number of children
+                  is obtained through the mod -->
+                <xsl:if test="$numberOfChildren &gt; 4">
+                    <xsl:call-template name="addBlankChildren">
+                         <xsl:with-param name="numberOfChildren" select="6 - (($numberOfChildren + 2) mod 6)"/>
+                    </xsl:call-template>
+                </xsl:if>
+        </xsl:if>
+        <!-- a strange conditional - if the childNumber has been incremented to equal the numberOfChildren
+          and if the childNumber is less than 4, then add the number of Children...this conditional works
+          but is incomprehensible -->
+        <xsl:if test="$childNumber = $numberOfChildren">
+            <xsl:if test="$childNumber &lt; 4">
+                <xsl:call-template name="addBlankChildren">
+                    <xsl:with-param name="numberOfChildren" select="$numberOfChildren + 1"/>
+                    <xsl:with-param name="childNumber" select="$childNumber"/>
+                </xsl:call-template>
+            </xsl:if>
+        </xsl:if>
+
 </xsl:template>
 
 <xsl:template name="makeChild2">
@@ -1043,6 +1052,9 @@
 	<xsl:param name="numberOfChildren"/>
     <xsl:param name="childNumber">1</xsl:param>
 	
+    <xsl:comment><xsl:value-of select="$childNumber"/></xsl:comment>
+    <xsl:comment><xsl:value-of select="$numberOfChildren"/></xsl:comment>
+    
 	<xsl:if test="$childNumber &lt;= $numberOfChildren">
     	<xsl:call-template name="makeChild2"/>
 <!--    	<xsl:with-param name="childNumber" select="$childNumber"/>
