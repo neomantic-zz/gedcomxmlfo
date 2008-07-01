@@ -31,6 +31,8 @@
 
 <!-- change this global variable if you don't want the FAM XREF or the INDI XREF to be included -->
 <xsl:variable name="includeID" select="true()"/>
+<xsl:variable name="numberOfChildrenOnFirstPage" select="4"/>
+<xsl:variable name="numberOfChildrenOnSecondPlusPages" select="6"/>
 <!-- <xsl:variable name="includeID" select="false()"/> -->
  
 <xsl:template match="/">
@@ -78,7 +80,7 @@
 				<xsl:text>Page </xsl:text>
 					<fo:page-number/>
 						<xsl:text> of </xsl:text>
-					<xsl:value-of select="( ( $numberOfChildren + 1 ) div 6 ) - ( ( ( $numberOfChildren + 1 ) div 6 ) mod 1 ) + 1"/>		
+					<xsl:value-of select="( ( $numberOfChildren + 1 ) div $numberOfChildrenOnSecondPlusPages ) - ( ( ( $numberOfChildren + 1 ) div $numberOfChildrenOnSecondPlusPages ) mod 1 ) + 1"/>		
 
 				<xsl:if test="$includeID = true()">
     				<xsl:text> (Fam. ID </xsl:text>
@@ -95,17 +97,14 @@
 				font-size="8pt"
 				text-align="left">
 				<xsl:text>Generated: </xsl:text>
-                <!-- Disabling inserte date because missing extension -->
+                <!-- Disabling insert date because missing extension -->
 				<!-- <xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/> -->
 			</fo:block>
 		</fo:static-content>
 
         <fo:flow flow-name="xsl-region-body">
             <xsl:call-template name="makeFamily"/>
-<!--            <xsl:call-template name="report-line">
-                   <xsl:with-param name="familySection" select="'spouseSection'"/>
-            </xsl:call-template>
--->
+
         </fo:flow>
     </fo:page-sequence>
 </xsl:template>
@@ -114,18 +113,18 @@
 <xsl:template name="makeFamily">
 
             <!-- Husband and Wife -->
-                <xsl:call-template name="spouse">
+                <xsl:call-template name="makeSpouseNameAndEventsTables">
                     <xsl:with-param name="IndiID" select="HUSB/@REF"/>
                     <xsl:with-param name="role" select="'Husband'"/>
                 </xsl:call-template>
                 <!-- 7 rows created -->
-                <xsl:call-template name="spouse">
+                <xsl:call-template name="makeSpouseNameAndEventsTables">
                     <xsl:with-param name="IndiID" select="WIFE/@REF"/>
                     <xsl:with-param name="role" select="'Wife'"/>
                 </xsl:call-template>
                 <!-- 6 rows created, total = 13 -->
                 <!-- insert separator row between father -->
-                <xsl:call-template name="childListLabel"/>
+                <xsl:call-template name="makeChildListLabel"/>
                 <!-- one row created, total = 14 -->
 
                 <xsl:call-template name="makeChildren">
@@ -140,7 +139,8 @@
     
         <xsl:comment><xsl:text>makeChildren</xsl:text></xsl:comment>
         <xsl:if test="$childNumber &lt;= $numberOfChildren">
-            <xsl:call-template name="makeChild2">
+            <xsl:call-template name="makeChildNameAndEventsTables">
+                <xsl:with-param name="IndiID" select="CHIL[$childNumber]/@REF"/>
                 <xsl:with-param name="childNumber" select="$childNumber"/>
                 <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
             </xsl:call-template>
@@ -152,46 +152,35 @@
         </xsl:if>
         
         <!-- blank children conditionals -->
-        <!-- if the handler has reach a point where all the children have been created 
-            which is indicated by the childNumber being incremented past the numberOfChildren -->
+        <!-- we have reached a point where all the children have been created which is indicated by the 
+                childNumber being incremented past the numberOfChildren -->
         <xsl:if test="$childNumber &gt; $numberOfChildren">
                <!-- if the numberOfChildren was less that 4, then is only one page of the Family Record,
                  then the rest of the page must be filled up with blank children, and then the number
                  of blank children to create is obtained by subtracting the numberOfChildren from 4 -->
-               <xsl:if test="$numberOfChildren &lt; 4">
+               <xsl:if test="$numberOfChildren &lt; $numberOfChildrenOnFirstPage">
                     <xsl:call-template name="addBlankChildren">
-                        <xsl:with-param name="numberOfChildren" select="4 - $numberOfChildren"/>
+                        <xsl:with-param name="numberOfChildrenToAdd" select="$numberOfChildrenOnFirstPage - $numberOfChildren"/>
                         <xsl:with-param name="childNumber" select="$childNumber"/>
                     </xsl:call-template>
                 </xsl:if>
                 <!-- if the numberOfChildren is greater than 4, then there are more than one page for
                   the Family Record, then there are 6 children per 2nd page+, and the number of children
                   is obtained through the mod -->
-                <xsl:if test="$numberOfChildren &gt; 4">
+                <xsl:if test="$numberOfChildren &gt; $numberOfChildrenOnFirstPage">
                     <xsl:call-template name="addBlankChildren">
-                         <xsl:with-param name="numberOfChildren" select="6 - (($numberOfChildren + 2) mod 6)"/>
+                         <xsl:with-param name="numberOfChildrenToAdd" select="$numberOfChildrenOnSecondPlusPages - (($numberOfChildren + 2) mod $numberOfChildrenOnSecondPlusPages)"/>
+                         <xsl:with-param name="childNumber" select="$childNumber"/>
                     </xsl:call-template>
                 </xsl:if>
-        </xsl:if>
-        <!-- a strange conditional - if the childNumber has been incremented to equal the numberOfChildren
-          and if the childNumber is less than 4, then add the number of Children...this conditional works
-          but is incomprehensible -->
-        <xsl:if test="$childNumber = $numberOfChildren">
-            <xsl:if test="$childNumber &lt; 4">
-                <xsl:call-template name="addBlankChildren">
-                    <xsl:with-param name="numberOfChildren" select="$numberOfChildren + 1"/>
-                    <xsl:with-param name="childNumber" select="$childNumber"/>
-                </xsl:call-template>
-            </xsl:if>
         </xsl:if>
 
 </xsl:template>
 
-<xsl:template name="makeChild2">
-	<xsl:param name="childNumber"/>
-
-    <xsl:variable name="IndiID" select="CHIL[$childNumber]/@REF"/>
-	
+<xsl:template name="makeChildNameAndEventsTables">
+	<xsl:param name="IndiID"/>
+    <xsl:param name="childNumber"/>
+    
 	<!-- Table with Child's Name -->
 	<fo:table>
 		<fo:table-column column-width="6mm"/>
@@ -199,7 +188,7 @@
 		<fo:table-column column-width="160mm"/>
 		<fo:table-body>
 			<fo:table-row>
-    			<xsl:call-template name="childNameRow">
+    			<xsl:call-template name="makeChildNameRowCells">
     				<xsl:with-param name="IndiID" select="$IndiID"/>
     			</xsl:call-template>
 			</fo:table-row>			
@@ -217,19 +206,19 @@
 		<fo:table-body>
 		
 			<!-- Born row -->
-			<xsl:call-template name="event">
+			<xsl:call-template name="makeEventTable">
 				<xsl:with-param name="IndiID" select="$IndiID"/>
 				<xsl:with-param name="eventName" select="'Born'"/>
 			</xsl:call-template>
             <!-- 1 row created, total child row 2 -->
 			<!-- Died row -->
-			<xsl:call-template name="event">
+			<xsl:call-template name="makeEventTable">
 				<xsl:with-param name="IndiID" select="$IndiID"/>
 				<xsl:with-param name="eventName" select="'Died'"/>
 			</xsl:call-template>
             <!-- 1 row created, total child row 3 -->
 			<!-- Buried row -->			
-			<xsl:call-template name="event">
+			<xsl:call-template name="makeEventTable">
 				<xsl:with-param name="IndiID" select="$IndiID"/>
 				<xsl:with-param name="eventName" select="'Buried'"/>
 				<xsl:with-param name="childNumber" select="$childNumber"/>
@@ -249,10 +238,10 @@
 <xsl:template name="makeChildMarriages">
     <xsl:param name="IndiID"/>
 	<xsl:param name="marriageNumber" select="1"/>
-	<xsl:param name="numberOfMarriages"/>
+	<xsl:param name="numberOfMarriages" select="1"/>
     
     <xsl:if test="$marriageNumber &lt;= $numberOfMarriages">
-        <xsl:call-template name="makeChildMarriage">
+        <xsl:call-template name="makeChildMarriageTables">
              <xsl:with-param name="FamID" select="//INDI[@ID = $IndiID]/FAMS[$marriageNumber]/@REF"/>
              <xsl:with-param name="IndiID" select="$IndiID"/>
         </xsl:call-template>
@@ -267,68 +256,7 @@
 
 </xsl:template>
 
-
-<xsl:template name="report-line">
-    <xsl:param name="lineNumber">0</xsl:param>
-    <xsl:param name="familySection"/>
-    <xsl:param name="childNumber">0</xsl:param>
-    
-    <!-- decide if line should be generated -->
-    <xsl:if test="$lineNumber &lt;= 39">
-       
-        <!-- decide which section to generate - spouseSection or childrenSection -->        
-        <xsl:choose>
-        <xsl:when test="$familySection = 'spouseSection'">
-            <!-- Husband and Wife -->
-                <xsl:call-template name="spouse">
-                    <xsl:with-param name="IndiID" select="HUSB/@REF"/>
-                    <xsl:with-param name="role" select="'Husband'"/>
-                </xsl:call-template>
-                <xsl:call-template name="spouse">
-                    <xsl:with-param name="IndiID" select="WIFE/@REF"/>
-                    <xsl:with-param name="role" select="'Wife'"/>
-                </xsl:call-template>
-               
-                <xsl:call-template name="childListLabel"/>
-                
-                <xsl:call-template name="report-line">
-                    <xsl:with-param name="lineNumber" select="$lineNumber + 13"/>
-                    <xsl:with-param name="familySection" select="'childrenSection'"/>
-                </xsl:call-template>
-        </xsl:when>
-        <xsl:when test="$familySection = 'childrenSection'">
-        	<xsl:variable name="numberOfChildren" select="count( CHIL )"/>
-			
-                <!--All children have at minimum 6 rows, with the possible of 2 more rows per 
-			  additional spouses -->
-			<xsl:if test="$childNumber &lt;= $numberOfChildren">
-				<!-- get child ID -->
-
-				<xsl:variable name="childID" select="CHIL[$childNumber + 1]/@REF"/>
-				<!-- get number of child's FAMSs node; i.e, number of marriages the child has had -->
-				<xsl:variable name="numberOfChildMarriages" select="count(//INDI[@ID = $childID]/FAMS)"/>
-				
-                <xsl:call-template name="makeChild">
-                    <xsl:with-param name="IndiID" select="$childID"/>
-                    <xsl:with-param name="childNumber" select="$childNumber+1"/>
-                    <xsl:with-param name="lineNumber" select="$lineNumber + 4 + (2 * $numberOfChildMarriages)"/>  
-               </xsl:call-template>
-
-		    <!-- Children
-     		<xsl:call-template name="children">
-    			<xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
-				<xsl:with-param name="fatreherID" select="HUSB/@REF"/>
-				<xsl:with-param name="motherID" select="WIFE/@REF"/>
-    		</xsl:call-template> --> 
-
-            </xsl:if>
-        </xsl:when>
-        
-  		</xsl:choose>        
-        </xsl:if>    
-</xsl:template>
-
-<xsl:template name="spouse">
+<xsl:template name="makeSpouseNameAndEventsTables">
 	<xsl:param name="IndiID"/>
 	<xsl:param name="role"/>
 	
@@ -341,7 +269,7 @@
 		<fo:table-column column-width="12mm"/>
 		<fo:table-column column-width="74mm"/>
 		<fo:table-body>
-        	<xsl:call-template name="spouseNameRow">
+        	<xsl:call-template name="makeSpouseNameRow">
         		<xsl:with-param name="role" select="$role"/>
         		<xsl:with-param name="IndiID" select="$IndiID"/>
         	</xsl:call-template>
@@ -360,24 +288,24 @@
 		<fo:table-body>
 		
 		<!-- Born row -->
-			<xsl:call-template name="event">
+			<xsl:call-template name="makeEventTable">
 				<xsl:with-param name="IndiID" select="$IndiID"/>
 				<xsl:with-param name="eventName" select="'Born'"/>
 			</xsl:call-template>
 		<!-- Died row -->
-			<xsl:call-template name="event">
+			<xsl:call-template name="makeEventTable">
 				<xsl:with-param name="IndiID" select="$IndiID"/>
 				<xsl:with-param name="eventName" select="'Died'"/>
 			</xsl:call-template>
 		<!-- Buried row -->			
-			<xsl:call-template name="event">
+			<xsl:call-template name="makeEventTable">
 				<xsl:with-param name="IndiID" select="$IndiID"/>
 				<xsl:with-param name="eventName" select="'Buried'"/>
 			</xsl:call-template>
 			
 		<!-- Married row Only include for husband -->
 		<xsl:if test="$role = 'Husband'">
-			<xsl:call-template name="married">
+			<xsl:call-template name="makeMarriedEventRow">
 				<xsl:with-param name="FamID" select="@REF"/>
 			</xsl:call-template>			
 		</xsl:if>
@@ -401,14 +329,14 @@
 			<!-- Assumes traditional family (male/female) 
 			     but in this case, it is biological -->
 			<!-- Spouse's Father -->
-			<xsl:call-template name="parentNameRow">
+			<xsl:call-template name="makeParentNameRow">
 				<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/HUSB/@REF"/>
 				<xsl:with-param name="role" select="$role"/>
 				<xsl:with-param name="gender" select="'Male'"/>
 			</xsl:call-template>
 			
 			<!-- Spouse's Mother -->
-			<xsl:call-template name="parentNameRow">
+			<xsl:call-template name="makeParentNameRow">
 				<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/WIFE/@REF"/>
 				<xsl:with-param name="role" select="$role"/>
 				<xsl:with-param name="gender" select="'Female'"/>
@@ -418,7 +346,7 @@
 	</fo:table>
 </xsl:template>
 
-<xsl:template name="spouseNameRow">
+<xsl:template name="makeSpouseNameRow">
 	<xsl:param name="role"/>	
 	<xsl:param name="IndiID"/>
 
@@ -446,7 +374,7 @@
 		</fo:table-cell>
 	
 		<!-- Insert Given Name Cell -->
-		<xsl:call-template name="givenName">
+		<xsl:call-template name="makeGivenNameCell">
 			<xsl:with-param name="IndiID" select="$IndiID"/>
 		</xsl:call-template>
 		
@@ -475,7 +403,7 @@
 		</fo:table-cell>
 		
 		<!-- Insert Surname table-cell -->
-		<xsl:call-template name="surname">
+		<xsl:call-template name="makeSurnameCell">
 			<xsl:with-param name="IndiID" select="$IndiID"/>
 		</xsl:call-template>
 		
@@ -484,7 +412,7 @@
 
 <!-- Creates table-cell with Given Name -->
 
-<xsl:template name="givenName">
+<xsl:template name="makeGivenNameCell">
 	<xsl:param name="IndiID"/>
 
 	<fo:table-cell
@@ -531,7 +459,7 @@
 
 <!-- Creates table-cell with Last Name -->
 
-<xsl:template name="surname">
+<xsl:template name="makeSurnameCell">
 	<xsl:param name="IndiID"/>
 	<fo:table-cell  
 		border-right-color="black" 
@@ -559,7 +487,7 @@
 	</fo:table-cell>
 </xsl:template>
 				
-<xsl:template name="event">
+<xsl:template name="makeEventTable">
 	<xsl:param name="IndiID"/>
 	<xsl:param name="eventName"/>
 	<xsl:param name="childNumber"/>
@@ -723,10 +651,10 @@
 	</fo:table-row>
 </xsl:template>
 
-<xsl:template name="married">
+<xsl:template name="makeMarriedEventRow">
 	
 	<!-- Added this param so that it will work with the Child's spouse.  Probably
-		not the most optimal implementation fo speed -->
+		not the most optimal implementation for speed -->
 	<xsl:param name="FamID"/>
 	
 	<!-- (Lamely) added this variable to avoid redundant code when it comes to
@@ -855,7 +783,7 @@
 </xsl:template>
 
 
-<xsl:template name="parentNameRow">
+<xsl:template name="makeParentNameRow">
 	<xsl:param name="IndiID"/>
 	<xsl:param name="role"/>
 	<xsl:param name="gender"/>
@@ -906,7 +834,7 @@
 		</fo:table-cell>
 		
 		<!-- Insert Given Name table-cell -->
-		<xsl:call-template name="givenName">
+		<xsl:call-template name="makeGivenNameCell">
 			<xsl:with-param name="IndiID" select="$IndiID"/>
 		</xsl:call-template>
 		
@@ -938,11 +866,343 @@
 		</fo:table-cell>
 		
 		<!-- Insert Surname Cell-->
-		<xsl:call-template name="surname">
+		<xsl:call-template name="makeSurnameCell">
 			<xsl:with-param name="IndiID" select="$IndiID"/>
 		</xsl:call-template>
 		
 	</fo:table-row>
+
+</xsl:template>
+
+<xsl:template name="addBlankChildren">
+	<xsl:param name="numberOfChildrenToAdd"/>
+    <xsl:param name="childNumber">1</xsl:param>
+	
+	<xsl:if test="$childNumber &lt; ($childNumber + $numberOfChildrenToAdd)">
+    	<xsl:call-template name="makeChildNameAndEventsTables">
+        	<xsl:with-param name="childNumber" select="$childNumber"/>
+    	</xsl:call-template>
+        
+    	<xsl:call-template name="addBlankChildren">
+    		<xsl:with-param name="childNumber" select="$childNumber + 1"/>
+    		<xsl:with-param name="numberOfChildrenToAdd" select="$numberOfChildrenToAdd - 1"/>
+    	</xsl:call-template>	
+	</xsl:if>
+</xsl:template>
+
+<xsl:template name="generateExtraPageHeaders">
+    <xsl:param name="fatherID"/>
+    <xsl:param name="motherID"/>
+    
+        <!-- this conditional determines if a new page has been started, and if so
+          it adds the mother and father rows to the top, and the row that that says
+          "Children - List each child in order of birth" -->
+		<xsl:if test="( position() mod $numberOfChildrenOnSecondPlusPages ) = 5">
+			<!-- Insert Spouse name (Child's Father) -->
+        	<!-- Table with Spouse Names -->
+         	<fo:table border-top-color="black"
+        		border-top-style="solid"
+        		border-top-width=".3mm"
+        		break-before="page"> <!-- this breaks to the new page -->
+        		<fo:table-column column-width="22mm"/>
+        		<fo:table-column column-width="72mm"/>
+        		<fo:table-column column-width="12mm"/>
+        		<fo:table-column column-width="74mm"/>
+        		<fo:table-body>
+
+                	<xsl:call-template name="makeSpouseNameRow">
+                		<xsl:with-param name="role" select="'Husband'"/>
+                		<xsl:with-param name="IndiID" select="$fatherID"/>
+                	</xsl:call-template>
+                	
+				</fo:table-body>
+			</fo:table>
+			
+			<!-- Insert Spouse name (Child's Mother) -->
+        	<!-- Table with Spouse Names -->
+         	<fo:table border-top-color="black" 
+        		border-top-style="solid" 
+        		border-top-width=".3mm">
+        		<fo:table-column column-width="22mm"/>
+        		<fo:table-column column-width="72mm"/>
+        		<fo:table-column column-width="12mm"/>
+        		<fo:table-column column-width="74mm"/>
+        		<fo:table-body>
+
+                	<xsl:call-template name="makeSpouseNameRow">
+                		<xsl:with-param name="role" select="'Wife'"/>
+                		<xsl:with-param name="IndiID" select="$motherID"/>
+                	</xsl:call-template>
+                	
+				</fo:table-body>
+			</fo:table>			
+
+			<xsl:call-template name="makeChildListLabel"/>		
+		</xsl:if>
+</xsl:template>
+
+<xsl:template name="makeChildListLabel">
+
+	<fo:table border-top-color="black" 
+		border-top-style="solid" 
+		border-top-width=".3mm">
+		<fo:table-column column-width="180mm"/>
+		<fo:table-body>
+			<fo:table-row 
+				height="5mm">
+				<fo:table-cell 	
+					padding-top="1.5mm"
+					padding-left="2mm"
+            		border-left-color="black" 
+            		border-left-style="solid" 
+            		border-left-width=".3mm" 
+            		border-right-color="black" 
+            		border-right-style="solid" 
+            		border-right-width=".3mm"
+        			border-bottom-color="black" 
+        			border-bottom-style="solid" 
+        			border-bottom-width=".3mm">
+					<fo:block		
+						font-family="sans-serif" 
+						font-size="9pt">
+						<xsl:text>Children - List each child in order of birth</xsl:text>
+					</fo:block>
+				</fo:table-cell>
+			</fo:table-row>
+		</fo:table-body>
+	</fo:table>
+</xsl:template>
+
+<xsl:template name="makeChildNameRowCells">
+	<xsl:param name="IndiID"/>
+		
+		<!-- Gender -->
+		<fo:table-cell
+			border-left-color="black" 
+			border-left-style="solid" 
+			border-left-width=".3mm"
+			border-right-color="black" 
+			border-right-style="solid" 
+			border-right-width=".3mm"
+			border-top-color="black" 
+			border-top-style="solid" 
+			border-top-width=".3mm"
+			border-bottom-color="black" 
+			border-bottom-style="solid" 
+			border-bottom-width=".3mm"
+			padding-top=".3mm"
+			padding-left="1mm">
+			<fo:block 
+				font-family="sans-serif" 
+				font-size="6pt"
+				text-indent="1pt">
+				<xsl:text>Sex</xsl:text>
+			</fo:block>
+			<fo:block 
+				font-family="sans-serif"
+				font-size="9pt"
+				text-indent="2pt">
+					<xsl:value-of select="//INDI[@ID = $IndiID]/SEX"/>	
+			</fo:block>
+		</fo:table-cell>
+		<!-- Given Name -->
+		<fo:table-cell 
+			border-bottom-color="black" 
+			border-bottom-style="solid" 
+			border-bottom-width=".3mm"
+			padding-top=".75mm"
+			padding-left=".75mm">
+			<fo:block 
+				font-family="sans-serif"
+				font-size="6pt"
+				padding-left="1mm">
+				<xsl:text>Given name(s)</xsl:text>
+			</fo:block>
+		</fo:table-cell>
+	
+		<!-- Insert Given Name Cell -->
+		<xsl:call-template name="makeGivenNameCell">
+			<xsl:with-param name="IndiID" select="$IndiID"/>
+		</xsl:call-template>
+		
+		<!-- No Surname -->
+				
+</xsl:template>
+
+<xsl:template name="makeChildMarriageTables">
+	<xsl:param name="FamID"/>
+	<xsl:param name="IndiID"/>
+			
+		<!-- Create spouse row -->
+    	<fo:table>
+    		<fo:table-column column-width="6mm"/>
+    		<fo:table-column column-width="18mm"/>				
+    		<fo:table-column column-width="70mm"/>
+    		<fo:table-column column-width="10mm"/>
+    		<fo:table-column column-width="76mm"/>
+    		<fo:table-body>
+    
+            	<fo:table-row 
+            		height="5mm"
+            		keep-with-previous.within-line="always">
+            		<fo:table-cell 
+            			border-left-color="black" 
+            			border-left-style="solid" 
+            			border-left-width=".3mm" 
+            			padding-left=".75mm"
+                        padding-top=".75mm">
+            			<fo:block 
+            				font-family="sans-serif" 
+            				font-size="10pt">
+            			</fo:block>
+            		</fo:table-cell>
+            		<fo:table-cell 							
+            			border-left-color="black" 
+            			border-left-style="solid" 
+            			border-left-width=".3mm"
+            			border-bottom-color="black" 
+            			border-bottom-style="solid" 
+            			border-bottom-width=".3mm"
+            			padding-left=".75mm"
+                        padding-top=".75mm">
+            			<!-- set at 6pt -->
+            			<fo:block
+            				font-family="sans-serif"
+            				font-size="5pt">				
+            				<xsl:text>Spouse&#8217;s </xsl:text>
+            			</fo:block>
+            			<fo:block 
+            				font-family="sans-serif"
+            				font-size="5pt">
+            				<xsl:text>Given name(s)</xsl:text>
+            			</fo:block>
+            		</fo:table-cell>
+            		
+            		<!-- Insert Given Name table-cell -->
+            		<!-- This should be able to handle FAM that have 2 Husbands or 2 Wives (Fuck tradition) -->
+            		<xsl:choose>
+            			<!-- If the family has a HUSB with an REF different from their Spouse's ID -->
+            			<xsl:when test="//FAM[@ID = $FamID]/HUSB[@REF != $IndiID]">
+       						<xsl:call-template name="makeGivenNameCell">
+            					<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/HUSB[@REF != $IndiID]/@REF"/>
+            				</xsl:call-template>
+            			</xsl:when>
+            			<!-- If the family has a WIFE with an REF different from their Spouse's ID -->
+            			<xsl:when test="//FAM[@ID = $FamID]/WIFE[@REF != $IndiID]">
+       						<xsl:call-template name="makeGivenNameCell">
+            					<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/WIFE[@REF != $IndiID]/@REF"/>
+         					</xsl:call-template>
+            			</xsl:when>
+            			<!-- otherwise insert blank given name cell -->
+            			<xsl:otherwise>
+            				<xsl:call-template name="makeGivenNameCell"/>
+            			</xsl:otherwise>
+            		</xsl:choose>            		
+            				
+            		<fo:table-cell 
+            			border-left-color="black" 
+            			border-left-style="solid" 
+            			border-left-width=".3mm"
+            			border-bottom-color="black" 
+            			border-bottom-style="solid" 
+            			border-bottom-width=".3mm" 
+            			padding-left=".75mm"
+                        padding-top=".75mm">
+            			<!-- set at 5pt -->
+            			<fo:block 
+            				font-family="sans-serif"
+            				font-size="5pt">
+            				<xsl:text>Last</xsl:text>
+            			</fo:block>
+            			<fo:block 
+            				font-family="sans-serif"
+            				font-size="5pt">
+            				<xsl:text>name</xsl:text>
+            			</fo:block>
+            		</fo:table-cell>
+            		
+            		<!-- Insert Surname Cell-->
+            		<!-- This should be able to handle FAM that have 2 Husbands or 2 Wives (Fuck tradition) -->
+            		<xsl:choose>
+            			<!-- If the family has a HUSB with an REF different from their Spouse's ID -->
+            			<xsl:when test="//FAM[@ID = $FamID]/HUSB[@REF != $IndiID]">
+       						<xsl:call-template name="makeSurnameCell">
+            					<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/HUSB[@REF != $IndiID]/@REF"/>
+            				</xsl:call-template>
+            			</xsl:when>
+            			<!-- If the family has a WIFE with an REF different from their Spouse's ID -->
+            			<xsl:when test="//FAM[@ID = $FamID]/WIFE[@REF != $IndiID]">
+       						<xsl:call-template name="makeSurnameCell">
+            					<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/WIFE[@REF != $IndiID]/@REF"/>
+         					</xsl:call-template>  
+            			</xsl:when>
+            			<!-- otherwise insert blank given name cell -->
+            			<xsl:otherwise>
+            				<xsl:call-template name="makeSurnameCell"/>
+            			</xsl:otherwise>
+            		</xsl:choose>            		
+    		
+    			</fo:table-row>
+    		</fo:table-body>
+    	</fo:table>	
+	
+		<!-- Table with Married Event -->
+		<fo:table>
+    		<fo:table-column column-width="6mm"/>
+    		<fo:table-column column-width="9mm"/>
+    		<fo:table-column column-width="27mm"/>
+    		<fo:table-column column-width="8mm"/>
+    		<fo:table-column column-width="130mm"/>
+    			<fo:table-body>
+
+                	<xsl:call-template name="makeMarriedEventRow">
+                		<xsl:with-param name="FamID" select="$FamID"/>
+                		<xsl:with-param name="role" select="'Child'"/>	
+                	</xsl:call-template>				
+    
+    			</fo:table-body>
+		</fo:table>	
+
+</xsl:template>
+
+<xsl:template match="DATE">
+
+	<!-- DATE_VALUE's range is 1<35 -->
+	<xsl:choose>
+		<!-- When it is greater than 70, but less that 80, change font to 10pt -->
+		<xsl:when test="(string-length( normalize-space( . )) &gt; 12 ) and (string-length( normalize-space( . ) ) &lt;= 15)">
+			<fo:block 
+				font-family="serif" 
+				font-size="10pt">
+				<xsl:value-of select="normalize-space( . )"/>
+			</fo:block>
+		</xsl:when>
+		<!-- Truncate -->
+		<xsl:when test="string-length( normalize-space( . ) ) &gt; 15">
+			<fo:block 
+				font-family="serif" 
+				font-size="10pt">
+				
+ 				<xsl:choose>
+					<xsl:when test="string-length( normalize-space( . ) ) &gt; 16">
+ 						<xsl:value-of select="substring( normalize-space( . ), 1, 13 )"/>
+						<xsl:text>...</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+ 						<xsl:value-of select="normalize-space( . )"/>
+ 					</xsl:otherwise>
+ 				</xsl:choose> 
+			</fo:block>
+		</xsl:when>
+		<!-- default to 11pt -->
+		<xsl:otherwise>
+			<fo:block 
+				font-family="serif" 
+				font-size="11pt">
+				<xsl:value-of select="normalize-space( . )"/>
+			</fo:block>
+		</xsl:otherwise>				
+	</xsl:choose>
 
 </xsl:template>
 
@@ -1013,443 +1273,6 @@
     			</fo:block>
     	</xsl:otherwise>
     </xsl:choose>
-
-</xsl:template>
-
-
-<xsl:template name="children">
-	<xsl:param name="numberOfChildren"/>
-	<xsl:param name="fatherID"/>
-	<xsl:param name="motherID"/>
-
-    <!--
-	<xsl:for-each select="CHIL">
-
-        <xsl:call-template name="generateExtraPageHeaders"/>
-   	</xsl:for-each>
-    -->
-    
-    
-        <!-- this is always called, it generates the child rows -->
-		<xsl:call-template name="child">
-			<xsl:with-param name="IndiID" select="@REF"/>
-			<xsl:with-param name="childNumber" select="position()"/>
-		</xsl:call-template>
-
-
-    <xsl:call-template name="generateBlankChildren">
-        <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
-    </xsl:call-template>    
-    
-    <xsl:call-template name="report-line">
-        <xsl:with-param name="lineNumber" select="4"/>
-        <xsl:with-param name="familySection" select="'childrenSection'"/>
-    </xsl:call-template>
-
-</xsl:template>
-
-<xsl:template name="addBlankChildren">
-	<xsl:param name="numberOfChildren"/>
-    <xsl:param name="childNumber">1</xsl:param>
-	
-    <xsl:comment><xsl:value-of select="$childNumber"/></xsl:comment>
-    <xsl:comment><xsl:value-of select="$numberOfChildren"/></xsl:comment>
-    
-	<xsl:if test="$childNumber &lt;= $numberOfChildren">
-    	<xsl:call-template name="makeChild2"/>
-<!--    	<xsl:with-param name="childNumber" select="$childNumber"/>
-    	</xsl:call-template>
--->
-    	<xsl:call-template name="addBlankChildren">
-    		<xsl:with-param name="childNumber" select="$childNumber + 1"/>
-    		<xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
-    	</xsl:call-template>	
-	</xsl:if>
-</xsl:template>
-
-<xsl:template name="generateExtraPageHeaders">
-    <xsl:param name="fatherID"/>
-    <xsl:param name="motherID"/>
-    
-        <!-- this conditional determines if a new page has been started, and if so
-          it adds the mother and father rows to the top, and the row that that says
-          "Children - List each child in order of birth" -->
-		<xsl:if test="( position() mod 6 ) = 5">
-			<!-- Insert Spouse name (Child's Father) -->
-        	<!-- Table with Spouse Names -->
-         	<fo:table border-top-color="black"
-        		border-top-style="solid"
-        		border-top-width=".3mm"
-        		break-before="page"> <!-- this breaks to the new page -->
-        		<fo:table-column column-width="22mm"/>
-        		<fo:table-column column-width="72mm"/>
-        		<fo:table-column column-width="12mm"/>
-        		<fo:table-column column-width="74mm"/>
-        		<fo:table-body>
-
-                	<xsl:call-template name="spouseNameRow">
-                		<xsl:with-param name="role" select="'Husband'"/>
-                		<xsl:with-param name="IndiID" select="$fatherID"/>
-                	</xsl:call-template>
-                	
-				</fo:table-body>
-			</fo:table>
-			
-			<!-- Insert Spouse name (Child's Mother) -->
-        	<!-- Table with Spouse Names -->
-         	<fo:table border-top-color="black" 
-        		border-top-style="solid" 
-        		border-top-width=".3mm">
-        		<fo:table-column column-width="22mm"/>
-        		<fo:table-column column-width="72mm"/>
-        		<fo:table-column column-width="12mm"/>
-        		<fo:table-column column-width="74mm"/>
-        		<fo:table-body>
-
-                	<xsl:call-template name="spouseNameRow">
-                		<xsl:with-param name="role" select="'Wife'"/>
-                		<xsl:with-param name="IndiID" select="$motherID"/>
-                	</xsl:call-template>
-                	
-				</fo:table-body>
-			</fo:table>			
-
-			<xsl:call-template name="childListLabel"/>		
-		</xsl:if>
-</xsl:template>
-
-<xsl:template name="childListLabel">
-
-	<fo:table border-top-color="black" 
-		border-top-style="solid" 
-		border-top-width=".3mm">
-		<fo:table-column column-width="180mm"/>
-		<fo:table-body>
-			<fo:table-row 
-				height="5mm">
-				<fo:table-cell 	
-					padding-top="1.5mm"
-					padding-left="2mm"
-            		border-left-color="black" 
-            		border-left-style="solid" 
-            		border-left-width=".3mm" 
-            		border-right-color="black" 
-            		border-right-style="solid" 
-            		border-right-width=".3mm"
-        			border-bottom-color="black" 
-        			border-bottom-style="solid" 
-        			border-bottom-width=".3mm">
-					<fo:block		
-						font-family="sans-serif" 
-						font-size="9pt">
-						<xsl:text>Children - List each child in order of birth</xsl:text>
-					</fo:block>
-				</fo:table-cell>
-			</fo:table-row>
-		</fo:table-body>
-	</fo:table>
-
-</xsl:template>
-
-<xsl:template name="makeChild">
-	
-	<xsl:param name="IndiID"/>
-	<xsl:param name="childNumber"/>
-    <xsl:param name="lineNumber"/>
-	
-	<!-- Table with Child's Name -->
-	<fo:table>
-		<fo:table-column column-width="6mm"/>
-		<fo:table-column column-width="14mm"/>
-		<fo:table-column column-width="160mm"/>
-		<fo:table-body>
-			<fo:table-row>
-    			<xsl:call-template name="childNameRow">
-    				<xsl:with-param name="IndiID" select="$IndiID"/>
-    			</xsl:call-template>
-			</fo:table-row>			
-		</fo:table-body>
-	</fo:table>
-
-	<!-- Table with all Events -->
-	<fo:table>
-		<fo:table-column column-width="6mm"/>
-		<fo:table-column column-width="10mm"/>
-		<fo:table-column column-width="26mm"/>
-		<fo:table-column column-width="8mm"/>
-		<fo:table-column column-width="130mm"/>
-		<fo:table-body>
-		
-			<!-- Born row -->
-			<xsl:call-template name="event">
-				<xsl:with-param name="IndiID" select="$IndiID"/>
-				<xsl:with-param name="eventName" select="'Born'"/>
-			</xsl:call-template>
-			<!-- Died row -->
-			<xsl:call-template name="event">
-				<xsl:with-param name="IndiID" select="$IndiID"/>
-				<xsl:with-param name="eventName" select="'Died'"/>
-			</xsl:call-template>
-			<!-- Buried row -->			
-			<xsl:call-template name="event">
-				<xsl:with-param name="IndiID" select="$IndiID"/>
-				<xsl:with-param name="eventName" select="'Buried'"/>
-				<xsl:with-param name="childNumber" select="$childNumber"/>
-			</xsl:call-template>
-
-		</fo:table-body>
-	</fo:table>
-
-	<xsl:call-template name="childMarriage">
-		<xsl:with-param name="FamID" select="//INDI[@ID = $IndiID]/FAMS/@REF"/>
-		<xsl:with-param name="IndiID" select="$IndiID"/>
-	</xsl:call-template>
-    
-    <xsl:call-template name="report-line">
-        <xsl:with-param name="childNumber" select="$childNumber"/>
-        <xsl:with-param name="familySection" select="'childrenSection'"/>
-        <xsl:with-param name="lineNumber" select="$lineNumber"/>
-    </xsl:call-template>
-
-</xsl:template>
-
-<xsl:template name="childNameRow">
-	<xsl:param name="IndiID"/>
-		
-		<!-- Gender -->
-		<fo:table-cell
-			border-left-color="black" 
-			border-left-style="solid" 
-			border-left-width=".3mm"
-			border-right-color="black" 
-			border-right-style="solid" 
-			border-right-width=".3mm"
-			border-top-color="black" 
-			border-top-style="solid" 
-			border-top-width=".3mm"
-			border-bottom-color="black" 
-			border-bottom-style="solid" 
-			border-bottom-width=".3mm"
-			padding-top=".3mm"
-			padding-left="1mm">
-			<fo:block 
-				font-family="sans-serif" 
-				font-size="6pt"
-				text-indent="1pt">
-				<xsl:text>Sex</xsl:text>
-			</fo:block>
-			<fo:block 
-				font-family="sans-serif"
-				font-size="9pt"
-				text-indent="2pt">
-					<xsl:value-of select="//INDI[@ID = $IndiID]/SEX"/>	
-			</fo:block>
-		</fo:table-cell>
-		<!-- Given Name -->
-		<fo:table-cell 
-			border-bottom-color="black" 
-			border-bottom-style="solid" 
-			border-bottom-width=".3mm"
-			padding-top=".75mm"
-			padding-left=".75mm">
-			<fo:block 
-				font-family="sans-serif"
-				font-size="6pt"
-				padding-left="1mm">
-				<xsl:text>Given name(s)</xsl:text>
-			</fo:block>
-		</fo:table-cell>
-	
-		<!-- Insert Given Name Cell -->
-		<xsl:call-template name="givenName">
-			<xsl:with-param name="IndiID" select="$IndiID"/>
-		</xsl:call-template>
-		
-		<!-- No Surname -->
-				
-</xsl:template>
-
-<!-- FIX when child is married twice the marriage date of both weddings show up
-	Also think through the way the Spouse name is handled...could the two husbands/
-	wives mess things up?
--->
-
-<xsl:template name="makeChildMarriage">
-	<xsl:param name="FamID"/>
-	<xsl:param name="IndiID"/>
-	
-		<!-- Created because parser doesn't like it when I just passed @REF in a [ ] expression -->
-			
-		<!-- Create spouse row -->
-    	<fo:table>
-    		<fo:table-column column-width="6mm"/>
-    		<fo:table-column column-width="18mm"/>				
-    		<fo:table-column column-width="70mm"/>
-    		<fo:table-column column-width="10mm"/>
-    		<fo:table-column column-width="76mm"/>
-    		<fo:table-body>
-    
-            	<fo:table-row 
-            		height="5mm"
-            		keep-with-previous.within-line="always">
-            		<fo:table-cell 
-            			border-left-color="black" 
-            			border-left-style="solid" 
-            			border-left-width=".3mm" 
-            			padding-left=".75mm"
-                        padding-top=".75mm">
-            			<fo:block 
-            				font-family="sans-serif" 
-            				font-size="10pt">
-            			</fo:block>
-            		</fo:table-cell>
-            		<fo:table-cell 							
-            			border-left-color="black" 
-            			border-left-style="solid" 
-            			border-left-width=".3mm"
-            			border-bottom-color="black" 
-            			border-bottom-style="solid" 
-            			border-bottom-width=".3mm"
-            			padding-left=".75mm"
-                        padding-top=".75mm">
-            			<!-- set at 6pt -->
-            			<fo:block
-            				font-family="sans-serif"
-            				font-size="5pt">				
-            				<xsl:text>Spouse&#8217;s </xsl:text>
-            			</fo:block>
-            			<fo:block 
-            				font-family="sans-serif"
-            				font-size="5pt">
-            				<xsl:text>Given name(s)</xsl:text>
-            			</fo:block>
-            		</fo:table-cell>
-            		
-            		<!-- Insert Given Name table-cell -->
-            		<!-- This should be able to handle FAM that have 2 Husbands or 2 Wives (Fuck tradition) -->
-            		<xsl:choose>
-            			<!-- If the family has a HUSB with an REF different from their Spouse's ID -->
-            			<xsl:when test="//FAM[@ID = $FamID]/HUSB[@REF != $IndiID]">
-       						<xsl:call-template name="givenName">
-            					<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/HUSB[@REF != $IndiID]/@REF"/>
-            				</xsl:call-template>
-            			</xsl:when>
-            			<!-- If the family has a WIFE with an REF different from their Spouse's ID -->
-            			<xsl:when test="//FAM[@ID = $FamID]/WIFE[@REF != $IndiID]">
-       						<xsl:call-template name="givenName">
-            					<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/WIFE[@REF != $IndiID]/@REF"/>
-         					</xsl:call-template>  
-            			</xsl:when>
-            			<!-- otherwise insert blank given name cell -->
-            			<xsl:otherwise>
-            				<xsl:call-template name="givenName"/>
-            			</xsl:otherwise>
-            		</xsl:choose>            		
-            				
-            		<fo:table-cell 
-            			border-left-color="black" 
-            			border-left-style="solid" 
-            			border-left-width=".3mm"
-            			border-bottom-color="black" 
-            			border-bottom-style="solid" 
-            			border-bottom-width=".3mm" 
-            			padding-left=".75mm"
-                        padding-top=".75mm">
-            			<!-- set at 5pt -->
-            			<fo:block 
-            				font-family="sans-serif"
-            				font-size="5pt">
-            				<xsl:text>Last</xsl:text>
-            			</fo:block>
-            			<fo:block 
-            				font-family="sans-serif"
-            				font-size="5pt">
-            				<xsl:text>name</xsl:text>
-            			</fo:block>
-            		</fo:table-cell>
-            		
-            		<!-- Insert Surname Cell-->
-            		<!-- This should be able to handle FAM that have 2 Husbands or 2 Wives (Fuck tradition) -->
-            		<xsl:choose>
-            			<!-- If the family has a HUSB with an REF different from their Spouse's ID -->
-            			<xsl:when test="//FAM[@ID = $FamID]/HUSB[@REF != $IndiID]">
-       						<xsl:call-template name="surname">
-            					<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/HUSB[@REF != $IndiID]/@REF"/>
-            				</xsl:call-template>
-            			</xsl:when>
-            			<!-- If the family has a WIFE with an REF different from their Spouse's ID -->
-            			<xsl:when test="//FAM[@ID = $FamID]/WIFE[@REF != $IndiID]">
-       						<xsl:call-template name="surname">
-            					<xsl:with-param name="IndiID" select="//FAM[@ID = $FamID]/WIFE[@REF != $IndiID]/@REF"/>
-         					</xsl:call-template>  
-            			</xsl:when>
-            			<!-- otherwise insert blank given name cell -->
-            			<xsl:otherwise>
-            				<xsl:call-template name="surname"/>
-            			</xsl:otherwise>
-            		</xsl:choose>            		
-    		
-    			</fo:table-row>
-    		</fo:table-body>
-    	</fo:table>	
-	
-		<!-- Table with Married Event -->
-		<fo:table>
-    		<fo:table-column column-width="6mm"/>
-    		<fo:table-column column-width="9mm"/>
-    		<fo:table-column column-width="27mm"/>
-    		<fo:table-column column-width="8mm"/>
-    		<fo:table-column column-width="130mm"/>
-    			<fo:table-body>
-
-                	<xsl:call-template name="married">
-                		<xsl:with-param name="FamID" select="$FamID"/>
-                		<xsl:with-param name="role" select="'Child'"/>	
-                	</xsl:call-template>				
-    
-    			</fo:table-body>
-		</fo:table>	
-
-</xsl:template>
-
-<xsl:template match="DATE">
-
-	<!-- DATE_VALUE's range is 1<35 -->
-	<xsl:choose>
-		<!-- When it is greater than 70, but less that 80, change font to 10pt -->
-		<xsl:when test="(string-length( normalize-space( . )) &gt; 12 ) and (string-length( normalize-space( . ) ) &lt;= 15)">
-			<fo:block 
-				font-family="serif" 
-				font-size="10pt">
-				<xsl:value-of select="normalize-space( . )"/>
-			</fo:block>
-		</xsl:when>
-		<!-- Truncate -->
-		<xsl:when test="string-length( normalize-space( . ) ) &gt; 15">
-			<fo:block 
-				font-family="serif" 
-				font-size="10pt">
-				
- 				<xsl:choose>
-					<xsl:when test="string-length( normalize-space( . ) ) &gt; 16">
- 						<xsl:value-of select="substring( normalize-space( . ), 1, 13 )"/>
-						<xsl:text>...</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
- 						<xsl:value-of select="normalize-space( . )"/>
- 					</xsl:otherwise>
- 				</xsl:choose> 
-			</fo:block>
-		</xsl:when>
-		<!-- default to 11pt -->
-		<xsl:otherwise>
-			<fo:block 
-				font-family="serif" 
-				font-size="11pt">
-				<xsl:value-of select="normalize-space( . )"/>
-			</fo:block>
-		</xsl:otherwise>				
-	</xsl:choose>
 
 </xsl:template>
 
