@@ -101,11 +101,161 @@
 		</fo:static-content>
 
         <fo:flow flow-name="xsl-region-body">
-            <xsl:call-template name="report-line">
+            <xsl:call-template name="makeFamily"/>
+<!--            <xsl:call-template name="report-line">
                    <xsl:with-param name="familySection" select="'spouseSection'"/>
             </xsl:call-template>
+-->
         </fo:flow>
     </fo:page-sequence>
+</xsl:template>
+
+
+<xsl:template name="makeFamily">
+
+            <!-- Husband and Wife -->
+                <xsl:call-template name="spouse">
+                    <xsl:with-param name="IndiID" select="HUSB/@REF"/>
+                    <xsl:with-param name="role" select="'Husband'"/>
+                </xsl:call-template>
+                <!-- 7 rows created -->
+                <xsl:call-template name="spouse">
+                    <xsl:with-param name="IndiID" select="WIFE/@REF"/>
+                    <xsl:with-param name="role" select="'Wife'"/>
+                </xsl:call-template>
+                <!-- 6 rows created, total = 13 -->
+                <!-- insert separator row between father -->
+                <xsl:call-template name="childListLabel"/>
+                <!-- one row created, total = 14 -->
+
+                <xsl:call-template name="makeChildren">
+                    <xsl:with-param name="numberOfChildren" select="count( CHIL )"/>
+                </xsl:call-template>
+
+</xsl:template>
+
+<xsl:template name="makeChildren">
+    <xsl:param name="numberOfChildren"/>
+    <xsl:param name="childNumber" select="1"/>
+    
+    <xsl:choose>
+        <xsl:when test="$numberOfChildren = 0">
+            <xsl:call-template name="addBlankChildren">
+                <xsl:with-param name="numberOfChildren" select="4"/>
+            </xsl:call-template>
+        </xsl:when>
+        <xsl:when test="$childNumber &lt;= $numberOfChildren">
+            <xsl:call-template name="makeChild2">
+                <xsl:with-param name="childNumber" select="$childNumber"/>
+                <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
+            </xsl:call-template>
+            
+            <xsl:call-template name="makeChildren">
+                <xsl:with-param name="childNumber" select="$childNumber + 1"/>
+                <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
+            </xsl:call-template>
+
+        </xsl:when>                
+    </xsl:choose>
+
+                
+            <xsl:if test="$numberOfChildren &lt; 4">
+                <xsl:call-template name="addBlankChildren">
+                    <xsl:with-param name="numberOfChildren" select="4 - $numberOfChildren"/>
+                    </xsl:call-template>
+                    </xsl:if>
+    
+    <xsl:if test="$numberOfChildren &lt; 4">
+            <xsl:call-template name="addBlankChildren">
+                <xsl:with-param name="numberOfChildren" select="4 - $numberOfChildren"/>
+            </xsl:call-template>
+        </xsl:if>
+<!--        <xsl:if test="$numberOfChildren &gt; 4">
+            <xsl:call-template name="addBlankChildren">
+                <xsl:with-param name="numberOfChildren" select="6 - (($numberOfChildren + 2) mod 6)"/>
+            </xsl:call-template>
+        </xsl:if> -->
+    
+</xsl:template>
+
+<xsl:template name="makeChild2">
+	<xsl:param name="childNumber"/>
+
+    <xsl:variable name="IndiID" select="CHIL[$childNumber]/@REF"/>
+	
+	<!-- Table with Child's Name -->
+	<fo:table>
+		<fo:table-column column-width="6mm"/>
+		<fo:table-column column-width="14mm"/>
+		<fo:table-column column-width="160mm"/>
+		<fo:table-body>
+			<fo:table-row>
+    			<xsl:call-template name="childNameRow">
+    				<xsl:with-param name="IndiID" select="$IndiID"/>
+    			</xsl:call-template>
+			</fo:table-row>			
+		</fo:table-body>
+	</fo:table>
+    <!-- 1 row created -->
+    
+	<!-- Table with all Events -->
+	<fo:table>
+		<fo:table-column column-width="6mm"/>
+		<fo:table-column column-width="10mm"/>
+		<fo:table-column column-width="26mm"/>
+		<fo:table-column column-width="8mm"/>
+		<fo:table-column column-width="130mm"/>
+		<fo:table-body>
+		
+			<!-- Born row -->
+			<xsl:call-template name="event">
+				<xsl:with-param name="IndiID" select="$IndiID"/>
+				<xsl:with-param name="eventName" select="'Born'"/>
+			</xsl:call-template>
+            <!-- 1 row created, total child row 2 -->
+			<!-- Died row -->
+			<xsl:call-template name="event">
+				<xsl:with-param name="IndiID" select="$IndiID"/>
+				<xsl:with-param name="eventName" select="'Died'"/>
+			</xsl:call-template>
+            <!-- 1 row created, total child row 3 -->
+			<!-- Buried row -->			
+			<xsl:call-template name="event">
+				<xsl:with-param name="IndiID" select="$IndiID"/>
+				<xsl:with-param name="eventName" select="'Buried'"/>
+				<xsl:with-param name="childNumber" select="$childNumber"/>
+			</xsl:call-template>
+            <!-- 1 row created, total child row 4 -->
+		</fo:table-body>
+	</fo:table>
+
+    <xsl:call-template name="makeChildMarriages">
+        <xsl:with-param name="IndiID" select="$IndiID"/>
+        <!-- always add + 1 to count of marriages because there is always marriages rows, even when there is no marriage -->
+        <xsl:with-param name="numberOfMarriages" select="count(//INDI[@ID = $IndiID]/FAMS)+1"/>
+    </xsl:call-template>
+    
+</xsl:template>
+
+<xsl:template name="makeChildMarriages">
+    <xsl:param name="IndiID"/>
+	<xsl:param name="marriageNumber" select="1"/>
+	<xsl:param name="numberOfMarriages"/>
+    
+    <xsl:if test="$marriageNumber &lt;= $numberOfMarriages">
+        <xsl:call-template name="makeChildMarriage">
+             <xsl:with-param name="FamID" select="//INDI[@ID = $IndiID]/FAMS[$marriageNumber]/@REF"/>
+             <xsl:with-param name="IndiID" select="$IndiID"/>
+        </xsl:call-template>
+    <!-- 2 more rows produced -->
+
+        <xsl:call-template name="makeChildMarriages">
+            <xsl:with-param name="IndiID" select="$IndiID"/>
+            <xsl:with-param name="marriageNumber" select="$marriageNumber + 1"/>
+            <xsl:with-param name="numberOfMarriages" select="$numberOfMarriages - 1"/>
+        </xsl:call-template>
+    </xsl:if>
+
 </xsl:template>
 
 
@@ -139,8 +289,6 @@
         </xsl:when>
         <xsl:when test="$familySection = 'childrenSection'">
         	<xsl:variable name="numberOfChildren" select="count( CHIL )"/>
-            
-                <xsl:comment><xsl:value-of select="$childNumber"/></xsl:comment>
 			
                 <!--All children have at minimum 6 rows, with the possible of 2 more rows per 
 			  additional spouses -->
@@ -889,52 +1037,20 @@
         <xsl:with-param name="familySection" select="'childrenSection'"/>
     </xsl:call-template>
 
-	
-	
-
-	
-</xsl:template>
-
-<xsl:template name="generateBlankChildren">
-    <xsl:param name="numberOfChildren"/>
-
-	<!-- If the Number of Children is less than 4 on the first page,
-		 then this conditional will create blankChildren to fill the page -->	
-	<xsl:if test="$numberOfChildren &lt; 4 ">
-		<xsl:call-template name="addBlankChildren">
-			<xsl:with-param name="childNumber" select="$numberOfChildren + 1"/>
-			<xsl:with-param name="numberOfBlankChildren" select="4 - $numberOfChildren"/>
-		</xsl:call-template>
-	</xsl:if>
-
-	<!-- If the Number of Children is greater than four (which means that it is on
-		the second page), then this conditional will create blankChildren to fill the page -->		
-
-	<!-- Note: the 2nd conditional tests if blank children need to be created at all -->
-    <xsl:if test="$numberOfChildren &gt; 4 ">
-	    <xsl:if test="(6 - ( ( $numberOfChildren + 2 ) mod 6 )) &lt; 6">
-	   		<xsl:call-template name="addBlankChildren">
-  				<xsl:with-param name="childNumber" select="$numberOfChildren + 1"/>
-  				<xsl:with-param name="numberOfBlankChildren" select="6 - ( ( $numberOfChildren + 2 ) mod 6 )"/>
-   			</xsl:call-template>			
-    	</xsl:if>
-    </xsl:if>
-
-
 </xsl:template>
 
 <xsl:template name="addBlankChildren">
-	<xsl:param name="childNumber"/>
-	<xsl:param name="numberOfBlankChildren"/>
+	<xsl:param name="numberOfChildren"/>
+    <xsl:param name="childNumber">1</xsl:param>
 	
-	<xsl:if test="$numberOfBlankChildren > 0">
-    	<xsl:call-template name="child">
-    		<xsl:with-param name="childNumber" select="$childNumber"/>
+	<xsl:if test="$childNumber &lt;= $numberOfChildren">
+    	<xsl:call-template name="makeChild2"/>
+<!--    	<xsl:with-param name="childNumber" select="$childNumber"/>
     	</xsl:call-template>
-
+-->
     	<xsl:call-template name="addBlankChildren">
     		<xsl:with-param name="childNumber" select="$childNumber + 1"/>
-    		<xsl:with-param name="numberOfBlankChildren" select="$numberOfBlankChildren - 1"/>
+    		<xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
     	</xsl:call-template>	
 	</xsl:if>
 </xsl:template>
@@ -1146,7 +1262,7 @@
 	wives mess things up?
 -->
 
-<xsl:template name="childMarriage">
+<xsl:template name="makeChildMarriage">
 	<xsl:param name="FamID"/>
 	<xsl:param name="IndiID"/>
 	
