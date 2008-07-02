@@ -48,26 +48,26 @@
 -->
      
 <xsl:template match="/">
-	
-		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
-			<fo:layout-master-set>
-				<fo:simple-page-master 
-                    margin-bottom=".2cm" 
-                    margin-left="2.5cm" 
-                    margin-right="1cm" 
-                    margin-top="1cm" 
-                    master-name="Family" 
-                    page-height="11in" 
-                    page-width="8.5in">
-                    <fo:region-body margin-top="1cm" margin-bottom="0cm"/>
-                    <fo:region-before extent="1cm"/>
-					 <fo:region-after extent=".5cm"/>
-				</fo:simple-page-master>
-			</fo:layout-master-set>
-			
-			<xsl:apply-templates select="//FAM"/>
-				
-		</fo:root>
+
+    <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+        <fo:layout-master-set>
+            <fo:simple-page-master 
+                margin-bottom=".2cm" 
+                margin-left="2.5cm" 
+                margin-right="1cm" 
+                margin-top="1cm" 
+                master-name="Family" 
+                page-height="11in" 
+                page-width="8.5in">
+                <fo:region-body margin-top="1cm" margin-bottom="0cm"/>
+                <fo:region-before extent="1cm"/>
+                 <fo:region-after extent=".5cm"/>
+            </fo:simple-page-master>
+        </fo:layout-master-set>
+        
+        <xsl:apply-templates select="//FAM"/>
+            
+    </fo:root>
 </xsl:template>
 	
 <xsl:template match="FAM">
@@ -315,9 +315,10 @@
 	<xsl:param name="role"/>
 	
 	<!-- Table with Spouse Names -->
-	<fo:table border-top-color="black">
-		<xsl:attribute name="border-top-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-		<xsl:attribute name="border-top-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+	<xsl:element 
+        name="fo:table" 
+        use-attribute-sets="bordersTop">
+
 		<fo:table-column column-width="22mm"/>
 		<fo:table-column column-width="72mm"/>
 		<fo:table-column column-width="12mm"/>
@@ -328,7 +329,7 @@
         		<xsl:with-param name="IndiID" select="$IndiID"/>
         	</xsl:call-template>
 		</fo:table-body>
-	</fo:table>
+	</xsl:element><!-- fo:table -->
 
 	<!-- Table with all Events -->
 	<!-- TODO Probably make the 2nd Column smaller for Born/Died/Burried Events 
@@ -402,16 +403,12 @@
 
 	<fo:table-row 
 		height="4.75mm">
-		<fo:table-cell 
-            padding-top=".5mm"
-            border-bottom-color="black" 
-		    border-left-color="black"
-           padding-left=".75mm">  
-			<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>            
-			<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
             
+        <xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersBottom bordersLeft">
+            <xsl:attribute name="padding-top">.5mm</xsl:attribute>
+            <xsl:attribute name="padding-left">.75mm"</xsl:attribute>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
@@ -421,21 +418,20 @@
 				font-family="sans-serif"
 				font-size="5pt">
 				<xsl:text>Given name(s)</xsl:text>
-			</fo:block>
-		</fo:table-cell>
+			</fo:block>        
+       </xsl:element> <!-- fo:table-cell -->
 	
 		<!-- Insert Given Name Cell -->
 		<xsl:call-template name="makeGivenNameCell">
 			<xsl:with-param name="IndiID" select="$IndiID"/>
 		</xsl:call-template>
 		
-		<fo:table-cell 
-			border-bottom-color="black" 
-            padding-right="1mm"
-			padding-left=".75mm"
-            padding-top=".5mm">
-			<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+		<xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersBottom"> 
+            <xsl:attribute name="padding-right">1mm</xsl:attribute>
+			<xsl:attribute name="padding-left">.75mm</xsl:attribute>
+            <xsl:attribute name="padding-top">.5mm"</xsl:attribute>
 
 			<fo:block 
 				font-family="sans-serif"
@@ -452,7 +448,7 @@
 				font-size="5pt">
 				<xsl:text>name</xsl:text>
 			</fo:block>
-		</fo:table-cell>
+       </xsl:element><!-- fo:table-cell -->
 		
 		<!-- Insert Surname table-cell -->
 		<xsl:call-template name="makeSurnameCell">
@@ -467,8 +463,11 @@
 <xsl:template name="makeGivenNameCell">
 	<xsl:param name="IndiID"/>
     
-	<fo:table-cell>
-        <xsl:call-template name="nameCellAttributes"/>        
+    <xsl:element 
+        name="fo:table-cell" 
+        use-attribute-sets="bordersRight bordersBottom"> 
+        <xsl:attribute name="padding-top">1mm</xsl:attribute>
+
 		<fo:block 
 			font-family="serif" 
 			font-size="11pt">				
@@ -498,17 +497,19 @@
 			</xsl:choose>
 
 		</fo:block>
-		
-		
-	</fo:table-cell>					
+	</xsl:element><!-- fo:table-cell -->					
 </xsl:template>
 
 <!-- Creates table-cell with Last Name -->
 
 <xsl:template name="makeSurnameCell">
 	<xsl:param name="IndiID"/>
-	<fo:table-cell>
-        <xsl:call-template name="nameCellAttributes"/>
+
+    <xsl:element 
+        name="fo:table-cell" 
+        use-attribute-sets="bordersRight bordersBottom"> 
+        <xsl:attribute name="padding-top">1mm</xsl:attribute>
+
 		<fo:block 
 			font-family="serif"
 			font-size="11pt">
@@ -524,7 +525,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</fo:block>
-	</fo:table-cell>
+	</xsl:element><!-- fo:table-cell -->
 </xsl:template>
 				
 <xsl:template name="makeEventTable">
@@ -536,13 +537,12 @@
 	<fo:table-row 
 		height="4.75mm"
 		keep-with-previous.within-line="always">
-		<fo:table-cell 
-            padding-top=".75mm"
-			border-left-color="black"             
-			padding-left=".75mm">
-			<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-
+		<xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersLeft"> 
+            <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+			<xsl:attribute name="padding-left">.75mm</xsl:attribute>
+			
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="10pt"
@@ -552,29 +552,25 @@
 					<xsl:value-of select="$childNumber"/>
 				</xsl:if>
 			</fo:block>
-		</fo:table-cell>
-		<fo:table-cell
-           padding-top=".75mm"
-			border-left-color="black" 
-            padding-left=".75mm">
-			<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-
-            <xsl:call-template name="bottom"/>
+            </xsl:element><!-- fo:table-cell -->
+		<xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersBottom bordersLeft"> 
+            <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+			<xsl:attribute name="padding-left">.75mm</xsl:attribute>
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="6pt">
 				<!-- Insert "Born", "Died", or "Buried" -->
 				<xsl:value-of select="$eventName"/>
 			</fo:block>
-		</fo:table-cell>
-    	<fo:table-cell
-           padding-top="1.5mm"
-    		border-right-color="black">
-			<xsl:attribute name="border-right-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-right-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+        </xsl:element> <!-- fo:table-cell -->
             
-            <xsl:call-template name="bottom"/>
+        <xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersRight bordersBottom"> 
+            <xsl:attribute name="padding-top">1.5mm</xsl:attribute>
+           
             <!-- DATE -->
     			<xsl:choose>
     				<xsl:when test="$eventName = 'Born'">
@@ -620,23 +616,23 @@
                         </xsl:choose>
                    </xsl:when>
     			</xsl:choose>
-       	</fo:table-cell>
-    	<fo:table-cell
-           padding-top=".75mm"
-    		padding-left=".75mm">
-            <xsl:call-template name="bottom"/>
+       	</xsl:element><!-- fo:table-cell -->
+		<xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersBottom"> 
+            <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+			<xsl:attribute name="padding-left">.75mm</xsl:attribute>
     		<fo:block 
     			font-family="sans-serif" 
     			font-size="6pt">
     			<xsl:text>Place</xsl:text>
     		</fo:block>
-    	</fo:table-cell>
-		<fo:table-cell 
-            padding-top="1.5mm"
-			border-right-color="black">
-			<xsl:attribute name="border-right-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-right-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-            <xsl:call-template name="bottom"/>
+        </xsl:element><!-- fo:table-cell -->
+
+		<xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersRight bordersBottom"> 
+            <xsl:attribute name="padding-top">1.5mm</xsl:attribute>
             
 			<!--Place of Event -->						
     			<xsl:choose>
@@ -683,14 +679,8 @@
                         </xsl:choose>
                         </xsl:when>
     			</xsl:choose>
-		</fo:table-cell>
-	</fo:table-row>
-</xsl:template>
-
-<xsl:template name="bottom">            
-    <xsl:attribute name="border-bottom-color">black</xsl:attribute>
-    <xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-    <xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+         </xsl:element><!-- fo:table-cell -->
+   </fo:table-row>
 </xsl:template>
 
 <xsl:template name="makeMarriedEventRow">
@@ -711,15 +701,11 @@
 		<xsl:choose>
 			<xsl:when test="$role = 'Child'">
 
-        		<fo:table-cell 
-        			border-left-color="black" 
-                    border-bottom-color="black"
-                    padding-left=".75mm"
-                    padding-top=".75mm">
-        			<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-        			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-        			<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-        			<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+                <xsl:element 
+                    name="fo:table-cell" 
+                    use-attribute-sets="bordersBottom bordersLeft"> 
+                    <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+                    <xsl:attribute name="padding-left">.75mm</xsl:attribute>
 
         			<fo:block 
         				font-family="sans-serif" 
@@ -728,103 +714,89 @@
         				<xsl:value-of select="$FamID"/> -->
                         <xsl:text/>
         			</fo:block>
-        		</fo:table-cell>
+                </xsl:element><!-- fo:table-cell -->
 			
 			</xsl:when>
 			<xsl:otherwise>
-
-        		<fo:table-cell 
-        			border-left-color="black" 
-                   padding-left=".75mm"
-                    padding-top=".75mm">
-        			<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-        			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-
+                <xsl:element 
+                    name="fo:table-cell" 
+                    use-attribute-sets="bordersLeft"> 
+                    <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+                    <xsl:attribute name="padding-left">.75mm</xsl:attribute>
+                    
         			<fo:block 
         				font-family="sans-serif" 
         				font-size="10pt">
         			</fo:block>
-        		</fo:table-cell>
+        		</xsl:element><!-- fo:table-cell -->
 			
 			</xsl:otherwise>
 		</xsl:choose>
+        
+            <xsl:element 
+                name="fo:table-cell" 
+                use-attribute-sets="bordersBottom bordersLeft"> 
+                <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+                <xsl:attribute name="padding-left">.75mm</xsl:attribute>
 
-		<fo:table-cell 
-			border-left-color="black" 
-            border-bottom-color="black" 
-            padding-left=".75mm"
-            padding-top=".75mm">
-			<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-			<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+                <fo:block 
+                    font-family="sans-serif" 
+                    font-size="6pt">
+                    <xsl:text>Married</xsl:text>
+                </fo:block>
+             </xsl:element><!-- fo:table-cell -->
+             <xsl:element 
+                name="fo:table-cell" 
+                use-attribute-sets="bordersBottom"> 
+                <xsl:attribute name="padding-top">1.5mm</xsl:attribute>
+            
+                <!-- DATE -->
+                <xsl:choose>
+                    <xsl:when test="//FAM[@ID=$FamID]/MARR/DATE">
+                        <xsl:apply-templates select="//FAM[@ID=$FamID]/MARR/DATE"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <fo:block 
+                            font-family="serif" 
+                            font-size="11pt">
+                               <xsl:text/>
+                        </fo:block>
+                    </xsl:otherwise>
+                </xsl:choose>
+                
+           </xsl:element><!-- fo:table-cell -->
+            <xsl:element 
+                name="fo:table-cell" 
+                use-attribute-sets="bordersBottom bordersLeft"> 
+                <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+                <xsl:attribute name="padding-left">.75mm</xsl:attribute>
 
-			<fo:block 
-				font-family="sans-serif" 
-				font-size="6pt">
-				<xsl:text>Married</xsl:text>
-			</fo:block>
-		</fo:table-cell>
-    	<fo:table-cell
-    		border-bottom-color="black" 
-            padding-top="1.5mm">
-    		<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-    		<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-    		
-    		<!-- DATE -->
-            <xsl:choose>
-                <xsl:when test="//FAM[@ID=$FamID]/MARR/DATE">
-                    <xsl:apply-templates select="//FAM[@ID=$FamID]/MARR/DATE"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <fo:block 
-                        font-family="serif" 
-                        font-size="11pt">
+                <fo:block 
+                    font-family="sans-serif" 
+                    font-size="6pt">
+                    <xsl:text>Place</xsl:text>
+                </fo:block>
+
+            </xsl:element><!-- fo:table-cell -->
+       		<xsl:element 
+               name="fo:table-cell" 
+               use-attribute-sets="bordersRight bordersBottom"> 
+               <xsl:attribute name="padding-top">1.5mm</xsl:attribute>
+    
+                <!--Place of Event -->								
+                <xsl:choose>
+                    <xsl:when test="//FAM[@ID=$FamID]/MARR/PLAC">
+                        <xsl:apply-templates select="//FAM[@ID=$FamID]/MARR/PLAC"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                       <fo:block 
+                            font-family="serif" 
+                            font-size="11pt">
                            <xsl:text/>
                     </fo:block>
-                </xsl:otherwise>
-            </xsl:choose>
-
-    	</fo:table-cell>
-    	<fo:table-cell 
-    		border-left-color="black" 
-    		border-bottom-color="black" 
-    		padding-left=".75mm"
-            padding-top=".75mm">
-    		<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-    		<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-    		<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-    		<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-            
-    		<fo:block 
-    			font-family="sans-serif" 
-    			font-size="6pt">
-    			<xsl:text>Place</xsl:text>
-    		</fo:block>
-		</fo:table-cell>					
-		<fo:table-cell 
-			border-right-color="black" 
-            border-bottom-color="black" 
-            padding-top="1.5mm">
-			<xsl:attribute name="border-right-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-right-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-    		<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-    		<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute> 
-
-			<!--Place of Event -->								
-		 	<xsl:choose>
-                <xsl:when test="//FAM[@ID=$FamID]/MARR/PLAC">
-                    <xsl:apply-templates select="//FAM[@ID=$FamID]/MARR/PLAC"/>
-                </xsl:when>
-                <xsl:otherwise>
-                   <fo:block 
-                        font-family="serif" 
-                        font-size="11pt">
-                       <xsl:text/>
-                </fo:block>
-                </xsl:otherwise>
-            </xsl:choose>
-		</fo:table-cell>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:element><!-- table-cell -->
 
 	</fo:table-row>
 </xsl:template>
@@ -837,27 +809,22 @@
 	
 	<fo:table-row 
 		height="4.75mm">
-		<fo:table-cell 
-			border-left-color="black"
-			padding-left=".75mm"
-            padding-top=".75mm">
-			<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-            
+        <xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersLeft"> 
+            <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+			<xsl:attribute name="padding-left">.75mm</xsl:attribute>
+
 			<fo:block 
 				font-family="sans-serif" 
 				font-size="10pt">
 			</fo:block>
-		</fo:table-cell>
-		<fo:table-cell 							
-			border-left-color="black"
-            border-bottom-color="black" 
-			padding-left="1mm"
-            padding-top=".5mm">
-			<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-    		<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-    		<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+		</xsl:element><!-- fo:table-cell -->
+   		<xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersBottom bordersLeft"> 
+            <xsl:attribute name="padding-top">.5mm</xsl:attribute>
+			<xsl:attribute name="padding-left">1mm</xsl:attribute>
             
 			<!-- In contrast to Husband and Wife, the Father/Mother label is set at 6pt -->
 			<fo:block
@@ -880,19 +847,18 @@
 				font-size="5pt">
 				<xsl:text>Given name(s)</xsl:text>
 			</fo:block>
-		</fo:table-cell>
+		</xsl:element><!-- fo:table-cell -->
 		
 		<!-- Insert Given Name table-cell -->
 		<xsl:call-template name="makeGivenNameCell">
 			<xsl:with-param name="IndiID" select="$IndiID"/>
 		</xsl:call-template>
 		
-		<fo:table-cell 
-    		border-bottom-color="black" 
-			padding-left="1mm"
-            padding-top=".5mm">
-            <xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-    		<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute> 
+        <xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersBottom"> 
+            <xsl:attribute name="padding-top">.5mm</xsl:attribute>
+			<xsl:attribute name="padding-left">1mm</xsl:attribute>
 
 			<!-- In contrast to Husband and Wife, the Father/Mother label is set at 6pt -->
 			<fo:block 
@@ -913,7 +879,7 @@
 				font-size="5pt">
 				<xsl:text>name</xsl:text>
 			</fo:block>
-		</fo:table-cell>
+		</xsl:element><!-- table-cell -->
 		
 		<!-- Insert Surname Cell-->
 		<xsl:call-template name="makeSurnameCell">
@@ -942,104 +908,84 @@
 
 <xsl:template name="addPageTwoPlusHeaders">
 
-         	<fo:table 
-               border-top-color="black"
-        		break-before="page"> <!-- this breaks to the new page -->
-        		<xsl:attribute name="border-top-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-        		<xsl:attribute name="border-top-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-                
-        		<fo:table-column column-width="22mm"/>
-        		<fo:table-column column-width="72mm"/>
-        		<fo:table-column column-width="12mm"/>
-        		<fo:table-column column-width="74mm"/>
-        		<fo:table-body>
+    <xsl:element 
+        name="fo:table" 
+        use-attribute-sets="bordersTop"> 
+        <xsl:attribute name="break-before">page</xsl:attribute>
+        
+        <fo:table-column column-width="22mm"/>
+        <fo:table-column column-width="72mm"/>
+        <fo:table-column column-width="12mm"/>
+        <fo:table-column column-width="74mm"/>
+        <fo:table-body>
 
-                	<xsl:call-template name="makeSpouseNameRow">
-                		<xsl:with-param name="role" select="'Husband'"/>
-                		<xsl:with-param name="IndiID" select="HUSB/@REF"/>
-                	</xsl:call-template>
-                	
-				</fo:table-body>
-			</fo:table>
-			
-			<!-- Insert Spouse name (Child's Mother) -->
-        	<!-- Table with Spouse Names -->
-         	<fo:table 
-                border-top-color="black"> 
-        		<xsl:attribute name="border-top-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-        		<xsl:attribute name="border-top-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-                
-        		<fo:table-column column-width="22mm"/>
-        		<fo:table-column column-width="72mm"/>
-        		<fo:table-column column-width="12mm"/>
-        		<fo:table-column column-width="74mm"/>
-        		<fo:table-body>
+            <xsl:call-template name="makeSpouseNameRow">
+                <xsl:with-param name="role" select="'Husband'"/>
+                <xsl:with-param name="IndiID" select="HUSB/@REF"/>
+            </xsl:call-template>
+            
+        </fo:table-body>
+    </xsl:element><!-- fo:table -->
+    
+    <!-- Insert Spouse name (Child's Mother) -->
+    <!-- Table with Spouse Names -->
+    <xsl:element 
+        name="fo:table" 
+        use-attribute-sets="bordersTop"> 
+        
+        <fo:table-column column-width="22mm"/>
+        <fo:table-column column-width="72mm"/>
+        <fo:table-column column-width="12mm"/>
+        <fo:table-column column-width="74mm"/>
+        <fo:table-body>
 
-                	<xsl:call-template name="makeSpouseNameRow">
-                		<xsl:with-param name="role" select="'Wife'"/>
-                		<xsl:with-param name="IndiID" select="WIFE/@REF"/>
-                	</xsl:call-template>
-                	
-				</fo:table-body>
-			</fo:table>
+            <xsl:call-template name="makeSpouseNameRow">
+                <xsl:with-param name="role" select="'Wife'"/>
+                <xsl:with-param name="IndiID" select="WIFE/@REF"/>
+            </xsl:call-template>
+            
+        </fo:table-body>
+    </xsl:element><!-- fo:table -->
 </xsl:template>
 
 <xsl:template name="makeChildListLabel">
 
-	<fo:table 
-        border-top-color="black">
-		<xsl:attribute name="border-top-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-		<xsl:attribute name="border-top-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+    <xsl:element 
+        name="fo:table" 
+        use-attribute-sets="bordersTop"> 
+
 		<fo:table-column 
             column-width="180mm"/>
 		<fo:table-body>
 			<fo:table-row 
 				height="4.75mm">
-				<fo:table-cell 	
-					padding-top="1.5mm"
-            		border-right-color="black" 
-        			border-bottom-color="black" 
-					padding-left="2mm"
-            		border-left-color="black">
-            		<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-            		<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-            		<xsl:attribute name="border-right-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-            		<xsl:attribute name="border-right-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-        			<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-        			<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+                <xsl:element 
+                    name="fo:table-cell" 
+                    use-attribute-sets="bordersTop bordersRight bordersBottom bordersLeft"> 
+					<xsl:attribute name="padding-top">1.5mm</xsl:attribute>
+					<xsl:attribute name="padding-left">2mm</xsl:attribute>
                     
 					<fo:block		
 						font-family="sans-serif" 
 						font-size="9pt">
 						<xsl:text>Children - List each child in order of birth</xsl:text>
 					</fo:block>
-				</fo:table-cell>
+				</xsl:element><!-- fo:table-cell -->
 			</fo:table-row>
 		</fo:table-body>
-	</fo:table>
+	</xsl:element><!-- fo:table -->
 </xsl:template>
 
 <xsl:template name="makeChildNameRowCells">
 	<xsl:param name="IndiID"/>
 		
 		<!-- Gender -->
-		<fo:table-cell 
-			border-top-color="black"
-			padding-top=".3mm"
-			border-right-color="black" 
-			border-bottom-color="black" 
-            border-left-color="black"
-			padding-left="1mm">
-            <xsl:attribute name="border-top-style"><xsl:value-of select="$lineStyle"/></xsl:attribute> 
-			<xsl:attribute name="border-top-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-			<xsl:attribute name="border-right-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-right-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-			<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-			<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-
-			<fo:block 
+        <xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersTop bordersRight bordersBottom bordersLeft"> 
+            <xsl:attribute name="padding-top">.3mm</xsl:attribute>
+            <xsl:attribute name="padding-left">1mm</xsl:attribute>
+ 			<fo:block 
 				font-family="sans-serif" 
 				font-size="6pt"
 				text-indent="1pt">
@@ -1051,22 +997,20 @@
 				text-indent="2pt">
 					<xsl:value-of select="//INDI[@ID = $IndiID]/SEX"/>	
 			</fo:block>
-		</fo:table-cell>
+		</xsl:element><!-- fo:table-cell -->
 		<!-- Given Name -->
-		<fo:table-cell 
-			padding-top=".75mm"
-			border-bottom-color="black" 
-			padding-left=".75mm">
-            <xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute> 
-			<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-
+        <xsl:element 
+            name="fo:table-cell" 
+            use-attribute-sets="bordersBottom"> 
+            <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+            <xsl:attribute name="padding-left">.75mm</xsl:attribute>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt"
 				padding-left="1mm">
 				<xsl:text>Given name(s)</xsl:text>
 			</fo:block>
-		</fo:table-cell>
+		</xsl:element><!-- fo:table-cell -->
 	
 		<!-- Insert Given Name Cell -->
 		<xsl:call-template name="makeGivenNameCell">
@@ -1076,15 +1020,6 @@
 		<!-- No Surname -->
 				
 </xsl:template>
-
-<!-- NOTE call chain 
-
-    makeChildren
-    makeChildNameAndEventsTables
-    makeChildMarriages
-    makeChildMarriageTable
-    
--->
 
 <xsl:template name="makeChildMarriageTables">
 	<xsl:param name="FamID"/>
@@ -1102,26 +1037,22 @@
             	<fo:table-row 
             		height="4.75mm"
             		keep-with-previous.within-line="always">
-            		<fo:table-cell 
-            			border-left-color="black" 
-            			padding-left=".75mm"
-                       padding-top=".75mm">
-            			<xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-            			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute> 
+                    
+                    <xsl:element 
+                        name="fo:table-cell" 
+                        use-attribute-sets="bordersLeft"> 
+                        <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+                        <xsl:attribute name="padding-left">.75mm</xsl:attribute>
             			<fo:block 
             				font-family="sans-serif" 
             				font-size="10pt">
             			</fo:block>
-            		</fo:table-cell>
-            		<fo:table-cell 							
-                        padding-top=".75mm"
-            			border-bottom-color="black" 
-                       border-left-color="black" 
-            			padding-left=".75mm">
-            			<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute> 
-            			<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-                       <xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-            			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute> 
+            		</xsl:element><!-- fo:table-cell -->
+                    <xsl:element 
+                        name="fo:table-cell" 
+                        use-attribute-sets="bordersBottom bordersLeft"> 
+                        <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+                        <xsl:attribute name="padding-left">.75mm</xsl:attribute>
 
             			<!-- set at 6pt -->
             			<fo:block
@@ -1134,7 +1065,7 @@
             				font-size="5pt">
             				<xsl:text>Given name(s)</xsl:text>
             			</fo:block>
-            		</fo:table-cell>
+            		</xsl:element><!-- fo:table-cell -->
             		
             		<!-- Insert Given Name table-cell -->
             		<!-- This should be able to handle FAM that have 2 Husbands or 2 Wives (Fuck tradition) -->
@@ -1155,17 +1086,12 @@
             			<xsl:otherwise>
             				<xsl:call-template name="makeGivenNameCell"/>
             			</xsl:otherwise>
-            		</xsl:choose>            		
-            				
-            		<fo:table-cell 
-                        padding-top=".75mm"
-                        border-bottom-color="black" 
-                        border-left-color="black" 
-            			 padding-left=".75mm">
-            			<xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute> 
-            			<xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-                       <xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
-            			<xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute> 
+            		</xsl:choose>
+                    <xsl:element 
+                        name="fo:table-cell" 
+                        use-attribute-sets="bordersBottom bordersLeft"> 
+                        <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+                        <xsl:attribute name="padding-left">.75mm</xsl:attribute>
 
             			<!-- set at 5pt -->
             			<fo:block 
@@ -1178,7 +1104,7 @@
             				font-size="5pt">
             				<xsl:text>name</xsl:text>
             			</fo:block>
-            		</fo:table-cell>
+            		</xsl:element><!-- fo:table-cell -->
             		
             		<!-- Insert Surname Cell-->
             		<!-- This should be able to handle FAM that have 2 Husbands or 2 Wives (Fuck tradition) -->
@@ -1352,14 +1278,29 @@
     </xsl:element>
 </xsl:template>
 
-<xsl:template name="nameCellAttributes">
+<!-- Attribute Sets -->
+<xsl:attribute-set name="bordersRight">
     <xsl:attribute name="border-right-color">black</xsl:attribute> 
     <xsl:attribute name="border-right-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
     <xsl:attribute name="border-right-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-    <xsl:attribute name="border-bottom-color">black</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="bordersBottom">
+    <xsl:attribute name="border-right-color">black</xsl:attribute> 
     <xsl:attribute name="border-bottom-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
     <xsl:attribute name="border-bottom-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
-    <xsl:attribute name="padding-top">1mm</xsl:attribute>
-</xsl:template>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="bordersLeft">
+     <xsl:attribute name="border-left-color">black</xsl:attribute> 
+     <xsl:attribute name="border-left-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
+     <xsl:attribute name="border-left-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="bordersTop">
+     <xsl:attribute name="border-top-color">black</xsl:attribute> 
+     <xsl:attribute name="border-top-style"><xsl:value-of select="$lineStyle"/></xsl:attribute>
+     <xsl:attribute name="border-top-width"><xsl:value-of select="$lineWidth"/></xsl:attribute>
+</xsl:attribute-set>
 
 </xsl:stylesheet>   
