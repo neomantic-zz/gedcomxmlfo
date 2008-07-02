@@ -33,17 +33,27 @@
 <xsl:variable name="includeID" select="true()"/>
 <xsl:variable name="numberOfChildrenOnFirstPage" select="4"/>
 <xsl:variable name="numberOfChildrenOnSecondPlusPages" select="6"/>
+<xsl:variable name="maxNumberOfPageRows" select="38"/>
+<xsl:variable name="whenGenerated" select="false()"/>
 <!-- <xsl:variable name="includeID" select="false()"/> -->
- 
+
+<!-- TODO add 2page header rows (2) to lineNumberCount -->
 <xsl:template match="/">
 
 	
 		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<fo:layout-master-set>
-				<fo:simple-page-master margin-bottom=".2cm" margin-left="2.5cm" margin-right="1cm" margin-top="1cm" master-name="Family" page-height="11in" page-width="8.5in">
-					<fo:region-body margin-top="1cm" margin-bottom=".5cm"/>
+				<fo:simple-page-master 
+                    margin-bottom=".2cm" 
+                    margin-left="2.5cm" 
+                    margin-right="1cm" 
+                    margin-top="1cm" 
+                    master-name="Family" 
+                    page-height="11in" 
+                    page-width="8.5in">
+                    <fo:region-body margin-top="1cm" margin-bottom="0cm"/>
                     <fo:region-before extent="1cm"/>
-					<fo:region-after extent=".5cm"/>
+					 <fo:region-after extent=".5cm"/>
 				</fo:simple-page-master>
 			</fo:layout-master-set>
 			
@@ -96,10 +106,14 @@
 				font-family="sans-serif" 
 				font-size="8pt"
 				text-align="left">
+                <xsl:if test="$whenGenerated = true()">
+
 				<xsl:text>Generated: </xsl:text>
                 <!-- Disabling insert date because missing extension -->
 				<!-- <xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/> -->
+                </xsl:if>
 			</fo:block>
+           
 		</fo:static-content>
 
         <fo:flow flow-name="xsl-region-body">
@@ -129,6 +143,7 @@
 
                 <xsl:call-template name="makeChildren">
                     <xsl:with-param name="numberOfChildren" select="count( CHIL )"/>
+                    <xsl:with-param name="lineNumber" select="14"/>
                 </xsl:call-template>
 
 </xsl:template>
@@ -136,18 +151,55 @@
 <xsl:template name="makeChildren">
     <xsl:param name="numberOfChildren"/>
     <xsl:param name="childNumber" select="1"/>
+    <xsl:param name="lineNumber"/>
     
-        <xsl:comment><xsl:text>makeChildren</xsl:text></xsl:comment>
-        <xsl:if test="$childNumber &lt;= $numberOfChildren">
+       <xsl:if test="$childNumber &lt;= $numberOfChildren">
+            <!-- get child's IndiID -->
+            <xsl:variable name="IndiID" select="CHIL[$childNumber]/@REF"/>
+            <!-- get number of child's marriages -->
+            
+            <xsl:variable name="numberOfMarriages">
+                 <xsl:variable name="howManyMarriages" select="count(//INDI[@ID = $IndiID]/FAMS)"/>
+                 <xsl:choose>
+                     <xsl:when test="$howManyMarriages = 0">1</xsl:when>
+                     <xsl:otherwise>
+                        <xsl:value-of select="$howManyMarriages"/>
+                     </xsl:otherwise>
+                 </xsl:choose>
+            </xsl:variable>
+
+            <!--add 4 rows for name, birth, death, burial rows, plus 2 rows per child marriage -->
+            <xsl:variable name="numberOfChildRows" select="$lineNumber + 4 + ($numberOfMarriages * 2)"/>
+            
+            <!-- If the new child Table brings the total number of rows above maxNumberOfPageRows -->
+            <xsl:if test="$numberOfChildRows &gt; $maxNumberOfPageRows">
+                    <xsl:call-template name="addPageTwoPlusHeaders"/>
+            </xsl:if>
+            
+            <!-- make the children, or continue making the children -->
             <xsl:call-template name="makeChildNameAndEventsTables">
-                <xsl:with-param name="IndiID" select="CHIL[$childNumber]/@REF"/>
+                <xsl:with-param name="IndiID" select="$IndiID"/>
                 <xsl:with-param name="childNumber" select="$childNumber"/>
-                <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
+                <xsl:with-param name="numberOfMarriages" select="$numberOfMarriages"/>
             </xsl:call-template>
+            
+            <xsl:variable name="ifNewLineNumber">
+                <xsl:choose>
+                    <!-- a PageTwoPlusHeaders has been created,
+                         reset the lineNumber, decreasing the lineNumber to 2, to account for
+                         the 2 rows in the PageTwoPlusHeader -->
+                    <xsl:when test="$numberOfChildRows &gt; $maxNumberOfPageRows">2</xsl:when>
+                    <!-- otherwise just use the new calculated number of childRows -->
+                    <xsl:otherwise>
+                        <xsl:value-of select="$numberOfChildRows"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
             
             <xsl:call-template name="makeChildren">
                 <xsl:with-param name="childNumber" select="$childNumber + 1"/>
                 <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
+                <xsl:with-param name="lineNumber" select="$ifNewLineNumber"/>
             </xsl:call-template>
         </xsl:if>
         
@@ -180,8 +232,9 @@
 <xsl:template name="makeChildNameAndEventsTables">
 	<xsl:param name="IndiID"/>
     <xsl:param name="childNumber"/>
+    <xsl:param name="numberOfMarriages">1</xsl:param>
     
-	<!-- Table with Child's Name -->
+     <!-- Table with Child's Name -->
 	<fo:table>
 		<fo:table-column column-width="6mm"/>
 		<fo:table-column column-width="14mm"/>
@@ -229,8 +282,7 @@
 
     <xsl:call-template name="makeChildMarriages">
         <xsl:with-param name="IndiID" select="$IndiID"/>
-        <!-- always add + 1 to count of marriages because there is always marriages rows, even when there is no marriage -->
-        <xsl:with-param name="numberOfMarriages" select="count(//INDI[@ID = $IndiID]/FAMS)+1"/>
+        <xsl:with-param name="numberOfMarriages" select="$numberOfMarriages"/>
     </xsl:call-template>
     
 </xsl:template>
@@ -239,7 +291,7 @@
     <xsl:param name="IndiID"/>
 	<xsl:param name="marriageNumber" select="1"/>
 	<xsl:param name="numberOfMarriages" select="1"/>
-    
+
     <xsl:if test="$marriageNumber &lt;= $numberOfMarriages">
         <xsl:call-template name="makeChildMarriageTables">
              <xsl:with-param name="FamID" select="//INDI[@ID = $IndiID]/FAMS[$marriageNumber]/@REF"/>
@@ -351,7 +403,7 @@
 	<xsl:param name="IndiID"/>
 
 	<fo:table-row 
-		height="5mm">
+		height="4.75mm">
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
@@ -494,7 +546,7 @@
 	
 	<!-- Event Rows have Bottom Borders -->
 	<fo:table-row 
-		height="5mm"
+		height="4.75mm"
 		keep-with-previous.within-line="always">
 		<fo:table-cell 
 			border-left-color="black" 
@@ -664,7 +716,7 @@
 	<xsl:param name="role"/>
 
 	<fo:table-row 
-		height="5mm"
+		height="4.75mm"
 		keep-with-previous.within-line="always">
 		<xsl:choose>
 			<xsl:when test="$role = 'Child'">
@@ -789,7 +841,7 @@
 	<xsl:param name="gender"/>
 	
 	<fo:table-row 
-		height="5mm">
+		height="4.75mm">
 		<fo:table-cell 
 			border-left-color="black" 
 			border-left-style="solid" 
@@ -890,6 +942,46 @@
 	</xsl:if>
 </xsl:template>
 
+<xsl:template name="addPageTwoPlusHeaders">
+
+         	<fo:table border-top-color="black"
+        		border-top-style="solid"
+        		border-top-width=".3mm"
+        		break-before="page"> <!-- this breaks to the new page -->
+        		<fo:table-column column-width="22mm"/>
+        		<fo:table-column column-width="72mm"/>
+        		<fo:table-column column-width="12mm"/>
+        		<fo:table-column column-width="74mm"/>
+        		<fo:table-body>
+
+                	<xsl:call-template name="makeSpouseNameRow">
+                		<xsl:with-param name="role" select="'Husband'"/>
+                		<xsl:with-param name="IndiID" select="HUSB/@REF"/>
+                	</xsl:call-template>
+                	
+				</fo:table-body>
+			</fo:table>
+			
+			<!-- Insert Spouse name (Child's Mother) -->
+        	<!-- Table with Spouse Names -->
+         	<fo:table border-top-color="black" 
+        		border-top-style="solid" 
+        		border-top-width=".3mm">
+        		<fo:table-column column-width="22mm"/>
+        		<fo:table-column column-width="72mm"/>
+        		<fo:table-column column-width="12mm"/>
+        		<fo:table-column column-width="74mm"/>
+        		<fo:table-body>
+
+                	<xsl:call-template name="makeSpouseNameRow">
+                		<xsl:with-param name="role" select="'Wife'"/>
+                		<xsl:with-param name="IndiID" select="WIFE/@REF"/>
+                	</xsl:call-template>
+                	
+				</fo:table-body>
+			</fo:table>
+</xsl:template>
+
 <xsl:template name="generateExtraPageHeaders">
     <xsl:param name="fatherID"/>
     <xsl:param name="motherID"/>
@@ -935,9 +1027,7 @@
                 	</xsl:call-template>
                 	
 				</fo:table-body>
-			</fo:table>			
-
-			<xsl:call-template name="makeChildListLabel"/>		
+			</fo:table>
 		</xsl:if>
 </xsl:template>
 
@@ -949,7 +1039,7 @@
 		<fo:table-column column-width="180mm"/>
 		<fo:table-body>
 			<fo:table-row 
-				height="5mm">
+				height="4.75mm">
 				<fo:table-cell 	
 					padding-top="1.5mm"
 					padding-left="2mm"
@@ -1029,11 +1119,20 @@
 				
 </xsl:template>
 
+<!-- NOTE call chain 
+
+    makeChildren
+    makeChildNameAndEventsTables
+    makeChildMarriages
+    makeChildMarriageTable
+    
+-->
+
 <xsl:template name="makeChildMarriageTables">
 	<xsl:param name="FamID"/>
 	<xsl:param name="IndiID"/>
-			
-		<!-- Create spouse row -->
+
+    <!-- Create spouse row -->
     	<fo:table>
     		<fo:table-column column-width="6mm"/>
     		<fo:table-column column-width="18mm"/>				
@@ -1043,7 +1142,7 @@
     		<fo:table-body>
     
             	<fo:table-row 
-            		height="5mm"
+            		height="4.75mm"
             		keep-with-previous.within-line="always">
             		<fo:table-cell 
             			border-left-color="black" 
@@ -1161,8 +1260,7 @@
                 	</xsl:call-template>				
     
     			</fo:table-body>
-		</fo:table>	
-
+		</fo:table>	        
 </xsl:template>
 
 <xsl:template match="DATE">
