@@ -305,7 +305,7 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -385,6 +385,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -439,7 +442,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -519,6 +524,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -573,7 +581,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -653,6 +663,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -709,7 +722,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -789,6 +804,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -843,7 +861,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm" break-before="page">
         <fo:table-column column-width="22mm"/>
         <fo:table-column column-width="72mm"/>
@@ -892,6 +911,7 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -971,6 +991,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -1025,7 +1048,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -1105,6 +1130,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -1159,7 +1187,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -1239,6 +1269,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -1293,7 +1326,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -1373,6 +1408,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -1427,7 +1465,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -1507,6 +1547,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -1561,7 +1604,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages2-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages2-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -1641,6 +1686,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages2-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages2-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -1695,7 +1743,64 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages2-->
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="18mm"/>
+        <fo:table-column column-width="70mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="76mm"/>
+        <fo:table-body>
+          <fo:table-row height="4.75mm" keep-with-previous.within-line="always">
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-left=".75mm" padding-top=".75mm">
+              <fo:block font-family="sans-serif" font-size="10pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-left=".75mm" padding-top=".75mm">
+              <fo:block font-family="sans-serif" font-size="5pt">Spouse’s </fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size="11pt">Thomas Roy<fo:inline font-family="serif" font-size="8pt">   (I327)</fo:inline></fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-left=".75mm" padding-top=".75mm">
+              <fo:block font-family="sans-serif" font-size="5pt">Last</fo:block>
+              <fo:block font-family="sans-serif" font-size="5pt">name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size="11pt">Thomazin</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="9mm"/>
+        <fo:table-column column-width="27mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="130mm"/>
+        <fo:table-body>
+          <fo:table-row height="4.75mm" keep-with-previous.within-line="always">
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-left=".75mm" padding-top=".75mm">
+              <fo:block font-family="sans-serif" font-size="10pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-left=".75mm" padding-top=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1.5mm">
+              <fo:block font-family="serif" font-size="11pt">23 OCT 1907</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-left=".75mm" padding-top=".75mm">
+              <fo:block font-family="sans-serif" font-size="6pt">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1.5mm">
+              <fo:block font-family="serif" font-size="11pt">Albion, Boone County, Nebraska, USA</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <!--makeChildMarriages marriageNumber3-->
+      <!--makeChildMarriages numberOfMarriages2-->
       <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm" break-before="page">
         <fo:table-column column-width="22mm"/>
         <fo:table-column column-width="72mm"/>
@@ -1744,6 +1849,7 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -1823,6 +1929,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -1877,6 +1986,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -1956,6 +2067,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -2010,6 +2124,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -2089,6 +2205,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -2143,6 +2262,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -2222,6 +2343,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -2276,6 +2400,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -2355,6 +2481,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -2409,6 +2538,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -2488,6 +2619,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -2542,6 +2676,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
     </fo:flow>
   </fo:page-sequence>
   <fo:page-sequence country="us" initial-page-number="1" language="en" master-reference="Family" force-page-count="no-force">
@@ -2923,6 +3059,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -2977,6 +3116,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -3056,6 +3197,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -3110,6 +3254,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -3189,6 +3335,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -3243,6 +3392,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -3322,6 +3473,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -3376,6 +3530,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
     </fo:flow>
   </fo:page-sequence>
   <fo:page-sequence country="us" initial-page-number="1" language="en" master-reference="Family" force-page-count="no-force">
@@ -3676,7 +3832,7 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -3756,6 +3912,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -3810,7 +3969,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -3892,6 +4053,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -3946,6 +4110,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -4025,6 +4191,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -4079,6 +4248,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -4158,6 +4329,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -4212,6 +4386,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
     </fo:flow>
   </fo:page-sequence>
   <fo:page-sequence country="us" initial-page-number="1" language="en" master-reference="Family" force-page-count="no-force">
@@ -4512,7 +4688,7 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -4594,6 +4770,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -4648,7 +4827,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -4730,6 +4911,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -4784,7 +4968,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -4866,6 +5052,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -4920,7 +5109,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -5002,6 +5193,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -5056,7 +5250,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm" break-before="page">
         <fo:table-column column-width="22mm"/>
         <fo:table-column column-width="72mm"/>
@@ -5105,6 +5300,7 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -5184,6 +5380,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -5238,6 +5437,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -5317,6 +5518,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -5371,6 +5575,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -5450,6 +5656,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -5504,6 +5713,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -5583,6 +5794,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -5637,6 +5851,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -5716,6 +5932,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -5770,6 +5989,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -5849,6 +6070,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -5903,6 +6127,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
     </fo:flow>
   </fo:page-sequence>
   <fo:page-sequence country="us" initial-page-number="1" language="en" master-reference="Family" force-page-count="no-force">
@@ -6203,7 +6429,7 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -6285,6 +6511,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -6339,7 +6568,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <!--makeChildren - numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
+      <!--makeChild numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -6421,6 +6652,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -6475,6 +6709,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -6554,6 +6790,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -6608,6 +6847,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="14mm"/>
@@ -6687,6 +6928,9 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildNameEventsTable numberOfMarriages1-->
+      <!--makeChildMarriages marriageNumber1-->
+      <!--makeChildMarriages numberOfMarriages1-->
       <fo:table>
         <fo:table-column column-width="6mm"/>
         <fo:table-column column-width="18mm"/>
@@ -6741,6 +6985,8 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+      <!--makeChildMarriages marriageNumber2-->
+      <!--makeChildMarriages numberOfMarriages1-->
     </fo:flow>
   </fo:page-sequence>
 </fo:root>

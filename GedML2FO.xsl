@@ -175,7 +175,7 @@
             <xsl:if test="$numberOfChildRows &gt; $maxNumberOfPageRows">
                     <xsl:call-template name="addPageTwoPlusHeaders"/>
             </xsl:if>
-            
+            <xsl:comment><xsl:text>makeChild numberOfMarriages</xsl:text><xsl:value-of select="$numberOfMarriages"/></xsl:comment>
             <!-- make the children, or continue making the children -->
             <xsl:call-template name="makeChildNameAndEventsTables">
                 <xsl:with-param name="IndiID" select="$IndiID"/>
@@ -244,7 +244,7 @@
     			<xsl:call-template name="makeChildNameRowCells">
     				<xsl:with-param name="IndiID" select="$IndiID"/>
     			</xsl:call-template>
-			</fo:table-row>			
+			</fo:table-row>
 		</fo:table-body>
 	</fo:table>
     <!-- 1 row created -->
@@ -279,7 +279,7 @@
             <!-- 1 row created, total child row 4 -->
 		</fo:table-body>
 	</fo:table>
-
+ 
     <xsl:call-template name="makeChildMarriages">
         <xsl:with-param name="IndiID" select="$IndiID"/>
         <xsl:with-param name="numberOfMarriages" select="$numberOfMarriages"/>
@@ -291,18 +291,18 @@
     <xsl:param name="IndiID"/>
 	<xsl:param name="marriageNumber" select="1"/>
 	<xsl:param name="numberOfMarriages" select="1"/>
-
+    
     <xsl:if test="$marriageNumber &lt;= $numberOfMarriages">
         <xsl:call-template name="makeChildMarriageTables">
              <xsl:with-param name="FamID" select="//INDI[@ID = $IndiID]/FAMS[$marriageNumber]/@REF"/>
              <xsl:with-param name="IndiID" select="$IndiID"/>
         </xsl:call-template>
-    <!-- 2 more rows produced -->
-
+        <!-- 2 more rows produced -->
+                
         <xsl:call-template name="makeChildMarriages">
             <xsl:with-param name="IndiID" select="$IndiID"/>
             <xsl:with-param name="marriageNumber" select="$marriageNumber + 1"/>
-            <xsl:with-param name="numberOfMarriages" select="$numberOfMarriages - 1"/>
+            <xsl:with-param name="numberOfMarriages" select="$numberOfMarriages"/>
         </xsl:call-template>
     </xsl:if>
 
