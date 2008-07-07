@@ -35,7 +35,7 @@
 <xsl:variable name="IncludeIDs" select="true()"/>
 <!-- change to true() if the date extension exists, and you want the
   the date the report has been generated included in the pdf -->
-<xsl:variable name="DateGenerated" select="false()"/>
+<xsl:variable name="DateGenerated" select="true()"/>
 <!-- These global variables control the look of the output -->
 <xsl:variable name="NumberOfChildrenOnFirstPage" select="4"/>
 <xsl:variable name="NumberOfChildrenOnSecondPlusPages" select="6"/>
@@ -45,13 +45,9 @@
 
 <!-- TODO - 
      test on extreme cases
-     determine if I need to add lineNumbers for blank children
      fix the blank children to depend upon lineNumbers and not number of children
      collapse fo elements, into xsl elements, separating formating from code
      Truncated length of cell functions
-     Add page breaks for new families
-Note: to add Page 1 or number of pages per family,
-use markers, set marker id to 1, then increment based of page breaks, total number of pages = ?
 -->
      
 <xsl:template match="/">
@@ -113,9 +109,8 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
 				text-align="left">
                 <xsl:if test="$DateGenerated = true()">
                     <xsl:text>Generated: </xsl:text>
-                    <!-- Disabling insert date because missing extension -->
-                    <!-- <xsl:value-of select="xsl:substring( date:date-time(), 0, 10)"/> -->
-                </xsl:if>
+                    <xsl:value-of select="substring( date:date-time(), 0, 11)"/>
+               </xsl:if>
             </fo:block>
             <fo:block 
                 font-family="sans-serif" 
@@ -202,9 +197,7 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
     <xsl:param name="childNumber" select="1"/>
     <xsl:param name="lineNumber"/>
     <xsl:param name="famID"/>
-   
-    <xsl:comment><xsl:value-of select="$numberOfChildren"/></xsl:comment>
-    <xsl:comment><xsl:value-of select="$childNumber"/></xsl:comment>
+
    <!-- if the number of childern created is less that the total number of children, create new children  -->    
    <xsl:if test="$childNumber &lt;= $numberOfChildren">
    
@@ -316,24 +309,25 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
 		<xsl:call-template name="eventColumns"/>
 		<fo:table-body>
 			<!-- Born row -->
-			<xsl:call-template name="makeEventTable">
+			<xsl:call-template name="makeEventTableRows">
 				<xsl:with-param name="indiID" select="$indiID"/>
 				<xsl:with-param name="eventName" select="'Born'"/>
 			</xsl:call-template>
             <!-- 1 row created, total child row 2 -->
 			<!-- Died row -->
-			<xsl:call-template name="makeEventTable">
+			<xsl:call-template name="makeEventTableRows">
 				<xsl:with-param name="indiID" select="$indiID"/>
 				<xsl:with-param name="eventName" select="'Died'"/>
 			</xsl:call-template>
             <!-- 1 row created, total child row 3 -->
 			<!-- Buried row -->			
-			<xsl:call-template name="makeEventTable">
+			<xsl:call-template name="makeEventTableRows">
 				<xsl:with-param name="indiID" select="$indiID"/>
 				<xsl:with-param name="eventName" select="'Buried'"/>
 				<xsl:with-param name="childNumber" select="$childNumber"/>
 			</xsl:call-template>
             <!-- 1 row created, total child row 4 -->
+            
 		</fo:table-body>
 	</fo:table>
  
@@ -398,25 +392,26 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
 		<fo:table-body>
 		
 		<!-- Born row -->
-			<xsl:call-template name="makeEventTable">
+			<xsl:call-template name="makeEventTableRows">
 				<xsl:with-param name="indiID" select="$indiID"/>
 				<xsl:with-param name="eventName" select="'Born'"/>
 			</xsl:call-template>
 		<!-- Died row -->
-			<xsl:call-template name="makeEventTable">
+			<xsl:call-template name="makeEventTableRows">
 				<xsl:with-param name="indiID" select="$indiID"/>
 				<xsl:with-param name="eventName" select="'Died'"/>
 			</xsl:call-template>
 		<!-- Buried row -->			
-			<xsl:call-template name="makeEventTable">
+			<xsl:call-template name="makeEventTableRows">
 				<xsl:with-param name="indiID" select="$indiID"/>
 				<xsl:with-param name="eventName" select="'Buried'"/>
 			</xsl:call-template>
 			
 		<!-- Married row Only include for husband -->
 		<xsl:if test="$role = 'Husband'">
-			<xsl:call-template name="makeMarriedEventRow">
+			<xsl:call-template name="makeEventTableRows">
 				<xsl:with-param name="famID" select="@REF"/>
+                <xsl:with-param name="eventName" select="'Married'"/>
 			</xsl:call-template>			
 		</xsl:if>
 		
@@ -467,7 +462,7 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom bordersLeft">
             <xsl:attribute name="padding-top">.5mm</xsl:attribute>
-            <xsl:attribute name="padding-left">.75mm"</xsl:attribute>
+            <xsl:attribute name="padding-left">.75mm</xsl:attribute>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
@@ -489,8 +484,8 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom"> 
             <xsl:attribute name="padding-right">1mm</xsl:attribute>
-				<xsl:attribute name="padding-left">.75mm</xsl:attribute>
-            <xsl:attribute name="padding-top">.5mm"</xsl:attribute>
+			<xsl:attribute name="padding-left">.75mm</xsl:attribute>
+            <xsl:attribute name="padding-top">.5mm</xsl:attribute>
 
 			<fo:block 
 				font-family="sans-serif"
@@ -583,10 +578,12 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
 	</xsl:element><!-- fo:table-cell -->
 </xsl:template>
 				
-<xsl:template name="makeEventTable">
+<xsl:template name="makeEventTableRows">
 	<xsl:param name="indiID"/>
 	<xsl:param name="eventName"/>
 	<xsl:param name="childNumber"/>
+    <xsl:param name="famID"/>
+    <xsl:param name="role"/>
 	
 	<!-- Event Rows have Bottom Borders -->
    <xsl:element
@@ -671,6 +668,20 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
                              </xsl:otherwise>
                         </xsl:choose>
                    </xsl:when>
+                   <xsl:when test="$eventName = 'Married'">
+    				    <xsl:choose>
+                            <xsl:when test="//INDI[@ID = $famID]/MARR/DATE">
+                                <xsl:apply-templates select="//FAM[@ID = $famID]/MARR/DATE"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="11pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                   </xsl:when>
     			</xsl:choose>
        	</xsl:element><!-- fo:table-cell -->
 		<xsl:element 
@@ -734,126 +745,25 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
                              </xsl:otherwise>
                         </xsl:choose>
                    </xsl:when>
+                   <xsl:when test="$eventName = 'Married'">
+                        <xsl:choose>
+                            <xsl:when test="//FAM[@ID = $famID]/MARR/PLAC">
+                                <xsl:apply-templates select="//FAM[@ID = $famID]/MARR/PLAC"/>				
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <fo:block 
+                                    font-family="serif" 
+                                    font-size="11pt">
+                                       <xsl:text/>
+                                </fo:block>
+                             </xsl:otherwise>
+                        </xsl:choose>
+                   </xsl:when>
     			</xsl:choose>
          </xsl:element><!-- fo:table-cell -->
    </xsl:element><!-- table-row -->
 
 </xsl:template>
-
-<xsl:template name="makeMarriedEventRow">
-	<xsl:param name="famID"/>
-	<xsl:param name="role"/>
-	
-	<!-- Added these param so that it will work with the Child's spouse. If the role is 
-		'Child', then it causes this template to added a bottom line to the normally blank
-	    outside cell/column -->
-
-   <xsl:element
-      name="fo:table-row"
-      use-attribute-sets="rowHeight">     
-		<xsl:attribute name="keep-with-previous.within-line">always</xsl:attribute>
-		<xsl:choose>
-			<xsl:when test="$role = 'Child'">
-
-                <xsl:element 
-                    name="fo:table-cell" 
-                    use-attribute-sets="bordersBottom bordersLeft"> 
-                    <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-                    <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-
-        			<fo:block 
-        				font-family="sans-serif" 
-        				font-size="10pt">
-                        <!-- enable to insert famID of Child -->
-<!-- FIX the placement of this -->
-        				<xsl:value-of select="$famID"/>
-        			</fo:block>
-                </xsl:element><!-- fo:table-cell -->
-			
-			</xsl:when>
-			<xsl:otherwise>
-                <xsl:element 
-                    name="fo:table-cell" 
-                    use-attribute-sets="bordersLeft"> 
-                    <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-                    <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-                    
-        			<fo:block 
-        				font-family="sans-serif" 
-        				font-size="10pt">
-        			</fo:block>
-        		</xsl:element><!-- fo:table-cell -->
-			</xsl:otherwise>
-		</xsl:choose>
-        
-            <xsl:element 
-                name="fo:table-cell" 
-                use-attribute-sets="bordersBottom bordersLeft"> 
-                <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-                <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-
-                <fo:block 
-                    font-family="sans-serif" 
-                    font-size="6pt">
-                    <xsl:text>Married</xsl:text>
-                </fo:block>
-             </xsl:element><!-- fo:table-cell -->
-             <xsl:element 
-                name="fo:table-cell" 
-                use-attribute-sets="bordersBottom"> 
-                <xsl:attribute name="padding-top">1.5mm</xsl:attribute>
-            
-                <!-- DATE -->
-                <xsl:choose>
-                    <xsl:when test="//FAM[@ID=$famID]/MARR/DATE">
-                        <xsl:apply-templates select="//FAM[@ID=$famID]/MARR/DATE"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <fo:block 
-                            font-family="serif" 
-                            font-size="11pt">
-                               <xsl:text/>
-                        </fo:block>
-                    </xsl:otherwise>
-                </xsl:choose>
-                
-           </xsl:element><!-- fo:table-cell -->
-            <xsl:element 
-                name="fo:table-cell" 
-                use-attribute-sets="bordersBottom bordersLeft"> 
-                <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-                <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-
-                <fo:block 
-                    font-family="sans-serif" 
-                    font-size="6pt">
-                    <xsl:text>Place</xsl:text>
-                </fo:block>
-
-            </xsl:element><!-- fo:table-cell -->
-       		<xsl:element 
-               name="fo:table-cell" 
-               use-attribute-sets="bordersRight bordersBottom"> 
-               <xsl:attribute name="padding-top">1.5mm</xsl:attribute>
-    
-                <!--Place of Event -->								
-                <xsl:choose>
-                    <xsl:when test="//FAM[@ID=$famID]/MARR/PLAC">
-                        <xsl:apply-templates select="//FAM[@ID=$famID]/MARR/PLAC"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                       <fo:block 
-                            font-family="serif" 
-                            font-size="11pt">
-                           <xsl:text/>
-                    </fo:block>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:element><!-- table-cell -->
-	</xsl:element><!-- table-row -->
-
-</xsl:template>
-
 
 <xsl:template name="makeParentNameRow">
 	<xsl:param name="indiID"/>
@@ -1084,7 +994,7 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
     		<fo:table-body>
     
 	   	<xsl:element
-   	   	name="fo:table-row"
+   	    	name="fo:table-row"
       		use-attribute-sets="rowHeight">     
             <xsl:attribute name="keep-with-previous.within-line">always</xsl:attribute>
                     
@@ -1184,10 +1094,11 @@ use markers, set marker id to 1, then increment based of page breaks, total numb
 		<fo:table>
 			<xsl:call-template name="eventColumns"/>
     			<fo:table-body>
-                	<xsl:call-template name="makeMarriedEventRow">
-                		<xsl:with-param name="famID" select="$famID"/>
-                		<xsl:with-param name="role" select="'Child'"/>	
-                	</xsl:call-template>				
+                    <xsl:call-template name="makeEventTableRows">
+                        <xsl:with-param name="eventName" select="'Married'"/>
+                        <xsl:with-param name="role" select="'Child'"/>
+                        <xsl:with-param name="famID" select="$famID"/>
+                    </xsl:call-template>
     			</fo:table-body>
 		</fo:table>	        
 </xsl:template>
