@@ -32,7 +32,7 @@
 <!-- Global Variables, all of which start with a capital letter -->
 <!-- change this global variable if you don't want the FAM XREF or the 
  		INDI XREF to be included -->
-<xsl:variable name="IncludeIDs" select="true()"/>
+<xsl:variable name="IncludeIDs" select="false()"/>
 <!-- change to true() if the date extension exists, and you want the
   the date the report has been generated included in the pdf -->
 <xsl:variable name="DateGenerated" select="true()"/>
@@ -67,13 +67,6 @@
             </fo:simple-page-master>
         </fo:layout-master-set>
         
-        <xsl:call-template name="makePages"/>
-        
-    </fo:root>
-</xsl:template>
-	
-<xsl:template name="makePages">
-	
 	<fo:page-sequence 
 		country="us" 
 		initial-page-number="1" 
@@ -94,7 +87,7 @@
 				font-size="6pt"
 				text-align="right">
                <xsl:if test="$IncludeIDs = true()">
-                    <xsl:text> (Fam. ID </xsl:text>
+                    <xsl:text>(Fam. ID </xsl:text>
                         <fo:retrieve-marker retrieve-class-name="famID"/>
                         <xsl:text>)</xsl:text>
                </xsl:if>
@@ -117,49 +110,52 @@
                 font-size="8pt"
                 text-align="right">
 <!--                <fo:page-number/>  -->
-            </fo:block>
-           
+            </fo:block>           
 		</fo:static-content>
-
-        <!-- body -->
-        <fo:flow flow-name="xsl-region-body">
-
-            <xsl:call-template name="makeFamilies">
-                <xsl:with-param name="numberOfFamilies" select="count( //FAM )"/>
-            </xsl:call-template>
-        </fo:flow>
-    </fo:page-sequence>
-    
-</xsl:template>
-
-<xsl:template name="makeFamilies">
-    <xsl:param name="numberOfFamilies"/>
-    <xsl:param name="familyNumber">1</xsl:param>
-
-    <xsl:if test="$familyNumber &lt;= $numberOfFamilies">
-        <!-- insert marker for header, in case, IncludeIDs has been enables 
-        <fo:marker marker-class-name="famID"><xsl:value-of select="@ID"/></fo:marker> -->
         
-		  <xsl:variable name="break">
-		  		<xsl:if test="$familyNumber &gt; 1">
-		  			<xsl:value-of select="true()"/>
-		  		</xsl:if>
-		 </xsl:variable>
+        <fo:flow flow-name="xsl-region-body">
+            <xsl:apply-templates select="//FAM"/>
+        </fo:flow>
+        
+    </fo:page-sequence>        
+    </fo:root>
+</xsl:template>
+	
+<xsl:template match="FAM">
+
+        <!-- insert marker for header, in case, IncludeIDs has been enables -->
+        <!-- FIX - it's in a block, but where does it appear in the flow? -->
+        		<fo:block 
+                    font-family="sans-serif" 
+                    font-size="8pt"
+                    text-align="left">
+                <fo:marker marker-class-name="famID"><xsl:value-of select="@ID"/></fo:marker>
+                </fo:block>
          
-        <!-- add Husband and Wife -->
+         <!-- add Husband and Wife -->
         <xsl:call-template name="makeSpouseNameAndEventsTables">
             <xsl:with-param name="indiID">
                     <!-- for some reason, the @REF is not passed if I just set it via the select attribute of the param -->
-                    <xsl:value-of select="//FAM[$familyNumber]/HUSB/@REF"/>
+                    <xsl:value-of select="HUSB/@REF"/>
                 </xsl:with-param>
             <xsl:with-param name="role" select="'Husband'"/>
-            <xsl:with-param name="break" select="$break"/>
+            <!-- page break if this is not the first family -->
+            <xsl:with-param name="break">
+                <xsl:choose>
+                    <xsl:when test="(position()) &gt; 1">
+                        <xsl:value-of select="true()"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="false()"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+           </xsl:with-param>                    
         </xsl:call-template>
         <!-- 7 rows created -->
 
         <xsl:call-template name="makeSpouseNameAndEventsTables">
             <xsl:with-param name="indiID">
-                <xsl:value-of select="//FAM[$familyNumber]/WIFE/@REF"/>
+                <xsl:value-of select="WIFE/@REF"/>
             </xsl:with-param>
             <xsl:with-param name="role" select="'Wife'"/>
         </xsl:call-template>        
@@ -168,44 +164,26 @@
         <!-- add separator row between Spouses and Children -->
         <xsl:call-template name="makeChildListLabel"/>
         <!-- one row created, total = 14 -->
-        
-        <xsl:variable name="famID">
-            <!-- strangely, famID has to be set using the value-of element, rather than simply using the select attribute, in order for the
-            count call below to work -->
-            <xsl:value-of select="//FAM[$familyNumber]/@ID"/>
-        </xsl:variable>
-        
+                
         <!-- addChildren -->
         <xsl:call-template name="makeChildren">
-            <xsl:with-param name="numberOfChildren">
-                <xsl:value-of select="count( //FAM[@ID = $famID]/CHIL  )"/>
-            </xsl:with-param>
+            <xsl:with-param name="numberOfChildren" select="count( CHIL )"/>
             <xsl:with-param name="lineNumber" select="14"/>
-            <xsl:with-param name="famID" select="$famID"/>
         </xsl:call-template>
-         
-        <xsl:call-template name="makeFamilies">
-            <xsl:with-param name="numberOfFamilies" select="$numberOfFamilies"/>
-            <xsl:with-param name="familyNumber" select="$familyNumber + 1"/>
-        </xsl:call-template>
-          
-   </xsl:if>
+
 </xsl:template>
 
 <xsl:template name="makeChildren">
     <xsl:param name="numberOfChildren"/>
     <xsl:param name="childNumber" select="1"/>
     <xsl:param name="lineNumber"/>
-    <xsl:param name="famID"/>
 
    <!-- if the number of childern created is less that the total number of children, create new children  -->    
    <xsl:if test="$childNumber &lt;= $numberOfChildren">
    
         <!-- get child's indiID -->
-        <xsl:variable name="indiID">
-            <xsl:value-of select="//FAM[@ID = $famID]/CHIL[$childNumber]/@REF"/>
-        </xsl:variable>
-        <xsl:comment><xsl:value-of select="$indiID"/></xsl:comment>        
+        <xsl:variable name="indiID" select="CHIL[$childNumber]/@REF"/>
+     
    
         <!-- set the numberOfMarriages by either counting them, or if there are now marriages, set it to at least 1 -->
         <xsl:variable name="numberOfMarriages">
@@ -224,7 +202,7 @@
         <!-- Break to new page, and add Page Two Headers, if the number of rows generated so far exceeds the max per page -->
         <xsl:if test="$numberOfChildRows &gt; $MaxNumberOfPageRows">
                 <xsl:call-template name="addPageTwoPlusHeaders">
-                    <xsl:with-param name="famID" select="$famID"/>
+                    <xsl:with-param name="famID" select="@ID"/>
                 </xsl:call-template>
         </xsl:if>
 
@@ -252,7 +230,6 @@
             <xsl:with-param name="childNumber" select="$childNumber + 1"/>
             <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
             <xsl:with-param name="lineNumber" select="$ifNewLineNumber"/>
-            <xsl:with-param name="famID" select="$famID"/>
         </xsl:call-template>
     </xsl:if>
     
@@ -363,12 +340,13 @@
 	<xsl:param name="indiID"/>
 	<xsl:param name="role"/>
 	<xsl:param name="break" select="false()"/>
-	
+ 	
 	<!-- Table with Spouse Names -->
 	<xsl:element 
         name="fo:table" 
         use-attribute-sets="bordersTop">
-        <xsl:if test="$break = true()">
+        <xsl:if test="$break = 'true'"><!-- for some reason, true() can't be used in this conditional
+                                         even though it works other times -->
         	  <xsl:attribute name="break-before">page</xsl:attribute>
         </xsl:if>
 
