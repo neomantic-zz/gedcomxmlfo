@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xsl:stylesheet version="1.0" 
-	xmlns:fo="http://www.w3.org/1999/XSL/Format" 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:fo="http://www.w3.org/1999/XSL/Format" 
 	xmlns:date="http://exslt.org/dates-and-times"
   	extension-element-prefixes="date">
 <!--
@@ -138,7 +138,7 @@
                     <!-- for some reason, the @REF is not passed if I just set it via the select attribute of the param -->
                     <xsl:value-of select="HUSB/@REF"/>
                 </xsl:with-param>
-            <xsl:with-param name="role" select="'Husband'"/>
+            <xsl:with-param name="spouseRole" select="'Husband'"/>
             <!-- page break if this is not the first family -->
             <xsl:with-param name="break">
                 <xsl:choose>
@@ -157,7 +157,7 @@
             <xsl:with-param name="indiID">
                 <xsl:value-of select="WIFE/@REF"/>
             </xsl:with-param>
-            <xsl:with-param name="role" select="'Wife'"/>
+            <xsl:with-param name="spouseRole" select="'Wife'"/>
         </xsl:call-template>        
         <!-- 6 rows created, total = 13 -->
         
@@ -338,7 +338,7 @@
 
 <xsl:template name="makeSpouseNameAndEventsTables">
 	<xsl:param name="indiID"/>
-	<xsl:param name="role"/>
+	<xsl:param name="spouseRole"/>
 	<xsl:param name="break" select="false()"/>
  	
 	<!-- Table with Spouse Names -->
@@ -356,7 +356,7 @@
 		<fo:table-column column-width="74mm"/>
 		<fo:table-body>
         	<xsl:call-template name="makeSpouseNameRow">
-        		<xsl:with-param name="role" select="$role"/>
+        		<xsl:with-param name="spouseRole" select="$spouseRole"/>
         		<xsl:with-param name="indiID" select="$indiID"/>
         	</xsl:call-template>
 		</fo:table-body>
@@ -386,7 +386,7 @@
 			</xsl:call-template>
 			
 		<!-- Married row Only include for husband -->
-		<xsl:if test="$role = 'Husband'">
+		<xsl:if test="$spouseRole = 'Husband'">
 			<xsl:call-template name="makeEventTableRows">
 				<xsl:with-param name="famID" select="@REF"/>
                 <xsl:with-param name="eventName" select="'Married'"/>
@@ -414,15 +414,15 @@
 			<!-- Spouse's Father -->
 			<xsl:call-template name="makeParentNameRow">
 				<xsl:with-param name="indiID" select="//FAM[@ID = $famID]/HUSB/@REF"/>
-				<xsl:with-param name="role" select="$role"/>
-				<xsl:with-param name="gender" select="'Male'"/>
+				<xsl:with-param name="spouseRole" select="$spouseRole"/>
+                <xsl:with-param name="parentRole" select="'Father'"/>
 			</xsl:call-template>
 			
 			<!-- Spouse's Mother -->
 			<xsl:call-template name="makeParentNameRow">
 				<xsl:with-param name="indiID" select="//FAM[@ID = $famID]/WIFE/@REF"/>
-				<xsl:with-param name="role" select="$role"/>
-				<xsl:with-param name="gender" select="'Female'"/>
+				<xsl:with-param name="spouseRole" select="$spouseRole"/>
+                <xsl:with-param name="parentRole" select="'Mother'"/>
 			</xsl:call-template>
 					
 		</fo:table-body>
@@ -430,12 +430,12 @@
 </xsl:template>
 
 <xsl:template name="makeSpouseNameRow">
-	<xsl:param name="role"/>	
+	<xsl:param name="spouseRole"/>	
 	<xsl:param name="indiID"/>
 
    <xsl:element
       name="fo:table-row"
-      use-attribute-sets="rowHeight">     
+      use-attribute-sets="rowHeight">
         <xsl:element 
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom bordersLeft">
@@ -444,8 +444,8 @@
 			<fo:block 
 				font-family="sans-serif"
 				font-size="6pt">
-				<xsl:value-of select="$role"/>
-			</fo:block>
+                 <xsl:value-of select="$spouseRole"/><xsl:text>&#8217;s </xsl:text>
+           </fo:block>
 			<fo:block 
 				font-family="sans-serif"
 				font-size="5pt">
@@ -557,11 +557,10 @@
 </xsl:template>
 				
 <xsl:template name="makeEventTableRows">
-	<xsl:param name="indiID"/>
-	<xsl:param name="eventName"/>
-	<xsl:param name="childNumber"/>
-    <xsl:param name="famID"/>
-    <xsl:param name="role"/>
+	<xsl:param name="indiID"/><!-- mandatory for any event -->
+	<xsl:param name="eventName"/><!-- mandatory for any event -->
+    <xsl:param name="famID"/> <!-- added for spouse and child married events -->
+	<xsl:param name="childNumber"/><!-- added for child burial events -->
 	
 	<!-- Event Rows have Bottom Borders -->
    <xsl:element
@@ -648,7 +647,7 @@
                    </xsl:when>
                    <xsl:when test="$eventName = 'Married'">
     				    <xsl:choose>
-                            <xsl:when test="//INDI[@ID = $famID]/MARR/DATE">
+                            <xsl:when test="//FAM[@ID = $famID]/MARR/DATE">
                                 <xsl:apply-templates select="//FAM[@ID = $famID]/MARR/DATE"/>				
                             </xsl:when>
                             <xsl:otherwise>
@@ -745,8 +744,8 @@
 
 <xsl:template name="makeParentNameRow">
 	<xsl:param name="indiID"/>
-	<xsl:param name="role"/>
-	<xsl:param name="gender"/>
+	<xsl:param name="spouseRole"/><!-- either Husband or Wife -->
+    <xsl:param name="parentRole"/><!-- either Father or Mother -->
 	
    <xsl:element
       name="fo:table-row"
@@ -772,17 +771,7 @@
 			<fo:block
 				font-family="sans-serif"
 				font-size="6pt">
-				<xsl:value-of select="$role"/>	
-				
-				<!-- Determine if label is "mother" or "father", default to "father" -->
-				<xsl:choose>
-					<xsl:when test="$gender = 'Female'">
-						<xsl:text>&#8217;s mother</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>&#8217;s father</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
+                <xsl:value-of select="$spouseRole"/><xsl:text>&#8217;s </xsl:text><xsl:value-of select="$parentRole"/><xsl:text>&#8217;s</xsl:text>
 			</fo:block>
 			<fo:block 
 				font-family="sans-serif"
@@ -856,7 +845,7 @@
         <fo:table-body>
 
             <xsl:call-template name="makeSpouseNameRow">
-                <xsl:with-param name="role" select="'Husband'"/>
+                <xsl:with-param name="spouseRole" select="'Husband'"/>
                 <xsl:with-param name="indiID" select="//FAM[@ID = $famID]/HUSB/@REF"/>
             </xsl:call-template>
             
@@ -876,7 +865,7 @@
         <fo:table-body>
 
             <xsl:call-template name="makeSpouseNameRow">
-                <xsl:with-param name="role" select="'Wife'"/>
+                <xsl:with-param name="spouseRole" select="'Wife'"/>
                 <xsl:with-param name="indiID" select="//FAM[@ID = $famID]/WIFE/@REF"/>
             </xsl:call-template>
             
@@ -1006,18 +995,17 @@
             		</xsl:element><!-- fo:table-cell -->
             		
             		<!-- Insert Given Name table-cell -->
-            		<!-- This should be able to handle FAM that have 2 Husbands or 2 Wives (Fuck tradition) -->
             		<xsl:choose>
             			<!-- If the family has a HUSB with an REF different from their Spouse's ID -->
-            			<xsl:when test="//FAM[@ID = $famID]/HUSB[@REF != $indiID]">
+            			<xsl:when test="//FAM[@ID = $famID]/HUSB[@REF = $indiID]">
        						<xsl:call-template name="makeGivenNameCell">
-            					<xsl:with-param name="indiID" select="//FAM[@ID = $famID]/HUSB[@REF != $indiID]/@REF"/>
+            					<xsl:with-param name="indiID" select="//FAM[@ID = $famID]/WIFE/@REF"/>
             				</xsl:call-template>
             			</xsl:when>
             			<!-- If the family has a WIFE with an REF different from their Spouse's ID -->
-            			<xsl:when test="//FAM[@ID = $famID]/WIFE[@REF != $indiID]">
+            			<xsl:when test="//FAM[@ID = $famID]/WIFE[@REF = $indiID]">
        						<xsl:call-template name="makeGivenNameCell">
-            					<xsl:with-param name="indiID" select="//FAM[@ID = $famID]/WIFE[@REF != $indiID]/@REF"/>
+            					<xsl:with-param name="indiID" select="//FAM[@ID = $famID]/HUSB/@REF"/>
          					</xsl:call-template>
             			</xsl:when>
             			<!-- otherwise insert blank given name cell -->
@@ -1045,18 +1033,17 @@
             		</xsl:element><!-- fo:table-cell -->
             		
             		<!-- Insert Surname Cell-->
-            		<!-- This should be able to handle FAM that have 2 Husbands or 2 Wives (Fuck tradition) -->
             		<xsl:choose>
             			<!-- If the family has a HUSB with an REF different from their Spouse's ID -->
-            			<xsl:when test="//FAM[@ID = $famID]/HUSB[@REF != $indiID]">
+            			<xsl:when test="//FAM[@ID = $famID]/HUSB[@REF = $indiID]">
        						<xsl:call-template name="makeSurnameCell">
-            					<xsl:with-param name="indiID" select="//FAM[@ID = $famID]/HUSB[@REF != $indiID]/@REF"/>
+            					<xsl:with-param name="indiID" select="//FAM[@ID = $famID]/WIFE/@REF"/>
             				</xsl:call-template>
             			</xsl:when>
             			<!-- If the family has a WIFE with an REF different from their Spouse's ID -->
-            			<xsl:when test="//FAM[@ID = $famID]/WIFE[@REF != $indiID]">
+            			<xsl:when test="//FAM[@ID = $famID]/WIFE[@REF = $indiID]">
        						<xsl:call-template name="makeSurnameCell">
-            					<xsl:with-param name="indiID" select="//FAM[@ID = $famID]/WIFE[@REF != $indiID]/@REF"/>
+            					<xsl:with-param name="indiID" select="//FAM[@ID = $famID]/HUSB/@REF"/>
          					</xsl:call-template>  
             			</xsl:when>
             			<!-- otherwise insert blank given name cell -->
@@ -1074,7 +1061,6 @@
     			<fo:table-body>
                     <xsl:call-template name="makeEventTableRows">
                         <xsl:with-param name="eventName" select="'Married'"/>
-                        <xsl:with-param name="role" select="'Child'"/>
                         <xsl:with-param name="famID" select="$famID"/>
                     </xsl:call-template>
     			</fo:table-body>
