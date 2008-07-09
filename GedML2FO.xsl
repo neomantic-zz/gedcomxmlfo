@@ -40,6 +40,7 @@ the date the report has been generated included in the pdf -->
 <xsl:param name="DateGenerated" select="true()"/>
 <!-- the FamID of the family to be generated -->
 <xsl:param name="FamID"/>
+<xsl:param name="SortFamilies" select="true()"/>
 
 <xsl:param name="BorderLineStyle">solid</xsl:param>
 <xsl:param name="BorderLineWidth">.3mm</xsl:param>
@@ -132,9 +133,17 @@ the date the report has been generated included in the pdf -->
                         <xsl:apply-templates select="//FAM[@ID = $FamID]"/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:apply-templates select="//FAM">
-                            <xsl:sort order="ascending" select="substring-after(@ID,'F')"/>
-                        </xsl:apply-templates>
+                            <!-- conditional enables user to disable sorting of families -->
+                            <xsl:choose>
+                                <xsl:when test="SortFamilies = false()">
+                                    <xsl:apply-templates select="//FAM"/>
+                                 </xsl:when>
+                                 <xsl:otherwise>
+                                    <xsl:apply-templates select="//FAM">
+                                        <xsl:sort order="ascending" select="substring-after(@ID,'F')"/>
+                                     </xsl:apply-templates>
+                                </xsl:otherwise>
+                           </xsl:choose>
                     </xsl:otherwise>
                 </xsl:choose>
             </fo:flow>
