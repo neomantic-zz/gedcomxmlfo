@@ -53,8 +53,10 @@ the date the report has been generated included in the pdf -->
  test on extreme cases
  collapse fo elements, into xsl elements, separating formating from code
  Truncated length of cell functions
- Fix missing blank lines
- Fixe placement of page number
+ Fix selecting multiple marriage dates and places for child spouses marriages
+ Fix placement of page number
+ Fix Padding on Given Name columns
+ Fix vertical spacing settings
 -->
 
 <xsl:template match="/">
@@ -62,7 +64,7 @@ the date the report has been generated included in the pdf -->
         <fo:layout-master-set>
             <fo:simple-page-master 
                 margin-bottom=".2cm" 
-                margin-left="2.5cm" 
+                margin-left="1.2cm" 
                 margin-right="1cm" 
                 margin-top="1cm" 
                 master-name="Family" 
@@ -455,14 +457,9 @@ the date the report has been generated included in the pdf -->
             <xsl:attribute name="padding-left">.75mm</xsl:attribute>
             <fo:block 
                 font-family="sans-serif" 
-                font-size="6pt">
+                font-size=".45em">
                 <xsl:value-of select="$spouseRole"/>
-                <xsl:text>&#8217;s </xsl:text>
-            </fo:block>
-            <fo:block 
-                font-family="sans-serif" 
-                font-size="5pt">
-                <xsl:text>Given name(s)</xsl:text>
+                <xsl:text>&#8217;s Given name(s)</xsl:text>
             </fo:block>
         </xsl:element> <!-- fo:table-cell -->
 
@@ -480,15 +477,10 @@ the date the report has been generated included in the pdf -->
         
             <fo:block 
                 font-family="sans-serif" 
-                font-size="6pt">
-                <xsl:text>Last</xsl:text>
-            </fo:block>
-            <fo:block 
-                font-family="sans-serif" 
-                font-size="5pt">
-                <xsl:text>name</xsl:text>
-            </fo:block>
-        </xsl:element><!-- fo:table-cell -->
+                font-size=".45em">
+                <xsl:text>Last name</xsl:text>
+                </fo:block>
+       </xsl:element><!-- fo:table-cell -->
     
     <!-- Insert Surname table-cell -->
     <xsl:call-template name="makeSurnameCell">
@@ -510,7 +502,7 @@ the date the report has been generated included in the pdf -->
     
         <fo:block 
         font-family="serif" 
-        font-size="11pt">
+        font-size=".9em">
             <xsl:choose>
                 <xsl:when test="//INDI[@ID = $indiID]/NAME/GIVN">
                     <xsl:value-of select="//INDI[@ID = $indiID]/NAME/GIVN"/>
@@ -548,7 +540,7 @@ the date the report has been generated included in the pdf -->
     
         <fo:block 
             font-family="serif" 
-            font-size="11pt">
+            font-size=".9em">
             
             <!-- Surname -->
             <xsl:choose>
@@ -588,8 +580,9 @@ the date the report has been generated included in the pdf -->
         
             <fo:block 
                 font-family="sans-serif" 
-                font-size="10pt" 
-                text-indent="2pt">
+                font-size=".7em" 
+                text-indent="2pt"> <!-- note that this label, the child number is
+                    set to larger than the default label font size -->
                 <!-- Insert Child's number if this is a burial event -->
                 <xsl:if test="$eventName = 'Buried'">
                     <xsl:value-of select="$childNumber"/>
@@ -601,7 +594,9 @@ the date the report has been generated included in the pdf -->
             use-attribute-sets="bordersBottom bordersLeft">
             <xsl:attribute name="padding-top">.75mm</xsl:attribute>
             <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-            <fo:block font-family="sans-serif" font-size="6pt">
+            <fo:block 
+                font-family="sans-serif" 
+                font-size=".45em">
             <!-- Insert "Born", "Died", or "Buried" -->
                 <xsl:value-of select="$eventName"/>
             </fo:block>
@@ -665,7 +660,7 @@ the date the report has been generated included in the pdf -->
             
             <fo:block 
                 font-family="sans-serif" 
-                font-size="6pt">
+                font-size=".45em">
                 <xsl:text>Place</xsl:text>
             </fo:block>
         </xsl:element><!-- fo:table-cell -->
@@ -736,29 +731,21 @@ the date the report has been generated included in the pdf -->
             <xsl:attribute name="padding-top">.75mm</xsl:attribute>
             <xsl:attribute name="padding-left">.75mm</xsl:attribute>
         
-            <fo:block 
-                font-family="sans-serif" 
-                font-size="10pt"></fo:block>
+            <fo:block/>
         </xsl:element><!-- fo:table-cell -->
         <xsl:element 
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom bordersLeft">
             <xsl:attribute name="padding-top">.5mm</xsl:attribute>
             <xsl:attribute name="padding-left">1mm</xsl:attribute>
-        
-            <!-- In contrast to Husband and Wife, the Father/Mother label is set at 6pt -->
+
             <fo:block 
                 font-family="sans-serif" 
-                font-size="6pt">
+                font-size=".45em">
                 <xsl:value-of select="$spouseRole"/>
                 <xsl:text>&#8217;s </xsl:text>
                 <xsl:value-of select="$parentRole"/>
-                <xsl:text>&#8217;s</xsl:text>
-            </fo:block>
-            <fo:block 
-                font-family="sans-serif" 
-                font-size="5pt">
-                <xsl:text>Given name(s)</xsl:text>
+                <xsl:text>&#8217;s Given name(s)</xsl:text>
             </fo:block>
         </xsl:element><!-- fo:table-cell -->
     
@@ -773,16 +760,10 @@ the date the report has been generated included in the pdf -->
             <xsl:attribute name="padding-top">.5mm</xsl:attribute>
             <xsl:attribute name="padding-left">1mm</xsl:attribute>
 
-            <!-- In contrast to Husband and Wife, the Father/Mother label is set at 6pt -->
             <fo:block 
                 font-family="sans-serif" 
-                font-size="5pt">
-                <xsl:text>Last</xsl:text>
-            </fo:block>
-            <fo:block 
-                font-family="sans-serif" 
-                font-size="5pt">
-                <xsl:text>name</xsl:text>
+                font-size=".45em">
+                <xsl:text>Last name</xsl:text>
             </fo:block>
         </xsl:element><!-- table-cell -->
     
@@ -855,7 +836,7 @@ the date the report has been generated included in the pdf -->
                 
                     <fo:block 
                         font-family="sans-serif" 
-                        font-size="9pt">
+                        font-size=".8em">
                         <xsl:text>Children - List each child in order of birth</xsl:text>
                     </fo:block>
                 </xsl:element><!-- fo:table-cell -->
@@ -875,13 +856,13 @@ the date the report has been generated included in the pdf -->
         <xsl:attribute name="padding-left">1mm</xsl:attribute>
         <fo:block 
             font-family="sans-serif" 
-            font-size="6pt" 
+            font-size=".45em" 
             text-indent="1pt">
             <xsl:text>Sex</xsl:text>
         </fo:block>
         <fo:block 
             font-family="sans-serif" 
-            font-size="9pt" 
+            font-size=".5em" 
             text-indent="2pt">
             <xsl:value-of select="//INDI[@ID = $indiID]/SEX"/>
         </fo:block>
@@ -895,7 +876,7 @@ the date the report has been generated included in the pdf -->
         <xsl:attribute name="padding-left">.75mm</xsl:attribute>
         <fo:block 
             font-family="sans-serif" 
-            font-size="6pt" 
+            font-size=".45em" 
             padding-left="1mm">
             <xsl:text>Given name(s)</xsl:text>
         </fo:block>
@@ -929,7 +910,7 @@ the date the report has been generated included in the pdf -->
                     name="fo:table-cell">
                     <xsl:attribute name="padding-top">.75mm</xsl:attribute>
                     <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-                    <fo:block font-family="sans-serif" font-size="10pt"></fo:block>
+                    <fo:block/>
                 </xsl:element><!-- fo:table-cell -->
                 <xsl:element 
                     name="fo:table-cell" 
@@ -939,13 +920,8 @@ the date the report has been generated included in the pdf -->
 
                     <fo:block 
                         font-family="sans-serif" 
-                        font-size="5pt">
-                        <xsl:text>Spouse&#8217;s </xsl:text>
-                    </fo:block>
-                    <fo:block 
-                        font-family="sans-serif" 
-                        font-size="5pt">
-                        <xsl:text>Given name(s)</xsl:text>
+                        font-size=".45em">
+                        <xsl:text>Spouse&#8217;s Given name(s)</xsl:text>
                     </fo:block>
                 </xsl:element><!-- fo:table-cell -->
                 
@@ -976,13 +952,8 @@ the date the report has been generated included in the pdf -->
 
                     <fo:block 
                         font-family="sans-serif" 
-                        font-size="5pt">
-                        <xsl:text>Last</xsl:text>
-                    </fo:block>
-                    <fo:block 
-                        font-family="sans-serif" 
-                        font-size="5pt">
-                        <xsl:text>name</xsl:text>
+                        font-size=".45em">
+                        <xsl:text>Last name</xsl:text>
                     </fo:block>
                 </xsl:element><!-- fo:table-cell -->
                 
@@ -1051,11 +1022,11 @@ the date the report has been generated included in the pdf -->
                 </xsl:choose>
             </fo:block>
         </xsl:when>
-    <!-- default to 11pt -->
+    <!-- default to .9em -->
         <xsl:otherwise>
             <fo:block 
                 font-family="serif" 
-                font-size="11pt">
+                font-size=".9em">
                 <xsl:value-of select="normalize-space( . )"/>
             </fo:block>
         </xsl:otherwise>
@@ -1117,7 +1088,7 @@ the date the report has been generated included in the pdf -->
         <xsl:when test="$stringLength &gt;= 71">
             <fo:block 
                 font-family="serif" 
-                font-size="11pt">
+                font-size=".9em">
                 <xsl:value-of select="substring( normalize-space( text() ), 1, 69 )"/>
                 <xsl:text>...</xsl:text>
             </fo:block>
@@ -1125,7 +1096,7 @@ the date the report has been generated included in the pdf -->
         <xsl:otherwise>
             <fo:block 
                 font-family="serif" 
-                font-size="11pt">
+                font-size=".9em">
                 <xsl:value-of select="normalize-space( text() )"/>
             </fo:block>
         </xsl:otherwise>
@@ -1137,46 +1108,46 @@ the date the report has been generated included in the pdf -->
 <xsl:template name="addChildNameColumns">
     <!-- empty column -->
     <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
-    <fo:table-column column-width="14mm"/><!-- label -->
-    <fo:table-column column-width="160mm"/><!-- data -->
+    <fo:table-column column-width="8mm"/><!-- label -->
+    <fo:table-column column-width="176mm"/><!-- data -->
 </xsl:template>
 
 <xsl:template name="addEventColumns">
     <!-- empty column -->
     <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
     <fo:table-column column-width="10mm"/><!-- label -->
-    <fo:table-column column-width="26mm"/><!-- data -->
+    <fo:table-column column-width="31mm"/><!-- data -->
     <fo:table-column column-width="8mm"/><!-- label -->
-    <fo:table-column column-width="130mm"/><!-- data -->
+    <fo:table-column column-width="135mm"/><!-- data -->
 </xsl:template>
 
 <xsl:template name="addChildSpouseNameColumns">
     <!-- empty column -->
     <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
-    <fo:table-column column-width="18mm"/> <!-- label -->
-    <fo:table-column column-width="70mm"/> <!-- data -->
-    <fo:table-column column-width="10mm"/> <!-- label -->
-    <fo:table-column column-width="76mm"/> <!-- data -->
+    <fo:table-column column-width="14mm"/> <!-- label -->
+    <fo:table-column column-width="79mm"/> <!-- data -->
+    <fo:table-column column-width="8mm"/> <!-- label -->
+    <fo:table-column column-width="83mm"/> <!-- data -->
 </xsl:template>
 
 <xsl:template name="addSpouseParentNamesColumns">
     <!-- empty column -->
     <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
     <fo:table-column column-width="22mm"/><!-- label -->
-    <fo:table-column column-width="66mm"/><!-- data -->
+    <fo:table-column column-width="71mm"/><!-- data -->
     <fo:table-column column-width="10mm"/><!-- label -->
-    <fo:table-column column-width="76mm"/><!-- data -->
+    <fo:table-column column-width="81mm"/><!-- data -->
 </xsl:template>
 
 <xsl:template name="addSpouseNameColumns">    
-    <fo:table-column column-width="22mm"/><!-- label -->
-    <fo:table-column column-width="72mm"/><!-- data -->
-    <fo:table-column column-width="12mm"/><!-- label -->
-    <fo:table-column column-width="74mm"/><!-- data -->
+    <fo:table-column column-width="14mm"/><!-- label -->
+    <fo:table-column column-width="85mm"/><!-- data -->
+    <fo:table-column column-width="8mm"/><!-- label -->
+    <fo:table-column column-width="83mm"/><!-- data -->
 </xsl:template>
 
 <xsl:template name="addChildListLabelColumns">
-    <fo:table-column column-width="180mm"/>
+    <fo:table-column column-width="190mm"/>
 </xsl:template>
 
 <xsl:template name="bordersBottom">
@@ -1215,7 +1186,7 @@ the date the report has been generated included in the pdf -->
 </xsl:attribute-set>
 
 <xsl:attribute-set name="rowHeight">
-    <xsl:attribute name="height">4.75mm</xsl:attribute>
+    <xsl:attribute name="height">5mm</xsl:attribute>
 </xsl:attribute-set>
 
 </xsl:stylesheet>   
