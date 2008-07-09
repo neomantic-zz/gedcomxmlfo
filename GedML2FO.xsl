@@ -578,7 +578,7 @@ the date the report has been generated included in the pdf -->
         <xsl:attribute name="keep-with-previous.within-line">always</xsl:attribute>
         <xsl:element 
             name="fo:table-cell" 
-            use-attribute-sets="bordersLeft">
+            use-attribute-sets="bordersLeft"><!-- this is the border that needs to be enable for child marriages -->
             <xsl:attribute name="padding-top">.75mm</xsl:attribute>
             <xsl:attribute name="padding-left">.75mm</xsl:attribute>
         
@@ -668,18 +668,20 @@ the date the report has been generated included in the pdf -->
                 </xsl:when>
             </xsl:choose>
         </xsl:element><!-- fo:table-cell -->
+        <!-- place cells -label -->
         <xsl:element 
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom">
             <xsl:attribute name="padding-top">.75mm</xsl:attribute>
             <xsl:attribute name="padding-left">.75mm</xsl:attribute>
+            
             <fo:block 
                 font-family="sans-serif" 
                 font-size="6pt">
                 <xsl:text>Place</xsl:text>
             </fo:block>
         </xsl:element><!-- fo:table-cell -->
-    
+         <!-- place cells - data -->   
         <xsl:element 
             name="fo:table-cell" 
             use-attribute-sets="bordersRight bordersBottom">
@@ -947,11 +949,11 @@ the date the report has been generated included in the pdf -->
 
 <!-- Create spouse row -->
     <fo:table>
-        <fo:table-column column-width="6mm"/>
-        <fo:table-column column-width="18mm"/>
-        <fo:table-column column-width="70mm"/>
-        <fo:table-column column-width="10mm"/>
-        <fo:table-column column-width="76mm"/>
+        <fo:table-column column-width="6mm"/> <!-- empty column -->
+        <fo:table-column column-width="18mm"/> <!-- label -->
+        <fo:table-column column-width="70mm"/> <!-- data -->
+        <fo:table-column column-width="10mm"/> <!-- label -->
+        <fo:table-column column-width="76mm"/> <!-- data -->
         <fo:table-body>
     
             <xsl:element 
@@ -1169,11 +1171,11 @@ the date the report has been generated included in the pdf -->
 
 
 <xsl:template name="eventColumns">
-    <fo:table-column column-width="6mm"/>
-    <fo:table-column column-width="10mm"/>
-    <fo:table-column column-width="26mm"/>
-    <fo:table-column column-width="8mm"/>
-    <fo:table-column column-width="130mm"/>
+    <fo:table-column column-width="6mm"/><!-- empty column -->
+    <fo:table-column column-width="10mm"/><!-- label -->
+    <fo:table-column column-width="26mm"/><!-- data -->
+    <fo:table-column column-width="8mm"/><!-- label -->
+    <fo:table-column column-width="130mm"/><!-- data -->
 </xsl:template>
 
 <!-- Attribute Sets -->
