@@ -33,14 +33,20 @@
 <!-- Global Variables, all of which start with a capital letter -->
 <!-- change this global variable if you don't want the FAM XREF or the 
     INDI XREF to be included -->
-<xsl:variable name="IncludeIDs" select="false()"/>
+<!-- parameters that can be set through the processor -->
+<xsl:param name="IncludeIDs" select="false()"/>
 <!-- change to true() if the date extension exists, and you want the
 the date the report has been generated included in the pdf -->
-<xsl:variable name="DateGenerated" select="true()"/>
+<xsl:param name="DateGenerated" select="true()"/>
+<!-- the FamID of the family to be generated -->
+<xsl:param name="FamID"/>
+
+<xsl:param name="BorderLineStyle">solid</xsl:param>
+<xsl:param name="BorderLineWidth">.3mm</xsl:param>
+
 <!-- These global variables control the look of the output -->
 <xsl:variable name="MaxNumberOfPageRows">38</xsl:variable>
-<xsl:variable name="BorderLineStyle">solid</xsl:variable>
-<xsl:variable name="BorderLineWidth">.3mm</xsl:variable>
+
 
 <!-- TODO - 
  test on extreme cases
@@ -121,7 +127,16 @@ the date the report has been generated included in the pdf -->
 
             <fo:flow 
                 flow-name="xsl-region-body">
-                <xsl:apply-templates select="//FAM"/>
+                <xsl:choose>
+                    <xsl:when test="$FamID">
+                        <xsl:apply-templates select="//FAM[@ID = $FamID]"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates select="//FAM">
+                            <xsl:sort order="ascending" select="substring-after(@ID,'F')"/>
+                        </xsl:apply-templates>
+                    </xsl:otherwise>
+                </xsl:choose>
             </fo:flow>
 
         </fo:page-sequence>
