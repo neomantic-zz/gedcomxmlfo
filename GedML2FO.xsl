@@ -8,7 +8,7 @@
 <!--
  ******************************************************************************
  ******************************************************************************
-    Copyright (c) 2005 Chad Albers - chad@neomantic.com
+    Copyright (c) 2008 Chad Albers - chad@neomantic.com
      
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -140,7 +140,7 @@ the date the report has been generated included in the pdf -->
                                  </xsl:when>
                                  <xsl:otherwise>
                                     <xsl:apply-templates select="//FAM">
-                                        <xsl:sort order="ascending" select="substring-after(@ID,'F')"/>
+                                        <xsl:sort order="ascending" select="@ID"/>
                                      </xsl:apply-templates>
                                 </xsl:otherwise>
                            </xsl:choose>
@@ -213,11 +213,11 @@ the date the report has been generated included in the pdf -->
 
     <!-- if the number of childern created is less that the total number of children, create new children  -->
     <xsl:if test="$childNumber &lt;= $numberOfChildren">
-
-    <!-- get child's indiID -->
-    <xsl:variable name="indiID" select="CHIL[$childNumber]/@REF"/>
-
-    <!-- set the numberOfMarriages by either counting them, or if there are no marriages, set it to at least 1 -->
+    
+        <!-- get child's indiID -->
+        <xsl:variable name="indiID" select="CHIL[$childNumber]/@REF"/>
+    
+        <!-- set the numberOfMarriages by either counting them, or if there are no marriages, set it to at least 1 -->
         <xsl:variable name="numberOfMarriages">
             <xsl:variable name="howManyMarriages" select="count(//INDI[@ID = $indiID]/FAMS)"/>
             <xsl:choose>
@@ -227,26 +227,26 @@ the date the report has been generated included in the pdf -->
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-    <!--add 4 rows for name, birth, death, burial rows, plus 2 rows per child marriage -->
-        <xsl:variable name="numberOfChildRows" select="$rowNumber + 4 + ($numberOfMarriages * 2)"/>
-    
-    <!-- Break to new page, and add Page Two Headers, if the number of rows generated so far exceeds the max per page -->
+        <!--add 4 rows for name, birth, death, burial rows, plus 2 rows per child marriage -->
+       <xsl:variable name="numberOfChildRows" select="$rowNumber + 4 + ($numberOfMarriages * 2)"/>
+        
+        <!-- Break to new page, and add Page Two Headers, if the number of rows generated so far exceeds the max per page -->
         <xsl:if test="$numberOfChildRows &gt; $MaxNumberOfPageRows">
             <xsl:call-template name="addPageTwoPlusHeaders">
                 <xsl:with-param name="famID" select="@ID"/>
             </xsl:call-template>
         </xsl:if>
-
-    <!-- make the child -->
+    
+        <!-- make the child -->
         <xsl:call-template name="makeChildNameAndEventsTables">
             <xsl:with-param name="indiID" select="$indiID"/>
             <xsl:with-param name="childNumber" select="$childNumber"/>
             <xsl:with-param name="numberOfMarriages" select="$numberOfMarriages"/>
         </xsl:call-template>
-    
-    <!-- If the addPageTwoHeaders was called,  this resets the rowNumber to 2, to account for
-          the 2 rows in the PageTwoPlusHeader, otherwise it defaults to the current row count.  
-          Additionally it adds the 4 lines for the Name, Born, Died, Buried Rows, and 2 rows for each marriage -->
+        
+        <!-- If the addPageTwoHeaders was called,  this resets the rowNumber to 2, to account for
+              the 2 rows in the PageTwoPlusHeader, otherwise it defaults to the current row count.  
+              Additionally it adds the 4 lines for the Name, Born, Died, Buried Rows, and 2 rows for each marriage -->
         <xsl:variable name="ifNewLineNumber">
             <xsl:choose>
                 <xsl:when test="$numberOfChildRows &gt; $MaxNumberOfPageRows">
@@ -257,8 +257,8 @@ the date the report has been generated included in the pdf -->
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-    
-    <!-- call makeChildren again, and make the next child -->
+
+        <!-- call makeChildren again, and make the next child -->
         <xsl:call-template name="makeChildren">
             <xsl:with-param name="childNumber" select="$childNumber + 1"/>
             <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
@@ -283,10 +283,9 @@ the date the report has been generated included in the pdf -->
     <xsl:param name="numberOfMarriages">1</xsl:param>
 
     <!-- Table with Child's Name -->
-    <fo:table>
-        <fo:table-column column-width="6mm"/>
-        <fo:table-column column-width="14mm"/>
-        <fo:table-column column-width="160mm"/>
+    <xsl:element
+        name="fo:table">
+        <xsl:call-template name="addChildNameColumns"/>
         <fo:table-body>
             <xsl:element 
                 name="fo:table-row" 
@@ -296,11 +295,11 @@ the date the report has been generated included in the pdf -->
                 </xsl:call-template>
             </xsl:element><!-- table-row -->
         </fo:table-body>
-    </fo:table>
+    </xsl:element><!-- fo:table -->
 
     <!-- Table with all Events -->
     <fo:table>
-        <xsl:call-template name="eventColumns"/>
+        <xsl:call-template name="addEventColumns"/>
         <fo:table-body>
             <!-- Born row -->
             <xsl:call-template name="makeEventTableRows">
@@ -337,6 +336,16 @@ the date the report has been generated included in the pdf -->
         <xsl:call-template name="makeChildMarriageTables">
             <xsl:with-param name="famID" select="//INDI[@ID = $indiID]/FAMS[$marriageNumber]/@REF"/>
             <xsl:with-param name="indiID" select="$indiID"/>
+            <xsl:with-param name="lastChildMarriage">
+                <xsl:choose>
+                    <xsl:when test="$marriageNumber = $numberOfMarriages">
+                        <xsl:value-of select="true()"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="false()"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:with-param>
         </xsl:call-template>
 
         <!-- recursively call itself to cycle through all child marriages -->
@@ -353,21 +362,19 @@ the date the report has been generated included in the pdf -->
     <xsl:param name="indiID"/>
     <xsl:param name="spouseRole"/>
     <xsl:param name="break" select="false()"/>
-
-<!-- Table with Spouse Names -->
+    
+    <!-- Table with Spouse Names -->
     <xsl:element 
         name="fo:table" 
         use-attribute-sets="bordersTop">
-        
+        <!-- add page break -->
         <xsl:if test="$break = 'true'"><!-- for some reason, true() can't be used in this conditional
                                      even though it works other times -->
             <xsl:attribute name="break-before">page</xsl:attribute>
         </xsl:if>
-    
-        <fo:table-column column-width="22mm"/>
-        <fo:table-column column-width="72mm"/>
-        <fo:table-column column-width="12mm"/>
-        <fo:table-column column-width="74mm"/>
+        
+        <xsl:call-template name="addSpouseNameColumns"/>
+        
         <fo:table-body>
             <xsl:call-template name="makeSpouseNameRow">
                 <xsl:with-param name="spouseRole" select="$spouseRole"/>
@@ -378,7 +385,7 @@ the date the report has been generated included in the pdf -->
 
     <!-- Table with all Events -->
     <fo:table>
-        <xsl:call-template name="eventColumns"/>
+        <xsl:call-template name="addEventColumns"/>
         <fo:table-body>
             <!-- Born row -->
             <xsl:call-template name="makeEventTableRows">
@@ -409,13 +416,8 @@ the date the report has been generated included in the pdf -->
 
     <!-- Table with Spouse's parents -->
     <fo:table>
-        <fo:table-column column-width="6mm"/>
-        <fo:table-column column-width="22mm"/>
-        <fo:table-column column-width="66mm"/>
-        <fo:table-column column-width="10mm"/>
-        <fo:table-column column-width="76mm"/>
+        <xsl:call-template name="addSpouseParentNamesColumns"/>
         <fo:table-body>
-    
         <!-- Spouse's Family -->
         <xsl:variable name="famID" select="//INDI[@ID = $indiID]/FAMC/@REF"/>
     
@@ -445,10 +447,10 @@ the date the report has been generated included in the pdf -->
 
     <xsl:element 
         name="fo:table-row" 
-        use-attribute-sets="rowHeight">
+        use-attribute-sets="rowHeight bordersLeft bordersRight">
         <xsl:element 
             name="fo:table-cell" 
-            use-attribute-sets="bordersBottom bordersLeft">
+            use-attribute-sets="bordersBottom">
             <xsl:attribute name="padding-top">.5mm</xsl:attribute>
             <xsl:attribute name="padding-left">.75mm</xsl:attribute>
             <fo:block 
@@ -498,7 +500,6 @@ the date the report has been generated included in the pdf -->
 </xsl:template>
 
 <!-- Creates table-cell with Given Name -->
-
 <xsl:template name="makeGivenNameCell">
     <xsl:param name="indiID"/>
 
@@ -542,7 +543,7 @@ the date the report has been generated included in the pdf -->
 
     <xsl:element 
         name="fo:table-cell" 
-        use-attribute-sets="bordersRight bordersBottom">
+        use-attribute-sets="bordersBottom">
         <xsl:attribute name="padding-top">1mm</xsl:attribute>
     
         <fo:block 
@@ -570,15 +571,18 @@ the date the report has been generated included in the pdf -->
     <xsl:param name="eventName"/><!-- mandatory for any event -->
     <xsl:param name="famID"/> <!-- added for spouse and child married events -->
     <xsl:param name="childNumber"/><!-- added for child burial events -->
+    <xsl:param name="addBorderHack" select="false()"/>
 
     <!-- Event Rows have Bottom Borders -->
     <xsl:element 
         name="fo:table-row" 
-        use-attribute-sets="rowHeight">
+        use-attribute-sets="rowHeight bordersRight bordersLeft">
         <xsl:attribute name="keep-with-previous.within-line">always</xsl:attribute>
-        <xsl:element 
-            name="fo:table-cell" 
-            use-attribute-sets="bordersLeft"><!-- this is the border that needs to be enable for child marriages -->
+        <xsl:element
+            name="fo:table-cell">
+            <xsl:if test="$addBorderHack = 'true'">
+                <xsl:call-template name="bordersBottom"/>
+            </xsl:if>
             <xsl:attribute name="padding-top">.75mm</xsl:attribute>
             <xsl:attribute name="padding-left">.75mm</xsl:attribute>
         
@@ -586,12 +590,12 @@ the date the report has been generated included in the pdf -->
                 font-family="sans-serif" 
                 font-size="10pt" 
                 text-indent="2pt">
-            <!-- Insert Child's number if this is a burial event -->
+                <!-- Insert Child's number if this is a burial event -->
                 <xsl:if test="$eventName = 'Buried'">
                     <xsl:value-of select="$childNumber"/>
                 </xsl:if>
             </fo:block>
-        </xsl:element><!-- fo:table-cell -->
+        </xsl:element>
         <xsl:element 
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom bordersLeft">
@@ -607,7 +611,7 @@ the date the report has been generated included in the pdf -->
             name="fo:table-cell" 
             use-attribute-sets="bordersRight bordersBottom">
             <xsl:attribute name="padding-top">1.5mm</xsl:attribute>
-       
+
             <!-- DATE -->
             <xsl:choose>
                 <xsl:when test="$eventName = 'Born'">
@@ -616,11 +620,7 @@ the date the report has been generated included in the pdf -->
                             <xsl:apply-templates select="//INDI[@ID = $indiID]/BIRT/DATE"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <fo:block 
-                                font-family="serif" 
-                                font-size="11pt">
-                                <xsl:text/>
-                            </fo:block>
+                            <fo:block/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
@@ -630,11 +630,7 @@ the date the report has been generated included in the pdf -->
                             <xsl:apply-templates select="//INDI[@ID = $indiID]/DEAT/DATE"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <fo:block 
-                                font-family="serif" 
-                                font-size="11pt">
-                                <xsl:text/>
-                            </fo:block>
+                            <fo:block/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
@@ -644,11 +640,7 @@ the date the report has been generated included in the pdf -->
                             <xsl:apply-templates select="//INDI[@ID = $indiID]/BURI/DATE"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <fo:block 
-                                font-family="serif" 
-                                font-size="11pt">
-                                <xsl:text/>
-                            </fo:block>
+                            <fo:block/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
@@ -658,11 +650,7 @@ the date the report has been generated included in the pdf -->
                             <xsl:apply-templates select="//FAM[@ID = $famID]/MARR/DATE"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <fo:block 
-                                font-family="serif" 
-                                font-size="11pt">
-                                <xsl:text/>
-                            </fo:block>
+                            <fo:block/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
@@ -684,7 +672,7 @@ the date the report has been generated included in the pdf -->
          <!-- place cells - data -->   
         <xsl:element 
             name="fo:table-cell" 
-            use-attribute-sets="bordersRight bordersBottom">
+            use-attribute-sets="bordersBottom">
             <xsl:attribute name="padding-top">1.5mm</xsl:attribute>
         
             <!--Place of Event -->
@@ -695,11 +683,7 @@ the date the report has been generated included in the pdf -->
                             <xsl:apply-templates select="//INDI[@ID = $indiID]/BIRT/PLAC"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <fo:block 
-                                font-family="serif" 
-                                font-size="11pt">
-                                <xsl:text/>
-                            </fo:block>
+                            <fo:block/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
@@ -709,11 +693,7 @@ the date the report has been generated included in the pdf -->
                             <xsl:apply-templates select="//INDI[@ID = $indiID]/DEAT/PLAC"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <fo:block 
-                                font-family="serif" 
-                                font-size="11pt">
-                                <xsl:text/>
-                            </fo:block>
+                            <fo:block/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
@@ -723,11 +703,7 @@ the date the report has been generated included in the pdf -->
                             <xsl:apply-templates select="//INDI[@ID = $indiID]/BURI/PLAC"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <fo:block 
-                                font-family="serif" 
-                                font-size="11pt">
-                                <xsl:text/>
-                            </fo:block>
+                            <fo:block/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
@@ -737,11 +713,7 @@ the date the report has been generated included in the pdf -->
                             <xsl:apply-templates select="//FAM[@ID = $famID]/MARR/PLAC"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <fo:block 
-                                font-family="serif" 
-                                font-size="11pt">
-                                <xsl:text/>
-                            </fo:block>
+                            <fo:block/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
@@ -758,10 +730,9 @@ the date the report has been generated included in the pdf -->
 
     <xsl:element 
         name="fo:table-row" 
-        use-attribute-sets="rowHeight">
+        use-attribute-sets="rowHeight bordersRight bordersLeft">
         <xsl:element 
-            name="fo:table-cell" 
-            use-attribute-sets="bordersLeft">
+            name="fo:table-cell">
             <xsl:attribute name="padding-top">.75mm</xsl:attribute>
             <xsl:attribute name="padding-left">.75mm</xsl:attribute>
         
@@ -843,16 +814,12 @@ the date the report has been generated included in the pdf -->
 
 <xsl:template name="addPageTwoPlusHeaders">
     <xsl:param name="famID"/>
-
+    
     <xsl:element 
         name="fo:table" 
         use-attribute-sets="bordersTop">
         <xsl:attribute name="break-before">page</xsl:attribute>
-
-        <fo:table-column column-width="22mm"/>
-        <fo:table-column column-width="72mm"/>
-        <fo:table-column column-width="12mm"/>
-        <fo:table-column column-width="74mm"/>
+        <xsl:call-template name="addSpouseNameColumns"/>
         <fo:table-body>
             <!-- Insert name of Family Record's Husband/Father -->
             <xsl:call-template name="makeSpouseNameRow">
@@ -874,8 +841,8 @@ the date the report has been generated included in the pdf -->
         name="fo:table" 
         use-attribute-sets="bordersTop">
     
-        <fo:table-column 
-            column-width="180mm"/>
+        <xsl:call-template name="addChildListLabelColumns"/>
+        
         <fo:table-body>
             <xsl:element 
                 name="fo:table-row" 
@@ -946,24 +913,20 @@ the date the report has been generated included in the pdf -->
 <xsl:template name="makeChildMarriageTables">
     <xsl:param name="famID"/>
     <xsl:param name="indiID"/>
+    <xsl:param name="lastChildMarriage" select="false()"/>
 
-<!-- Create spouse row -->
+    <!-- table and row with spouse name -->
     <fo:table>
-        <fo:table-column column-width="6mm"/> <!-- empty column -->
-        <fo:table-column column-width="18mm"/> <!-- label -->
-        <fo:table-column column-width="70mm"/> <!-- data -->
-        <fo:table-column column-width="10mm"/> <!-- label -->
-        <fo:table-column column-width="76mm"/> <!-- data -->
+        <xsl:call-template name="addChildSpouseNameColumns"/>
         <fo:table-body>
     
             <xsl:element 
                 name="fo:table-row" 
-                use-attribute-sets="rowHeight">
+                use-attribute-sets="rowHeight bordersLeft bordersRight">
                 <xsl:attribute name="keep-with-previous.within-line">always</xsl:attribute>
 
                 <xsl:element 
-                    name="fo:table-cell" 
-                    use-attribute-sets="bordersLeft">
+                    name="fo:table-cell">
                     <xsl:attribute name="padding-top">.75mm</xsl:attribute>
                     <xsl:attribute name="padding-left">.75mm</xsl:attribute>
                     <fo:block font-family="sans-serif" font-size="10pt"></fo:block>
@@ -1048,14 +1011,16 @@ the date the report has been generated included in the pdf -->
 
     <!-- Table with Married Event -->
     <fo:table>
-        <xsl:call-template name="eventColumns"/>
+        <xsl:call-template name="addEventColumns"/>
         <fo:table-body>
             <xsl:call-template name="makeEventTableRows">
                 <xsl:with-param name="eventName" select="'Married'"/>
                 <xsl:with-param name="famID" select="$famID"/>
+                <xsl:with-param name="addBorderHack" select="$lastChildMarriage"/>
             </xsl:call-template>
         </fo:table-body>
     </fo:table>
+    
 </xsl:template>
 
 <xsl:template match="DATE">
@@ -1075,7 +1040,6 @@ the date the report has been generated included in the pdf -->
             <fo:block 
             font-family="serif" 
             font-size="10pt">
-            
                 <xsl:choose>
                     <xsl:when test="string-length( normalize-space( . ) ) &gt; 16">
                         <xsl:value-of select="substring( normalize-space( . ), 1, 13 )"/>
@@ -1169,54 +1133,85 @@ the date the report has been generated included in the pdf -->
 
 </xsl:template>
 
+<!-- templates used for insert formating attributes -->
+<xsl:template name="addChildNameColumns">
+    <!-- empty column -->
+    <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
+    <fo:table-column column-width="14mm"/><!-- label -->
+    <fo:table-column column-width="160mm"/><!-- data -->
+</xsl:template>
 
-<xsl:template name="eventColumns">
-    <fo:table-column column-width="6mm"/><!-- empty column -->
+<xsl:template name="addEventColumns">
+    <!-- empty column -->
+    <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
     <fo:table-column column-width="10mm"/><!-- label -->
     <fo:table-column column-width="26mm"/><!-- data -->
     <fo:table-column column-width="8mm"/><!-- label -->
     <fo:table-column column-width="130mm"/><!-- data -->
 </xsl:template>
 
+<xsl:template name="addChildSpouseNameColumns">
+    <!-- empty column -->
+    <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
+    <fo:table-column column-width="18mm"/> <!-- label -->
+    <fo:table-column column-width="70mm"/> <!-- data -->
+    <fo:table-column column-width="10mm"/> <!-- label -->
+    <fo:table-column column-width="76mm"/> <!-- data -->
+</xsl:template>
+
+<xsl:template name="addSpouseParentNamesColumns">
+    <!-- empty column -->
+    <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
+    <fo:table-column column-width="22mm"/><!-- label -->
+    <fo:table-column column-width="66mm"/><!-- data -->
+    <fo:table-column column-width="10mm"/><!-- label -->
+    <fo:table-column column-width="76mm"/><!-- data -->
+</xsl:template>
+
+<xsl:template name="addSpouseNameColumns">    
+    <fo:table-column column-width="22mm"/><!-- label -->
+    <fo:table-column column-width="72mm"/><!-- data -->
+    <fo:table-column column-width="12mm"/><!-- label -->
+    <fo:table-column column-width="74mm"/><!-- data -->
+</xsl:template>
+
+<xsl:template name="addChildListLabelColumns">
+    <fo:table-column column-width="180mm"/>
+</xsl:template>
+
+<xsl:template name="bordersBottom">
+    <xsl:attribute name="border-right-color">black</xsl:attribute>
+    <xsl:attribute name="border-bottom-style"><xsl:value-of select="$BorderLineStyle"/></xsl:attribute>
+    <xsl:attribute name="border-bottom-width"><xsl:value-of select="$BorderLineWidth"/></xsl:attribute>
+</xsl:template>
+
 <!-- Attribute Sets -->
+<xsl:attribute-set name="blankColumnWidth">
+    <xsl:attribute name="column-width">6mm</xsl:attribute>
+</xsl:attribute-set>
+
 <xsl:attribute-set name="bordersRight">
     <xsl:attribute name="border-right-color">black</xsl:attribute>
-    <xsl:attribute name="border-right-style">
-        <xsl:value-of select="$BorderLineStyle"/>
-    </xsl:attribute>
-    <xsl:attribute name="border-right-width">
-        <xsl:value-of select="$BorderLineWidth"/>
-    </xsl:attribute>
+    <xsl:attribute name="border-right-style"><xsl:value-of select="$BorderLineStyle"/></xsl:attribute>
+    <xsl:attribute name="border-right-width"><xsl:value-of select="$BorderLineWidth"/></xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="bordersBottom">
     <xsl:attribute name="border-right-color">black</xsl:attribute>
-    <xsl:attribute name="border-bottom-style">
-        <xsl:value-of select="$BorderLineStyle"/>
-    </xsl:attribute>
-    <xsl:attribute name="border-bottom-width">
-        <xsl:value-of select="$BorderLineWidth"/>
-    </xsl:attribute>
+    <xsl:attribute name="border-bottom-style"><xsl:value-of select="$BorderLineStyle"/></xsl:attribute>
+    <xsl:attribute name="border-bottom-width"><xsl:value-of select="$BorderLineWidth"/></xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="bordersLeft">
     <xsl:attribute name="border-left-color">black</xsl:attribute>
-    <xsl:attribute name="border-left-style">
-        <xsl:value-of select="$BorderLineStyle"/>
-    </xsl:attribute>
-    <xsl:attribute name="border-left-width">
-        <xsl:value-of select="$BorderLineWidth"/>
-    </xsl:attribute>
+    <xsl:attribute name="border-left-style"><xsl:value-of select="$BorderLineStyle"/></xsl:attribute>
+    <xsl:attribute name="border-left-width"><xsl:value-of select="$BorderLineWidth"/></xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="bordersTop">
     <xsl:attribute name="border-top-color">black</xsl:attribute>
-    <xsl:attribute name="border-top-style">
-        <xsl:value-of select="$BorderLineStyle"/>
-    </xsl:attribute>
-    <xsl:attribute name="border-top-width">
-        <xsl:value-of select="$BorderLineWidth"/>
-    </xsl:attribute>
+    <xsl:attribute name="border-top-style"><xsl:value-of select="$BorderLineStyle"/></xsl:attribute>
+    <xsl:attribute name="border-top-width"><xsl:value-of select="$BorderLineWidth"/></xsl:attribute>
 </xsl:attribute-set>
 
 <xsl:attribute-set name="rowHeight">
