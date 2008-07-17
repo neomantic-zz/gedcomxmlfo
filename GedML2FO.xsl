@@ -27,6 +27,17 @@
  ******************************************************************************
  ******************************************************************************
  -->
+ 
+ <!-- TODOs
+
+    Fix selecting multiple marriage dates and places for child spouses marriages - Almost fixed
+    Test out truncated DATE and PLAC templates
+    Fix Padding on Name Columns - FIXED
+    Fix Placement of Page Numbers - NOT FIXABLE
+    Separate formatting from structured elements - Almost
+    Test on extreme cases
+
+-->
 
 <xsl:output indent="yes" method="xml"/>
 
@@ -47,17 +58,6 @@ the date the report has been generated included in the pdf -->
 
 <!-- These global variables control the look of the output -->
 <xsl:variable name="MaxNumberOfPageRows">38</xsl:variable>
-
-
-<!-- TODO - 
- test on extreme cases
- collapse fo elements, into xsl elements, separating formating from code
- Truncated length of cell functions
- Fix selecting multiple marriage dates and places for child spouses marriages
- Fix placement of page number
- Fix Padding on Given Name columns
- Fix vertical spacing settings
--->
 
 <xsl:template match="/">
     <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
@@ -217,7 +217,7 @@ the date the report has been generated included in the pdf -->
     <xsl:if test="$childNumber &lt;= $numberOfChildren">
     
         <!-- get child's indiID -->
-        <xsl:variable name="indiID" select="CHIL[$childNumber]/@REF"/>
+        <xsl:variable name="indiID" select="CHIL[position() = $childNumber]/@REF"/>
     
         <!-- set the numberOfMarriages by either counting them, or if there are no marriages, set it to at least 1 -->
         <xsl:variable name="numberOfMarriages">
@@ -333,10 +333,12 @@ the date the report has been generated included in the pdf -->
     <xsl:param name="indiID"/>
     <xsl:param name="marriageNumber">1</xsl:param>
     <xsl:param name="numberOfMarriages">1</xsl:param>
-    
+ 
     <xsl:if test="$marriageNumber &lt;= $numberOfMarriages">
         <xsl:call-template name="makeChildMarriageTables">
-            <xsl:with-param name="famID" select="//INDI[@ID = $indiID]/FAMS[$marriageNumber]/@REF"/>
+            <!-- NOTE for some reason, select="//INDI[@ID = $indID]/FAMS[$marriageNumber]/@REF is too greedy
+                 it selects multiple @REFs to position() is used instead -->
+            <xsl:with-param name="famID" select="//INDI[@ID = $indiID]/FAMS[position()=$marriageNumber]/@REF"/>
             <xsl:with-param name="indiID" select="$indiID"/>
             <xsl:with-param name="lastChildMarriage">
                 <xsl:choose>
@@ -472,8 +474,8 @@ the date the report has been generated included in the pdf -->
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom">
             <xsl:attribute name="padding-right">1mm</xsl:attribute>
-            <xsl:attribute name="padding-left">.75mm</xsl:attribute>
             <xsl:attribute name="padding-top">.5mm</xsl:attribute>
+            <xsl:attribute name="padding-left">.75mm</xsl:attribute>
         
             <fo:block 
                 font-family="sans-serif" 
@@ -499,10 +501,12 @@ the date the report has been generated included in the pdf -->
         name="fo:table-cell" 
         use-attribute-sets="bordersRight bordersBottom">
         <xsl:attribute name="padding-top">1mm</xsl:attribute>
-    
+        <xsl:attribute name="padding-left">1mm</xsl:attribute>
+        
         <fo:block 
         font-family="serif" 
-        font-size=".9em">
+        font-size=".9em"
+        font-weight="bold">
             <xsl:choose>
                 <xsl:when test="//INDI[@ID = $indiID]/NAME/GIVN">
                     <xsl:value-of select="//INDI[@ID = $indiID]/NAME/GIVN"/>
@@ -537,11 +541,12 @@ the date the report has been generated included in the pdf -->
         name="fo:table-cell" 
         use-attribute-sets="bordersBottom">
         <xsl:attribute name="padding-top">1mm</xsl:attribute>
+        <xsl:attribute name="padding-left">1mm</xsl:attribute>
     
         <fo:block 
             font-family="serif" 
-            font-size=".9em">
-            
+            font-size=".9em"
+            font-weight="bold">
             <!-- Surname -->
             <xsl:choose>
                 <xsl:when test="//INDI[@ID = $indiID]/NAME/SURN">
@@ -564,20 +569,21 @@ the date the report has been generated included in the pdf -->
     <xsl:param name="famID"/> <!-- added for spouse and child married events -->
     <xsl:param name="childNumber"/><!-- added for child burial events -->
     <xsl:param name="addBorderHack" select="false()"/>
-
+	<!--  this last parameter was added to ensure that there was a border on the left column
+	      at the end of child marriage rows -->
+          
     <!-- Event Rows have Bottom Borders -->
     <xsl:element 
         name="fo:table-row" 
         use-attribute-sets="rowHeight bordersRight bordersLeft">
         <xsl:attribute name="keep-with-previous.within-line">always</xsl:attribute>
         <xsl:element
-            name="fo:table-cell">
+            name="fo:table-cell"
+            use-attribute-sets="labelPadding">
             <xsl:if test="$addBorderHack = 'true'">
                 <xsl:call-template name="bordersBottom"/>
             </xsl:if>
-            <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-            <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-        
+            
             <fo:block 
                 font-family="sans-serif" 
                 font-size=".7em" 
@@ -591,9 +597,7 @@ the date the report has been generated included in the pdf -->
         </xsl:element>
         <xsl:element 
             name="fo:table-cell" 
-            use-attribute-sets="bordersBottom bordersLeft">
-            <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-            <xsl:attribute name="padding-left">.75mm</xsl:attribute>
+            use-attribute-sets="bordersBottom bordersLeft labelPadding">
             <fo:block 
                 font-family="sans-serif" 
                 font-size=".45em">
@@ -605,7 +609,7 @@ the date the report has been generated included in the pdf -->
         <xsl:element 
             name="fo:table-cell" 
             use-attribute-sets="bordersRight bordersBottom">
-            <xsl:attribute name="padding-top">1.5mm</xsl:attribute>
+            <xsl:attribute name="padding-top">1mm</xsl:attribute>
 
             <!-- DATE -->
             <xsl:choose>
@@ -654,10 +658,8 @@ the date the report has been generated included in the pdf -->
         <!-- place cells -label -->
         <xsl:element 
             name="fo:table-cell" 
-            use-attribute-sets="bordersBottom">
-            <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-            <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-            
+            use-attribute-sets="bordersBottom labelPadding">
+            <!-- Place Label -->
             <fo:block 
                 font-family="sans-serif" 
                 font-size=".45em">
@@ -668,8 +670,9 @@ the date the report has been generated included in the pdf -->
         <xsl:element 
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom">
-            <xsl:attribute name="padding-top">1.5mm</xsl:attribute>
-        
+            <xsl:attribute name="padding-top">1mm</xsl:attribute>
+            <xsl:attribute name="padding-left">.75mm</xsl:attribute>
+            
             <!--Place of Event -->
             <xsl:choose>
                 <xsl:when test="$eventName = 'Born'">
@@ -726,13 +729,9 @@ the date the report has been generated included in the pdf -->
     <xsl:element 
         name="fo:table-row" 
         use-attribute-sets="rowHeight bordersRight bordersLeft">
-        <xsl:element 
-            name="fo:table-cell">
-            <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-            <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-        
+        <fo:table-cell>
             <fo:block/>
-        </xsl:element><!-- fo:table-cell -->
+        </fo:table-cell>
         <xsl:element 
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom bordersLeft">
@@ -871,9 +870,7 @@ the date the report has been generated included in the pdf -->
     <!-- Given Name -->
     <xsl:element 
         name="fo:table-cell" 
-        use-attribute-sets="bordersBottom">
-        <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-        <xsl:attribute name="padding-left">.75mm</xsl:attribute>
+        use-attribute-sets="bordersBottom labelPadding">
         <fo:block 
             font-family="sans-serif" 
             font-size=".45em" 
@@ -906,18 +903,13 @@ the date the report has been generated included in the pdf -->
                 use-attribute-sets="rowHeight bordersLeft bordersRight">
                 <xsl:attribute name="keep-with-previous.within-line">always</xsl:attribute>
 
-                <xsl:element 
-                    name="fo:table-cell">
-                    <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-                    <xsl:attribute name="padding-left">.75mm</xsl:attribute>
+                <fo:table-cell>
                     <fo:block/>
-                </xsl:element><!-- fo:table-cell -->
+                </fo:table-cell>
                 <xsl:element 
                     name="fo:table-cell" 
-                    use-attribute-sets="bordersBottom bordersLeft">
-                    <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-                    <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-
+                    use-attribute-sets="bordersBottom bordersLeft labelPadding">
+                    <!-- Spouse's Given name(s) Label -->
                     <fo:block 
                         font-family="sans-serif" 
                         font-size=".45em">
@@ -946,10 +938,8 @@ the date the report has been generated included in the pdf -->
                 </xsl:choose>
                 <xsl:element 
                     name="fo:table-cell" 
-                    use-attribute-sets="bordersBottom bordersLeft">
-                    <xsl:attribute name="padding-top">.75mm</xsl:attribute>
-                    <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-
+                    use-attribute-sets="bordersBottom bordersLeft labelPadding">    
+                    <!-- Last name Label -->
                     <fo:block 
                         font-family="sans-serif" 
                         font-size=".45em">
@@ -1117,8 +1107,8 @@ the date the report has been generated included in the pdf -->
     <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
     <fo:table-column column-width="10mm"/><!-- label -->
     <fo:table-column column-width="31mm"/><!-- data -->
-    <fo:table-column column-width="8mm"/><!-- label -->
-    <fo:table-column column-width="135mm"/><!-- data -->
+    <fo:table-column column-width="7mm"/><!-- label -->
+    <fo:table-column column-width="136mm"/><!-- data -->
 </xsl:template>
 
 <xsl:template name="addChildSpouseNameColumns">
@@ -1142,8 +1132,8 @@ the date the report has been generated included in the pdf -->
 <xsl:template name="addSpouseNameColumns">    
     <fo:table-column column-width="14mm"/><!-- label -->
     <fo:table-column column-width="85mm"/><!-- data -->
-    <fo:table-column column-width="8mm"/><!-- label -->
-    <fo:table-column column-width="83mm"/><!-- data -->
+    <fo:table-column column-width="7mm"/><!-- label -->
+    <fo:table-column column-width="84mm"/><!-- data -->
 </xsl:template>
 
 <xsl:template name="addChildListLabelColumns">
@@ -1168,7 +1158,7 @@ the date the report has been generated included in the pdf -->
 </xsl:attribute-set>
 
 <xsl:attribute-set name="bordersBottom">
-    <xsl:attribute name="border-right-color">black</xsl:attribute>
+    <xsl:attribute name="border-bottom-color">black</xsl:attribute>
     <xsl:attribute name="border-bottom-style"><xsl:value-of select="$BorderLineStyle"/></xsl:attribute>
     <xsl:attribute name="border-bottom-width"><xsl:value-of select="$BorderLineWidth"/></xsl:attribute>
 </xsl:attribute-set>
@@ -1189,4 +1179,10 @@ the date the report has been generated included in the pdf -->
     <xsl:attribute name="height">5mm</xsl:attribute>
 </xsl:attribute-set>
 
-</xsl:stylesheet>   
+<xsl:attribute-set name="labelPadding">
+    <xsl:attribute name="padding-top">.75mm</xsl:attribute>
+    <xsl:attribute name="padding-left">.75mm</xsl:attribute>
+</xsl:attribute-set>
+
+
+</xsl:stylesheet>
