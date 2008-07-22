@@ -4,61 +4,109 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:fo="http://www.w3.org/1999/XSL/Format" 
     xmlns:date="http://exslt.org/dates-and-times" 
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
     extension-element-prefixes="date">
-<!--
- ******************************************************************************
- ******************************************************************************
-    Copyright (c) 2008 Chad Albers - chad@neomantic.com
-     
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    
- ******************************************************************************
- ******************************************************************************
- -->
- 
- <!-- TODOs
-
-    Fix selecting multiple marriage dates and places for child spouses marriages - Almost fixed
-    Test out truncated DATE and PLAC templates
-    Fix Padding on Name Columns - FIXED
-    Fix Placement of Page Numbers - NOT FIXABLE
-    Separate formatting from structured elements - Almost
-    Test on extreme cases
-
--->
+    <dc:creator>Chad Albers</dc:creator>
+    <dc:publisher>Chad Albers</dc:publisher>
+    <dc:date>2008-8-1</dc:date>
+    <dc:title>An XSLT Stylesheet to Transform GEDCOM 5.5 XML data to an XSL-FO document</dc:title>
+    <dc:description>This XSLT stylesheet can be applied to a GEDCOM 5.5 XML document 
+(http://www.neomantic.com/gedcom55XML) to create an XSL-FO document.  This document can 
+subsquently be processed by fop (http://xmlgraphics.apache.org/fop/) to produce a pdf document.  
+The pdf document will contain GEDCOM 5.5 Family Record data for all the families in the
+GEDCOM 5.5 XML document.  The format of the document is model after forms distributed by
+progenealogists.com. </dc:description>
+    <dc:identifier>http://www.neomantic.com/gedcom55XML</dc:identifier>
+    <dc:type>software</dc:type>
+    <dc:format>application/xml</dc:format>
+    <dc:language>en-US</dc:language>
+    <dc:rights>Copyright (c) 2008 Chad Albers mailto:chad@neomantic.com 
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    </dc:rights>
 
 <xsl:output indent="yes" method="xml"/>
-
-<!-- Global Variables, all of which start with a capital letter -->
-<!-- change this global variable if you don't want the FAM XREF or the 
-    INDI XREF to be included -->
-<!-- parameters that can be set through the processor -->
+<!--
+#===============================================================================
+# XSLT processor parameters and global variables
+# All processor parameters and global variables begin with capital letters.  All
+# local variables and template parameters start with lowercase letters
+#===============================================================================
+-->
+<!-- 
+#===============================================================================
+# XSLT processor parameters. 
+# These parameters alter the output of the XSLT processor.
+#
+#   IncludeIDs - accepts either 'true' or 'false' and acts as a flag to include
+#       the ID number of FAM element of the family record and the INDI elements 
+#       of family members, including the spouses of children
+#
+#   IncludeDateGenerated - accept either 'true or 'false'.  If 'true, the date 
+#       that the XSLT processor applied this stylesheet to a GEDCOM 5.5 XML 
+#       document    is included in the footer of the xsl-fo document. It relies 
+#       on the http://exslt.org/dates-and-times extension.  If the XSLT processor 
+#       does not support this extension, the stylesheet may fail to be applied 
+#       to the XML document.  To be on the safe side, it defaults to 'false.'
+#
+#   FamID - the ID of the FAM element.  If this value is supplied, the 
+#       stylesheet will produce a document containing only the FAM or family 
+#       record with the value in famID.  If it this parameter is not supplied, 
+#       the stylesheet is applied to all FAM elements in the XML document.
+#
+#   SortFamilies - if the IDs of the FAM elements are structured in a way that 
+#       can be assorted ascending or descending this parameter tells the 
+#       stylesheet to sort these IDs, and output the families in that order.  It
+#       defaults to 'false'.
+#
+#   BorderLineStyle - this parameter allows the user to determine the look of 
+#       the borders in the tables, rows, and cells.  It defaults to 'solid', but
+#       could accept the following values: none, hidden, dotted, dashed, double,
+#       groove, ridge, inset, and outset.  Use these other values at your own 
+#       risk.  The stylesheet has been built assuming solid borders.
+#
+#   BorderLineWidth - this parameter enables the width of the borders to be set.
+#       It defaults to .3mm.  Change this value at your own risk.  The 
+#       stylesheet has been built assuming the default value.
+#===============================================================================
+-->
 <xsl:param name="IncludeIDs" select="false()"/>
-<!-- change to true() if the date extension exists, and you want the
-the date the report has been generated included in the pdf -->
-<xsl:param name="DateGenerated" select="true()"/>
-<!-- the FamID of the family to be generated -->
+<xsl:param name="IncludeDateGenerated" select="false()"/>
 <xsl:param name="FamID"/>
-<xsl:param name="SortFamilies" select="true()"/>
-
+<xsl:param name="SortFamilies" select="false()"/>
 <xsl:param name="BorderLineStyle">solid</xsl:param>
 <xsl:param name="BorderLineWidth">.3mm</xsl:param>
 
-<!-- These global variables control the look of the output -->
+<!-- 
+#===============================================================================
+# Global Variables
+#   MaxNumberOfPageRows - the value of this variable is used in calculating when
+#       page breaks should be inserted.  It can be changed to a new value, if, 
+#       say, you want to change the length of your documents from US Letter (the
+#       default) to A4.  (Since A4 is also narrower, though, the row and column
+#       lengths would have to be decreased as well).
+#===============================================================================
+-->
 <xsl:variable name="MaxNumberOfPageRows">38</xsl:variable>
 
+<!-- 
+#===============================================================================
+# The root template begins the process of building the xsl-fo document.  The
+# document it constructs processes all FAM elements into on long table that
+# is divided by page breaks.  Another method would have been to place it each
+# family record into its on page sequence
+#===============================================================================
+-->
 <xsl:template match="/">
     <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
         <fo:layout-master-set>
@@ -76,7 +124,7 @@ the date the report has been generated included in the pdf -->
                 <fo:region-before 
                     extent="1cm"/>
                 <fo:region-after 
-                extent=".5cm"/>
+                    extent=".5cm"/>
             </fo:simple-page-master>
         </fo:layout-master-set>
 
@@ -99,7 +147,8 @@ the date the report has been generated included in the pdf -->
                 <fo:block 
                     font-family="sans-serif" 
                     font-size="6pt" 
-                    text-align="right">
+                    text-align="right"
+                    margin-right=".5cm">
                     <xsl:if test="$IncludeIDs = true()">
                         <xsl:text>(Fam. ID </xsl:text>
                         <fo:retrieve-marker retrieve-class-name="famID"/>
@@ -115,7 +164,7 @@ the date the report has been generated included in the pdf -->
                     font-family="sans-serif" 
                     font-size="8pt" 
                     text-align="left">
-                    <xsl:if test="$DateGenerated = true()">
+                    <xsl:if test="$IncludeDateGenerated = true()">
                         <xsl:text>Generated: </xsl:text>
                         <xsl:value-of select="substring( date:date-time(), 0, 11)"/>
                     </xsl:if>
@@ -123,11 +172,13 @@ the date the report has been generated included in the pdf -->
                 <fo:block 
                     font-family="sans-serif" 
                     font-size="8pt" 
-                    text-align="right">
+                    text-align="right" 
+                    margin-right=".5cm">
                     <fo:page-number/>
                 </fo:block>
             </fo:static-content>
 
+            <!-- body -->
             <fo:flow 
                 flow-name="xsl-region-body">
                 <xsl:choose>
@@ -154,10 +205,18 @@ the date the report has been generated included in the pdf -->
     </fo:root>
 </xsl:template>
 
+<!-- 
+#===============================================================================
+# The "FAM" templates processes a GEDCOM 5.5 XML FAM element.  It calls 
+# templates for each portion of the family record. It calls 
+# "makeSpouseNameAndEventTables" template twice for each spouse. It adds the row
+# separating the Spouse/Parents from the children.  Finally, it begins the 
+# process of adding the children to the output by calling "makeChildren"
+#===============================================================================
+-->
 <xsl:template match="FAM">
 
     <!-- insert marker for header, in case, IncludeIDs has been enables -->
-    <!-- FIX - it's in a block, but where does it appear in the flow? -->
     <fo:block 
         font-family="sans-serif" 
         font-size="8pt" 
@@ -167,10 +226,11 @@ the date the report has been generated included in the pdf -->
         </fo:marker>
     </fo:block>
      
-     <!-- add Husband and Wife -->
+     <!-- add Husband -->
     <xsl:call-template name="makeSpouseNameAndEventsTables">
         <xsl:with-param name="indiID">
-                <!-- for some reason, the @REF is not passed if I just set it via the select attribute of the param -->
+                <!-- for some reason, the @REF is not passed if I just set it
+                    via the select attribute of the param -->
             <xsl:value-of select="HUSB/@REF"/>
         </xsl:with-param>
         <xsl:with-param name="spouseRole" select="'Husband'"/>
@@ -187,7 +247,8 @@ the date the report has been generated included in the pdf -->
         </xsl:with-param>
     </xsl:call-template>
     <!-- 7 rows created -->
-
+    
+    <!-- add Wife -->
     <xsl:call-template name="makeSpouseNameAndEventsTables">
         <xsl:with-param name="indiID">
             <xsl:value-of select="WIFE/@REF"/>
@@ -203,11 +264,39 @@ the date the report has been generated included in the pdf -->
     <!-- addChildren -->
     <xsl:call-template name="makeChildren">
         <xsl:with-param name="numberOfChildren" select="count( CHIL )"/>
-        <xsl:with-param name="rowNumber" select="14"/>
+        <xsl:with-param name="rowNumber" select="14"/> <!-- the number of rows 
+                                                        already created -->
     </xsl:call-template>
 
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeChildren" template starts the process of adding both existing 
+# children to the output and blank children to fill up the page. The template is
+# intended to be called recursively for each CHIL element of a Family Record. 
+# It adds each child's data by calling "makeChildNameEventsTables". 
+#
+# As it adds the children it calculates the number of rows that have and will be 
+# added to the output.  This number is used to determine if the page break should 
+# be inserted before it adds a new child. If so, it will add header rows (with
+# the children's parent's given and surnames) to the top of each page following
+# the first page.
+# 
+# Additionally, the final number of rows is also used to determine how many 
+# "empty" children - (blank rows for potential child data) - will be added at the
+# end of the family's record.
+#
+# The template accepts 3 parameters:
+#
+#   numberOfChildren - which is supplied usually by a count() function
+#
+#   childNumber - each child is labeled with a number - representing its order 
+#       in the family.  This is determine by the interation in the recursion.
+#
+#   rowNumber - a parameter that is incremented every time makeChildren is 
+#       called
+#===============================================================================
+-->
 <xsl:template name="makeChildren">
     <xsl:param name="numberOfChildren"/>
     <xsl:param name="childNumber" select="1"/>
@@ -278,7 +367,25 @@ the date the report has been generated included in the pdf -->
     </xsl:if>
 
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeChildNameAndEventsTables" template actually builds the fo-tables 
+# for the individual children.  It calls the templates to add the child's name -
+# "makeChildNameRowCells", calls the templates for the birth, death, and buried
+# events - "makeEventTableRows", and finally calls the template to add the 
+# child's marriages - "makeChildMarriages".
+#
+# The template takes 3 parameters:
+#
+#   indiID - the ID of the INDI element for the child
+#
+#   childNumber - the child's position in the family and number added to their
+#       burial row
+#
+#   numberOfMarriages - this defaults to 1, but the "makeChildren" template
+#        which calls this could increases this number
+#===============================================================================
+-->
 <xsl:template name="makeChildNameAndEventsTables">
     <xsl:param name="indiID"/>
     <xsl:param name="childNumber"/>
@@ -328,7 +435,22 @@ the date the report has been generated included in the pdf -->
     </xsl:call-template>
 
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeChildMarriages" template is intended to be called recursively for 
+# each of a child's marriages.  To add the data to the xsl-fo document it calls 
+# the "makeChildMarriageTables" templates.
+#
+# This template takes 3 parameters:
+#
+#   indiID - the ID of the INDI element for the child
+#
+#   marriageNumber - it defaults to 1, and is used in the recursion increments
+#
+#   numberOfMarriages - the total number of FAMS records belonging to a CHIL's
+#       INDI record, and the total number of times this template will be called
+#===============================================================================
+-->
 <xsl:template name="makeChildMarriages">
     <xsl:param name="indiID"/>
     <xsl:param name="marriageNumber">1</xsl:param>
@@ -361,7 +483,25 @@ the date the report has been generated included in the pdf -->
     </xsl:if>
 
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeSpouseNameAndEventsTables" template creates the tables and begins 
+# populating them with data for each family record's spouse/parent (husband or 
+# wife).  To add the name rows, it calls "makeSpouseNameRows".  To create the 
+# born, died, and buried rows it calls "makeEventTableRows". If the 
+# spouse/parent is the husband, it adds the marriage event row.  Finally, it 
+# adds the husband or wife's parents by calling "makeParentNameRow". 
+#
+# This template takes 3 paramaters:
+#
+#   indiID - the ID of the INDI element of either the husband or wife of the 
+#       family
+#
+#   spouseRole - the role of the individual, either 'Husband' or 'Wife'
+#
+#   break - used to determine if a page break should be inserted.
+#===============================================================================
+-->
 <xsl:template name="makeSpouseNameAndEventsTables">
     <xsl:param name="indiID"/>
     <xsl:param name="spouseRole"/>
@@ -372,8 +512,9 @@ the date the report has been generated included in the pdf -->
         name="fo:table" 
         use-attribute-sets="bordersTop">
         <!-- add page break -->
-        <xsl:if test="$break = 'true'"><!-- for some reason, true() can't be used in this conditional
-                                     even though it works other times -->
+        <xsl:if test="$break = 'true'"><!-- for some reason, true() can't be 
+                                            used in this conditional even though
+                                            it works other times -->
             <xsl:attribute name="break-before">page</xsl:attribute>
         </xsl:if>
         
@@ -422,29 +563,40 @@ the date the report has been generated included in the pdf -->
     <fo:table>
         <xsl:call-template name="addSpouseParentNamesColumns"/>
         <fo:table-body>
-        <!-- Spouse's Family -->
-        <xsl:variable name="famID" select="//INDI[@ID = $indiID]/FAMC/@REF"/>
-    
-        <!-- Assumes traditional family (male/female) 
-             but in this case, it is biological -->
-        <!-- Spouse's Father -->
-        <xsl:call-template name="makeParentNameRow">
-            <xsl:with-param name="indiID" select="//FAM[@ID = $famID]/HUSB/@REF"/>
-            <xsl:with-param name="spouseRole" select="$spouseRole"/>
-            <xsl:with-param name="parentRole" select="'Father'"/>
-        </xsl:call-template>
+            <!-- Spouse's Family -->
+            <xsl:variable name="famID" select="//INDI[@ID = $indiID]/FAMC/@REF"/>
         
-        <!-- Spouse's Mother -->
-        <xsl:call-template name="makeParentNameRow">
-            <xsl:with-param name="indiID" select="//FAM[@ID = $famID]/WIFE/@REF"/>
-            <xsl:with-param name="spouseRole" select="$spouseRole"/>
-            <xsl:with-param name="parentRole" select="'Mother'"/>
-        </xsl:call-template>
+            <!-- Assumes traditional family (male/female) -->
+            <!-- Spouse's Father -->
+            <xsl:call-template name="makeParentNameRow">
+                <xsl:with-param name="indiID" select="//FAM[@ID = $famID]/HUSB/@REF"/>
+                <xsl:with-param name="spouseRole" select="$spouseRole"/>
+                <xsl:with-param name="parentRole" select="'Father'"/>
+            </xsl:call-template>
+            
+            <!-- Spouse's Mother -->
+            <xsl:call-template name="makeParentNameRow">
+                <xsl:with-param name="indiID" select="//FAM[@ID = $famID]/WIFE/@REF"/>
+                <xsl:with-param name="spouseRole" select="$spouseRole"/>
+                <xsl:with-param name="parentRole" select="'Mother'"/>
+            </xsl:call-template>
     
         </fo:table-body>
     </fo:table>
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeSpouseNameRow" template adds a row with the family's husband/wife's 
+# given Name and surname. 
+#
+# It takes 2 parameters:
+#
+#   spouseRole - either 'Wife' or 'Husband' - it is used for the label in the
+#       row; e.g., "Husband's Given name(s)"
+#
+#   indiID  - the ID of the INDI element of the husband or wife of the family
+#===============================================================================
+-->
 <xsl:template name="makeSpouseNameRow">
     <xsl:param name="spouseRole"/>
     <xsl:param name="indiID"/>
@@ -457,15 +609,15 @@ the date the report has been generated included in the pdf -->
             use-attribute-sets="bordersBottom">
             <xsl:attribute name="padding-top">.5mm</xsl:attribute>
             <xsl:attribute name="padding-left">.75mm</xsl:attribute>
-            <fo:block 
-                font-family="sans-serif" 
-                font-size=".45em">
+            <xsl:element 
+                name="fo:block"
+                use-attribute-sets="styleOfLabelFonts">
                 <xsl:value-of select="$spouseRole"/>
                 <xsl:text>&#8217;s Given name(s)</xsl:text>
-            </fo:block>
+            </xsl:element><!-- fo:block -->
         </xsl:element> <!-- fo:table-cell -->
 
-    <!-- Insert Given Name Cell -->
+        <!-- Insert Given Name Cell -->
         <xsl:call-template name="makeGivenNameCell">
             <xsl:with-param name="indiID" select="$indiID"/>
         </xsl:call-template>
@@ -477,11 +629,11 @@ the date the report has been generated included in the pdf -->
             <xsl:attribute name="padding-top">.5mm</xsl:attribute>
             <xsl:attribute name="padding-left">.75mm</xsl:attribute>
         
-            <fo:block 
-                font-family="sans-serif" 
-                font-size=".45em">
+            <xsl:element 
+                name="fo:block"
+                use-attribute-sets="styleOfLabelFonts">
                 <xsl:text>Last name</xsl:text>
-                </fo:block>
+             </xsl:element><!-- fo:block -->
        </xsl:element><!-- fo:table-cell -->
     
     <!-- Insert Surname table-cell -->
@@ -492,7 +644,17 @@ the date the report has been generated included in the pdf -->
     </xsl:element><!-- table-row -->
 
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeGivenNameCell" template adds the row cell containing the given name 
+# of the family member. It works for every family member (husband, wife, their 
+# parents, the children, and the children's spouse(s).
+#
+# It takes 1 parameter:
+#
+#   indiID - the ID of the INDI element of the family member
+#===============================================================================
+-->
 <!-- Creates table-cell with Given Name -->
 <xsl:template name="makeGivenNameCell">
     <xsl:param name="indiID"/>
@@ -526,12 +688,22 @@ the date the report has been generated included in the pdf -->
                         </xsl:if>
                     </xsl:if>            
                 </xsl:otherwise>
-            </xsl:choose>
-    
+            </xsl:choose>   
         </fo:block>
     </xsl:element><!-- fo:table-cell -->
 </xsl:template>
 
+<!-- 
+#===============================================================================
+# The "makeSurnameCell" template adds the cell containing the surname (or last 
+# name) of the family member. It works for every family member, with the 
+# exception of the children's whose surname is not added to the output.
+#
+# It takes 1 parameter:
+#
+#   indiID - the ID of the INDI element of the family member
+#===============================================================================
+-->
 <!-- Creates table-cell with Last Name -->
 
 <xsl:template name="makeSurnameCell">
@@ -558,19 +730,42 @@ the date the report has been generated included in the pdf -->
                     </xsl:if>
                 </xsl:otherwise>
             </xsl:choose>
-            
         </fo:block>
     </xsl:element><!-- fo:table-cell -->
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeEventTableRows" template adds the rows containing the event's data
+# (birth, death, burial, marriage) for the family members.  It is used for a 
+# family's husband and wife, and their children.  It calls templates DATE and 
+# PLAC to add the cells containing the actual data.
+#
+# This template takes 5 parameters:
+#
+#   indiID - the ID of the INDI element of the family member
+#
+#   eventName - the name of the event to be processed.  Acceptable values are
+#       'Born', 'Died', 'Buried', 'Married'.
+#
+#   famID - the ID of the FAM element for either the husband/wife or children's
+#       families.  It is used to process the MARR/DATE MARR/PLAC data in a FAM 
+#       element
+#
+#   childNumber - the number to be added in the burial row of a child.  It 
+#      indicates the birth order of the child in the family.
+#
+#   addBorderHack - accepts the value true() or false().  It is an ugly hack
+#      used to add a missing cell border in rows for children's marriages
+#===============================================================================
+-->
 <xsl:template name="makeEventTableRows">
     <xsl:param name="indiID"/><!-- mandatory for any event -->
     <xsl:param name="eventName"/><!-- mandatory for any event -->
     <xsl:param name="famID"/> <!-- added for spouse and child married events -->
     <xsl:param name="childNumber"/><!-- added for child burial events -->
-    <xsl:param name="addBorderHack" select="false()"/>
-	<!--  this last parameter was added to ensure that there was a border on the left column
-	      at the end of child marriage rows -->
+    <xsl:param name="addBorderHack" select="false()"/><!--  this last parameter 
+                  was added to ensure that there was a border on the left column
+                  at the end of child marriage rows.  I consider it a ugly hack-->
           
     <!-- Event Rows have Bottom Borders -->
     <xsl:element 
@@ -583,7 +778,6 @@ the date the report has been generated included in the pdf -->
             <xsl:if test="$addBorderHack = 'true'">
                 <xsl:call-template name="bordersBottom"/>
             </xsl:if>
-            
             <fo:block 
                 font-family="sans-serif" 
                 font-size=".7em" 
@@ -598,12 +792,12 @@ the date the report has been generated included in the pdf -->
         <xsl:element 
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom bordersLeft labelPadding">
-            <fo:block 
-                font-family="sans-serif" 
-                font-size=".45em">
-            <!-- Insert "Born", "Died", or "Buried" -->
+            <xsl:element 
+                name="fo:block"
+                use-attribute-sets="styleOfLabelFonts">
+                <!-- Insert "Born", "Died", or "Buried" -->
                 <xsl:value-of select="$eventName"/>
-            </fo:block>
+            </xsl:element><!-- fo:block -->
         </xsl:element> <!-- fo:table-cell -->
 
         <xsl:element 
@@ -660,11 +854,11 @@ the date the report has been generated included in the pdf -->
             name="fo:table-cell" 
             use-attribute-sets="bordersBottom labelPadding">
             <!-- Place Label -->
-            <fo:block 
-                font-family="sans-serif" 
-                font-size=".45em">
+            <xsl:element 
+                name="fo:block"
+                use-attribute-sets="styleOfLabelFonts">
                 <xsl:text>Place</xsl:text>
-            </fo:block>
+           </xsl:element><!-- fo:block -->
         </xsl:element><!-- fo:table-cell -->
          <!-- place cells - data -->   
         <xsl:element 
@@ -718,9 +912,24 @@ the date the report has been generated included in the pdf -->
             </xsl:choose>
         </xsl:element><!-- fo:table-cell -->
     </xsl:element><!-- table-row -->
-
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeParentNameRow" template creates the row for a husband/wife's parent's
+# names.  To add the actual data it calls "makeGivenNameCell" and "makeSurnameCell".
+#
+# It accepts 3 parameters:
+#
+#   indiID - the ID of the INDI element of the mother or father of the family
+#       record
+#
+#   spouseRole - this accepts either 'Husband' or 'Wife' and is used for
+#       the label; e.g., "Husband's Mother's Given name(s)"
+#
+#   parentRole - this accepts either 'Father or 'Mother' and is used for the
+#       label shown above
+#===============================================================================
+-->
 <xsl:template name="makeParentNameRow">
     <xsl:param name="indiID"/>
     <xsl:param name="spouseRole"/><!-- either Husband or Wife -->
@@ -738,14 +947,14 @@ the date the report has been generated included in the pdf -->
             <xsl:attribute name="padding-top">.5mm</xsl:attribute>
             <xsl:attribute name="padding-left">1mm</xsl:attribute>
 
-            <fo:block 
-                font-family="sans-serif" 
-                font-size=".45em">
+            <xsl:element 
+                name="fo:block"
+                use-attribute-sets="styleOfLabelFonts">
                 <xsl:value-of select="$spouseRole"/>
                 <xsl:text>&#8217;s </xsl:text>
                 <xsl:value-of select="$parentRole"/>
                 <xsl:text>&#8217;s Given name(s)</xsl:text>
-            </fo:block>
+            </xsl:element><!-- fo:block -->
         </xsl:element><!-- fo:table-cell -->
     
         <!-- Insert Given Name table-cell -->
@@ -759,11 +968,11 @@ the date the report has been generated included in the pdf -->
             <xsl:attribute name="padding-top">.5mm</xsl:attribute>
             <xsl:attribute name="padding-left">1mm</xsl:attribute>
 
-            <fo:block 
-                font-family="sans-serif" 
-                font-size=".45em">
+            <xsl:element 
+                name="fo:block"
+                use-attribute-sets="styleOfLabelFonts">
                 <xsl:text>Last name</xsl:text>
-            </fo:block>
+            </xsl:element><!-- fo:block -->
         </xsl:element><!-- table-cell -->
     
         <!-- Insert Surname Cell-->
@@ -772,10 +981,21 @@ the date the report has been generated included in the pdf -->
         </xsl:call-template>
 
     </xsl:element><!-- table-row -->
-
-
 </xsl:template>
 
+<!-- 
+#===============================================================================
+# The "addBlankChildren" template adds empty child name and event rows to fill 
+# the page by calling "makeChildNameAndEventsTables" and recursively calling 
+# itself for each new blank child.
+#
+# It accepts 2 parameters:
+#
+#   numberOfChildrenToAdd - the number of blank children to add to the document
+#
+#   childNumber - primes the recursion and increments with every recursion
+#===============================================================================
+-->
 <xsl:template name="addBlankChildren">
     <xsl:param name="numberOfChildrenToAdd"/>
     <xsl:param name="childNumber">1</xsl:param>
@@ -791,7 +1011,17 @@ the date the report has been generated included in the pdf -->
         </xsl:call-template>
     </xsl:if>
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "addPageTwoPlusHeaders" adds a header for every family record page after 
+# the first page.  The header contains 2 rows with the husband's and wife's 
+# given names and surnames.  To produce each row it calls "makeSpouseNameRow."
+#
+# This parameter takes 1 parameter:
+#
+#   famID - the ID of the FAM record containing the husband and wife
+#===============================================================================
+-->
 <xsl:template name="addPageTwoPlusHeaders">
     <xsl:param name="famID"/>
     
@@ -814,15 +1044,20 @@ the date the report has been generated included in the pdf -->
         </fo:table-body>
     </xsl:element><!-- fo:table -->
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeChildListLabel" creates a table, its rows, and cells, that contain 
+# the label "Children - List each child in the order of birth."  It is used to 
+# visually separate the family's parents from the children.
+#===============================================================================
+-->
 <xsl:template name="makeChildListLabel">
 
     <xsl:element 
         name="fo:table" 
         use-attribute-sets="bordersTop">
-    
+        <!-- add columns -->
         <xsl:call-template name="addChildListLabelColumns"/>
-        
         <fo:table-body>
             <xsl:element 
                 name="fo:table-row" 
@@ -838,27 +1073,38 @@ the date the report has been generated included in the pdf -->
                         font-size=".8em">
                         <xsl:text>Children - List each child in order of birth</xsl:text>
                     </fo:block>
+
                 </xsl:element><!-- fo:table-cell -->
             </xsl:element><!-- table-row -->
         </fo:table-body>
     </xsl:element><!-- fo:table -->
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeChildNameRowCells" template adds the row and the cells containing the
+# name of a family's child.  It adds the sex of the child, and leaves out the 
+# child's surname, because it is unnecessary.  To add the cell with the given 
+# name it calls "makeGivenNameCell".
+#
+# It accepts 1 parameter:
+#
+#   indiID - the ID of the INDI element for the child
+#===============================================================================
+-->
 <xsl:template name="makeChildNameRowCells">
-    <xsl:param name="indiID"/>
-    
-    <!-- Gender -->
+    <xsl:param name="indiID"/>    
+    <!-- add Gender (M or F) -->
     <xsl:element 
         name="fo:table-cell" 
         use-attribute-sets="bordersTop bordersRight bordersBottom bordersLeft">
         <xsl:attribute name="padding-top">.3mm</xsl:attribute>
         <xsl:attribute name="padding-left">1mm</xsl:attribute>
-        <fo:block 
-            font-family="sans-serif" 
-            font-size=".45em" 
-            text-indent="1pt">
-            <xsl:text>Sex</xsl:text>
-        </fo:block>
+        <xsl:element 
+            name="fo:block"
+            use-attribute-sets="styleOfLabelFonts">
+            <xsl:attribute name="text-indent">1pt</xsl:attribute>
+                <xsl:text>Sex</xsl:text>
+        </xsl:element><!-- fo:block -->
         <fo:block 
             font-family="sans-serif" 
             font-size=".5em" 
@@ -867,16 +1113,16 @@ the date the report has been generated included in the pdf -->
         </fo:block>
     </xsl:element><!-- fo:table-cell -->
     
-    <!-- Given Name -->
+    <!-- add Given Name -->
     <xsl:element 
         name="fo:table-cell" 
         use-attribute-sets="bordersBottom labelPadding">
-        <fo:block 
-            font-family="sans-serif" 
-            font-size=".45em" 
-            padding-left="1mm">
+        <xsl:element 
+            name="fo:block"
+            use-attribute-sets="styleOfLabelFonts">
+            <xsl:attribute name="padding-left">1mm</xsl:attribute>
             <xsl:text>Given name(s)</xsl:text>
-        </fo:block>
+        </xsl:element><!-- fo:block -->
     </xsl:element><!-- fo:table-cell -->
 
     <!-- Insert Given Name Cell -->
@@ -887,7 +1133,26 @@ the date the report has been generated included in the pdf -->
     <!-- No Surname -->
 
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "makeChildMarriageTables" template produces the tables, rows, and cells 
+# that are populated with data regarding a child's marriage.  It adds a row with
+# the child's spouse's given name(s) and surname - calling "makeGivenNameCell" 
+# and "makeSurnameCell."  It adds the date and place of the marriage by calling
+# "makeEventTableRows".
+#
+# It accepts 3 variables:
+#
+#   famID - the ID of the FAM element for the child's FAMS.
+#
+#   indiID - the ID of the INDI element of the child.  It is used to test if the
+#       right family has been selected
+#
+#   lastChildMarriage - all the marriages of a child are included in the output.
+#       This parameter is used as a trigger for the addBorderHack (see above).  
+#       It accepts either true() or false() and is primed with false()
+#===============================================================================
+-->
 <xsl:template name="makeChildMarriageTables">
     <xsl:param name="famID"/>
     <xsl:param name="indiID"/>
@@ -895,9 +1160,9 @@ the date the report has been generated included in the pdf -->
 
     <!-- table and row with spouse name -->
     <fo:table>
+        <!-- add columns -->
         <xsl:call-template name="addChildSpouseNameColumns"/>
         <fo:table-body>
-    
             <xsl:element 
                 name="fo:table-row" 
                 use-attribute-sets="rowHeight bordersLeft bordersRight">
@@ -910,11 +1175,11 @@ the date the report has been generated included in the pdf -->
                     name="fo:table-cell" 
                     use-attribute-sets="bordersBottom bordersLeft labelPadding">
                     <!-- Spouse's Given name(s) Label -->
-                    <fo:block 
-                        font-family="sans-serif" 
-                        font-size=".45em">
+                    <xsl:element 
+                        name="fo:block"
+                        use-attribute-sets="styleOfLabelFonts">
                         <xsl:text>Spouse&#8217;s Given name(s)</xsl:text>
-                    </fo:block>
+                    </xsl:element><!-- fo:block -->
                 </xsl:element><!-- fo:table-cell -->
                 
                 <!-- Insert Given Name table-cell -->
@@ -940,11 +1205,11 @@ the date the report has been generated included in the pdf -->
                     name="fo:table-cell" 
                     use-attribute-sets="bordersBottom bordersLeft labelPadding">    
                     <!-- Last name Label -->
-                    <fo:block 
-                        font-family="sans-serif" 
-                        font-size=".45em">
+                    <xsl:element 
+                        name="fo:block"
+                        use-attribute-sets="styleOfLabelFonts">
                         <xsl:text>Last name</xsl:text>
-                    </fo:block>
+                    </xsl:element><!-- fo:block -->
                 </xsl:element><!-- fo:table-cell -->
                 
                 <!-- Insert Surname Cell-->
@@ -983,12 +1248,16 @@ the date the report has been generated included in the pdf -->
     </fo:table>
     
 </xsl:template>
-
+<!-- 
+#===============================================================================
+# The "DATE" template matches all DATE elements.  It is used for all events.
+#===============================================================================
+-->
 <xsl:template match="DATE">
 
     <!-- DATE_VALUE's range is 1<35 -->
     <xsl:choose>
-        <!-- When it is greater than 70, but less that 80, change font to 10pt -->
+        <!-- When it is greater than 12, but less that 15, change font to 10pt -->
         <xsl:when test="(string-length( normalize-space( . )) &gt; 12 ) and (string-length( normalize-space( . ) ) &lt;= 15)">
             <fo:block 
                 font-family="serif" 
@@ -1012,7 +1281,7 @@ the date the report has been generated included in the pdf -->
                 </xsl:choose>
             </fo:block>
         </xsl:when>
-    <!-- default to .9em -->
+        <!-- default to .9em -->
         <xsl:otherwise>
             <fo:block 
                 font-family="serif" 
@@ -1024,6 +1293,11 @@ the date the report has been generated included in the pdf -->
 
 </xsl:template>
 
+<!-- 
+#===============================================================================
+# The "PLAC" template matches all PLAC elements.  It is used for all events.
+#===============================================================================
+-->
 <xsl:template match="PLAC">
 
     <!-- return the text of PLAC not the text of its child elements -->
@@ -1093,8 +1367,24 @@ the date the report has been generated included in the pdf -->
     </xsl:choose>
 
 </xsl:template>
+<!--
+#===============================================================================
+# Unlike XHTML and CSS, it is difficult to separate content from style in
+# xsl-fo documents.  However, some effort has been made to do so.  This has
+# been accomplished in two ways: templates and attribute sets. The templates 
+# below insert the formatting elements into the output.  The attribute sets are 
+# used to add attributes to fo elements created by xsl:element elements.
+#===============================================================================
+-->
+<!--
+#===============================================================================
+# "Formatting" templates
+# Note that most of these templates insert the fo:table-columns used for the
+# tables.  Each row is 190mm long.  Some rows contain a blank column that is 6mm
+# long
+#===============================================================================
+-->
 
-<!-- templates used for insert formating attributes -->
 <xsl:template name="addChildNameColumns">
     <!-- empty column -->
     <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
@@ -1116,8 +1406,7 @@ the date the report has been generated included in the pdf -->
     <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
     <fo:table-column column-width="14mm"/> <!-- label -->
     <fo:table-column column-width="79mm"/> <!-- data -->
-    <fo:table-column column-width="8mm"/> <!-- label -->
-    <fo:table-column column-width="83mm"/> <!-- data -->
+    <xsl:call-template name="addLastNameColumns"/>
 </xsl:template>
 
 <xsl:template name="addSpouseParentNamesColumns">
@@ -1125,19 +1414,22 @@ the date the report has been generated included in the pdf -->
     <xsl:element name="fo:table-column" use-attribute-sets="blankColumnWidth"/>
     <fo:table-column column-width="22mm"/><!-- label -->
     <fo:table-column column-width="71mm"/><!-- data -->
-    <fo:table-column column-width="10mm"/><!-- label -->
-    <fo:table-column column-width="81mm"/><!-- data -->
+    <xsl:call-template name="addLastNameColumns"/>
 </xsl:template>
 
 <xsl:template name="addSpouseNameColumns">    
     <fo:table-column column-width="14mm"/><!-- label -->
     <fo:table-column column-width="85mm"/><!-- data -->
-    <fo:table-column column-width="7mm"/><!-- label -->
-    <fo:table-column column-width="84mm"/><!-- data -->
+    <xsl:call-template name="addLastNameColumns"/>
+</xsl:template>
+
+<xsl:template name="addLastNameColumns">
+    <fo:table-column column-width="7mm"/><!-- "Last Name" label -->
+    <fo:table-column column-width="84mm"/><!-- Surname data -->
 </xsl:template>
 
 <xsl:template name="addChildListLabelColumns">
-    <fo:table-column column-width="190mm"/>
+   <fo:table-column column-width="190mm"/>
 </xsl:template>
 
 <xsl:template name="bordersBottom">
@@ -1145,8 +1437,11 @@ the date the report has been generated included in the pdf -->
     <xsl:attribute name="border-bottom-style"><xsl:value-of select="$BorderLineStyle"/></xsl:attribute>
     <xsl:attribute name="border-bottom-width"><xsl:value-of select="$BorderLineWidth"/></xsl:attribute>
 </xsl:template>
-
-<!-- Attribute Sets -->
+<!--
+#===============================================================================
+# Attribute Sets
+#===============================================================================
+-->
 <xsl:attribute-set name="blankColumnWidth">
     <xsl:attribute name="column-width">6mm</xsl:attribute>
 </xsl:attribute-set>
@@ -1184,5 +1479,9 @@ the date the report has been generated included in the pdf -->
     <xsl:attribute name="padding-left">.75mm</xsl:attribute>
 </xsl:attribute-set>
 
+<xsl:attribute-set name="styleOfLabelFonts">
+      <xsl:attribute name="font-family">sans-serif</xsl:attribute>
+      <xsl:attribute name="font-size">.45em</xsl:attribute>
+</xsl:attribute-set>
 
 </xsl:stylesheet>
