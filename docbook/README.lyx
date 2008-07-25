@@ -1,0 +1,948 @@
+#LyX 1.5.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 276
+\begin_document
+\begin_header
+\textclass docbook
+\options .-
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\paperfontsize default
+\spacing single
+\papersize default
+\use_geometry false
+\use_amsmath 0
+\use_esint 0
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language swedish
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+gedcom55XMLtoXSL-FO.xsl
+\end_layout
+
+\begin_layout Section
+Overview
+\end_layout
+
+\begin_layout Standard
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+gedcom55XMLtoXSL-FO.xsl 
+\end_layout
+
+\end_inset
+
+is a 
+\begin_inset LatexCommand url
+name "Extensible Stylesheet Language"
+target "http://www.w3.org/Style/XSL/"
+
+\end_inset
+
+ (XSL) stylesheet that uses 
+\begin_inset LatexCommand url
+name "XSLT"
+target "http://www.w3.org/TR/xslt"
+
+\end_inset
+
+ to transform a 
+\begin_inset LatexCommand url
+name "GEDCOM 5.5 XML"
+target "http://www.neomantic.com/gedcom55XML/"
+
+\end_inset
+
+ document to a 
+\begin_inset LatexCommand url
+name "XSL-FO"
+target "http://www.w3.org/TR/xsl/"
+
+\end_inset
+
+ stylesheet.
+ Used in conjuction with Apache's Formatting Objects Processor or 
+\begin_inset LatexCommand url
+name "fop"
+target "http://xmlgraphics.apache.org/fop/"
+
+\end_inset
+
+ java application, the XSL-FO document can be converted to 
+\begin_inset LatexCommand url
+name "Portable Document Format"
+target "http://www.adobe.com/devnet/pdf/pdf_reference.html"
+
+\end_inset
+
+ (PDF) document that resembles a Genealogy form produced by progenealogists.com.
+\end_layout
+
+\begin_layout Subsection
+Stylesheet Parameters
+\end_layout
+
+\begin_layout Standard
+Several parameters can be supplied to the XSLT processor that effects the
+ data included in the out or its look and feel.
+\end_layout
+
+\begin_layout Subsubsection
+Output Data Parameters
+\end_layout
+
+\begin_layout Itemize
+IncludeIDs - accepts either 'true' or 'false' and acts as a flag to include
+ the XREF ID number of FAM element of the family record and the INDI elements
+ of family members, including the spouses of children
+\end_layout
+
+\begin_layout Itemize
+IncludeDateGenerated - accepts either 'true or 'false'.
+ If 'true', the date that the XSLT processor applied this stylesheet to
+ a GEDCOM 5.5 XML document is included in the footer of the pdf document.
+ It relies on the http://exslt.org/dates-and-times extension.
+ If the XSLT processor does not support this extension, the stylesheet may
+ fail to be applied to the XML document.
+ To be on the safe side, it defaults to 'false.'
+\end_layout
+
+\begin_layout Itemize
+FamID - accepts the XREF ID of one FAM element.
+ If this value is supplied, the stylesheet will produce a document containing
+ only the family record with the value in famID.
+ If it this parameter is not supplied, the stylesheet is applied to all
+ FAM elements in the XML document.
+ 
+\end_layout
+
+\begin_layout Itemize
+SortFamilies - accepts either 'true or 'false'.
+ If the IDs of the FAM elements are structured in a way that can be sorted
+ ascending or descending order, this parameter tells the stylesheet to sort
+ these IDs, and output the families in that order.
+ It defaults to 'false'.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Look and Feel Parameters
+\end_layout
+
+\begin_layout Itemize
+BorderLineStyle - this parameter allows the user to determine the look of
+ the borders in the tables, rows, and cells.
+ It defaults to 'solid', but could accept the following values: none, hidden,
+ dotted, dashed, double, groove, ridge, inset, and outset.
+ Use these other values at your own risk.
+ The stylesheet has been built assuming solid borders.
+ 
+\end_layout
+
+\begin_layout Itemize
+BorderLineWidth - this parameter enables the width of the borders to be
+ set.
+ It defaults to .3mm.
+ Change this value at your own risk.
+ The stylesheet has been built assuming the default value.
+\end_layout
+
+\begin_layout Subsection
+Stylesheet Versions and Download Locations
+\end_layout
+
+\begin_layout Standard
+The stylesheet described in this document is version 0.1.
+ 
+\end_layout
+
+\begin_layout Itemize
+.Both the stylesheet and this documentation is located at 
+\begin_inset LatexCommand url
+name "http://www.neomantic.com/gedcom5.5XML/0.1/gedcom55XML-0.1.tar.gz"
+target "http://www.neomantic.com/gedcom5.5XML/0.1/gedcom55XML-0.1.tar.gz"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+For verification purposes, I have signed this tar, gzipped archive with
+ my 
+\begin_inset LatexCommand url
+target "gnupg"
+
+\end_inset
+
+ public key located 
+\begin_inset LatexCommand url
+name "here"
+target "http://www.neomantic.com/gnupg/pubkey.asc"
+
+\end_inset
+
+.
+ The signature of 
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+gedcom55XML-0.1.tar.gz
+\end_layout
+
+\end_inset
+
+ is located at 
+\begin_inset LatexCommand url
+name "http://www.neomantic.com/gedcom55XML/0.1/gedcom55XML-0.1.tar.gz.sign"
+target "http://www.neomantic.com/gedcom55XML/0.1/gedcom55XML-0.1.tar.gz.sign"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Schema License
+\end_layout
+
+\begin_layout Standard
+The source code for is released under the 
+\begin_inset LatexCommand url
+name "GNU General Public License Version 2"
+target "http://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+
+\end_inset
+
+ (GPL).
+ The full text of this license can be found in a file called 
+\begin_inset Quotes sld
+\end_inset
+
+
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+gpl-2.0
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes srd
+\end_inset
+
+ in 
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+gedcom55XML-0.1.tar.gz
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Schema Updates
+\end_layout
+
+\begin_layout Standard
+Hyperlinks to the most up-to-date version of the schema are located at 
+\begin_inset LatexCommand url
+name "http://www.neomantic.com/gedcom55XML"
+target "http://www.neomantic.com/gedcom55XML"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Usage Instructions
+\end_layout
+
+\begin_layout Standard
+The process of converting a GEDCOM 5.5 file into a pdf document resembeling
+ the progenealogists.com forms takes three steps.
+\end_layout
+
+\begin_layout Enumerate
+Convert the GEDCOM 5.5 file to a GEDCOM 5.5 XML document.
+\end_layout
+
+\begin_layout Enumerate
+Transform the GEDCOM 5.5 XML document to an XSL-FO stylsheet by applying
+ the gedcom55XMLtoXSL-FO.xsl stylesheet to the XML document.
+\end_layout
+
+\begin_layout Enumerate
+Process the XSL-FO stylesheet produced with fop.
+\end_layout
+
+\begin_layout Standard
+The instructions below describe how to do so using several external programs
+ available on the internet.
+ The instructions follow several conventions: 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+family.ged
+\end_layout
+
+\end_inset
+
+ represents a GEDCOM 5.5 file.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+family.xml
+\end_layout
+
+\end_inset
+
+ represents the 
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+family.ged
+\end_layout
+
+\end_inset
+
+ file translated into a GEDCOM 5.5 XML document.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+family.fo
+\end_layout
+
+\end_inset
+
+represents a XSL-FO document produced by applying the 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+gedcom55XMLtoXSL-FO.xsl
+\end_layout
+
+\end_inset
+
+ XSLT stylesheet
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+family.pdf
+\end_layout
+
+\end_inset
+
+represents the pdf file that resembles the progenealogist form
+\end_layout
+
+\begin_layout Itemize
+Text sandwiched between brackets [ ] indicates variables that depend upon
+ your computer's environment.
+\end_layout
+
+\begin_layout Subsection
+Convert the GEDCOM 5.5 file to a GEDCOM 5.5 XML document
+\end_layout
+
+\begin_layout Standard
+To before the conversion, use a java application released by Michael H.
+ Kay that converts GEDCOM 5.5 files into what he calls 
+\begin_inset Quotes sld
+\end_inset
+
+
+\begin_inset LatexCommand url
+name "GedML"
+target "http://homepage.ntlworld.com/michael.h.kay/gedml/"
+
+\end_inset
+
+
+\begin_inset Quotes srd
+\end_inset
+
+ XML documents.
+ GedML is similar to GEDCOM 5.5 XML.
+ See this 
+\begin_inset LatexCommand url
+name "link"
+target "http://www.neomantic.com/gedcom55XML/0.1/README.html#id2515344"
+
+\end_inset
+
+ for details.
+\end_layout
+
+\begin_layout Enumerate
+Download Kay's 
+\begin_inset LatexCommand url
+name "source code"
+target "http://homepage.ntlworld.com/michael.h.kay/gedml/"
+
+\end_inset
+
+ and unzip it in a location of your choosing.
+ Remember the path to this location.
+ It will be referred to in a latest step using the variable 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+[path-to-gedml-classes]
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Find the files called 
+\begin_inset Quotes sld
+\end_inset
+
+
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+GedcomParser.java
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes srd
+\end_inset
+
+ and 
+\begin_inset Quotes sld
+\end_inset
+
+
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+GedcomToXml.xsl
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes srd
+\end_inset
+
+ in Kay's source code.
+\end_layout
+
+\begin_layout Enumerate
+Compile the file 
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+GedcomParser.java
+\end_layout
+
+\end_inset
+
+ using your favorite Java distribution's compiler - 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+javac
+\end_layout
+
+\end_inset
+
+.
+ This will produce a class file called 
+\begin_inset Quotes sld
+\end_inset
+
+
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+GedcomParser.class
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes srd
+\end_inset
+
+.
+ The command is as follows:
+\end_layout
+
+\begin_deeper
+\begin_layout Code
+javac GedcomParser.java
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Download Kay's 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+\begin_inset LatexCommand url
+name "saxon"
+target "http://saxon.sourceforge.net/"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ parser, install it, and remember its location, which will be referred to
+ below using the 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+[path-to-saxon]
+\end_layout
+
+\end_inset
+
+ variable.
+ (It may already be installed on your system; on my Debian GNU/Linux system
+ it was located at 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+/usr/share/java/saxon.jar
+\end_layout
+
+\end_inset
+
+.)
+\end_layout
+
+\begin_layout Enumerate
+Convert 
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+family.ged
+\end_layout
+
+\end_inset
+
+ to 
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+family.xml
+\end_layout
+
+\end_inset
+
+ by issuing the following command in your terminal:
+\end_layout
+
+\begin_deeper
+\begin_layout Code
+java -cp [path-to-saxon]/saxon.jar:[path-to-gedml-classes] com.icl.saxon.StyleSheet
+ -x GedcomParser -o family.xml family.ged [path-to-gedml-classes]/GedcomToXml.xsl
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The output of this command, 
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+family.xml
+\end_layout
+
+\end_inset
+
+, will be a near perfect reproduction of a GEDCOM 5.5 into GEDCOM 5.5 XML.
+ 
+\end_layout
+
+\begin_layout Subsection
+Transform the GEDCOM 5.5 XML document to an XSL-FO stylsheet
+\end_layout
+
+\begin_layout Standard
+To perform the transformation, the 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+gedcom55XMLtoXSL-FO.xsl
+\end_layout
+
+\end_inset
+
+ stylesheet must be applying to family.xml using an XSLT processor.
+ I have used two commandline applications to perform this transformation:
+ 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+\begin_inset LatexCommand url
+name "xsltproc"
+target "http://xmlsoft.org/XSLT/xsltproc2.html"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+saxon
+\end_layout
+
+\end_inset
+
+.
+ 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+xsltproc
+\end_layout
+
+\end_inset
+
+ used the Open Source XML parser called 
+\begin_inset Quotes sld
+\end_inset
+
+
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+\begin_inset LatexCommand url
+name "libxml"
+target "http://xmlsoft.org/"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes srd
+\end_inset
+
+ and is found on GNU/Linux distributions.
+ 
+\begin_inset LatexCommand url
+target "SAXON"
+
+\end_inset
+
+ is the XSLT processor developed by Michael H.
+ Kay, used in the previous step.
+ The parameters described above can be supplied to both XSLT processors.
+ Please consult their respective documents to find out how to do so.
+\end_layout
+
+\begin_layout Subsubsection
+xsltproc
+\end_layout
+
+\begin_layout Standard
+To use xsltproc, issue the following command in a terminal:
+\end_layout
+
+\begin_layout Code
+xsltproc gedcom55toXSL-FO.xsl family.xml > family.fo
+\end_layout
+
+\begin_layout Subsubsection
+SAXON
+\end_layout
+
+\begin_layout Standard
+To use saxon, issue the following command in a terminal:
+\end_layout
+
+\begin_layout Code
+java -cp [path-to-saxon]/saxon.jar com.icl.saxon.StyleSheet -o family.fo family.xml
+ gedcom55toXSL-FO.xsl
+\end_layout
+
+\begin_layout Subsection
+Process the XSL-FO stylesheet produced with fop
+\end_layout
+
+\begin_layout Standard
+The outcome of the previous step is an XSL-FO document called 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+family.fo
+\end_layout
+
+\end_inset
+
+.
+ This file now needs to be processed by 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+fop
+\end_layout
+
+\end_inset
+
+ to produce the pdf document.
+ To do so, follow these steps.
+\end_layout
+
+\begin_layout Enumerate
+Follow the 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+fop
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Quotes sld
+\end_inset
+
+quickstart
+\begin_inset Quotes srd
+\end_inset
+
+ guide 
+\begin_inset LatexCommand url
+name "here"
+target "http://xmlgraphics.apache.org/fop/quickstartguide.html"
+
+\end_inset
+
+ to download and install 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+fop
+\end_layout
+
+\end_inset
+
+ or use your GNU/Linux distribution's package management system to install
+ it.
+\end_layout
+
+\begin_layout Enumerate
+Once installed, issue the following command in a terminal
+\end_layout
+
+\begin_layout Code
+fop -fo family.fo -pdf family.pdf
+\end_layout
+
+\begin_layout Standard
+The outcome of this command is the pdf file.
+ Here is a hyperlink to a sample.
+\end_layout
+
+\begin_layout Section
+Documentation License
+\end_layout
+
+\begin_layout Standard
+This document is released under the 
+\begin_inset LatexCommand url
+name "GNU Free Documentation License Version 1.2"
+target "http://www.gnu.org/licenses/fdl.html"
+
+\end_inset
+
+.
+ The full text of this license is found in the file called 
+\begin_inset Quotes sld
+\end_inset
+
+
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+fdl.txt
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes srd
+\end_inset
+
+ released with 
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+gedcom55XML-0.1.tar.gz
+\end_layout
+
+\end_inset
+
+.
+ It can also be located at 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+\begin_inset LatexCommand url
+name "http://www.neomantic.com/gedcom55XML/0.1/README.html"
+target "http://www.neomantic.com/gedcom55XML/0.1/README.html"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Section
+Contact
+\end_layout
+
+\begin_layout Standard
+Please direct questions or requests for more information to 
+\begin_inset CharStyle Email
+show_label false
+status inlined
+
+\begin_layout Standard
+chad@neomantic.com
+\end_layout
+
+\end_inset
+
+.
+ Corrections, suggestions, bug reports, and patches are welcome as well.
+\end_layout
+
+\end_body
+\end_document

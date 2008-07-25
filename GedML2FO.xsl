@@ -6,7 +6,7 @@
     xmlns:date="http://exslt.org/dates-and-times" 
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     extension-element-prefixes="date">
-
+    
     <dc:creator>Chad Albers</dc:creator>
     <dc:publisher>Chad Albers</dc:publisher>
     <dc:date>2008-8-1</dc:date>
@@ -48,26 +48,26 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # XSLT processor parameters. 
 # These parameters alter the output of the XSLT processor.
 #
-#   IncludeIDs - accepts either 'true' or 'false' and acts as a flag to include
-#       the ID number of FAM element of the family record and the INDI elements 
-#       of family members, including the spouses of children
+#   IncludeIDs - accepts either 'true' or 'false' and acts as a flag to include 
+#       the XREF ID number of FAM element of the family record and the INDI 
+#       elements of family members, including the spouses of children
 #
-#   IncludeDateGenerated - accept either 'true or 'false'.  If 'true, the date 
+#   IncludeDateGenerated - accepts either 'true or 'false'. If 'true', the date 
 #       that the XSLT processor applied this stylesheet to a GEDCOM 5.5 XML 
-#       document    is included in the footer of the xsl-fo document. It relies 
-#       on the http://exslt.org/dates-and-times extension.  If the XSLT processor 
-#       does not support this extension, the stylesheet may fail to be applied 
-#       to the XML document.  To be on the safe side, it defaults to 'false.'
+#       document is included in the footer of the pdf document. It relies on the
+#       http://exslt.org/dates-and-times extension. If the XSLT processor does 
+#       not support this extension, the stylesheet may fail to be applied to the
+#       XML document. To be on the safe side, it defaults to 'false.'
 #
-#   FamID - the ID of the FAM element.  If this value is supplied, the 
-#       stylesheet will produce a document containing only the FAM or family 
-#       record with the value in famID.  If it this parameter is not supplied, 
-#       the stylesheet is applied to all FAM elements in the XML document.
+#   FamID - accepts the XREF ID of one FAM element. If this value is supplied, 
+#       the stylesheet will produce a document containing only the family record
+#       with the value in famID. If it this parameter is not supplied, the 
+#       stylesheet is applied to all FAM elements in the XML document. 
 #
-#   SortFamilies - if the IDs of the FAM elements are structured in a way that 
-#       can be assorted ascending or descending this parameter tells the 
-#       stylesheet to sort these IDs, and output the families in that order.  It
-#       defaults to 'false'.
+#   SortFamilies - accepts either 'true or 'false'. If the IDs of the FAM 
+#       elements are structured in a way that can be sorted ascending or 
+#       descending order, this parameter tells the stylesheet to sort these IDs,
+#       and output the families in that order. It defaults to 'false'. 
 #
 #   BorderLineStyle - this parameter allows the user to determine the look of 
 #       the borders in the tables, rows, and cells.  It defaults to 'solid', but
