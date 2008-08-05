@@ -3,12 +3,13 @@
 
 <!-- XML file was created by LyX 1.5.5
   See http://www.lyx.org/ for more information -->
-<article lang="en_US" .->
+<article lang="en_US">
 <articleinfo>
 <title>gedcom55XMLtoXSL-FO.xsl</title>
-</articleinfo><sect1>
+<date>August 8, 2008 </date><author>
+<firstname>Chad</firstname><surname>Albers</surname></author></articleinfo><sect1>
 <title>Overview</title>
-<para><filename>gedcom55XMLtoXSL-FO.xsl</filename> is a <ulink url="http://www.w3.org/Style/XSL/">Extensible Stylesheet Language</ulink> (XSL) stylesheet that uses <ulink url="http://www.w3.org/TR/xslt">XSLT</ulink> to transform a <ulink url="http://www.neomantic.com/gedcom55XML/">GEDCOM 5.5 XML</ulink> document to a <ulink url="http://www.w3.org/TR/xsl/">XSL-FO</ulink> stylesheet. This styelsheet can be converted to a <ulink url="http://www.adobe.com/devnet/pdf/pdf_reference.html">Portable Document Format</ulink> (PDF) file using Apache's Formatting Objects Processor or <ulink url="http://xmlgraphics.apache.org/fop/">fop</ulink> java application. The pdf document resembles genealogy record keeping forms produced by <ulink url="http://www.progenealogists.com/">ProGenealogists</ulink>. They specifically resemble the forms called &ldquo;<ulink url="http://www.progenealogists.com/familygroup1">Family Group Sheet Page 1</ulink>&rdquo; and &ldquo;<ulink url="http://www.progenealogists.com/familygroup2.pdf">Family Group Sheet Page 2</ulink>&rdquo;.</para><sect2>
+<para><filename>gedcom55XMLtoXSL-FO.xsl</filename> is an <ulink url="http://www.w3.org/Style/XSL/">Extensible Stylesheet Language</ulink> (XSL) stylesheet that uses <ulink url="http://www.w3.org/TR/xslt">XSLT</ulink> to transform a <ulink url="http://www.neomantic.com/gedcom55XML/">GEDCOM 5.5 XML</ulink> document to a <ulink url="http://www.w3.org/TR/xsl/">XSL-FO</ulink> stylesheet. This stylesheet can be converted to a <ulink url="http://www.adobe.com/devnet/pdf/pdf_reference.html">Portable Document Format</ulink> (PDF) file using <ulink url="http://xmlgraphics.apache.org/fop/">Apache's Formatting Objects Processor</ulink> Java application., <literal>fop</literal>. The pdf document resembles genealogy record keeping forms produced by <ulink url="http://www.progenealogists.com/">ProGenealogists</ulink>. They specifically resemble the forms called &ldquo;<ulink url="http://www.progenealogists.com/familygroup1">Family Group Sheet Page 1</ulink>&rdquo; and &ldquo;<ulink url="http://www.progenealogists.com/familygroup2.pdf">Family Group Sheet Page 2</ulink>&rdquo;.</para><sect2>
 <title>Stylesheet Parameters</title>
 <para>Several parameters can be supplied to XSLT processors which affect the data included in the document and the document's &ldquo;look and feel.&rdquo;</para><sect3>
 <title>Output Data Parameters</title>
@@ -55,5 +56,4 @@
 <title>Documentation License</title>
 <para>This document is released under the <ulink url="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation License Version 1.2</ulink>. The full text of this license is found in the file called &ldquo;<filename>fdl.txt</filename>&rdquo; released with <filename>gedcom55XMLtoXSL-FO.tar.gz</filename>. It can also be located at <ulink url="http://www.neomantic.com/downloads/gedcom55XMLtoXSL-FO/README.html">http://www.neomantic.com/downlads/gedcom55XMLtoXSL-FO/README.html</ulink>. </para></sect1><sect1>
 <title>Contact</title>
-<para>Please direct questions or requests for more information to <email>chad@neomantic.com</email>. Corrections, suggestions, bug reports, and patches are welcome as well.</para><author>
-Chad Albers</author><date>August 4, 2008</date></sect1></article>
+<para>Please direct questions or requests for more information to <email>chad@neomantic.com</email>. Corrections, suggestions, bug reports, and patches are welcome as well.</para></sect1></article>

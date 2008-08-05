@@ -3,7 +3,6 @@
 \begin_document
 \begin_header
 \textclass docbook
-\options .-
 \language english
 \inputencoding auto
 \font_roman default
@@ -16,7 +15,6 @@
 \font_tt_scale 100
 \graphics default
 \paperfontsize default
-\spacing single
 \papersize default
 \use_geometry false
 \use_amsmath 0
@@ -26,15 +24,14 @@
 \paperorientation portrait
 \secnumdepth 3
 \tocdepth 3
-\paragraph_separation skip
+\paragraph_separation indent
 \defskip medskip
-\quotes_language swedish
+\quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
-\author "" 
 \author "" 
 \end_header
 
@@ -42,6 +39,35 @@
 
 \begin_layout Title
 gedcom55XMLtoXSL-FO.xsl
+\end_layout
+
+\begin_layout Date
+August 8, 2008 
+\end_layout
+
+\begin_layout Author
+\begin_inset CharStyle Firstname
+show_label false
+status inlined
+
+\begin_layout Standard
+Chad
+\end_layout
+
+\end_inset
+
+
+\begin_inset CharStyle Surname
+show_label false
+status inlined
+
+\begin_layout Standard
+Albers
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -59,7 +85,7 @@ gedcom55XMLtoXSL-FO.xsl
 
 \end_inset
 
- is a 
+ is an 
 \begin_inset LatexCommand url
 name "Extensible Stylesheet Language"
 target "http://www.w3.org/Style/XSL/"
@@ -88,21 +114,32 @@ target "http://www.w3.org/TR/xsl/"
 \end_inset
 
  stylesheet.
- This styelsheet can be converted to a 
+ This stylesheet can be converted to a 
 \begin_inset LatexCommand url
 name "Portable Document Format"
 target "http://www.adobe.com/devnet/pdf/pdf_reference.html"
 
 \end_inset
 
- (PDF) file using Apache's Formatting Objects Processor or 
+ (PDF) file using 
 \begin_inset LatexCommand url
-name "fop"
+name "Apache's Formatting Objects Processor"
 target "http://xmlgraphics.apache.org/fop/"
 
 \end_inset
 
- java application.
+ Java application., 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+fop
+\end_layout
+
+\end_inset
+
+.
  The pdf document resembles genealogy record keeping forms produced by 
 \begin_inset LatexCommand url
 name "ProGenealogists"
@@ -1124,14 +1161,6 @@ chad@neomantic.com
 
 .
  Corrections, suggestions, bug reports, and patches are welcome as well.
-\end_layout
-
-\begin_layout Author
-Chad Albers
-\end_layout
-
-\begin_layout Date
-August 4, 2008
 \end_layout
 
 \end_body
