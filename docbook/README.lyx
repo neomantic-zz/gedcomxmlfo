@@ -33,6 +33,7 @@
 \tracking_changes false
 \output_changes false
 \author "" 
+\author "" 
 \end_header
 
 \begin_body
@@ -76,7 +77,7 @@ Overview
 
 \begin_layout Standard
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -297,7 +298,7 @@ target "http://www.neomantic.com/gnupg/pubkey.asc"
 .
  The signature of 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -335,7 +336,7 @@ target "http://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 
 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -350,7 +351,7 @@ gpl-2.0
 
  in 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -395,7 +396,7 @@ Convert the GEDCOM 5.5 file to a GEDCOM 5.5 XML document.
 Transform the GEDCOM 5.5 XML document to an XSL-FO stylsheet by applying
  the 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -417,7 +418,7 @@ The instructions below follow several conventions:
 
 \begin_layout Itemize
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -431,7 +432,7 @@ family.ged
 
 \begin_layout Itemize
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -442,7 +443,7 @@ family.xml
 
  represents the 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -456,7 +457,7 @@ family.ged
 
 \begin_layout Itemize
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -465,9 +466,9 @@ family.fo
 
 \end_inset
 
-represents a XSL-FO document produced by applying the 
+ represents a XSL-FO document produced by applying the 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -543,7 +544,7 @@ target "http://homepage.ntlworld.com/michael.h.kay/gedml/"
  Remember the path to this location.
  It will be referred to in the last step using the variable 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -562,7 +563,7 @@ Find the files called
 
 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -581,7 +582,7 @@ GedcomParser.java
 
 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -600,7 +601,7 @@ GedcomToXml.xsl
 \begin_layout Enumerate
 Compile the file 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -611,7 +612,7 @@ GedcomParser.java
 
  using your favorite Java distribution's compiler - 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -627,7 +628,7 @@ javac
 
 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -645,15 +646,58 @@ GedcomParser.class
 \end_layout
 
 \begin_deeper
-\begin_layout Code
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+<screen>
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+<command>
+\end_layout
+
+\end_inset
+
 javac GedcomParser.java
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+</command>
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+</screen>
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
 \begin_layout Enumerate
 Download Kay's 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -671,7 +715,7 @@ target "http://saxon.sourceforge.net/"
  parser, install it, and remember its location.
  Its location will be referred to below using the 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -684,7 +728,7 @@ status inlined
  (It may already be installed on your system; in the Debian GNU/Linux distributi
 on it is located at 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -699,7 +743,7 @@ status inlined
 \begin_layout Enumerate
 Convert 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -710,7 +754,7 @@ family.ged
 
  to 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -723,16 +767,59 @@ family.xml
 \end_layout
 
 \begin_deeper
-\begin_layout Code
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+<screen>
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+<command>
+\end_layout
+
+\end_inset
+
 java -cp [path-to-saxon]/saxon.jar:[path-to-gedml-classes] com.icl.saxon.StyleSheet
  -x GedcomParser -o family.xml family.ged [path-to-gedml-classes]/GedcomToXml.xsl
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+</command>
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+</screen>
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
 \begin_layout Standard
 The output of this command, 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -763,7 +850,7 @@ gedcom55XMLtoXSL-FO.xsl
 
  stylesheet must be applied to 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -776,7 +863,7 @@ family.xml
  I have used two command line applications to perform this transformation:
  
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -793,7 +880,7 @@ target "http://xmlsoft.org/XSLT/xsltproc2.html"
 
  and 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -805,7 +892,7 @@ saxon
 .
  
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -820,7 +907,7 @@ xsltproc
 
 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -869,7 +956,7 @@ gedcom55XMLtoXSL-FO.xsl
 \begin_layout Standard
 NOTE: Both 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -880,7 +967,7 @@ xsltproc
 
  and 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -893,7 +980,7 @@ saxon
  your computer's or the Java virtual machine's memory limitations.
  To get around these limitations, the 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -925,8 +1012,51 @@ xsltproc
 , issue the following command in a terminal:
 \end_layout
 
-\begin_layout Code
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+<screen>
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+<command>
+\end_layout
+
+\end_inset
+
 xsltproc gedcom55toXSL-FO.xsl family.xml > family.fo
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+</command>
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+</screen>
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -948,15 +1078,58 @@ saxon
 , issue the following command in a terminal:
 \end_layout
 
-\begin_layout Code
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+<screen>
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+<command>
+\end_layout
+
+\end_inset
+
 java -cp [path-to-saxon]/saxon.jar com.icl.saxon.StyleSheet -o family.fo family.xml
  gedcom55toXSL-FO.xsl
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+</command>
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+</screen>
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 As mentioned above, if the 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -974,7 +1147,7 @@ family.xml
 
 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -1009,7 +1182,7 @@ family.fo
 .
  This file now needs to be processed by 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -1025,7 +1198,7 @@ fop
 \begin_layout Enumerate
 Follow the 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -1051,7 +1224,7 @@ target "http://xmlgraphics.apache.org/fop/quickstartguide.html"
 
  to download and install 
 \begin_inset CharStyle Literal
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -1068,8 +1241,51 @@ fop
 Once installed, issue the following command in a terminal:
 \end_layout
 
-\begin_layout Code
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+<screen>
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+<command>
+\end_layout
+
+\end_inset
+
 fop -fo family.fo -pdf family.pdf
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+</command>
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+</screen>
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1085,7 +1301,26 @@ family.pdf
 \end_inset
 
  file.
- Here is a hyperlink to a sample.
+ 
+\end_layout
+
+\begin_layout Subsection
+Sample
+\end_layout
+
+\begin_layout Standard
+Included with the stylesheet and this documentation is a pdf sample of the
+ output.
+ It is based on a GEDCOM 5.5 file called 
+\begin_inset Quotes eld
+\end_inset
+
+royal92.ged
+\begin_inset Quotes erd
+\end_inset
+
+ which contains this genealogical history of the British royal family.
+ This GEDCOM 5.5 can be easily found on the web.
 \end_layout
 
 \begin_layout Section
@@ -1107,7 +1342,7 @@ target "http://www.gnu.org/licenses/fdl.html"
 
 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -1122,7 +1357,7 @@ fdl.txt
 
  released with 
 \begin_inset CharStyle Filename
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard
@@ -1150,7 +1385,7 @@ Contact
 \begin_layout Standard
 Please direct questions or requests for more information to 
 \begin_inset CharStyle Email
-show_label true
+show_label false
 status inlined
 
 \begin_layout Standard

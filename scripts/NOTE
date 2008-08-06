@@ -1,0 +1,4 @@
+These scripts link to the stylesheet above this directory.  
+If you decide to change these scripts location, and if your 
+locations of xalan and saxon are different, you will need
+to change the global variables in the scripts.

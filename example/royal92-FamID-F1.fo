@@ -1,0 +1,1650 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <fo:layout-master-set>
+    <fo:simple-page-master margin-bottom=".2cm" margin-left="1.2cm" margin-right="1cm" margin-top="1cm" master-name="Family" page-height="11in" page-width="8.5in">
+      <fo:region-body margin-top="1cm" margin-bottom="0cm"/>
+      <fo:region-before extent="1cm"/>
+      <fo:region-after extent=".5cm"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence country="us" initial-page-number="1" language="en" master-reference="Family" force-page-count="no-force">
+    <fo:static-content flow-name="xsl-region-before">
+      <fo:block font-family="sans-serif" font-size="14pt" text-align="center">Family Group Record</fo:block>
+      <fo:block font-family="sans-serif" font-size="6pt" text-align="right" margin-right=".5cm"/>
+    </fo:static-content>
+    <fo:static-content flow-name="xsl-region-after">
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="left"/>
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="right" margin-right=".5cm">
+        <fo:page-number/>
+      </fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="left">
+        <fo:marker marker-class-name="famID">F1</fo:marker>
+      </fo:block>
+      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm">
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="85mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm">
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Husband’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Albert Augustus Charles</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">26 AUG 1819</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Schloss Rosenau,Near Coburg,Germany</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">14 DEC 1861</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Windsor Castle,Berkshire,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Royal Masoleum,Frogmore,Windsor,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="22mm"/>
+        <fo:table-column column-width="71mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".5mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Husband’s Father’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Ernest_I of_Saxe-Coburg- Saalfeld</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".5mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Husband’s Mother’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Louise of_Saxe-Coburg- Altenburg</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm">
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="85mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm">
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Wife’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Victoria </fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Hanover</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">24 MAY 1819</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Kensington,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">22 JAN 1901</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Osborne House,Isle of Wight,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Royal Mausoleum,Frogmore,Berkshire,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="22mm"/>
+        <fo:table-column column-width="71mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".5mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Wife’s Father’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Edward Augustus </fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Hanover</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".5mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Wife’s Mother’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Victoria Mary Louisa</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm">
+        <fo:table-column column-width="190mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top="1.5mm" padding-left="2mm">
+              <fo:block font-family="sans-serif" font-size=".8em">Children - List each child in order of birth</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="176mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".3mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em" text-indent="1pt">Sex</fo:block>
+              <fo:block font-family="sans-serif" font-size=".5em" text-indent="2pt">F</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Victoria Adelaide Mary</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">21 NOV 1840</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Buckingham,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">5 AUG 1901</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Friedrichshof,Near,Kronberg,Taunus</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt">1</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Friedenskirche,Potsdam</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="79mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Frederick_III </fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm" border-right-color="black" border-bottom-style="solid" border-bottom-width=".3mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">25 JAN 1858</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="176mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".3mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em" text-indent="1pt">Sex</fo:block>
+              <fo:block font-family="sans-serif" font-size=".5em" text-indent="2pt">M</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Edward_VII </fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">9 NOV 1841</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Buckingham,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">6 MAY 1910</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Buckingham,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt">2</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">20 MAY 1910</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Windsor,Berkshire,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="79mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Alexandra of_Denmark "Alix"</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm" border-right-color="black" border-bottom-style="solid" border-bottom-width=".3mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">10 MAR 1863</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">St. George Chap.,Windsor,,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="176mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".3mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em" text-indent="1pt">Sex</fo:block>
+              <fo:block font-family="sans-serif" font-size=".5em" text-indent="2pt">F</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Alice Maud Mary</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">25 APR 1843</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Buckingham,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">14 DEC 1878</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Darmstadt,,,Germany</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt">3</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="79mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Louis_IV of_Hesse </fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm" border-right-color="black" border-bottom-style="solid" border-bottom-width=".3mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">1 JUL 1862</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Osborne House,Isle of Wight</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="176mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".3mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em" text-indent="1pt">Sex</fo:block>
+              <fo:block font-family="sans-serif" font-size=".5em" text-indent="2pt">M</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Alfred Ernest Albert</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">6 AUG 1844</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Windsor Castle,Berkshire,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">30 JUL 1900</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Schloss Rosenau,Near Coburg</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt">4</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="79mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Marie Alexandrovna </fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm" border-right-color="black" border-bottom-style="solid" border-bottom-width=".3mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">23 JAN 1874</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Winter Palace,St. Petersburg,Russia</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm" break-before="page">
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="85mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm">
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Husband’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Albert Augustus Charles</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm">
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Wife’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Victoria </fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Hanover</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="176mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".3mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em" text-indent="1pt">Sex</fo:block>
+              <fo:block font-family="sans-serif" font-size=".5em" text-indent="2pt">F</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Helena Augusta Victoria</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">25 MAY 1846</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Buckingham,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">9 JUN 1923</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Schomberg House,Pall Mall,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt">5</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="79mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">(Frederick) Christian Charles</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm" border-right-color="black" border-bottom-style="solid" border-bottom-width=".3mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">5 JUL 1866</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Windsor Castle,,,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="176mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".3mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em" text-indent="1pt">Sex</fo:block>
+              <fo:block font-family="sans-serif" font-size=".5em" text-indent="2pt">F</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Louise Caroline Alberta</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">18 MAR 1848</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Buckingham,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">3 DEC 1939</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Kensington,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt">6</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Frogmore,,,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="79mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">John </fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Campbell</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm" border-right-color="black" border-bottom-style="solid" border-bottom-width=".3mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">21 MAR 1871</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">St. George Chap.,Windsor,,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="176mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".3mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em" text-indent="1pt">Sex</fo:block>
+              <fo:block font-family="sans-serif" font-size=".5em" text-indent="2pt">M</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Arthur William Patrick</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">1 MAY 1850</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Buckingham,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">16 JAN 1942</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Bagshot Park,Surrey</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt">7</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="79mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Louise Margaret of_Prussia</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm" border-right-color="black" border-bottom-style="solid" border-bottom-width=".3mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">13 MAR 1879</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">St. George Chap.,Windsor,,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="176mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".3mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em" text-indent="1pt">Sex</fo:block>
+              <fo:block font-family="sans-serif" font-size=".5em" text-indent="2pt">M</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Leopold George Duncan</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">7 APR 1853</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Buckingham,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">28 MAR 1884</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Cannes</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt">8</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="79mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Helena Frederica of_Waldeck</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm" border-right-color="black" border-bottom-style="solid" border-bottom-width=".3mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">27 APR 1882</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">St. George Chap.,Windsor,,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="176mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".3mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em" text-indent="1pt">Sex</fo:block>
+              <fo:block font-family="sans-serif" font-size=".5em" text-indent="2pt">F</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Beatrice Mary Victoria</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">14 APR 1857</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Buckingham,Palace,London,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">26 OCT 1944</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Bantridge Park,Balcombe,Sussex,England</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt">9</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="79mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Henry Maurice of_Battenberg</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm" border-right-color="black" border-bottom-style="solid" border-bottom-width=".3mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block font-family="serif" font-size=".9em">23 JUL 1885</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block font-family="serif" font-size=".9em">Whippingham,Isle of Wight</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="8mm"/>
+        <fo:table-column column-width="176mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm">
+            <fo:table-cell border-top-color="black" border-top-style="solid" border-top-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".3mm" padding-left="1mm">
+              <fo:block font-family="sans-serif" font-size=".45em" text-indent="1pt">Sex</fo:block>
+              <fo:block font-family="sans-serif" font-size=".5em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Born</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Died</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt">10</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Buried</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="14mm"/>
+        <fo:table-column column-width="79mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="84mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell>
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+      <fo:table>
+        <fo:table-column column-width="6mm"/>
+        <fo:table-column column-width="10mm"/>
+        <fo:table-column column-width="31mm"/>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="136mm"/>
+        <fo:table-body>
+          <fo:table-row height="5mm" border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" keep-with-previous.within-line="always">
+            <fo:table-cell padding-top=".75mm" padding-left=".75mm" border-right-color="black" border-bottom-style="solid" border-bottom-width=".3mm">
+              <fo:block font-family="sans-serif" font-size=".7em" text-indent="2pt"/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Married</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm">
+              <fo:block/>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".75mm" padding-left=".75mm">
+              <fo:block font-family="sans-serif" font-size=".45em">Place</fo:block>
+            </fo:table-cell>
+            <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left=".75mm">
+              <fo:block/>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>
