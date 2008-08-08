@@ -7,10 +7,10 @@
       <fo:region-after extent=".5cm"/>
     </fo:simple-page-master>
   </fo:layout-master-set>
-  <fo:page-sequence country="us" initial-page-number="1" language="en" master-reference="Family" force-page-count="no-force">
+  <fo:page-sequence country="us" initial-page-number="auto" language="en" master-reference="Family" force-page-count="no-force">
     <fo:static-content flow-name="xsl-region-before">
       <fo:block font-family="sans-serif" font-size="14pt" text-align="center">Family Group Record</fo:block>
-      <fo:block font-family="sans-serif" font-size="6pt" text-align="right" margin-right=".5cm">(Fam. ID <fo:retrieve-marker retrieve-class-name="famID"/>)</fo:block>
+      <fo:block font-family="sans-serif" font-size="6pt" text-align="right" margin-right=".5cm"/>
     </fo:static-content>
     <fo:static-content flow-name="xsl-region-after">
       <fo:block font-family="sans-serif" font-size="8pt" text-align="left"/>
@@ -33,7 +33,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich<fo:inline font-family="serif" font-size="8pt">   (I5)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -175,7 +175,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine<fo:inline font-family="serif" font-size="8pt">   (I4)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -313,7 +313,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Henry<fo:inline font-family="serif" font-size="8pt">   (I6)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Henry</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -444,7 +444,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Frieda<fo:inline font-family="serif" font-size="8pt">   (I7)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Frieda</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -524,7 +524,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Thomas Roy<fo:inline font-family="serif" font-size="8pt">   (I327)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Thomas Roy</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -575,7 +575,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Bertha<fo:inline font-family="serif" font-size="8pt">   (I8)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Bertha</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -655,9 +655,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">
-                <fo:inline font-family="serif" font-size="8pt">   (I328)</fo:inline>
-              </fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -708,7 +706,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">John Delryn<fo:inline font-family="serif" font-size="8pt">   (I9)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">John Delryn</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -836,7 +834,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich<fo:inline font-family="serif" font-size="8pt">   (I5)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -850,7 +848,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine<fo:inline font-family="serif" font-size="8pt">   (I4)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -875,7 +873,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Emma<fo:inline font-family="serif" font-size="8pt">   (I10)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Emma</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -1006,7 +1004,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Alma<fo:inline font-family="serif" font-size="8pt">   (I11)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Alma</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -1137,7 +1135,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Walter<fo:inline font-family="serif" font-size="8pt">   (I12)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Walter</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -1268,7 +1266,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Martha<fo:inline font-family="serif" font-size="8pt">   (I13)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Martha</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -1399,7 +1397,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Alvina<fo:inline font-family="serif" font-size="8pt">   (I14)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Alvina</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -1527,7 +1525,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich<fo:inline font-family="serif" font-size="8pt">   (I5)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -1541,7 +1539,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine<fo:inline font-family="serif" font-size="8pt">   (I4)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -1566,7 +1564,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">William<fo:inline font-family="serif" font-size="8pt">   (I3)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">William</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -1646,7 +1644,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Helen Elfrieda<fo:inline font-family="serif" font-size="8pt">   (I23)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Helen Elfrieda</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -1749,7 +1747,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Verna<fo:inline font-family="serif" font-size="8pt">   (I15)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Verna</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -2259,10 +2257,24 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+    </fo:flow>
+  </fo:page-sequence>
+  <fo:page-sequence country="us" initial-page-number="auto" language="en" master-reference="Family" force-page-count="no-force">
+    <fo:static-content flow-name="xsl-region-before">
+      <fo:block font-family="sans-serif" font-size="14pt" text-align="center">Family Group Record</fo:block>
+      <fo:block font-family="sans-serif" font-size="6pt" text-align="right" margin-right=".5cm"/>
+    </fo:static-content>
+    <fo:static-content flow-name="xsl-region-after">
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="left"/>
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="right" margin-right=".5cm">
+        <fo:page-number/>
+      </fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body">
       <fo:block font-family="sans-serif" font-size="8pt" text-align="left">
         <fo:marker marker-class-name="famID">F101</fo:marker>
       </fo:block>
-      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm" break-before="page">
+      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm">
         <fo:table-column column-width="14mm"/>
         <fo:table-column column-width="85mm"/>
         <fo:table-column column-width="7mm"/>
@@ -2273,9 +2285,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">
-                <fo:inline font-family="serif" font-size="8pt">   (I328)</fo:inline>
-              </fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -2417,7 +2427,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Bertha<fo:inline font-family="serif" font-size="8pt">   (I8)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Bertha</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -2503,7 +2513,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Father’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich<fo:inline font-family="serif" font-size="8pt">   (I5)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -2520,7 +2530,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Mother’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine<fo:inline font-family="serif" font-size="8pt">   (I4)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -3065,10 +3075,24 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+    </fo:flow>
+  </fo:page-sequence>
+  <fo:page-sequence country="us" initial-page-number="auto" language="en" master-reference="Family" force-page-count="no-force">
+    <fo:static-content flow-name="xsl-region-before">
+      <fo:block font-family="sans-serif" font-size="14pt" text-align="center">Family Group Record</fo:block>
+      <fo:block font-family="sans-serif" font-size="6pt" text-align="right" margin-right=".5cm"/>
+    </fo:static-content>
+    <fo:static-content flow-name="xsl-region-after">
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="left"/>
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="right" margin-right=".5cm">
+        <fo:page-number/>
+      </fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body">
       <fo:block font-family="sans-serif" font-size="8pt" text-align="left">
         <fo:marker marker-class-name="famID">F2</fo:marker>
       </fo:block>
-      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm" break-before="page">
+      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm">
         <fo:table-column column-width="14mm"/>
         <fo:table-column column-width="85mm"/>
         <fo:table-column column-width="7mm"/>
@@ -3079,7 +3103,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">William<fo:inline font-family="serif" font-size="8pt">   (I3)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">William</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -3182,7 +3206,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Father’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich<fo:inline font-family="serif" font-size="8pt">   (I5)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -3199,7 +3223,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Mother’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine<fo:inline font-family="serif" font-size="8pt">   (I4)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -3221,7 +3245,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Helen Elfrieda<fo:inline font-family="serif" font-size="8pt">   (I23)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Helen Elfrieda</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -3359,7 +3383,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Stephen Kent<fo:inline font-family="serif" font-size="8pt">   (I2)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Stephen Kent</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -3439,7 +3463,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Spouse’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Joyce Ann<fo:inline font-family="serif" font-size="8pt">   (I16)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Joyce Ann</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" border-left-color="black" border-left-style="solid" border-left-width=".3mm" padding-top=".75mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -3490,9 +3514,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">
-                <fo:inline font-family="serif" font-size="8pt">   (I50)</fo:inline>
-              </fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -3871,10 +3893,24 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+    </fo:flow>
+  </fo:page-sequence>
+  <fo:page-sequence country="us" initial-page-number="auto" language="en" master-reference="Family" force-page-count="no-force">
+    <fo:static-content flow-name="xsl-region-before">
+      <fo:block font-family="sans-serif" font-size="14pt" text-align="center">Family Group Record</fo:block>
+      <fo:block font-family="sans-serif" font-size="6pt" text-align="right" margin-right=".5cm"/>
+    </fo:static-content>
+    <fo:static-content flow-name="xsl-region-after">
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="left"/>
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="right" margin-right=".5cm">
+        <fo:page-number/>
+      </fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body">
       <fo:block font-family="sans-serif" font-size="8pt" text-align="left">
         <fo:marker marker-class-name="famID">F100</fo:marker>
       </fo:block>
-      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm" break-before="page">
+      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm">
         <fo:table-column column-width="14mm"/>
         <fo:table-column column-width="85mm"/>
         <fo:table-column column-width="7mm"/>
@@ -3885,7 +3921,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Thomas Roy<fo:inline font-family="serif" font-size="8pt">   (I327)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Thomas Roy</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -4027,7 +4063,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Frieda<fo:inline font-family="serif" font-size="8pt">   (I7)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Frieda</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -4113,7 +4149,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Father’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich<fo:inline font-family="serif" font-size="8pt">   (I5)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Peter Heinrich</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -4130,7 +4166,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Mother’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine<fo:inline font-family="serif" font-size="8pt">   (I4)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Katherine</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -4165,9 +4201,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">
-                <fo:inline font-family="serif" font-size="8pt">   (I340)</fo:inline>
-              </fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -4298,9 +4332,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">
-                <fo:inline font-family="serif" font-size="8pt">   (I341)</fo:inline>
-              </fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -4431,9 +4463,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">
-                <fo:inline font-family="serif" font-size="8pt">   (I342)</fo:inline>
-              </fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -4564,9 +4594,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">
-                <fo:inline font-family="serif" font-size="8pt">   (I343)</fo:inline>
-              </fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -4694,7 +4722,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Thomas Roy<fo:inline font-family="serif" font-size="8pt">   (I327)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Thomas Roy</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -4708,7 +4736,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Frieda<fo:inline font-family="serif" font-size="8pt">   (I7)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Frieda</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -4733,7 +4761,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Glenn<fo:inline font-family="serif" font-size="8pt">   (I344)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Glenn</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -5505,10 +5533,24 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
+    </fo:flow>
+  </fo:page-sequence>
+  <fo:page-sequence country="us" initial-page-number="auto" language="en" master-reference="Family" force-page-count="no-force">
+    <fo:static-content flow-name="xsl-region-before">
+      <fo:block font-family="sans-serif" font-size="14pt" text-align="center">Family Group Record</fo:block>
+      <fo:block font-family="sans-serif" font-size="6pt" text-align="right" margin-right=".5cm"/>
+    </fo:static-content>
+    <fo:static-content flow-name="xsl-region-after">
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="left"/>
+      <fo:block font-family="sans-serif" font-size="8pt" text-align="right" margin-right=".5cm">
+        <fo:page-number/>
+      </fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body">
       <fo:block font-family="sans-serif" font-size="8pt" text-align="left">
         <fo:marker marker-class-name="famID">F1</fo:marker>
       </fo:block>
-      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm" break-before="page">
+      <fo:table border-top-color="black" border-top-style="solid" border-top-width=".3mm">
         <fo:table-column column-width="14mm"/>
         <fo:table-column column-width="85mm"/>
         <fo:table-column column-width="7mm"/>
@@ -5519,7 +5561,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Stephen Kent<fo:inline font-family="serif" font-size="8pt">   (I2)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Stephen Kent</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -5622,7 +5664,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Father’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">William<fo:inline font-family="serif" font-size="8pt">   (I3)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">William</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -5639,7 +5681,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Husband’s Mother’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Helen Elfrieda<fo:inline font-family="serif" font-size="8pt">   (I23)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Helen Elfrieda</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top=".5mm" padding-left="1mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -5661,7 +5703,7 @@
               <fo:block font-family="sans-serif" font-size=".45em">Wife’s Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Joyce Ann<fo:inline font-family="serif" font-size="8pt">   (I16)</fo:inline></fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold">Joyce Ann</fo:block>
             </fo:table-cell>
             <fo:table-cell border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-right="1mm" padding-top=".5mm" padding-left=".75mm">
               <fo:block font-family="sans-serif" font-size=".45em">Last name</fo:block>
@@ -5799,9 +5841,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">
-                <fo:inline font-family="serif" font-size="8pt">   (I1)</fo:inline>
-              </fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>
@@ -5932,9 +5972,7 @@
               <fo:block font-family="sans-serif" font-size=".45em" padding-left="1mm">Given name(s)</fo:block>
             </fo:table-cell>
             <fo:table-cell border-right-color="black" border-right-style="solid" border-right-width=".3mm" border-bottom-color="black" border-bottom-style="solid" border-bottom-width=".3mm" padding-top="1mm" padding-left="1mm">
-              <fo:block font-family="serif" font-size=".9em" font-weight="bold">
-                <fo:inline font-family="serif" font-size="8pt">   (I49)</fo:inline>
-              </fo:block>
+              <fo:block font-family="serif" font-size=".9em" font-weight="bold"/>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-body>

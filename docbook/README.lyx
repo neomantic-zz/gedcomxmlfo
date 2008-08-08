@@ -15,6 +15,7 @@
 \font_tt_scale 100
 \graphics default
 \paperfontsize default
+\spacing single
 \papersize default
 \use_geometry false
 \use_amsmath 0
@@ -24,7 +25,7 @@
 \paperorientation portrait
 \secnumdepth 3
 \tocdepth 3
-\paragraph_separation indent
+\paragraph_separation skip
 \defskip medskip
 \quotes_language english
 \papercolumns 1
@@ -652,17 +653,6 @@ status collapsed
 
 \begin_layout Standard
 
-<screen>
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
 <command>
 \end_layout
 
@@ -675,17 +665,6 @@ status collapsed
 \begin_layout Standard
 
 </command>
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-</screen>
 \end_layout
 
 \end_inset
@@ -773,17 +752,6 @@ status collapsed
 
 \begin_layout Standard
 
-<screen>
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
 <command>
 \end_layout
 
@@ -797,17 +765,6 @@ status collapsed
 \begin_layout Standard
 
 </command>
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-</screen>
 \end_layout
 
 \end_inset
@@ -1018,17 +975,6 @@ status collapsed
 
 \begin_layout Standard
 
-<screen>
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
 <command>
 \end_layout
 
@@ -1041,17 +987,6 @@ status collapsed
 \begin_layout Standard
 
 </command>
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-</screen>
 \end_layout
 
 \end_inset
@@ -1080,18 +1015,7 @@ saxon
 
 \begin_layout Standard
 \begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-<screen>
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Standard
 
@@ -1108,17 +1032,6 @@ status collapsed
 \begin_layout Standard
 
 </command>
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-</screen>
 \end_layout
 
 \end_inset
@@ -1151,7 +1064,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
--Xms -Xmx
+-Xms512m -Xmx512m
 \end_layout
 
 \end_inset
@@ -1247,17 +1160,6 @@ status collapsed
 
 \begin_layout Standard
 
-<screen>
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
 <command>
 \end_layout
 
@@ -1270,17 +1172,6 @@ status collapsed
 \begin_layout Standard
 
 </command>
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-</screen>
 \end_layout
 
 \end_inset
@@ -1336,7 +1227,22 @@ target "http://www.gnu.org/licenses/fdl.html"
 \end_inset
 
 .
- The full text of this license is found in the file called 
+ 
+\end_layout
+
+\begin_layout Standard
+Copyright (c) Chad Albers.
+ Permission is granted to copy, distribute and/or modify this document under
+ the terms of the GNU Free Documentation License, Version 1.2 or any later
+ version published by the Free Software Foundation; with no Invariant Sections,
+ no Front-Cover Texts, and no Back-Cover Texts.
+ A copy of the license is included in the section entitled "GNU Free Documentati
+on License".
+ 
+\end_layout
+
+\begin_layout Standard
+The full text of this license is found in the file called 
 \begin_inset Quotes sld
 \end_inset
 

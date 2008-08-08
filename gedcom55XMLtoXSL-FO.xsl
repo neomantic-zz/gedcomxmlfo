@@ -129,80 +129,25 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
             </fo:simple-page-master>
         </fo:layout-master-set>
 
-        <fo:page-sequence 
-            country="us" 
-            initial-page-number="1" 
-            language="en" 
-            master-reference="Family" 
-            force-page-count="no-force">
+        <xsl:choose>
+            <xsl:when test="$FamID">
+                <xsl:apply-templates select="//FAM[@ID = $FamID]"/>
+            </xsl:when>
+            <xsl:otherwise>
+                    <!-- conditional enables user to disable sorting of families -->
+                    <xsl:choose>
+                        <xsl:when test="SortFamilies = false()">
+                            <xsl:apply-templates select="//FAM"/>
+                         </xsl:when>
+                         <xsl:otherwise>
+                            <xsl:apply-templates select="//FAM">
+                                <xsl:sort order="ascending" select="@ID"/>
+                             </xsl:apply-templates>
+                        </xsl:otherwise>
+                   </xsl:choose>
+            </xsl:otherwise>
+        </xsl:choose>
 
-            <!-- Header -->
-            <fo:static-content 
-                flow-name="xsl-region-before">
-                <fo:block 
-                    font-family="sans-serif" 
-                    font-size="14pt" 
-                    text-align="center">
-                    <xsl:text>Family Group Record</xsl:text>
-                </fo:block>
-                <fo:block 
-                    font-family="sans-serif" 
-                    font-size="6pt" 
-                    text-align="right"
-                    margin-right=".5cm">
-                    <xsl:if test="$IncludeIDs = true()">
-                        <xsl:text>(Fam. ID </xsl:text>
-                        <fo:retrieve-marker retrieve-class-name="famID"/>
-                        <xsl:text>)</xsl:text>
-                    </xsl:if>
-                </fo:block>
-            </fo:static-content>
-    
-            <!-- Footer -->
-            <fo:static-content 
-                flow-name="xsl-region-after">
-                <fo:block 
-                    font-family="sans-serif" 
-                    font-size="8pt" 
-                    text-align="left">
-                    <xsl:if test="$IncludeDateGenerated = true()">
-                        <xsl:text>Generated: </xsl:text>
-                        <xsl:value-of select="substring( date:date-time(), 0, 11)"/>
-                    </xsl:if>
-                </fo:block>
-                <fo:block 
-                    font-family="sans-serif" 
-                    font-size="8pt" 
-                    text-align="right" 
-                    margin-right=".5cm">
-                    <fo:page-number/>
-                </fo:block>
-            </fo:static-content>
-
-            <!-- body -->
-            <fo:flow 
-                flow-name="xsl-region-body">
-                <xsl:choose>
-                    <xsl:when test="$FamID">
-                        <xsl:apply-templates select="//FAM[@ID = $FamID]"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                            <!-- conditional enables user to disable sorting of families -->
-                            <xsl:choose>
-                                <xsl:when test="SortFamilies = false()">
-                                    <xsl:apply-templates select="//FAM"/>
-                                 </xsl:when>
-                                 <xsl:otherwise>
-                                    <xsl:apply-templates select="//FAM">
-                                        <xsl:sort order="ascending" select="@ID"/>
-                                     </xsl:apply-templates>
-                                </xsl:otherwise>
-                           </xsl:choose>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </fo:flow>
-
-        </fo:page-sequence>
     </fo:root>
 </xsl:template>
 
@@ -217,58 +162,102 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 -->
 <xsl:template match="FAM">
 
-    <!-- insert marker for header, in case, IncludeIDs has been enables -->
-    <fo:block 
-        font-family="sans-serif" 
-        font-size="8pt" 
-        text-align="left">
-        <fo:marker marker-class-name="famID">
-            <xsl:value-of select="@ID"/>
-        </fo:marker>
-    </fo:block>
-     
-     <!-- add Husband -->
-    <xsl:call-template name="makeSpouseNameAndEventsTables">
-        <xsl:with-param name="indiID">
-                <!-- for some reason, the @REF is not passed if I just set it
-                    via the select attribute of the param -->
-            <xsl:value-of select="HUSB/@REF"/>
-        </xsl:with-param>
-        <xsl:with-param name="spouseRole" select="'Husband'"/>
-        <!-- page break if this is not the first family -->
-        <xsl:with-param name="break">
-            <xsl:choose>
-                <xsl:when test="(position()) &gt; 1">
-                    <xsl:value-of select="true()"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="false()"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:with-param>
-    </xsl:call-template>
-    <!-- 7 rows created -->
+    <fo:page-sequence 
+    country="us" 
+    initial-page-number="auto" 
+    language="en" 
+    master-reference="Family" 
+    force-page-count="no-force">
     
-    <!-- add Wife -->
-    <xsl:call-template name="makeSpouseNameAndEventsTables">
-        <xsl:with-param name="indiID">
-            <xsl:value-of select="WIFE/@REF"/>
-        </xsl:with-param>
-        <xsl:with-param name="spouseRole" select="'Wife'"/>
-    </xsl:call-template>        
-    <!-- 6 rows created, total = 13 -->
+    <!-- Header -->
+    <fo:static-content 
+        flow-name="xsl-region-before">
+        <fo:block 
+            font-family="sans-serif" 
+            font-size="14pt" 
+            text-align="center">
+            <xsl:text>Family Group Record</xsl:text>
+        </fo:block>
+        <fo:block 
+            font-family="sans-serif" 
+            font-size="6pt" 
+            text-align="right"
+            margin-right=".5cm">
+            <xsl:if test="$IncludeIDs = true()">
+                <xsl:text>(Fam. ID </xsl:text>
+                <fo:retrieve-marker retrieve-class-name="famID"/>
+                <xsl:text>)</xsl:text>
+            </xsl:if>
+        </fo:block>
+    </fo:static-content>
     
-    <!-- add separator row between Spouses and Children -->
-    <xsl:call-template name="makeChildListLabel"/>
-    <!-- one row created, total = 14 -->
-            
-    <!-- addChildren -->
-    <xsl:call-template name="makeChildren">
-        <xsl:with-param name="numberOfChildren" select="count( CHIL )"/>
-        <xsl:with-param name="rowNumber" select="14"/> <!-- the number of rows 
-                                                        already created -->
-    </xsl:call-template>
+    <!-- Footer -->
+    <fo:static-content 
+        flow-name="xsl-region-after">
+        <fo:block 
+            font-family="sans-serif" 
+            font-size="8pt" 
+            text-align="left">
+            <xsl:if test="$IncludeDateGenerated = true()">
+                <xsl:text>Generated: </xsl:text>
+                <xsl:value-of select="substring( date:date-time(), 0, 11)"/>
+            </xsl:if>
+        </fo:block>
+        <fo:block 
+            font-family="sans-serif" 
+            font-size="8pt" 
+            text-align="right" 
+            margin-right=".5cm">
+            <fo:page-number/>
+        </fo:block>
+    </fo:static-content>
+    
+    <!-- body -->
+    <fo:flow 
+        flow-name="xsl-region-body">
 
+        <!-- insert marker for header, in case, IncludeIDs has been enables -->
+        <fo:block 
+            font-family="sans-serif" 
+            font-size="8pt" 
+            text-align="left">
+            <fo:marker marker-class-name="famID">
+                <xsl:value-of select="@ID"/>
+            </fo:marker>
+        </fo:block>
+         
+         <!-- add Husband -->
+        <xsl:call-template name="makeSpouseNameAndEventsTables">
+            <xsl:with-param name="indiID">
+                    <!-- for some reason, the @REF is not passed if I just set it
+                        via the select attribute of the param -->
+                <xsl:value-of select="HUSB/@REF"/>
+            </xsl:with-param>
+            <xsl:with-param name="spouseRole" select="'Husband'"/>
+        </xsl:call-template>
+        <!-- 7 rows created -->
+        
+        <!-- add Wife -->
+        <xsl:call-template name="makeSpouseNameAndEventsTables">
+            <xsl:with-param name="indiID">
+                <xsl:value-of select="WIFE/@REF"/>
+            </xsl:with-param>
+            <xsl:with-param name="spouseRole" select="'Wife'"/>
+        </xsl:call-template>        
+        <!-- 6 rows created, total = 13 -->
+        
+        <!-- add separator row between Spouses and Children -->
+        <xsl:call-template name="makeChildListLabel"/>
+        <!-- one row created, total = 14 -->
+                
+        <!-- addChildren -->
+        <xsl:call-template name="makeChildren">
+            <xsl:with-param name="numberOfChildren" select="count( CHIL )"/>
+            <xsl:with-param name="rowNumber" select="14"/> <!-- the number of rows 
+                                                            already created -->
+        </xsl:call-template>
+        </fo:flow> <!-- body -->
+    </fo:page-sequence>
 </xsl:template>
 <!-- 
 #===============================================================================
@@ -506,18 +495,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 <xsl:template name="makeSpouseNameAndEventsTables">
     <xsl:param name="indiID"/>
     <xsl:param name="spouseRole"/>
-    <xsl:param name="break" select="false()"/>
     
     <!-- Table with Spouse Names -->
     <xsl:element 
         name="fo:table" 
         use-attribute-sets="bordersTop">
-        <!-- add page break -->
-        <xsl:if test="$break = 'true'"><!-- for some reason, true() can't be 
-                                            used in this conditional even though
-                                            it works other times -->
-            <xsl:attribute name="break-before">page</xsl:attribute>
-        </xsl:if>
         
         <xsl:call-template name="addSpouseNameColumns"/>
         

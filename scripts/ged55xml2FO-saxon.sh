@@ -9,4 +9,4 @@ JAVA="/usr/bin/java"
 STYLESHEET="../gedcom55XMLtoXSL-FO.xsl"
 SAXON="/usr/share/java/saxon.jar"
 
-${JAVA} -cp ${SAXON} com.icl.saxon.StyleSheet $1 ${STYLESHEET}
+${JAVA} -cp ${SAXON} com.icl.saxon.StyleSheet -t $1 ${STYLESHEET}
