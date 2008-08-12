@@ -1,0 +1,262 @@
+gedcom55XMLtoFamilyRecordForm.xsl
+
+Chad Albers
+
+   August 12, 2008
+     __________________________________________________________________
+
+1. Overview
+
+   gedcom55XMLtoFamilyRecordForm.xsl is an [1]Extensible Stylesheet
+   Language (XSL) stylesheet that uses [2]XSLT to transform a [3]GEDCOM
+   5.5 XML document to a [4]XSL-FO stylesheet. This stylesheet can be
+   converted to a [5]Portable Document Format (PDF) file using [6]Apache's
+   Formatting Objects Processor Java application, fop. The pdf document
+   resembles genealogy record keeping forms produced by
+   [7]ProGenealogists. They specifically resemble the forms called
+   "[8]Family Group Sheet Page 1" and "[9]Family Group Sheet Page 2".
+
+1.1. Stylesheet Parameters
+
+   Several parameters can be supplied to XSLT processors which affect the
+   data included in the document and the document's "look and feel."
+
+1.1.1. Output Data Parameters
+
+     * IncludeIDs - accepts either 'true' or 'false' and acts as a flag to
+       include the XREF ID numbers of family record elements (FAM) and the
+       individual family member elements (INDI), including the spouses of
+       children
+     * IncludeDateGenerated - accepts either 'true or 'false'. If 'true',
+       the date that the XSLT processor applied this stylesheet to a
+       GEDCOM 5.5 XML document is included in the footer of the pdf
+       document. This parameter relies on the
+       http://exslt.org/dates-and-times extension. If the XSLT processor
+       does not support this extension, the stylesheet may fail to be
+       applied to the XML document. To be on the safe side, this parameter
+       defaults to 'false.'
+     * FamID - accepts the XREF ID of one FAM element. If this value is
+       supplied, the stylesheet will produce a document containing only
+       the family record whose ID makes the FamID parameter. If this
+       parameter is not supplied, the stylesheet is applied to all FAM
+       elements in the XML document.
+     * SortFamilies - accepts either 'true or 'false'. If the IDs of the
+       FAM elements are structured in a way that can be sorted in
+       ascending or descending order, this parameter tells the stylesheet
+       to sort these IDs and output the families in that order. It
+       defaults to 'false'.
+
+1.1.2. Look and Feel Parameters
+
+     * BorderLineStyle - this parameter affects the style of the borders
+       in the tables, rows, and cells. It defaults to 'solid', but could
+       accept the following values: none, hidden, dotted, dashed, double,
+       groove, ridge, inset, and outset. Use these values with caution.
+       The stylesheet has been designed assuming solid borders.
+     * BorderLineWidth - this parameter sets the width of the borders. It
+       defaults to .3mm. Supply this parameter with caution. The
+       stylesheet has been designed assuming the default value.
+
+1.2. Stylesheet Versions and Download Locations
+
+   The stylesheet described in this document is version 0.1. It is a beta
+   version.
+     * Both the stylesheet and this documentation is located at
+       [10]http://www.neomantic.com/downloads/gedcom55XMLtoFamilyRecordFor
+       m-0.1/gedcom55XMLtoFamilyRecordForm-0.1.tar.gz.
+     * For verification purposes, I have signed this tar, gzipped archive
+       with my [11]gnupg public key located [12]here. The signature of
+       gedcom55XMLtoFamilyRecordForm-0.1.tar.gz is located [13]here.
+
+1.3. Stylesheet License
+
+   The source code is released under the [14]GNU General Public License
+   Version 2 (GPL). The full text of this license can be found in a file
+   called "gpl-2.0" in gedcom55XMLtoFamilyRecordForm-0.1.tar.gz.
+
+1.4. Stylesheet Updates
+
+   Hyperlinks to the most up-to-date version of the stylesheet will be
+   posted to [15]http://www.neomantic.com.
+
+2. Usage Instructions
+
+   The process of converting a GEDCOM 5.5 file into a pdf document which
+   resembles the progenealogists.com forms takes three steps.
+    1. Convert the GEDCOM 5.5 file to a GEDCOM 5.5 XML document.
+    2. Transform the GEDCOM 5.5 XML document to an XSL-FO stylsheet by
+       applying the gedcom55XMLtoFamilyRecordForm.xsl stylesheet to the
+       XML document using an XSLT processor.
+    3. Process the XSL-FO stylesheet using fop.
+
+   The instructions below follow several conventions:
+     * family.ged represents a GEDCOM 5.5 file
+     * family.xml represents the family.ged file converted into a GEDCOM
+       5.5 XML document
+     * family.fo represents a XSL-FO stylesheet produced by the XSLT
+       processor that has applied the gedcom55XMLtoFamilyRecordForm.xsl
+       stylesheet to family.xml
+     * family.pdf represents the pdf file that resembles the
+       progenealogist's forms
+     * Text sandwiched between brackets, [], indicates variables that
+       depend upon your computer's environment
+
+2.1. Convert the GEDCOM 5.5 File to a GEDCOM 5.5 XML Document
+
+   To perform the conversion, use a Java application released by Michael
+   H. Kay that converts GEDCOM 5.5 files into what he calls "[16]GedML"
+   XML documents. GedML is similar to GEDCOM 5.5 XML. See this [17]link
+   for details.
+    1. Download Kay's [18]source code and unzip it in a location of your
+       choosing. Remember the path to this location. It will be referred
+       to in the last step using the placeholder [path-to-gedml-classes].
+    2. Find the files called "GedcomParser.java" and "GedcomToXml.xsl" in
+       Kay's source code.
+    3. Compile the file GedcomParser.java using your favorite Java
+       distribution's compiler - javac. This will produce a class file
+       called "GedcomParser.class". The command is as follows:
+       javac GedcomParser.java
+    4. Download Kay's [19]saxon parser, install it, and remember its
+       location. Its location will be referred to below using the
+       [path-to-saxon] placeholder. (It may already be installed on your
+       system; in the [20]Debian GNU/Linux distribution it is located at
+       /usr/share/java/saxon.jar.)
+    5. Convert family.ged to family.xml by issuing the following command
+       in your terminal:
+       java -cp [path-to-saxon]/saxon.jar:[path-to-gedml-classes]
+       com.icl.saxon.StyleSheet -x GedcomParser -o family.xml family.ged
+       [path-to-gedml-classes]/GedcomToXml.xsl
+
+   The output of this command, family.xml, will be a near perfect
+   reproduction of a GEDCOM 5.5 into GEDCOM 5.5 XML.
+
+2.2. Transform the GEDCOM 5.5 XML Document to an XSL-FO stylsheet
+
+   To perform the transformation, the gedcom55XMLtoFamilyRecordForm.xsl
+   stylesheet must be applied to family.xml using an XSLT processor. I
+   have used two command line applications to perform this transformation:
+   [21]xsltproc and saxon. xsltproc uses the Open Source XML parser called
+   "[22]libxml" and is included in many GNU/Linux distributions. Saxon is
+   the XSLT processor downloaded and used in the previous step.
+
+   The gedcom55XMLtoFamilyRecordForm.xsl stylesheet parameters described
+   above can be supplied to both XSLT processors. Please consult their
+   respective documentation to find out how to do so.
+
+   NOTE: Both xsltproc and saxon may fail to transform extremely large
+   GEDCOM 5.5 XML files due to either your computer's or the Java virtual
+   machine's memory limitations. To get around these limitations, the
+   saxon processor works best because Java's memory usage can be
+   manipulated. See the instructions below.
+
+2.2.1. xsltproc
+
+   To use xsltproc, issue the following command in a terminal:
+
+   xsltproc gedcom55XMLtoFamilyRecordForm.xsl family.xml > family.fo
+
+2.2.2. SAXON
+
+   To use saxon, issue the following command in a terminal:
+
+   java -cp [path-to-saxon]/saxon.jar com.icl.saxon.StyleSheet -o
+   family.fo family.xml gedcom55XMLtoFamilyRecordForm.xsl
+
+   As mentioned above, if the family.xml file is extremely large, this
+   command may fail due to Java's default memory settings. To increase the
+   memory used by the Java's virtual machine, simply add these two flags
+   to the command line: - "-Xms512m -Xmx512m"- and adjust the memory by
+   supplying a value like 512m for each flag.
+
+2.3. Process the XSL-FO Stylesheet Using fop
+
+   The outcome of the previous step is a XSL-FO document called family.fo.
+   This file now needs to be processed by fop to produce family.pdf. To do
+   so, follow these steps:
+    1. Follow the fop "quick start" guide [23]here to download and install
+       fop or use your GNU/Linux distribution's package management system
+       to install it.
+    2. Once installed, issue the following command in a terminal:
+       fop -fo family.fo -pdf family.pdf
+       The output of this command is the family.pdf file.
+
+2.4. Sample
+
+   In a directory called "example" included with the stylesheet and
+   documentation are samples of the stylesheet output (a .fo file) and
+   fop's output (a .pdf file). The genealogical data in these examples was
+   drawn from a GEDCOM 5.5 file called "royal92.ged" which can easily be
+   found on the Internet. It contains the genealogical history of the
+   British Royal family. The example distributed with the source contains
+   only one royal family.
+
+3. Limitations
+
+     * The number of characters which DATA and PLAC elements can accept,
+       following the GEDCOM 5.5 standard, are longer than what the pdf
+       file can display. The stylesheet attempts to handle these
+       situations by scaling the text and/or truncating it with ellipses.
+       There are some circumstances, however, where the stylesheet fails
+       to truncate the data within the limits of what can be displayed in
+       the form.
+     * Processing large family trees with the stylesheet and subsequently
+       with fop will likely strain your computer's resources. Significant
+       processing power and RAM are highly recommended. The stylesheet
+       needs to be optimized.
+
+4. Documentation License
+
+   This document is released under the [24]GNU Free Documentation License
+   Version 1.2.
+
+   Copyright (c) C. Albers. Permission is granted to copy, distribute
+   and/or modify this document under the terms of the GNU Free
+   Documentation License, Version 1.2 or any later version published by
+   the Free Software Foundation; with no Invariant Sections, no
+   Front-Cover Texts, and no Back-Cover Texts. A copy of the license is
+   included in the section entitled "GNU Free Documentation License".
+
+   The full text of this license is found in the file called "fdl.txt"
+   released with gedcom55XMLtoFamilyRecordForm-0.1.tar.gz. It can also be
+   located at
+   [25]http://www.neomantic.com/downloads/ged55XMLtoFamilyRecordForm-0.1/R
+   EADME.html.
+
+5. Contact
+
+   Please direct questions or requests for more information to
+   <[26]chad@neomantic.com>. Corrections, suggestions, bug reports, and
+   patches are welcome as well.
+
+References
+
+   Visible links
+   1. http://www.w3.org/Style/XSL/
+   2. http://www.w3.org/TR/xslt
+   3. http://www.neomantic.com/gedcom55XML/
+   4. http://www.w3.org/TR/xsl/
+   5. http://www.adobe.com/devnet/pdf/pdf_reference.html
+   6. http://xmlgraphics.apache.org/fop/
+   7. http://www.progenealogists.com/
+   8. http://www.progenealogists.com/familygroup1
+   9. http://www.progenealogists.com/familygroup2.pdf
+  10. http://www.neomantic.com/downloads/gedcom55XMLtoFamilyRecordForm-0.1/gedcom55XMLtoFamilyRecordForm-0.1.tar.gz
+  11. http://www.gnupg.org/
+  12. http://www.neomantic.com/gnupg/pubkey.asc
+  13. http://www.neomantic.com/downloads/gedcom55XMLtoFamilyRecordForm-0.1/gedcom55XMLtoFamilyRecordForm-0.1.tar.gz.sign
+  14. http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  15. http://www.neomantic.com/
+  16. http://homepage.ntlworld.com/michael.h.kay/gedml/
+  17. http://www.neomantic.com/gedcom55XML/0.1/README.html
+  18. http://homepage.ntlworld.com/michael.h.kay/gedml/
+  19. http://saxon.sourceforge.net/
+  20. http://www.debian.org/
+  21. http://xmlsoft.org/XSLT/xsltproc2.html
+  22. http://xmlsoft.org/
+  23. http://xmlgraphics.apache.org/fop/quickstartguide.html
+  24. http://www.gnu.org/licenses/fdl.html
+  25. http://www.neomantic.com/downloads/ged55XMLtoFamilyRecordForm-0.1/README.html
+  26. mailto:chad@neomantic.com
+
+   Hidden links:
+  27. file:///royal92pdf-page1.jpg

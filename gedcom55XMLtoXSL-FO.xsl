@@ -36,6 +36,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     </dc:rights>
 
 <xsl:output indent="yes" method="xml"/>
+<!-- Stylesheet Version 0.1 -->
 <!--
 #===============================================================================
 # XSLT processor parameters and global variables
@@ -98,7 +99,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #       lengths would have to be decreased as well).
 #===============================================================================
 -->
-<xsl:variable name="MaxNumberOfPageRows">38</xsl:variable>
+<xsl:variable name="MaxNumberOfPageRows">39</xsl:variable>
 
 <!-- 
 #===============================================================================
@@ -109,13 +110,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #===============================================================================
 -->
 <xsl:template match="/">
+    <!--FIX for some reason the dublic core namespace is included in the fo 
+    output -->
     <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
         <fo:layout-master-set>
             <fo:simple-page-master 
                 margin-bottom=".2cm" 
                 margin-left="1.2cm" 
                 margin-right="1cm" 
-                margin-top="1cm" 
+                margin-top="1.25cm" 
                 master-name="Family" 
                 page-height="11in" 
                 page-width="8.5in">
@@ -275,6 +278,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # Additionally, the final number of rows is also used to determine how many 
 # "empty" children - (blank rows for potential child data) - will be added at the
 # end of the family's record.
+# 
+# Finally, it adds notes rows after the children to fill the pages
 #
 # The template accepts 3 parameters:
 #
@@ -287,12 +292,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #       called
 #===============================================================================
 -->
+<!--TODO this algorithm is entirely too complicated and needs to be broken up and
+rewritten.-->
+<!--FIX There are also occassionas where it doesn't add enough Note rows -->
 <xsl:template name="makeChildren">
     <xsl:param name="numberOfChildren"/>
     <xsl:param name="childNumber" select="1"/>
     <xsl:param name="rowNumber"/>
 
-    <!-- if the number of childern created is less that the total number of children, create new children  -->
+    <!-- if the number of children created is less that the total number of children, create new children  -->
     <xsl:if test="$childNumber &lt;= $numberOfChildren">
     
         <!-- get child's indiID -->
@@ -313,6 +321,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
         
         <!-- Break to new page, and add Page Two Headers, if the number of rows generated so far exceeds the max per page -->
         <xsl:if test="$numberOfChildRows &gt; $MaxNumberOfPageRows">
+        
+            <xsl:comment><xsl:text>rowNumber </xsl:text><xsl:value-of select="$rowNumber"/></xsl:comment>
+            
+            <xsl:if test="$rowNumber &lt;= $MaxNumberOfPageRows">
+            
+                <xsl:comment><xsl:text>rowNumber is less than MaxNumberOfPageRows</xsl:text></xsl:comment>
+                
+                 <xsl:call-template name="addNotesTable">
+                    <xsl:with-param name="numberOfNoteRows" select="$MaxNumberOfPageRows - $rowNumber"/>
+                 </xsl:call-template>
+            </xsl:if>
+        
             <xsl:call-template name="addPageTwoPlusHeaders">
                 <xsl:with-param name="famID" select="@ID"/>
             </xsl:call-template>
@@ -324,38 +344,55 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
             <xsl:with-param name="childNumber" select="$childNumber"/>
             <xsl:with-param name="numberOfMarriages" select="$numberOfMarriages"/>
         </xsl:call-template>
-        
-        <!-- If the addPageTwoHeaders was called,  this resets the rowNumber to 2, to account for
-              the 2 rows in the PageTwoPlusHeader, otherwise it defaults to the current row count.  
-              Additionally it adds the 4 lines for the Name, Born, Died, Buried Rows, and 2 rows for each marriage -->
-        <xsl:variable name="ifNewLineNumber">
-            <xsl:choose>
-                <xsl:when test="$numberOfChildRows &gt; $MaxNumberOfPageRows">
-                    <xsl:value-of select="2 + 4 + ($numberOfMarriages * 2)"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="$numberOfChildRows"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
 
         <!-- call makeChildren again, and make the next child -->
         <xsl:call-template name="makeChildren">
             <xsl:with-param name="childNumber" select="$childNumber + 1"/>
             <xsl:with-param name="numberOfChildren" select="$numberOfChildren"/>
-            <xsl:with-param name="rowNumber" select="$ifNewLineNumber"/>
+            <xsl:with-param name="rowNumber">
+                  <!-- If the addPageTwoHeaders was called,  this resets the 
+                  rowNumber to 2, to account for the 2 rows in the 
+                  PageTwoPlusHeader, otherwise it defaults to the current row 
+                  count.  Additionally it adds the 4 lines for the Name, Born, 
+                  Died, Buried Rows, and 2 rows for each marriage -->
+                <xsl:choose>
+                    <xsl:when test="$numberOfChildRows &gt; $MaxNumberOfPageRows">
+                        <xsl:value-of select="2 + 4 + ($numberOfMarriages * 2)"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="$numberOfChildRows"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:with-param>
         </xsl:call-template>
     </xsl:if>
 
     <!-- this conditional prevents this call-template from being repeated after every 
        recursive call to makeChildren -->
     <xsl:if test="$childNumber &gt; $numberOfChildren">
-        <xsl:call-template name="addBlankChildren">
-            <xsl:with-param name="numberOfChildrenToAdd" select="( ( $MaxNumberOfPageRows - $rowNumber ) div 6) - ( ( ($MaxNumberOfPageRows - $rowNumber) div 6) mod 1)"/>
-            <xsl:with-param name="childNumber" select="$childNumber"/>
+         <xsl:call-template name="addBlankChildren">
+            <xsl:with-param name="numberOfChildrenToAdd">
+                <xsl:value-of select="( ( $MaxNumberOfPageRows - $rowNumber ) div 6) - ( ( ($MaxNumberOfPageRows - $rowNumber) div 6) mod 1)"/>
+            </xsl:with-param>
+             <xsl:with-param name="childNumber" select="$childNumber"/>
         </xsl:call-template>
-    </xsl:if>
+        
+        <!-- add notes rows -->
+        <xsl:variable name="numberOfNoteRows">
+           <xsl:variable name="numberOfBlankChildren">
+                <xsl:value-of select="( ( $MaxNumberOfPageRows - $rowNumber ) div 6) - ( ( ($MaxNumberOfPageRows - $rowNumber) div 6) mod 1)"/>
+           </xsl:variable>
+            <xsl:value-of select="$MaxNumberOfPageRows - (($numberOfBlankChildren * 6) + $rowNumber)"/>    
+        </xsl:variable>
 
+        <xsl:if test="($numberOfNoteRows + $rowNumber) &lt; $MaxNumberOfPageRows">
+            <xsl:call-template name="addNotesTable">
+                <xsl:with-param name="numberOfNoteRows" select="$numberOfNoteRows"/>
+            </xsl:call-template>
+        </xsl:if>
+        
+    </xsl:if>
+    
 </xsl:template>
 <!-- 
 #===============================================================================
@@ -626,6 +663,83 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     </xsl:element><!-- table-row -->
 
+</xsl:template>
+
+<!-- 
+#===============================================================================
+# The "addNotesTable" template begins the process of adding blank not rows. This
+# template creates one blank note row, with the note label.  It then calls the
+# template responsible for adding additional blank note rows.
+#
+# The template takes 1 parameters:
+#
+#   numberOfNoteRows - the number of rows to be added
+#===============================================================================
+-->
+<xsl:template name="addNotesTable">
+    <xsl:param name="numberOfNoteRows">0</xsl:param>
+        <fo:table>
+        <fo:table-column column-width="7mm"/>
+        <fo:table-column column-width="183mm"/>
+        <xsl:element 
+            name="fo:table-body"
+            use-attribute-sets="bordersLeft bordersRight bordersBottom">
+            <xsl:element 
+                name="fo:table-row"
+                use-attribute-sets="rowHeight">                 
+                 <xsl:element 
+                    name="fo:table-cell" 
+                    use-attribute-sets="labelPadding">
+                    <xsl:element 
+                        name="fo:block"
+                        use-attribute-sets="styleOfLabelFonts">
+                        <xsl:text>Notes</xsl:text>
+                    </xsl:element><!-- fo:block -->
+                </xsl:element><!-- fo:table-cell -->
+                 
+                <fo:table-cell>
+                    <fo:block/>
+                </fo:table-cell>
+            </xsl:element><!-- fo:table-row -->
+            <xsl:if test="$numberOfNoteRows &gt; 1">
+                <xsl:call-template name="addAdditionalNoteRows">
+                   <xsl:with-param name="rowsToAdd" select="$numberOfNoteRows - 1"/>
+                </xsl:call-template>
+            </xsl:if>
+        </xsl:element>
+    </fo:table>
+</xsl:template>
+
+<!-- 
+#===============================================================================
+# The "addAdditionalNoteRows" template recursively adds additional blank rows to
+# the "Notes" section at the end of each page 
+#
+# The template takes 2 parameters:
+#
+#   rowsToAdd - the number of additional blank rows to add
+#
+#   rowNumber - called by the template itself when it recursively calls itself
+#===============================================================================
+-->
+<xsl:template name="addAdditionalNoteRows">
+    <xsl:param name="rowsToAdd">1</xsl:param>
+    <xsl:param name="rowNumber">0</xsl:param>
+   
+    <xsl:if test="$rowNumber &lt;= $rowsToAdd">    
+        <xsl:element 
+        name="fo:table-row"
+        use-attribute-sets="rowHeight">
+            <fo:table-cell><fo:block/></fo:table-cell>
+            <fo:table-cell><fo:block/></fo:table-cell>            
+        </xsl:element>
+        
+        <xsl:call-template name="addAdditionalNoteRows">
+            <xsl:with-param name="rowsToAdd" select="$rowsToAdd"/>
+            <xsl:with-param name="rowNumber" select="$rowNumber + 1"/>
+       </xsl:call-template>
+    </xsl:if>
+    
 </xsl:template>
 <!-- 
 #===============================================================================

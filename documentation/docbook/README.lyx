@@ -40,11 +40,11 @@
 \begin_body
 
 \begin_layout Title
-gedcom55XMLtoXSL-FO.xsl
+gedcom55XMLtoFamilyRecordForm.xsl
 \end_layout
 
 \begin_layout Date
-August 8, 2008 
+August 12, 2008 
 \end_layout
 
 \begin_layout Author
@@ -82,7 +82,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoXSL-FO.xsl
+gedcom55XMLtoFamilyRecordForm.xsl
 \end_layout
 
 \end_inset
@@ -130,7 +130,7 @@ target "http://xmlgraphics.apache.org/fop/"
 
 \end_inset
 
- Java application., 
+ Java application, 
 \begin_inset CharStyle Literal
 show_label false
 status inlined
@@ -206,34 +206,98 @@ Output Data Parameters
 
 \begin_layout Itemize
 IncludeIDs - accepts either 'true' or 'false' and acts as a flag to include
- the XREF ID numbers of family record elements (FAM) and the individual
- family member elements (INDI), including the spouses of children
+ the XREF ID numbers of family record elements (
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+FAM
+\end_layout
+
+\end_inset
+
+) and the individual family member elements (
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+INDI
+\end_layout
+
+\end_inset
+
+), including the spouses of children
 \end_layout
 
 \begin_layout Itemize
 IncludeDateGenerated - accepts either 'true or 'false'.
  If 'true', the date that the XSLT processor applied this stylesheet to
  a GEDCOM 5.5 XML document is included in the footer of the pdf document.
- This parameter relies on the http://exslt.org/dates-and-times extension.
+ This parameter relies on the 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+http://exslt.org/dates-and-times
+\end_layout
+
+\end_inset
+
+ extension.
  If the XSLT processor does not support this extension, the stylesheet may
  fail to be applied to the XML document.
  To be on the safe side, this parameter defaults to 'false.'
 \end_layout
 
 \begin_layout Itemize
-FamID - accepts the XREF ID of one FAM element.
+FamID - accepts the XREF ID of one 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+FAM
+\end_layout
+
+\end_inset
+
+ element.
  If this value is supplied, the stylesheet will produce a document containing
  only the family record whose ID makes the FamID parameter.
- If this parameter is not supplied, the stylesheet is applied to all FAM
+ If this parameter is not supplied, the stylesheet is applied to all 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+FAM
+\end_layout
+
+\end_inset
+
  elements in the XML document.
  
 \end_layout
 
 \begin_layout Itemize
 SortFamilies - accepts either 'true or 'false'.
- If the IDs of the FAM elements are structured in a way that can be sorted
- in ascending or descending order, this parameter tells the stylesheet to
- sort these IDs and output the families in that order.
+ If the IDs of the 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+FAM
+\end_layout
+
+\end_inset
+
+ elements are structured in a way that can be sorted in ascending or descending
+ order, this parameter tells the stylesheet to sort these IDs and output
+ the families in that order.
  It defaults to 'false'.
  
 \end_layout
@@ -243,8 +307,8 @@ Look and Feel Parameters
 \end_layout
 
 \begin_layout Itemize
-BorderLineStyle - this parameter allows the user to determine the look of
- the borders in the tables, rows, and cells.
+BorderLineStyle - this parameter affects the style of the borders in the
+ tables, rows, and cells.
  It defaults to 'solid', but could accept the following values: none, hidden,
  dotted, dashed, double, groove, ridge, inset, and outset.
  Use these values with caution.
@@ -253,8 +317,7 @@ BorderLineStyle - this parameter allows the user to determine the look of
 \end_layout
 
 \begin_layout Itemize
-BorderLineWidth - this parameter enables the width of the borders to be
- set.
+BorderLineWidth - this parameter sets the width of the borders.
  It defaults to .3mm.
  Supply this parameter with caution.
  The stylesheet has been designed assuming the default value.
@@ -266,14 +329,14 @@ Stylesheet Versions and Download Locations
 
 \begin_layout Standard
 The stylesheet described in this document is version 0.1.
- It is strictly speaking a beta version.
+ It is a beta version.
 \end_layout
 
 \begin_layout Itemize
 Both the stylesheet and this documentation is located at 
 \begin_inset LatexCommand url
-name "http://www.neomantic.com/downloads/gedcom55XMLtoXSL-FO/gedcom55XMLtoXSL-FO.tar.gz"
-target "http://www.neomantic.com/downloads/gedcom55XMLtoXSL-FO/gedcom55XMLtoXSL-FO.tar.gz"
+name "http://www.neomantic.com/downloads/gedcom55XMLtoFamilyRecordForm-0.1/gedcom55XMLtoFamilyRecordForm-0.1.tar.gz"
+target "http://www.neomantic.com/downloads/gedcom55XMLtoFamilyRecordForm-0.1/gedcom55XMLtoFamilyRecordForm-0.1.tar.gz"
 
 \end_inset
 
@@ -285,7 +348,8 @@ target "http://www.neomantic.com/downloads/gedcom55XMLtoXSL-FO/gedcom55XMLtoXSL-
 For verification purposes, I have signed this tar, gzipped archive with
  my 
 \begin_inset LatexCommand url
-target "gnupg"
+name "gnupg"
+target "http://www.gnupg.org/"
 
 \end_inset
 
@@ -303,15 +367,15 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoXSL-FO.tar.gz
+gedcom55XMLtoFamilyRecordForm-0.1.tar.gz
 \end_layout
 
 \end_inset
 
- is located at 
+ is located 
 \begin_inset LatexCommand url
-name "http://www.neomantic.com/downloads/gedcom55XMLtoXSL-FO/gedcom55XMLtoXSL-FO.tar.gz.sign"
-target "http://www.neomantic.com/downloads/gedcom55XMLtoXSL-FO/gedcom55XMLtoXSL-FO.tar.gz.sign"
+name "here"
+target "http://www.neomantic.com/downloads/gedcom55XMLtoFamilyRecordForm-0.1/gedcom55XMLtoFamilyRecordForm-0.1.tar.gz.sign"
 
 \end_inset
 
@@ -323,7 +387,7 @@ Stylesheet License
 \end_layout
 
 \begin_layout Standard
-The source code for is released under the 
+The source code is released under the 
 \begin_inset LatexCommand url
 name "GNU General Public License Version 2"
 target "http://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
@@ -356,7 +420,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoXSL-FO.tar.gz
+gedcom55XMLtoFamilyRecordForm-0.1.tar.gz
 \end_layout
 
 \end_inset
@@ -386,7 +450,18 @@ Usage Instructions
 
 \begin_layout Standard
 The process of converting a GEDCOM 5.5 file into a pdf document which resembles
- the progenealogists.com forms takes three steps.
+ the 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+progenealogists.com
+\end_layout
+
+\end_inset
+
+ forms takes three steps.
 \end_layout
 
 \begin_layout Enumerate
@@ -401,16 +476,27 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoXSL-FO.xsl
+gedcom55XMLtoFamilyRecordForm.xsl
 \end_layout
 
 \end_inset
 
- stylesheet to the XML document.
+ stylesheet to the XML document using an XSLT processor.
 \end_layout
 
 \begin_layout Enumerate
-Process the XSL-FO stylesheet using fop.
+Process the XSL-FO stylesheet using 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+fop
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -467,18 +553,30 @@ family.fo
 
 \end_inset
 
- represents a XSL-FO document produced by applying the 
+ represents a XSL-FO stylesheet produced by the XSLT processor that has
+ applied the 
 \begin_inset CharStyle Filename
 show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoXSL-FO.xsl
+gedcom55XMLtoFamilyRecordForm.xsl
 \end_layout
 
 \end_inset
 
- XSLT stylesheet
+ stylesheet to 
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+family.xml
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -496,8 +594,18 @@ represents the pdf file that resembles the progenealogist's forms
 \end_layout
 
 \begin_layout Itemize
-Text sandwiched between brackets [ ] indicates variables that depend upon
- your computer's environment
+Text sandwiched between brackets, 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+[]
+\end_layout
+
+\end_inset
+
+, indicates variables that depend upon your computer's environment
 \end_layout
 
 \begin_layout Subsection
@@ -506,7 +614,7 @@ Convert the GEDCOM 5.5 File to a GEDCOM 5.5 XML Document
 
 \begin_layout Standard
 To perform the conversion, use a Java application released by Michael H.
- Kay that converts GEDCOM 5.5 files into what he calls a 
+ Kay that converts GEDCOM 5.5 files into what he calls 
 \begin_inset Quotes sld
 \end_inset
 
@@ -526,7 +634,7 @@ target "http://homepage.ntlworld.com/michael.h.kay/gedml/"
  See this 
 \begin_inset LatexCommand url
 name "link"
-target "http://www.neomantic.com/gedcom55XML/0.1/README.html#id2515344"
+target "http://www.neomantic.com/gedcom55XML/0.1/README.html"
 
 \end_inset
 
@@ -543,7 +651,7 @@ target "http://homepage.ntlworld.com/michael.h.kay/gedml/"
 
  and unzip it in a location of your choosing.
  Remember the path to this location.
- It will be referred to in the last step using the variable 
+ It will be referred to in the last step using the placeholder 
 \begin_inset CharStyle Literal
 show_label false
 status inlined
@@ -703,9 +811,15 @@ status inlined
 
 \end_inset
 
- variable.
- (It may already be installed on your system; in the Debian GNU/Linux distributi
-on it is located at 
+ placeholder.
+ (It may already be installed on your system; in the 
+\begin_inset LatexCommand url
+name "Debian GNU/Linux distribution"
+target "http://www.debian.org"
+
+\end_inset
+
+ it is located at 
 \begin_inset CharStyle Literal
 show_label false
 status inlined
@@ -800,7 +914,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoXSL-FO.xsl
+gedcom55XMLtoFamilyRecordForm.xsl
 \end_layout
 
 \end_inset
@@ -884,14 +998,7 @@ target "http://xmlsoft.org/"
 \end_inset
 
  and is included in many GNU/Linux distributions.
- 
-\begin_inset LatexCommand url
-target "SAXON"
-
-\end_inset
-
- is the XSLT processor developed by Michael H.
- Kay, used in the previous step.
+ Saxon is the XSLT processor downloaded and used in the previous step.
 \end_layout
 
 \begin_layout Standard
@@ -901,7 +1008,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoXSL-FO.xsl
+gedcom55XMLtoFamilyRecordForm.xsl
 \end_layout
 
 \end_inset
@@ -933,7 +1040,7 @@ saxon
 
 \end_inset
 
- may fail to transform extremely large GEDCOM 5.5 XML files due to your either
+ may fail to transform extremely large GEDCOM 5.5 XML files due to either
  your computer's or the Java virtual machine's memory limitations.
  To get around these limitations, the 
 \begin_inset CharStyle Literal
@@ -946,7 +1053,7 @@ saxon
 
 \end_inset
 
- processor works best because java's memory usage can be manipulated.
+ processor works best because Java's memory usage can be manipulated.
  See the instructions below.
 \end_layout
 
@@ -980,7 +1087,7 @@ status collapsed
 
 \end_inset
 
-xsltproc gedcom55toXSL-FO.xsl family.xml > family.fo
+xsltproc gedcom55XMLtoFamilyRecordForm.xsl family.xml > family.fo
 \begin_inset ERT
 status collapsed
 
@@ -1015,7 +1122,7 @@ saxon
 
 \begin_layout Standard
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Standard
 
@@ -1025,7 +1132,7 @@ status open
 \end_inset
 
 java -cp [path-to-saxon]/saxon.jar com.icl.saxon.StyleSheet -o family.fo family.xml
- gedcom55toXSL-FO.xsl
+ gedcom55XMLtoFamilyRecordForm.xsl
 \begin_inset ERT
 status collapsed
 
@@ -1081,7 +1188,7 @@ Process the XSL-FO Stylesheet Using fop
 \end_layout
 
 \begin_layout Standard
-The outcome of the previous step is an XSL-FO document called 
+The outcome of the previous step is a XSL-FO document called 
 \begin_inset CharStyle Filename
 show_label false
 status inlined
@@ -1104,7 +1211,18 @@ fop
 
 \end_inset
 
- to produce the pdf document.
+ to produce 
+\begin_inset CharStyle Filename
+show_label false
+status inlined
+
+\begin_layout Standard
+family.pdf
+\end_layout
+
+\end_inset
+
+.
  To do so, follow these steps:
 \end_layout
 
@@ -1124,7 +1242,7 @@ fop
 \begin_inset Quotes sld
 \end_inset
 
-quickstart
+quick start
 \begin_inset Quotes srd
 \end_inset
 
@@ -1154,6 +1272,7 @@ fop
 Once installed, issue the following command in a terminal:
 \end_layout
 
+\begin_deeper
 \begin_layout Standard
 \begin_inset ERT
 status collapsed
@@ -1195,14 +1314,35 @@ family.pdf
  
 \end_layout
 
+\end_deeper
 \begin_layout Subsection
 Sample
 \end_layout
 
 \begin_layout Standard
-Included with the stylesheet and this documentation is a pdf sample of the
- output.
- It is based on a GEDCOM 5.5 file called 
+In a directory called 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+example
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ included with the stylesheet and documentation are samples of the stylesheet
+ output (a .fo file) and fop's output (a .pdf file).
+ The genealogical data in these examples was drawn from a GEDCOM 5.5 file
+ called 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1210,8 +1350,73 @@ royal92.ged
 \begin_inset Quotes erd
 \end_inset
 
- which contains this genealogical history of the British royal family.
- This GEDCOM 5.5 can be easily found on the web.
+ which can easily be found on the Internet.
+ It contains the genealogical history of the British Royal family.
+ The example distributed with the source contains only one royal family.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../royal92pdf-page1.jpg
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Limitations
+\end_layout
+
+\begin_layout Itemize
+The number of characters which 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+DATA
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+PLAC
+\end_layout
+
+\end_inset
+
+ elements can accept, following the GEDCOM 5.5 standard, are longer than
+ what the pdf file can display.
+ The stylesheet attempts to handle these situations by scaling the text
+ and/or truncating it with ellipses.
+ There are some circumstances, however, where the stylesheet fails to truncate
+ the data within the limits of what can be displayed in the form.
+\end_layout
+
+\begin_layout Itemize
+Processing large family trees with the stylesheet and subsequently with
+ 
+\begin_inset CharStyle Literal
+show_label false
+status inlined
+
+\begin_layout Standard
+fop
+\end_layout
+
+\end_inset
+
+ will likely strain your computer's resources.
+ Significant processing power and RAM are highly recommended.
+ The stylesheet needs to be optimized.
+ 
 \end_layout
 
 \begin_layout Section
@@ -1231,7 +1436,8 @@ target "http://www.gnu.org/licenses/fdl.html"
 \end_layout
 
 \begin_layout Standard
-Copyright (c) Chad Albers.
+Copyright (c) C.
+ Albers.
  Permission is granted to copy, distribute and/or modify this document under
  the terms of the GNU Free Documentation License, Version 1.2 or any later
  version published by the Free Software Foundation; with no Invariant Sections,
@@ -1267,7 +1473,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoXSL-FO.tar.gz
+gedcom55XMLtoFamilyRecordForm-0.1.tar.gz
 \end_layout
 
 \end_inset
@@ -1275,8 +1481,8 @@ gedcom55XMLtoXSL-FO.tar.gz
 .
  It can also be located at 
 \begin_inset LatexCommand url
-name "http://www.neomantic.com/downlads/gedcom55XMLtoXSL-FO/README.html"
-target "http://www.neomantic.com/downloads/gedcom55XMLtoXSL-FO/README.html"
+name "http://www.neomantic.com/downloads/ged55XMLtoFamilyRecordForm-0.1/README.html"
+target "http://www.neomantic.com/downloads/ged55XMLtoFamilyRecordForm-0.1/README.html"
 
 \end_inset
 
