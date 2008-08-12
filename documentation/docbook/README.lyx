@@ -40,7 +40,7 @@
 \begin_body
 
 \begin_layout Title
-gedcom55XMLtoFamilyRecordForm.xsl
+ged55XMLtoFamilyForm.xsl
 \end_layout
 
 \begin_layout Date
@@ -82,7 +82,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoFamilyRecordForm.xsl
+ged55XMLtoFamilyForm.xsl
 \end_layout
 
 \end_inset
@@ -335,8 +335,8 @@ The stylesheet described in this document is version 0.1.
 \begin_layout Itemize
 Both the stylesheet and this documentation is located at 
 \begin_inset LatexCommand url
-name "http://www.neomantic.com/downloads/gedcom55XMLtoFamilyRecordForm-0.1/gedcom55XMLtoFamilyRecordForm-0.1.tar.gz"
-target "http://www.neomantic.com/downloads/gedcom55XMLtoFamilyRecordForm-0.1/gedcom55XMLtoFamilyRecordForm-0.1.tar.gz"
+name "http://www.neomantic.com/downloads/ged55XMLtoFamilyForm-0.1/ged55XMLtoFamilyForm-0.1.tar.gz"
+target "http://www.neomantic.com/downloads/ged55XMLtoFamilyForm-0.1/ged55XMLtoFamilyForm-0.1.tar.gz"
 
 \end_inset
 
@@ -367,7 +367,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoFamilyRecordForm-0.1.tar.gz
+ged55XMLtoFamilyForm-0.1.tar.gz
 \end_layout
 
 \end_inset
@@ -375,7 +375,7 @@ gedcom55XMLtoFamilyRecordForm-0.1.tar.gz
  is located 
 \begin_inset LatexCommand url
 name "here"
-target "http://www.neomantic.com/downloads/gedcom55XMLtoFamilyRecordForm-0.1/gedcom55XMLtoFamilyRecordForm-0.1.tar.gz.sign"
+target "http://www.neomantic.com/downloads/ged55XMLtoFamilyForm-0.1/ged55XMLtoFamilyForm-0.1.tar.gz.sign"
 
 \end_inset
 
@@ -420,7 +420,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoFamilyRecordForm-0.1.tar.gz
+ged55XMLtoFamilyForm-0.1.tar.gz
 \end_layout
 
 \end_inset
@@ -476,7 +476,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoFamilyRecordForm.xsl
+ged55XMLtoFamilyForm.xsl
 \end_layout
 
 \end_inset
@@ -560,7 +560,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoFamilyRecordForm.xsl
+ged55XMLtoFamilyForm.xsl
 \end_layout
 
 \end_inset
@@ -914,7 +914,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoFamilyRecordForm.xsl
+ged55XMLtoFamilyForm.xsl
 \end_layout
 
 \end_inset
@@ -1008,7 +1008,7 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoFamilyRecordForm.xsl
+ged55XMLtoFamilyForm.xsl
 \end_layout
 
 \end_inset
@@ -1087,7 +1087,7 @@ status collapsed
 
 \end_inset
 
-xsltproc gedcom55XMLtoFamilyRecordForm.xsl family.xml > family.fo
+xsltproc ged55XMLtoFamilyForm.xsl family.xml > family.fo
 \begin_inset ERT
 status collapsed
 
@@ -1132,7 +1132,7 @@ status collapsed
 \end_inset
 
 java -cp [path-to-saxon]/saxon.jar com.icl.saxon.StyleSheet -o family.fo family.xml
- gedcom55XMLtoFamilyRecordForm.xsl
+ ged55XMLtoFamilyForm.xsl
 \begin_inset ERT
 status collapsed
 
@@ -1473,21 +1473,12 @@ show_label false
 status inlined
 
 \begin_layout Standard
-gedcom55XMLtoFamilyRecordForm-0.1.tar.gz
+ged55XMLtoFamilyForm-0.1.tar.gz
 \end_layout
 
 \end_inset
 
 .
- It can also be located at 
-\begin_inset LatexCommand url
-name "http://www.neomantic.com/downloads/ged55XMLtoFamilyRecordForm-0.1/README.html"
-target "http://www.neomantic.com/downloads/ged55XMLtoFamilyRecordForm-0.1/README.html"
-
-\end_inset
-
-.
- 
 \end_layout
 
 \begin_layout Section

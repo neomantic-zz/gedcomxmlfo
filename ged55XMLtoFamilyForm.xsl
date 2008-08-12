@@ -9,15 +9,14 @@
     
     <dc:creator>Chad Albers</dc:creator>
     <dc:publisher>Chad Albers</dc:publisher>
-    <dc:date>2008-8-1</dc:date>
-    <dc:title>An XSLT Stylesheet to Transform GEDCOM 5.5 XML data to an XSL-FO document</dc:title>
+    <dc:date>2008-8-12</dc:date>
+    <dc:title>ged55XMLtoFamilyForm.xsl version 0.1</dc:title>
     <dc:description>This XSLT stylesheet can be applied to a GEDCOM 5.5 XML document 
-(http://www.neomantic.com/gedcom55XML) to create an XSL-FO document.  This document can 
-subsquently be processed by fop (http://xmlgraphics.apache.org/fop/) to produce a pdf document.  
-The pdf document will contain GEDCOM 5.5 Family Record data for all the families in the
-GEDCOM 5.5 XML document.  The format of the document is model after forms distributed by
-progenealogists.com. </dc:description>
-    <dc:identifier>http://www.neomantic.com/gedcom55XML</dc:identifier>
+(http://www.neomantic.com/gedcom55XML) to create an XSL-FO stylesheet.  This stylesheet can 
+converted into a PDf document using fop (http://xmlgraphics.apache.org/fop/).
+The pdf document resembles genealogy recording keeping forms produced by 
+ProGenealogists.com.</dc:description>
+    <dc:identifier>http://www.neomantic.com/downloads/ged55XMLtoFamilyForm-0.1/</dc:identifier>
     <dc:type>software</dc:type>
     <dc:format>application/xml</dc:format>
     <dc:language>en-US</dc:language>
@@ -32,8 +31,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    </dc:rights>
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</dc:rights>
 
 <xsl:output indent="yes" method="xml"/>
 <!-- Stylesheet Version 0.1 -->
